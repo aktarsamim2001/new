@@ -1,14 +1,22 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import {  Rubik, Lato } from "next/font/google";
 import "./globals.css";
+import Header from "./components/TopBar/Header";
+import Navbar from "./components/TopBar/Navbar";
+import HealthcareFooter from "./components/Footer/HealthcareFooter ";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+const rubik = Rubik({
+  variable: "--font-rubik",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+
+const lato = Lato({
+  variable: "--font-lato",
   subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
 });
 
 export const metadata = {
@@ -18,12 +26,14 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en" className={`${rubik.variable} ${lato.variable}`}>
+      <body className="antialiased">
+        <Header />
+        <Navbar />
         {children}
+        <HealthcareFooter/>
       </body>
     </html>
   );
 }
+
