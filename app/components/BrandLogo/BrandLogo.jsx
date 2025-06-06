@@ -15,11 +15,11 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto py-6">
-      <ul className="flex flex-row items-center justify-center gap-6">
+    <div className="container mx-auto __gapTop">
+      <ul className="flex flex-row items-center justify-between gap-6">
         {logo.map((logos) => (
           <li key={logos.id}>
-            <Image src={logos.icon} width={50} height={50} alt="brand-logo" />
+            <Image src={logos.icon} width={150} height={150} alt="brand-logo" />
           </li>
         ))}
       </ul>

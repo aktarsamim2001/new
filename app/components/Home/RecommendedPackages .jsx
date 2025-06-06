@@ -76,14 +76,14 @@ const RecommendedPackages = () => {
       <div className="container mx-auto relative __gapTop">
         <div className="grid md:grid-cols-2 gap-8 items-start justify-center">
           <div className="relative h-[500px]">
-            <div className="bg-pink-500 rounded-3xl w-full h-[240px] md:h-[180px] absolute bottom-0 left-0 z-0"></div>
+            <div className="bg-pink-500 rounded-3xl w-full h-[240px] md:h-[160px] absolute bottom-0 left-0 z-0"></div>
 
             <div className="absolute inset-0 z-10 flex items-center justify-start">
               <Image
                 src={image5}
                 alt="Woman talking on phone"
                 width={350}
-                height={400}
+                height={300}
                 className="object-cover h-full w-full"
                 priority
               />
