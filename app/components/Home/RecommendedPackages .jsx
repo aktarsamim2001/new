@@ -5,7 +5,8 @@ import image3 from "../../assets/RecommendedImages/banner2.jpg";
 import image4 from "../../assets/RecommendedImages/banner3.jpg";
 import image5 from "../../assets/woman/woman-figure.png";
 import Image from "next/image";
-import { ArrowUpRight, Check, CheckCircle, TicketCheck } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
+import Link from "next/link";
 
 const RecommendedPackages = () => {
   const packages = [
@@ -41,12 +42,16 @@ const RecommendedPackages = () => {
       <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 sm:mb-10 lg:mb-12 __secondary-text __text">
         Recommended Packages
       </h1>
-      
+
       {/* Package Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
         {packages.map((pkg) => (
-          <div key={pkg.id} className=" cursor-pointer">
-            <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4">
+          <Link
+          href={"/service-details"}
+              target="_blank"
+          key={pkg.id} className=" cursor-pointer">
+            <div
+              className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4">
               <Image
                 src={pkg.image || "/placeholder.svg"}
                 alt={pkg.title}
@@ -57,21 +62,23 @@ const RecommendedPackages = () => {
               {/* Package Label - Responsive positioning */}
               <div className="absolute max-w-[200px] -bottom-4 sm:-bottom-7 left-3 sm:left-7 right-3 sm:right-auto">
                 <div className="bg-teal-500 text-white px-3 sm:px-4 py-4 sm:py-6 rounded-[7px] flex items-center justify-between sm:justify-start gap-2 shadow-lg">
-                  <span className="text-sm sm:text-base lg:text-[18px] font-[500] leading-tight lg:leading-[100%] __text px-1 sm:px-3.5 flex-1 sm:flex-none">
+                  <span className="text-sm sm:text-base lg:text-[18px] font-[500] leading-tight lg:leading-[100%] __text px-1 sm:px-3.5 flex-1">
                     {pkg.title}
                   </span>
                   <ArrowUpRight className="h-4 w-4 flex-shrink-0 absolute top-0 right-0 m-1.5" />
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
 
       {/* Explore Button */}
       <div className="text-center mb-8 sm:mb-12">
         <button className="cursor-pointer __secondary-bg __text text-white font-semibold px-8 sm:px-12 lg:px-14 py-3 sm:py-4 rounded-2xl text-base sm:text-lg w-full sm:w-auto max-w-xs sm:max-w-none">
-          Explore
+          <Link href={"/our-services"} className="flex items-center justify-center gap-2">
+            Explore
+          </Link>
         </button>
       </div>
 
@@ -96,7 +103,7 @@ const RecommendedPackages = () => {
 
           {/* Right Content Column */}
           <div className="order-1 md:order-2">
-            <div className="flex flex-col sm:flex-row items-start justify-center gap-4 sm:gap-6">
+            <div className="flex md:flex-col items-start justify-center gap-4 sm:gap-6">
               <div className="bg-pink-600 h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full flex-shrink-0">
                 <Check className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
               </div>
@@ -134,7 +141,7 @@ const RecommendedPackages = () => {
               your health — effortlessly.
             </p>
           </div>
-          
+
           <div className="flex justify-center md:justify-end mt-4 md:mt-0">
             <button className="bg-pink-500 hover:bg-pink-600 text-white font-medium px-6 sm:px-8 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors duration-200 w-full sm:w-auto max-w-xs md:max-w-none">
               Explore More!

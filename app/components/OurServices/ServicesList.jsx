@@ -10,17 +10,16 @@ import Link from "next/link";
 import { ArrowUpRight, CircleArrowLeft, CircleArrowRight } from "lucide-react";
 
 const services = [
-  { id: 1, title: "Service One", image: image1, slug: "kidney-unction" },
-  { id: 2, title: "Service Two", image: image2, slug: "lipid-profile" },
+  { id: 1, title: "Service One", image: image1 },
+  { id: 2, title: "Service Two", image: image2 },
   {
     id: 3,
     title: "Service Three",
     image: image3,
-    slug: "complete-blood-count",
   },
-  { id: 4, title: "Service Four", image: image4, slug: "cancer-markers" },
-  { id: 5, title: "Service Five", image: image5, slug: "lipid-profile" },
-  { id: 6, title: "Service Six", image: image6, slug: "kidney-unction" },
+  { id: 4, title: "Service Four", image: image4 },
+  { id: 5, title: "Service Five", image: image5 },
+  { id: 6, title: "Service Six", image: image6 },
 ];
 
 function ServicesList() {
@@ -30,7 +29,7 @@ function ServicesList() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <div key={service.id} className="h-[300px] relative">
-              <Link href={`/service/${service.slug}`}>
+              <Link href={"/service-details"} target="_blank">
                 <Image
                   src={service.image}
                   alt={service.title}
@@ -65,7 +64,7 @@ function ServicesList() {
             <button className="w-8 h-8 flex items-center justify-center border-b-2 border-blue-600 text-blue-600 cursor-pointer">
               03
             </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer" >
+            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
               04
             </button>
             <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
@@ -74,7 +73,7 @@ function ServicesList() {
 
             {/* Right Arrow */}
             <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
-              <CircleArrowRight/>
+              <CircleArrowRight />
             </button>
           </nav>
         </div>

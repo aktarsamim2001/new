@@ -30,7 +30,7 @@ const WhatYouCanDo = () => {
   ];
 
   return (
-    <div className="container mx-auto __gapTop bg-white ">
+    <div className="container mx-auto __gapTop px-4 lg:px-0">
       <h2 className="text-4xl font-bold text-center mb-12 __secondary-text __heading">
         What You Can Do
       </h2>

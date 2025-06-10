@@ -98,7 +98,7 @@ export default function Navbar() {
 
         {/* Right Side Actions (Desktop Only) */}
         <div className="hidden md:flex items-center space-x-2">
-          <Link href="/login" className="__nav-link cursor-pointer">
+          <Link href="/sign-in" className="__nav-link cursor-pointer">
             Log In
           </Link>
           <span className="text-gray-400">|</span>
