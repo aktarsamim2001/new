@@ -6,28 +6,41 @@ import Image from "next/image";
 
 const HealthSection = () => {
   return (
-      <div className="container mx-auto  __gapTop">
-        <div className="grid lg:grid-cols-2 justify-center items-center">
-          <div className="space-y-4">
-          <h1 className="text-5xl lg:text-[3.2rem] font-bold leading-tight bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
+    <div className="container mx-auto px-4 lg:px-0 __gapTop">
+      <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 lg:gap-12 items-center">
+        {/* Content Section */}
+        <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-bold leading-tight bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
           </h1>
-          <p className="text-gray-600 text-base md:text-lg font-normal leading-relaxed">
+          
+          <p className="text-gray-600 text-base sm:text-lg md:text-xl font-normal leading-relaxed max-w-2xl">
             Book tests, access reports, consult doctors, and manage your
             well-being — all in one place.
           </p>
-          <button className=" text-white py-4 px-8 rounded-xl text-base font-semibold shadow-xl cursor-pointer __secondary-bg">
-            Get Started
-          </button>
+          
+          <div className="pt-2">
+            <button className="text-white py-3 px-6 sm:py-4 sm:px-8 rounded-xl text-base sm:text-lg font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full sm:w-auto">
+              Get Started
+            </button>
+          </div>
         </div>
 
-            <div
-              className="w-full h-full flex items-center justify-center"
-            >
-              <Image src={image} alt="Handshake" width={320} height={356} className="object-cover rounded-2xl h-full w-[520px]" />
-            </div>
-        </div>
+        {/* Image Section */}
+        <div className="w-full flex items-center justify-center order-1 lg:order-2">
+          <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
+            <Image 
+              src={image} 
+              alt="Handshake" 
+              width={520} 
+              height={356} 
+              className="object-cover rounded-2xl w-full h-auto shadow-lg"
+              priority
+            />
           </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

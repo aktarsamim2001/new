@@ -4,7 +4,7 @@ import image from '../../assets/service/service-banner.jpg'
 
 function ServicesBanner() {
   return (
-    <div className='container mx-auto __gapTop'>
+    <div className='container mx-auto __gapTop  px-4 lg:px-0'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start'>
 
         {/* Image Section */}

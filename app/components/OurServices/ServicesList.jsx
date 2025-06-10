@@ -26,7 +26,7 @@ const services = [
 function ServicesList() {
   return (
     <div>
-      <div className="container mx-auto __gapTop">
+      <div className="container mx-auto __gapTop  px-4 lg:px-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <div key={service.id} className="h-[300px] relative">
