@@ -133,7 +133,7 @@ const SmartHealthBanner = () => {
 
   return (
     <div className="flex items-center justify-center __gapTop">
-      <div className="container mx-auto w-full  px-4 lg:px-0">
+      <div className="container h-screen mx-auto w-full px-4 lg:px-0">
         <Swiper
           modules={[Autoplay]}
           spaceBetween={30}
@@ -150,8 +150,8 @@ const SmartHealthBanner = () => {
               {/* Desktop Layout */}
               <div className="hidden lg:grid lg:grid-cols-[36%_28%_36%] justify-start pt-[20px]">
                 {/* LEFT SECTION - Desktop */}
-                <div className="space-y-6 w-full h-full">
-                  <div className="space-y-4">
+                <div className="w-full h-full">
+                  <div className="space-y-6">
                     <h1 className="text-4xl lg:text-[50px] text-gray-900 font-[600] leading-[100%] __heading">
                       {slide.heading}
                     </h1>

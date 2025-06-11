@@ -1,6 +1,9 @@
  "use client";
 
+import Image from 'next/image';
  import React, { useState } from 'react';
+ import image from '../../assets/how-it-work/how-it-work-banner.jpg'
+import { Facebook } from 'lucide-react';
 
 export const WelcomeSignup = () => {
   const [name, setName] = useState('');
@@ -11,10 +14,10 @@ export const WelcomeSignup = () => {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Left side - Form */}
       <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full max-w-md space-y-6">
+        <div className="w-full container mx-auto space-y-6">
           {/* Logo */}
           <div className="mb-8">
-            <h1 className="text-2xl font-bold text-pink-500">sukai</h1>
+            <Image src={"/sukaii-logo.png"} width={140} height={40} alt='logo'/>
           </div>
 
           {/* Header */}
@@ -76,12 +79,12 @@ export const WelcomeSignup = () => {
 
             {/* Social Login */}
             <div className="space-y-3">
-              <button variant="outline" className="w-full py-3 flex items-center justify-center space-x-2">
+              <button variant="outline" className="w-full __primary-bg py-3 rounded-xl flex items-center justify-center space-x-2">
                 <span className="text-red-500 font-bold">G</span>
                 <span>Google</span>
               </button>
-              <button variant="outline" className="w-full py-3 flex items-center justify-center space-x-2">
-                <span className="text-blue-600 font-bold">f</span>
+              <button variant="outline" className="w-full py-3 __secondary-bg rounded-xl flex items-center justify-center space-x-2">
+                <span className="text-blue-600 font-bold"><Facebook/></span>
                 <span>Facebook</span>
               </button>
             </div>
@@ -91,8 +94,8 @@ export const WelcomeSignup = () => {
 
       {/* Right side - Image */}
       <div className="flex-1 relative">
-        <img 
-          src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=800&fit=crop" 
+        <Image
+          src={image} 
           alt="Healthcare professional"
           className="w-full h-full object-cover"
         />

@@ -37,7 +37,7 @@ const RecommendedPackages = () => {
   ];
 
   return (
-    <div className="container mx-auto __gapTop  px-4 lg:px-0">
+    <div className="container mx-auto px-4 lg:px-0">
       {/* Header */}
       <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 sm:mb-10 lg:mb-12 __secondary-text __text">
         Recommended Packages
@@ -61,7 +61,7 @@ const RecommendedPackages = () => {
 
               {/* Package Label - Responsive positioning */}
               <div className="absolute max-w-[200px] -bottom-4 sm:-bottom-7 left-3 sm:left-7 right-3 sm:right-auto">
-                <div className="bg-teal-500 text-white px-3 sm:px-4 py-4 sm:py-6 rounded-[7px] flex items-center justify-between sm:justify-start gap-2 shadow-lg">
+                <div className="__primary-bg text-white px-3 sm:px-4 py-4 sm:py-6 rounded-[7px] flex items-center justify-between sm:justify-start gap-2 shadow-lg">
                   <span className="text-sm sm:text-base lg:text-[18px] font-[500] leading-tight lg:leading-[100%] __text px-1 sm:px-3.5 flex-1">
                     {pkg.title}
                   </span>
@@ -84,10 +84,10 @@ const RecommendedPackages = () => {
 
       {/* Smart Health Dashboard Section */}
       <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-16 items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center">
           {/* Left Image Column */}
           <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] order-2 md:order-1">
-            <div className="bg-pink-500 rounded-3xl w-full h-[120px] sm:h-[180px] md:h-[160px] lg:h-[240px] absolute bottom-0 left-0 z-0"></div>
+            <div className="__secondary-bg rounded-3xl w-full h-[120px] sm:h-[180px] md:h-[160px] lg:h-[240px] absolute bottom-0 left-0 z-0"></div>
 
             <div className="absolute inset-0 z-10 flex items-center justify-center md:justify-start">
               <Image
@@ -103,12 +103,12 @@ const RecommendedPackages = () => {
 
           {/* Right Content Column */}
           <div className="order-1 md:order-2">
-            <div className="flex md:flex-row flex-col items-start justify-center gap-4 sm:gap-6">
-              <div className="bg-pink-600 h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full flex-shrink-0">
+            <div className="flex md:flex-row flex-col items-start justify-center gap-2 sm:gap-4">
+              <div className="__secondary-bg h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full flex-shrink-0">
                 <Check className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
               </div>
               <div className="space-y-4 sm:space-y-6 flex-1">
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-pink-500 leading-tight">
+                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold __secondary-text leading-tight">
                   Your Smart Health Dashboard, Simplified!
                 </h2>
 
@@ -130,7 +130,7 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="bg-teal-500 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 relative overflow-hidden mt-8 sm:mt-10 lg:mt-12">
+      <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 relative overflow-hidden mt-8 sm:mt-10 lg:mt-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
           <div className="text-center md:text-left">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2 sm:mb-3 leading-tight">
@@ -143,7 +143,7 @@ const RecommendedPackages = () => {
           </div>
 
           <div className="flex justify-center md:justify-end mt-4 md:mt-0">
-            <button className="bg-pink-500 hover:bg-pink-600 text-white font-medium px-6 sm:px-8 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors duration-200 w-full sm:w-auto max-w-xs md:max-w-none">
+            <button className="__secondary-bg hover:bg-pink-600 text-white font-medium px-6 sm:px-8 py-2 sm:py-3 rounded-lg text-sm sm:text-base transition-colors duration-200 w-full sm:w-auto max-w-xs md:max-w-none">
               Explore More!
             </button>
           </div>
