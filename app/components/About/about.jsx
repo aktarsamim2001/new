@@ -8,6 +8,7 @@ import image4 from "../../assets/about/about-image.png";
 import image5 from "../../assets/about/about-image (2).png";
 import image6 from "../../assets/woman/woman-figure.png";
 import { Check } from "lucide-react";
+import Link from "next/link";
 
 export const About = () => {
   return (
@@ -75,7 +76,7 @@ export const About = () => {
               }
             ].map((item, index) => (
               <div key={index} className="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-                <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-3 sm:mb-4">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-1.5">
                   <Image src={item.img} width={24} height={24} alt="icon" className="sm:w-[30px] sm:h-[30px]" />
                 </div>
                 <h3 className="text-base sm:text-lg font-semibold mb-2 text-gray-900">
@@ -122,7 +123,9 @@ export const About = () => {
                 you comprehensive health insights.
               </p>
               <button className="bg-pink-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm sm:text-base w-full sm:w-auto">
-                Scan Report
+                <Link href="/upload-documents" className="flex items-center justify-center gap-2">
+                  Scan Report
+                </Link>
               </button>
             </div>
           </div>

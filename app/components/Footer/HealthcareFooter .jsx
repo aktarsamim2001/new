@@ -101,7 +101,7 @@ const HealthcareFooter = () => {
           </div>
 
           {/* Contact Section */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1">
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
             <div className="text-gray-600 space-y-4">
               <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
                 Drop Link message and take charge of your health now!

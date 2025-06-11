@@ -29,7 +29,7 @@ function AboutBanner() {
               <p className="mt-4 text-lg text-gray-600">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae beatae fuga quas quidem quaerat.
               </p>
-               <button className="mt-4 __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
+               <button className="mt-4 cursor-pointer __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
                 <Link href="/sign-up" className="text-white">
                   Login to Dashboard
                 </Link>

@@ -40,7 +40,7 @@ const RecommendedPackages = () => {
   return (
     <div className="container mx-auto px-4 lg:px-0">
       {/* Header */}
-      <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[48px] leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 sm:mb-10 lg:mb-12 __secondary-text __text">
+      <h1 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 md:mb-12 __secondary-text">
         Recommended Packages
       </h1>
 
@@ -75,7 +75,7 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Explore Button */}
-      <div className="text-center mb-8 sm:mb-12">
+      <div className="text-center">
         <Button variant="outline" className="cursor-pointer __secondary-bg __text text-white !font-[700] text-[20px] text-base sm:text-lg w-full max-w-[187px]">
           <Link href={"/our-services"} className="flex items-center justify-center gap-2">
             Explore

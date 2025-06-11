@@ -72,7 +72,7 @@ export const HowItWorks = () => {
                     </React.Fragment>
                   ))}
                 </h2>
-                <p className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed md:max-w-lg md:mx-auto ">
+                <p className="text-sm md:text-lg text-gray-600 leading-relaxed md:max-w-lg ">
                   {step.description}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-500 italic">
