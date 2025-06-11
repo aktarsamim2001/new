@@ -103,7 +103,7 @@ const RecommendedPackages = () => {
 
           {/* Right Content Column */}
           <div className="order-1 md:order-2">
-            <div className="flex md:flex-col items-start justify-center gap-4 sm:gap-6">
+            <div className="flex md:flex-row flex-col items-start justify-center gap-4 sm:gap-6">
               <div className="bg-pink-600 h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full flex-shrink-0">
                 <Check className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
               </div>

@@ -332,8 +332,8 @@ const UserDashboard = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-teal-50 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="bg-white rounded-lg p-6 mb-6 shadow-sm">
-          <div className="flex items-center mb-6">
+        <div className=" rounded-lg p-6 mb-6 ">
+          <div className="flex items-center mb-24">
             <div className="w-12 h-12 bg-orange-400 rounded-full flex items-center justify-center mr-4">
               <User className="w-6 h-6 text-white" />
             </div>

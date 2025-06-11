@@ -175,7 +175,7 @@ const SmartHealthBanner = () => {
 
                 {/* CENTER SECTION - Desktop */}
                 <div className="relative w-full h-[400px] bg-gradient-to-t from-sky-200 to-sky-50 rounded-t-full flex items-center justify-center shadow-2xl border-t-2 border-blue-500">
-                  <div className="-top-18 absolute">
+                  <div className="-top-18.5 absolute">
                     <Image
                       src={slide.centerImage}
                       alt="Person"
@@ -321,7 +321,7 @@ const SmartHealthBanner = () => {
                 </div>
               </div>
               {/* TRUST FEATURES - Responsive */}
-              <div className="__primary-bg px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 rounded-2xl lg:rounded-3xl">
+              <div className="__primary-bg px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 rounded-2xl lg:rounded-3xl overflow-hidden">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-white">
                   {trustFeatures.map((feature, index) => (
                     <div
