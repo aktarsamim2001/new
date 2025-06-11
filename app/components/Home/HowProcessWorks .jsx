@@ -44,18 +44,19 @@ const HowProcessWorks = () => {
 
   return (
     <div className="container mx-auto __gapTop px-4 lg:px-0">
+      {/* How It Works badge at the top */}
       <div className="bg-gradient-to-br from-pink-200 to-pink-300 rounded-2xl sm:rounded-3xl p-6 sm:p-8 lg:p-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-12">
-          
-          {/* Left Side - Header Content */}
-          <div className="space-y-6 lg:space-y-8">
-            <div className="inline-block">
+          {/* Left Side - Badge at top, heading/desc at bottom */}
+          <div className="flex flex-col justify-between h-full">
+            <div className="inline-block mb-4">
               <span className="bg-gray-800 text-white px-6 sm:px-8 lg:px-10 py-2 rounded-full text-sm sm:text-base font-medium">
                 # How It Works
               </span>
             </div>
-
-            <div className="space-y-4 sm:space-y-6">
+            {/* Texture background area */}
+            <div className="my-4 bg-texture rounded-xl min-h-[60px] w-full"></div>
+            <div className="space-y-4 sm:space-y-6 mt-auto">
               <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800 leading-tight">
                 How Our<span className='block'>Process Works</span>
               </h2>

@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 export default function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
+  const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
   const inputRef = useRef(null);
   const pathname = usePathname();
 
@@ -16,6 +17,13 @@ export default function Navbar() {
     setExpanded((prev) => !prev);
     setTimeout(() => {
       if (!expanded) inputRef.current?.focus();
+    }, 100);
+  };
+
+  const handleDesktopSearch = () => {
+    setDesktopSearchOpen((prev) => !prev);
+    setTimeout(() => {
+      if (!desktopSearchOpen) inputRef.current?.focus();
     }, 100);
   };
 
@@ -33,7 +41,7 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden md:flex items-center space-x-8 __nav-link">
+        <div className="hidden md:flex items-center space-x-6 __nav-link ml-60">
           <Link
             href="/"
             className={
@@ -76,6 +84,46 @@ export default function Navbar() {
           </Link>
         </div>
 
+        {/* Right Side Actions (Desktop Only) */}
+        <div className="hidden md:flex items-center space-x-2 ml-auto">
+
+            <Link href="/sign-in" className="__nav-link cursor-pointer">
+            Log In
+          </Link>
+          <span className="text-gray-400">|</span>
+          <Link href="/sign-up" className="__nav-link cursor-pointer">
+            Sign Up
+          </Link> 
+
+          {/* Desktop Search Icon/Button */}
+          <div className="relative flex items-center cursor-pointer">
+            <button
+              className={`transition-all duration-300 bg-[#EC098D] text-white rounded-xl flex items-center justify-center max-w-xl px-5 py-3.5 gap-5 h-10 ${
+                desktopSearchOpen ? "bg-[#00B8C1]" : ""
+              }`}
+              onClick={handleDesktopSearch}
+              aria-label="Search"
+              type="button"
+              style={{ display: desktopSearchOpen ? 'none' : 'flex' }}
+            >Search
+              <Search className="w-5 h-5" />
+            </button>
+            <div className={`relative transition-all duration-300 ${desktopSearchOpen ? 'w-56 opacity-100' : 'w-0 opacity-0'} overflow-hidden`}> 
+              <input
+                ref={inputRef}
+                type="text"
+                placeholder="Search"
+                className="transition-all duration-300 border border-gray-300 rounded-xl px-3 pr-10 py-2 text-sm w-full focus:outline-none"
+                style={{ minWidth: desktopSearchOpen ? '14rem' : '0', maxWidth: desktopSearchOpen ? '14rem' : '0' }}
+                onBlur={() => setDesktopSearchOpen(false)}
+              />
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer" onMouseDown={e => e.preventDefault()}>
+                <Search className="w-5 h-5" />
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Search Button (Mobile Only) */}
         <div className="md:hidden flex items-end">
           <button
@@ -95,17 +143,6 @@ export default function Navbar() {
         >
           <Menu className="w-6 h-6 text-[#EC098D]" />
         </button>
-
-        {/* Right Side Actions (Desktop Only) */}
-        <div className="hidden md:flex items-center space-x-2">
-          <Link href="/sign-in" className="__nav-link cursor-pointer">
-            Log In
-          </Link>
-          <span className="text-gray-400">|</span>
-          <Link href="/sign-up" className="__nav-link cursor-pointer">
-            Sign Up
-          </Link>
-        </div>
       </div>
 
       {/* Mobile Menu Drawer */}
@@ -129,65 +166,65 @@ export default function Navbar() {
               />
             </div>
             <div className="__nav-link">
-            <Link
-              href="/"
-              onClick={() => setMobileMenu(false)}
-              className={
-                pathname === "/"
-                  ? "text-[#00B8C1] font-bold block py-2"
-                  : "text-gray-700 block py-2"
-              }
-            >
-              Home
-            </Link>
-            <Link
-              href="/our-services"
-              onClick={() => setMobileMenu(false)}
-              className={
-                pathname.startsWith("/our-services")
-                  ? "text-[#00B8C1] font-bold block py-2"
-                  : "text-gray-700 block py-2"
-              }
-            >
-              Our Services
-            </Link>
-            <Link
-              href="/how-it-works"
-              onClick={() => setMobileMenu(false)}
-              className={
-                pathname.startsWith("/how-it-works")
-                  ? "text-[#00B8C1] font-bold block py-2"
-                  : "text-gray-700 block py-2"
-              }
-            >
-              How It Works
-            </Link>
-            <Link
-              href="/about"
-              onClick={() => setMobileMenu(false)}
-              className={
-                pathname.startsWith("/about")
-                  ? "text-[#00B8C1] font-bold block py-2"
-                  : "text-gray-700 block py-2"
-              }
-            >
-              About
-            </Link>
-            <div className="mt-4 border-t pt-4">
               <Link
-                href="/login"
+                href="/"
                 onClick={() => setMobileMenu(false)}
-                className="block py-2 text-gray-700"
+                className={
+                  pathname === "/"
+                    ? "text-[#00B8C1] font-bold block py-2"
+                    : "text-gray-700 block py-2"
+                }
               >
-                Log In
+                Home
               </Link>
               <Link
-                href="/sign-up"
+                href="/our-services"
                 onClick={() => setMobileMenu(false)}
-                className="block py-2 text-gray-700"
+                className={
+                  pathname.startsWith("/our-services")
+                    ? "text-[#00B8C1] font-bold block py-2"
+                    : "text-gray-700 block py-2"
+                }
               >
-                Sign Up
+                Our Services
               </Link>
+              <Link
+                href="/how-it-works"
+                onClick={() => setMobileMenu(false)}
+                className={
+                  pathname.startsWith("/how-it-works")
+                    ? "text-[#00B8C1] font-bold block py-2"
+                    : "text-gray-700 block py-2"
+                }
+              >
+                How It Works
+              </Link>
+              <Link
+                href="/about"
+                onClick={() => setMobileMenu(false)}
+                className={
+                  pathname.startsWith("/about")
+                    ? "text-[#00B8C1] font-bold block py-2"
+                    : "text-gray-700 block py-2"
+                }
+              >
+                About
+              </Link>
+              <div className="mt-4 border-t pt-4">
+                <Link
+                  href="/login"
+                  onClick={() => setMobileMenu(false)}
+                  className="block py-2 text-gray-700"
+                >
+                  Log In
+                </Link>
+                <Link
+                  href="/sign-up"
+                  onClick={() => setMobileMenu(false)}
+                  className="block py-2 text-gray-700"
+                >
+                  Sign Up
+                </Link>
               </div>
             </div>
           </div>
@@ -198,7 +235,7 @@ export default function Navbar() {
       {/* Mobile Search Drawer */}
       {expanded && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-lg p-4 w-11/12 max-w-md flex items-center gap-2">
+          <div className="bg-white rounded-xl shadow-lg p-4 w-11/12 max-w-md flex items-center gap-2 mx-auto my-auto">
             <input
               ref={inputRef}
               type="text"

@@ -7,6 +7,11 @@ import "swiper/css";
 import image from "../../../public/star-badge.png";
 import image2 from "../../../public/test-tube.png";
 import image3 from "../../../public/icon -lock.png";
+import Button from "../ui/Button";
+import person from "../../assets/person/person-1.jpg";
+import person2 from "../../assets/person/person-2.jpg"; 
+import person3 from "../../assets/person/person-3.jpg";
+import person4 from "../../assets/person/person-4.jpg"; 
 
 const SmartHealthBanner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -28,10 +33,10 @@ const SmartHealthBanner = () => {
       centerImage: "/bg-person.png",
       rightImage: "/bg-effect.png",
       reviewAvatars: [
-        { name: "A", bg: "bg-gradient-to-br from-indigo-500 to-purple-600" },
-        { name: "S", bg: "bg-gradient-to-br from-pink-500 to-red-500" },
-        { name: "M", bg: "bg-gradient-to-br from-blue-500 to-cyan-500" },
-        { name: "R", bg: "bg-gradient-to-br from-green-500 to-teal-500" },
+        { image: person, bg: "bg-gradient-to-br from-indigo-500 to-purple-600" },
+        { image: person2, bg: "bg-gradient-to-br from-pink-500 to-red-500" },
+        { image: person3, bg: "bg-gradient-to-br from-blue-500 to-cyan-500" },
+        { image: person4, bg: "bg-gradient-to-br from-green-500 to-teal-500" },
       ],
       patients: "120+ patients",
       rating: 5.0,
@@ -50,13 +55,13 @@ const SmartHealthBanner = () => {
         "Get personalized health analytics and actionable insights powered by advanced AI. Make smarter decisions for your wellbeing.",
       button: "Explore AI Features",
       leftImage: "/bg-effect2.png",
-      centerImage: "/bg-person.png",
+      centerImage: "/bg-person-1.png",
       rightImage: "/bg-effect2.png",
       reviewAvatars: [
-        { name: "J", bg: "bg-gradient-to-br from-yellow-500 to-orange-500" },
-        { name: "L", bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
-        { name: "K", bg: "bg-gradient-to-br from-blue-500 to-green-500" },
-        { name: "T", bg: "bg-gradient-to-br from-red-500 to-yellow-500" },
+        { image: person, bg: "bg-gradient-to-br from-yellow-500 to-orange-500" },
+        { image: person2, bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
+        { image: person3, bg: "bg-gradient-to-br from-blue-500 to-green-500" },
+        { image: person4, bg: "bg-gradient-to-br from-red-500 to-yellow-500" },
       ],
       patients: "200+ users",
       rating: 4.9,
@@ -78,10 +83,10 @@ const SmartHealthBanner = () => {
       centerImage: "/bg-person.png",
       rightImage: "/bg-effect2.png",
       reviewAvatars: [
-        { name: "D", bg: "bg-gradient-to-br from-teal-500 to-cyan-500" },
-        { name: "F", bg: "bg-gradient-to-br from-pink-500 to-purple-500" },
-        { name: "G", bg: "bg-gradient-to-br from-green-500 to-blue-500" },
-        { name: "H", bg: "bg-gradient-to-br from-yellow-500 to-orange-500" },
+        { image: person2, bg: "bg-gradient-to-br from-teal-500 to-cyan-500" },
+        { image: person3, bg: "bg-gradient-to-br from-pink-500 to-purple-500" },
+        { image: person4, bg: "bg-gradient-to-br from-green-500 to-blue-500" },
+        { image: person, bg: "bg-gradient-to-br from-yellow-500 to-orange-500" },
       ],
       patients: "300+ users",
       rating: 4.8,
@@ -99,13 +104,13 @@ const SmartHealthBanner = () => {
         "From lab tests to doctor consultations, manage all your health needs seamlessly. Our platform integrates everything you need for a healthier life.",
       button: "Get Started",
       leftImage: "/bg-effect2.png",
-      centerImage: "/bg-person.png",
+      centerImage: "/bg-person-1.png",
       rightImage: "/bg-effect2.png",
       reviewAvatars: [
-        { name: "I", bg: "bg-gradient-to-br from-indigo-500 to-blue-500" },
-        { name: "O", bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
-        { name: "P", bg: "bg-gradient-to-br from-green-500 to-yellow-500" },
-        { name: "Q", bg: "bg-gradient-to-br from-red-500 to-orange-500" },
+        { image: person, bg: "bg-gradient-to-br from-indigo-500 to-blue-500" },
+        { image: person2, bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
+        { image: person3, bg: "bg-gradient-to-br from-green-500 to-yellow-500" },
+        { image: person4, bg: "bg-gradient-to-br from-red-500 to-orange-500" },
       ],
       patients: "400+ users",
       rating: 4.7,
@@ -133,7 +138,7 @@ const SmartHealthBanner = () => {
 
   return (
     <div className="flex items-center justify-center __gapTop">
-      <div className="container h-screen mx-auto w-full px-4 lg:px-0">
+      <div className="container md:h-screen mx-auto w-full px-4 lg:px-0">
         <Swiper
           modules={[Autoplay]}
           spaceBetween={30}
@@ -168,9 +173,9 @@ const SmartHealthBanner = () => {
                       {slide.description}
                     </p>
                   </div>
-                  <button className="cursor-pointer __secondary-bg text-white font-[600] text-[16px] px-8 py-4 rounded-2xl __text">
+                  <Button variant="outline" className="cursor-pointer __secondary-bg text-white font-[600] text-[16px] __text mt-2">
                     {slide.button}
-                  </button>
+                  </Button>
                 </div>
 
                 {/* CENTER SECTION - Desktop */}
@@ -181,7 +186,7 @@ const SmartHealthBanner = () => {
                       alt="Person"
                       width={150}
                       height={100}
-                      className="w-full h-[501px] object-cover"
+                      className="w-full h-[505px] object-cover"
                     />
                   </div>
                 </div>
@@ -189,13 +194,15 @@ const SmartHealthBanner = () => {
                 {/* RIGHT SECTION - Desktop */}
                 <div className="w-full h-full grid items-end pb-8">
                   <div>
-                    <Image
-                      src={slide.rightImage}
-                      alt="Effect"
-                      width={400}
-                      height={50}
-                      className="w-full h-auto opacity-25 pb-12"
-                    />
+                    {slide.rightImage && (
+                      <Image
+                        src={slide.rightImage}
+                        alt="Effect"
+                        width={400}
+                        height={50}
+                        className="w-full h-auto opacity-25 pb-12"
+                      />
+                    )}
 
                     <div className="max-w-[180px] ml-3 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
                       <div className="flex -space-x-3">
@@ -204,7 +211,17 @@ const SmartHealthBanner = () => {
                             key={i}
                             className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
                           >
-                            {avatar.name}
+                            {avatar.image ? (
+                              <Image
+                                src={avatar.image}
+                                alt={`Avatar`}
+                                width={32}
+                                height={32}
+                                className="w-full h-full object-cover rounded-full"
+                              />
+                            ) : (
+                              avatar.name
+                            )}
                           </div>
                         ))}
                         <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
@@ -282,7 +299,17 @@ const SmartHealthBanner = () => {
                           key={i}
                           className={`w-8 h-8 sm:w-9 sm:h-9 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
                         >
-                          {avatar.name}
+                          {avatar.image ? (
+                            <Image
+                              src={avatar.image}
+                              alt={`Avatar`}
+                              width={32}
+                              height={32}
+                              className="w-full h-full object-cover rounded-full"
+                            />
+                          ) : (
+                            avatar.name
+                          )}
                         </div>
                       ))}
                       <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm">
@@ -321,7 +348,7 @@ const SmartHealthBanner = () => {
                 </div>
               </div>
               {/* TRUST FEATURES - Responsive */}
-              <div className="__primary-bg px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 rounded-2xl lg:rounded-3xl overflow-hidden">
+              <div className="__primary-bg px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 rounded-2xl lg:rounded-3xl overflow-hidden relative z-20">
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 text-white">
                   {trustFeatures.map((feature, index) => (
                     <div
@@ -337,7 +364,7 @@ const SmartHealthBanner = () => {
                           className="sm:w-[50px] sm:h-[50px]"
                         />
                       </div>
-                      <div className="font-[400] __text text-lg sm:text-xl lg:text-[24px] text-center sm:text-left">
+                      <div className="font-[400] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left">
                         {feature.title}
                       </div>
                     </div>

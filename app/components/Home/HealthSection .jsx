@@ -3,6 +3,7 @@
 import React from "react";
 import image from '../..//assets/partner-image/handshake.png'
 import Image from "next/image";
+import Button from "../ui/Button";
 
 const HealthSection = () => {
   return (
@@ -20,9 +21,9 @@ const HealthSection = () => {
           </p>
           
           <div className="pt-2">
-            <button className="text-white py-3 px-6 sm:py-4 sm:px-8 rounded-xl text-base sm:text-lg font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full sm:w-auto">
+            <Button variant="outline" className="text-white rounded-xl text-base sm:text-lg font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]">
               Get Started
-            </button>
+            </Button >
           </div>
         </div>
 

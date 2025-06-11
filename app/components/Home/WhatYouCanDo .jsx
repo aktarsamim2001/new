@@ -1,8 +1,5 @@
 import React from 'react';
-import image from '../../assets/service/icon.png';
-import image1 from '../../assets/service/icon1.png';
-import image2 from '../../assets/service/icon2.png';
-import image3 from '../../assets/service/icon3.png';
+
 import Image from 'next/image';
 
 const WhatYouCanDo = () => {
@@ -10,12 +7,12 @@ const WhatYouCanDo = () => {
     {
       id: 1,
       title: 'Connect With Trusted Partners',
-      icon: '/assets/service/icon.png',
+      icon: '/assets/service/icon4.png',
     },
     {
       id: 2,
       title: 'Track Your Health, Holistically',
-      icon: '/assets/service/icon1.png',
+      icon: '/assets/service/icon3.png',
     },
     {
       id: 3,
@@ -25,7 +22,7 @@ const WhatYouCanDo = () => {
     {
       id: 4,
       title: 'Book and Manage Lab Tests Online',
-      icon: '/assets/service/icon3.png',
+      icon: '/assets/service/icon1.png',
     }
   ];
 

@@ -44,7 +44,7 @@ const testimonials = [
 const TestimonialSlider = () => {
   return (
     <div className="__primary-bg mt-[60px]">
-      <div className="container mx-auto relative px-4 lg:px-0">
+      <div className="container mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
         <div className="hidden lg:flex justify-center items-center">
           <button 

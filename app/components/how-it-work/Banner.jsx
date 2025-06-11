@@ -22,7 +22,7 @@ function Banner() {
     
             {/* Text Section */}
             <div className="p-4 text-left max-w-lg">
-              <h1 className="text-4xl font-bold text-gray-800">
+              <h1 className="text-4xl font-bold __secondary-text">
                 Find the Right 
                 <span className='block'>Test For You</span>
               </h1>

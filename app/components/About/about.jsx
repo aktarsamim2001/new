@@ -29,7 +29,7 @@ export const About = () => {
           </div>
           <div className="flex items-center justify-center order-1 lg:order-2">
             <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
-              <div className="aspect-square relative border">
+              <div className="aspect-square relative">
                 <Image
                   src={image4}
                   fill

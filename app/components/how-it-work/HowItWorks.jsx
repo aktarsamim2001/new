@@ -46,18 +46,18 @@ export const HowItWorks = () => {
 
   return (
     <div className='bg-[#FCD3EA] mt-[60px]'>
-      <section className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="container mx-auto">
         {steps.map((step, index) => (
           <div 
             key={step.number}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-center mb-12 lg:mb-18 last:mb-0"
+            className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 xl:gap-14 items-center mb-6 lg:mb-10"
           >
             {/* Text Content - Always left */}
-            <div className="space-y-4 sm:space-y-6 text-center lg:text-left">
+            <div className="space-y-4 sm:space-y-6 px-4 lg:px-0 text-left">
               <div className="space-y-3 sm:space-y-4">
-                <div className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-400">
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">
                   {step.number}.
-                </div>
+                </h1>
                 <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-900 leading-tight">
                   {step.title.split(' ').map((word, i) => (
                     <React.Fragment key={i}>
@@ -72,7 +72,7 @@ export const HowItWorks = () => {
                     </React.Fragment>
                   ))}
                 </h2>
-                <p className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                <p className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed md:max-w-lg md:mx-auto ">
                   {step.description}
                 </p>
                 <p className="text-xs sm:text-sm text-gray-500 italic">
@@ -84,15 +84,13 @@ export const HowItWorks = () => {
             {/* Image Content - Always right */}
             <div className="relative flex justify-center lg:justify-end">
               <div className="relative group">
-                {/* Decorative background element */}
-                <div className="absolute -inset-4 bg-white/20 rounded-3xl transform rotate-3 group-hover:rotate-6 transition-transform duration-300"></div>
                 
                 {/* Main image container */}
                 <div className="relative z-10 overflow-hidden ">
                   <img 
                     src={step.image}
                     alt={step.alt}
-                    className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl h-64 sm:h-80 lg:h-96 xl:h-[28rem] 2xl:h-[32rem] object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl h-64 sm:h-80 lg:h-96 xl:h-[38rem] object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                   

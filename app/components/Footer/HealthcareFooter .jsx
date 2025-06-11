@@ -129,14 +129,9 @@ const HealthcareFooter = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-12 mb-6 pt-6 border-t border-gray-200">
+        <div className="mt-12 mb-6 pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <p className="text-gray-500 text-sm">© Sukali Health 2025</p>
-            
-            {/* Optional: Add social media links or additional footer content */}
-            <div className="flex space-x-4">
-              {/* You can add social media icons here if needed */}
-            </div>
           </div>
         </div>
       </div>
