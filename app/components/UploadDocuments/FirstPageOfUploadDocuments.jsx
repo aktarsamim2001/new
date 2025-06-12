@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, Upload, Edit3 } from 'lucide-react';
+import Image from 'next/image';
 
 const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
   const [selectedOption, setSelectedOption] = useState(null);
@@ -7,7 +8,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl">
         {/* Header */}
         <div className="relative p-6 pb-4">
@@ -21,10 +22,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
           {/* Sukai Logo */}
           <div className="mb-6">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
-                <div className="w-4 h-4 bg-white rounded-sm transform rotate-45"></div>
-              </div>
-              <span className="text-2xl font-bold text-pink-500">sukai</span>
+             <Image src="/sukaii-logo.png" alt="Sukai Logo" width={140} height={40} />
             </div>
           </div>
 

@@ -1,121 +1,253 @@
- "use client";
+"use client";
 
 import Image from 'next/image';
- import React, { useState } from 'react';
- import image from '../../assets/how-it-work/how-it-work-banner.jpg'
+import React, { useState } from 'react';
 import { Facebook } from 'lucide-react';
+import { FcGoogle } from 'react-icons/fc';
+import { BsFacebook } from 'react-icons/bs';
 
-export const WelcomeSignup = () => {
-  const [name, setName] = useState('');
-  const [contact, setContact] = useState('');
-  const [agreed, setAgreed] = useState(false);
+export default function WelcomeSignup() {
+  const [currentStep, setCurrentStep] = useState('login'); // 'login' or 'otp'
+  const [formData, setFormData] = useState({
+    name: '',
+    phoneNumber: '',
+    username: '',
+    otp: ['', '', '', '', '', '']
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleOtpChange = (index, value) => {
+    if (value.length > 1) return; // Only allow single digit
+    
+    const newOtp = [...formData.otp];
+    newOtp[index] = value;
+    
+    setFormData(prev => ({
+      ...prev,
+      otp: newOtp
+    }));
+
+    // Auto-focus next input
+    if (value && index < 5) {
+      const nextInput = document.getElementById(`otp-${index + 1}`);
+      if (nextInput) nextInput.focus();
+    }
+  };
+
+  const handleNext = () => {
+    if (formData.phoneNumber && formData.username) {
+      setCurrentStep('otp');
+    }
+  };
+
+  const handleVerifyOtp = () => {
+    const otpString = formData.otp.join('');
+    if (otpString.length === 6) {
+      console.log('OTP Verified:', otpString);
+      // Handle OTP verification logic here
+    }
+  };
+
+  const handleSocialLogin = (provider) => {
+    console.log(`Login with ${provider}`);
+    // Handle social login logic here
+  };
+
+  if (currentStep === 'otp') {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        {/* Left Side - Form */}
+        <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+          <div className="w-full max-w-md">
+            {/* Logo */}
+            <div className="mb-8">
+              <div className="flex items-center space-x-2">
+                <Image
+                  src="/sukaii-logo.png"
+                  alt="Sukaii Health Logo"
+                  width={150}
+                  height={50}
+                />
+              </div>
+            </div>
+
+            {/* Title */}
+            <div className="mb-8">
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                Verify Your<br />Identity
+              </h1>
+              <p className="text-gray-600">
+                Enter OTP sent to your Mobile Number
+              </p>
+            </div>
+
+            {/* OTP Input */}
+            <div className="mb-8">
+              <div className="flex space-x-3 justify-center">
+                {formData.otp.map((digit, index) => (
+                  <input
+                    key={index}
+                    id={`otp-${index}`}
+                    type="text"
+                    maxLength="1"
+                    value={digit}
+                    onChange={(e) => handleOtpChange(index, e.target.value)}
+                    className="w-12 h-12 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
+                  />
+                ))}
+              </div>
+            </div>
+
+            {/* Verify Button */}
+            <button
+              onClick={handleVerifyOtp}
+              className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
+            >
+              Verify
+            </button>
+
+            {/* Back to Login */}
+            <div className="text-center">
+              <button
+                onClick={() => setCurrentStep('login')}
+                className="text-pink-500 hover:text-pink-600 font-medium"
+              >
+                Back to Login
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Right Side - Image */}
+        <div className="hidden lg:block lg:w-1/2 relative h-screen">
+          <div className="absolute inset-0 h-full">
+            <div className="h-full flex items-center justify-center p-8">
+              <Image
+                src="/login-banner/login-banner.jpg"
+                alt="Sukaii Health"
+                width={800}
+                height={1200}
+                className="rounded-2xl shadow-lg object-cover h-full w-full"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      {/* Left side - Form */}
-      <div className="flex-1 flex items-center justify-center p-8">
-        <div className="w-full container mx-auto space-y-6">
+    <div className=" bg-gray-50 flex items-center justify-center min-h-screen">
+      {/* Left Side - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+        <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8">
-            <Image src={"/sukaii-logo.png"} width={140} height={40} alt='logo'/>
+            <div className="flex items-center space-x-2">
+               <Image src="/sukaii-logo.png" alt="Sukaii Logo" width={150} height={50} />
+            </div>
           </div>
 
-          {/* Header */}
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold text-gray-900">
-              Welcome to<br />
-              Better Health
-            </h2>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Sign Up to your Sukai Health account to book tests, view your
-              reports, manage prescriptions, and access your smart health
-              dashboard - all in one place.
+          {/* Title */}
+          <div className="mb-8">
+            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Welcome to<br />Better Health
+            </h1>
+            <p className="text-gray-600">
+              Create your Sukaii Health account to book tests, view your reports, manage prescriptions, and access your smart health dashboard — all in one place.
             </p>
           </div>
 
           {/* Form */}
-          <div className="space-y-4">
+          <div className="space-y-6">
+            {/* Phone Number */}
             <div>
-              <label htmlFor="name" className="text-sm text-gray-700">Your Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Your Name
+              </label>
               <input
-                id="name"
                 type="text"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
-                placeholder="Enter your full name"
+                name="name"
+                value={formData.name}
+                onChange={handleInputChange}
+                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                placeholder="Enter your name"
               />
             </div>
 
+            {/* Username */}
             <div>
-              <label htmlFor="contact" className="text-sm text-gray-700">Enter Your Mobile Number / Email</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+               Enter Your Mobile Number / Email
+              </label>
               <input
-                id="contact"
                 type="text"
-                value={contact}
-                onChange={(e) => setContact(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
-                placeholder="Mobile number or email"
+                name="username"
+                value={formData.username}
+                onChange={handleInputChange}
+                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                placeholder="Enter your mobile number or email"
               />
             </div>
 
-            <button className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg font-medium">
-              Continue
+            {/* Next Button */}
+            <button
+              onClick={handleNext}
+              className=" bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold cursor-pointer w-[180px] py-4 rounded-xl shadow-lg hover:shadow-xl"
+            >
+              Next
             </button>
 
-            {/* Terms */}
-            <div className="flex items-start space-x-2 text-xs text-gray-500">
-              <input
-                type="checkbox"
-                id="terms"
-                checked={agreed}
-                onChange={(e) => setAgreed(e.target.checked)}
-                className="mt-0.5"
+            {/* Divider */}
+            <div className="flex items-center">
+              <div className="flex-1 border-t border-gray-300"></div>
+              <span className="px-4 text-sm text-gray-500">OR</span>
+              <div className="flex-1 border-t border-gray-300"></div>
+            </div>
+
+            {/* Social Login Buttons */}
+            <div className="grid grid-cols-2 gap-4">
+              <button
+                onClick={() => handleSocialLogin('Google')}
+                className="flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                <FcGoogle className="w-5 h-5 text-blue-600" />
+                <span className="text-gray-700 font-medium">Google</span>
+              </button>
+              
+              <button
+                onClick={() => handleSocialLogin('Facebook')}
+                className="flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+              >
+                <BsFacebook className="w-5 h-5 text-blue-600" />
+                <span className="text-gray-700 font-medium">Facebook</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Side - Image */}
+       <div className="hidden lg:block lg:w-1/2 relative h-screen">
+          <div className="absolute inset-0 h-full">
+            <div className="h-full flex items-center justify-center p-8">
+              <Image
+                src="/login-banner/login-banner.jpg"
+                alt="Sukaii Health"
+                width={800}
+                height={1200}
+                className="rounded-2xl shadow-lg object-cover h-full w-full"
               />
-              <label htmlFor="terms">
-                By signing up, you agree to our Terms & Conditions and Privacy Policy.
-              </label>
-            </div>
-
-            {/* Social Login */}
-            <div className="space-y-3">
-              <button variant="outline" className="w-full __primary-bg py-3 rounded-xl flex items-center justify-center space-x-2">
-                <span className="text-red-500 font-bold">G</span>
-                <span>Google</span>
-              </button>
-              <button variant="outline" className="w-full py-3 __secondary-bg rounded-xl flex items-center justify-center space-x-2">
-                <span className="text-blue-600 font-bold"><Facebook/></span>
-                <span>Facebook</span>
-              </button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Right side - Image */}
-      <div className="flex-1 relative">
-        <Image
-          src={image} 
-          alt="Healthcare professional"
-          className="w-full h-full object-cover"
-        />
-        
-        {/* Trust badge */}
-        <div className="absolute bottom-8 left-8 bg-white rounded-lg p-3 shadow-lg">
-          <div className="flex items-center space-x-2">
-            <div className="flex -space-x-1">
-              <div className="w-6 h-6 bg-blue-500 rounded-full border-2 border-white"></div>
-              <div className="w-6 h-6 bg-green-500 rounded-full border-2 border-white"></div>
-              <div className="w-6 h-6 bg-purple-500 rounded-full border-2 border-white"></div>
-              <div className="w-6 h-6 bg-orange-500 rounded-full border-2 border-white"></div>
-            </div>
-            <div className="text-sm">
-              <div className="font-semibold">120+ patients</div>
-              <div className="text-gray-500 text-xs">★ 4.9 (2635 reviews)</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   );
-};
+}

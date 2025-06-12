@@ -1,5 +1,7 @@
+"use client"
+
 import React from 'react'
-import { WelcomeSignup } from '../components/SignUp/WelcomeSignup'
+import WelcomeSignup from '../components/SignUp/WelcomeSignup'
 
 function page() {
   return (
