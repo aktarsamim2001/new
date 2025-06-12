@@ -1,10 +1,10 @@
 "use client";
-import React from 'react';
-import Image from 'next/image';
-import image from '../../assets/brand-logo/logo1.png';
-import image1 from '../../assets/brand-logo/logo2.png';
-import image2 from '../../assets/brand-logo/logo3.png';
-import image3 from '../../assets/brand-logo/logo4.png';
+import React from "react";
+import Image from "next/image";
+import image from "../../assets/brand-logo/logo1.png";
+import image1 from "../../assets/brand-logo/logo2.png";
+import image2 from "../../assets/brand-logo/logo3.png";
+import image3 from "../../assets/brand-logo/logo4.png";
 
 const logo = [
   { id: 1, icon: image },
@@ -15,8 +15,8 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto __gapTop">
-      <ul className="flex md:flex-row flex-col items-center justify-evenly gap-5 md:gap-0">
+    <div className="container mx-auto">
+      <ul className="flex md:flex-row mb-3 flex-col items-center justify-evenly gap-5 md:gap-0">
         {logo.map((logos) => (
           <li key={logos.id}>
             <Image src={logos.icon} width={150} height={150} alt="brand-logo" />

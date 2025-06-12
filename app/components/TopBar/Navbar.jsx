@@ -41,12 +41,12 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden md:flex items-center space-x-6 __nav-link ml-60">
+        <div className="hidden md:flex items-center space-x-6 __nav-link ">
           <Link
             href="/"
             className={
               pathname === "/"
-                ? "text-[#00B8C1] font-bold "
+                ? "text-[#00B8C1] font-[500]"
                 : " text-[#BBBBBB] hover:text-gray-400"
             }
           >
@@ -56,7 +56,7 @@ export default function Navbar() {
             href="/our-services"
             className={
               pathname.startsWith("/our-services")
-                ? "text-[#00B8C1] font-bold "
+                ? "text-[#00B8C1] font-[500]"
                 : "text-[#BBBBBB] hover:text-gray-400"
             }
           >
@@ -66,7 +66,7 @@ export default function Navbar() {
             href="/how-it-works"
             className={
               pathname.startsWith("/how-it-works")
-                ? "text-[#00B8C1] font-bold "
+                ? "text-[#00B8C1] font-[500]"
                 : "text-[#BBBBBB] hover:text-gray-400"
             }
           >
@@ -76,7 +76,7 @@ export default function Navbar() {
             href="/about"
             className={
               pathname.startsWith("/about")
-                ? "text-[#00B8C1] font-bold "
+                ? "text-[#00B8C1] font-[500]"
                 : "text-[#BBBBBB] hover:text-gray-400"
             }
           >
@@ -85,39 +85,65 @@ export default function Navbar() {
         </div>
 
         {/* Right Side Actions (Desktop Only) */}
-        <div className="hidden md:flex items-center space-x-2 ml-auto">
-
-            <Link href="/sign-in" className="__nav-link cursor-pointer">
+        <div className="hidden md:flex items-center space-x-2">
+          <Link
+            href="/sign-in"
+            className={`__nav-link cursor-pointer ${
+              pathname === "/sign-in"
+                ? "text-[#00B8C1] font-medium"
+                : "text-[#BBBBBB] hover:text-gray-400"
+            }`}
+          >
             Log In
           </Link>
+
           <span className="text-gray-400">|</span>
-          <Link href="/sign-up" className="__nav-link cursor-pointer">
+
+          <Link
+            href="/sign-up"
+            className={`__nav-link cursor-pointer ${
+              pathname?.startsWith("/sign-up")
+                ? "text-[#00B8C1] font-medium"
+                : "text-[#BBBBBB] hover:text-gray-400"
+            }`}
+          >
             Sign Up
-          </Link> 
+          </Link>
 
           {/* Desktop Search Icon/Button */}
-          <div className="relative flex items-center cursor-pointer">
+          <div className="ml-2 relative flex items-center cursor-pointer">
             <button
-              className={`transition-all duration-300 bg-[#EC098D] text-white rounded-xl flex items-center justify-center max-w-xl px-5 py-3.5 gap-5 h-10 ${
+              className={`transition-all duration-300 bg-[#EC098D] text-white rounded-[8px] flex items-center justify-center max-w-xl px-3 py-3.5 gap-5 h-10 ${
                 desktopSearchOpen ? "bg-[#00B8C1]" : ""
               }`}
               onClick={handleDesktopSearch}
               aria-label="Search"
               type="button"
-              style={{ display: desktopSearchOpen ? 'none' : 'flex' }}
-            >Search
-              <Search className="w-5 h-5" />
+              style={{ display: desktopSearchOpen ? "none" : "flex" }}
+            >
+              Search
+              <Search className="ml-3 w-[18px] h-[18px]" />
             </button>
-            <div className={`relative transition-all duration-300 ${desktopSearchOpen ? 'w-56 opacity-100' : 'w-0 opacity-0'} overflow-hidden`}> 
+            <div
+              className={`relative transition-all duration-300 border-2 rounded-[8px] border-[#EC098D] ${
+                desktopSearchOpen ? "w-56 opacity-100" : "w-0 opacity-0"
+              } overflow-hidden`}
+            >
               <input
                 ref={inputRef}
                 type="text"
                 placeholder="Search"
-                className="transition-all duration-300 border border-gray-300 rounded-xl px-3 pr-10 py-2 text-sm w-full focus:outline-none"
-                style={{ minWidth: desktopSearchOpen ? '14rem' : '0', maxWidth: desktopSearchOpen ? '14rem' : '0' }}
+                className="transition-all duration-300 px-3 border-0 pr-10 py-2 text-sm w-full focus:outline-none"
+                style={{
+                  minWidth: desktopSearchOpen ? "14rem" : "0",
+                  maxWidth: desktopSearchOpen ? "14rem" : "0",
+                }}
                 onBlur={() => setDesktopSearchOpen(false)}
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer" onMouseDown={e => e.preventDefault()}>
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                onMouseDown={(e) => e.preventDefault()}
+              >
                 <Search className="w-5 h-5" />
               </span>
             </div>

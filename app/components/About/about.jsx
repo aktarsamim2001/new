@@ -7,17 +7,18 @@ import image3 from "../../assets/about/icon (3).png";
 import image4 from "../../assets/about/about-image.png";
 import image5 from "../../assets/about/about-image (2).png";
 import image6 from "../../assets/woman/woman-figure.png";
+import shape from "../../assets/woman/shape.png";
 import { Check } from "lucide-react";
 import Link from "next/link";
 
 export const About = () => {
   return (
-    <div className="__gapTop">
+    <div className="mt-[130px]">
       {/* Hero Section */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="space-y-4 sm:space-y-6 text-center lg:text-left order-2 lg:order-1">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-900 leading-tight">
+          <div className="text-center lg:text-left flex flex-col align-middle justify-start h-[100%]">
+            <h2 className="text-2xl sm:text-3xl mb-5 lg:text-4xl xl:text-[43px] font-bold text-gray-900 leading-tight">
               A Central Hub for Your
               <br className="hidden sm:block" />
               <span className="block sm:inline"> Wellbeing</span>
@@ -28,18 +29,23 @@ export const About = () => {
               professional medical analysis.
             </p>
           </div>
-          <div className="flex items-center justify-center order-1 lg:order-2">
-            <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
-              <div className="aspect-square relative">
-                <Image
-                  src={image4}
-                  fill
-                  alt="about image"
-                  className="object-cover rounded-lg"
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                />
-              </div>
-            </div>
+
+          <div className="relative w-[full] flex justify-end">
+            <Image
+              src={image4}
+              width={200}
+              height={200}
+              alt="about image"
+              className="rounded-3xl h-[80%] w-[80%] shadow"
+            />
+
+            <Image
+              src={image5}
+              width={200}
+              height={200}
+              alt="about image"
+              className="absolute right-10 top-[-60px] rounded-3xl h-[100%] w-[80%] shadow"
+            />
           </div>
         </div>
       </div>
@@ -57,27 +63,36 @@ export const About = () => {
               {
                 img: image,
                 title: "Visual Food Tracking",
-                desc: "Track your daily nutrition with smart visual recognition"
+                desc: "Track your daily nutrition with smart visual recognition",
               },
               {
                 img: image1,
                 title: "Family Profiles",
-                desc: "Manage health data for your entire family in one place"
+                desc: "Manage health data for your entire family in one place",
               },
               {
                 img: image2,
                 title: "Smart Report Analysis",
-                desc: "AI-powered insights from your medical reports"
+                desc: "AI-powered insights from your medical reports",
               },
               {
                 img: image3,
                 title: "Secure & Private",
-                desc: "Bank-level security for all your health information"
-              }
+                desc: "Bank-level security for all your health information",
+              },
             ].map((item, index) => (
-              <div key={index} className="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div
+                key={index}
+                className="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-1.5">
-                  <Image src={item.img} width={24} height={24} alt="icon" className="sm:w-[30px] sm:h-[30px]" />
+                  <Image
+                    src={item.img}
+                    width={24}
+                    height={24}
+                    alt="icon"
+                    className="sm:w-[30px] sm:h-[30px]"
+                  />
                 </div>
                 <h3 className="text-base sm:text-lg font-semibold mb-2 text-gray-900">
                   {item.title}
@@ -92,18 +107,16 @@ export const About = () => {
       </section>
 
       {/* Import Reports Section */}
-      <div className="__gapTop">
+      <div className="mt-[60px] lg:mt-[110px]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-30">
             <div className="flex items-center justify-center order-2 lg:order-1">
-              <div className="w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                <div className="aspect-[4/3] relative">
+              <div className="w-full sm:max-w-md">
+                <div className="aspect-[4/3] relative lg:w-[600px]">
                   <Image
                     src={image5}
-                    fill
                     alt="Person using mobile health app"
-                    className="object-cover rounded-lg shadow-lg"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover rounded-4xl shadow-lg w-[full] "
                   />
                 </div>
               </div>
@@ -123,7 +136,10 @@ export const About = () => {
                 you comprehensive health insights.
               </p>
               <button className="bg-pink-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm sm:text-base w-full sm:w-auto">
-                <Link href="/upload-documents" className="flex items-center justify-center gap-2">
+                <Link
+                  href="/upload-documents"
+                  className="flex items-center justify-center gap-2"
+                >
                   Scan Report
                 </Link>
               </button>
@@ -133,43 +149,50 @@ export const About = () => {
       </div>
 
       {/* Built Around Your Needs Section */}
-      <div className="__gapTop">
+      <div className="__gapTop relative">
+        <div className="absolute top-0 right-0 z-50">
+          <Image src={shape} alt=" " className="h-[300px] w-[300px]" />
+        </div>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="flex flex-col sm:flex-row items-start justify-center gap-3 sm:gap-4 text-center sm:text-left order-2 lg:order-1">
-              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full __primary-bg p-2 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
-                <Check className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+            <div className="flex w-full items-start justify-center gap-3 sm:gap-4 text-center sm:text-left order-2 lg:order-1">
+              <div className="w-10 relative top-[-2px] h-10 sm:w-12 sm:h-12 rounded-full __primary-bg p-2 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
+                <Check className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
-              <div className="flex-1">
-                <h3 className="text-xl sm:text-2xl font-bold __secondary-text mb-3 sm:mb-4">
+              <div className="">
+                <h3 className="text-xl lg:text-4xl font-bold __secondary-text mb-3 sm:mb-4">
                   Built Around Your Needs
                 </h3>
-                <ul className="space-y-2 sm:space-y-3 text-sm sm:text-base __text">
-                  <li className="flex items-start gap-2">
-                    <span className="text-pink-500 font-bold">•</span>
-                    <span>Personalized health recommendations</span>
+                <ul className="space-y-2  sm:space-y-3 text-sm sm:text-base __text">
+                  <li className="text-[17px] flex items-start gap-2">
+                    <span className=" text-pink-500 font-bold">•</span>
+                    <span className="">
+                      Mobile-friendly and accessible anywhere
+                    </span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex text-[17px] items-start gap-2">
                     <span className="text-pink-500 font-bold">•</span>
-                    <span>Custom alerts and reminders</span>
+                    <span>
+                      Get reminders and health nudges based on past trends
+                    </span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex text-[17px] items-start gap-2">
                     <span className="text-pink-500 font-bold">•</span>
-                    <span>Integration with wearable devices</span>
+                    <span>Share reports securely with your doctor</span>
                   </li>
-                  <li className="flex items-start gap-2">
+                  <li className="flex text-[17px] items-start gap-2">
                     <span className="text-pink-500 font-bold">•</span>
                     <span>24/7 health monitoring support</span>
                   </li>
                 </ul>
               </div>
             </div>
-            
+
             <div className="relative order-1 lg:order-2">
               <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto">
                 {/* Background pink shape - responsive */}
                 <div className="bg-pink-500 rounded-2xl sm:rounded-3xl w-full h-32 sm:h-40 lg:h-44 xl:h-48 absolute bottom-0 left-0 z-0"></div>
-                
+
                 {/* Woman image - responsive */}
                 <div className="relative z-10 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
                   <Image
@@ -177,8 +200,6 @@ export const About = () => {
                     alt="Woman talking on phone"
                     fill
                     className="object-contain object-bottom"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                    priority
                   />
                 </div>
               </div>
