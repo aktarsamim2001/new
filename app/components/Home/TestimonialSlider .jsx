@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -7,9 +7,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
-import image from '../../assets/testimonials-image/testimonials-image.jpg'
+import image from "../../assets/testimonials-image/testimonials-image.jpg";
 import Image from "next/image";
-import image2 from '../../assets/testimonials-image/Vector.png'
+import { FaArrowLeftLong } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
+import image2 from "../../assets/testimonials-image/Vector.png";
 
 const testimonials = [
   {
@@ -19,7 +21,7 @@ const testimonials = [
     author: "Mr. Williams",
     role: "Diabetics Patient",
     rating: 5,
-    image:image,
+    image: image,
   },
   {
     id: 2,
@@ -47,17 +49,17 @@ const TestimonialSlider = () => {
       <div className="container mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
         <div className="hidden lg:flex justify-center items-center">
-          <button 
-            variant="outline" 
-            className="live_event_prev absolute top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-8 z-10 text-white hover:text-teal-200 transition-colors"
+          <button
+            variant="outline"
+            className="live_event_prev absolute border-[1px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-8 z-10 text-white hover:text-teal-200 transition-colors"
           >
-            <CircleArrowLeft size={32}/>
+            <FaArrowLeftLong size={28} />
           </button>
-          <button 
-            variant="outline" 
-            className="live_event_next absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-8 z-10 text-white hover:text-teal-200 transition-colors"
+          <button
+            variant="outline"
+            className="live_event_next border-[1px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-8 z-10 text-white hover:text-teal-200 transition-colors"
           >
-            <CircleArrowRight size={32}/>
+            <FaArrowRightLong size={28} />
           </button>
         </div>
 
@@ -78,12 +80,12 @@ const TestimonialSlider = () => {
                 {/* Image Section */}
                 <div className="w-full flex items-center justify-center order-1 lg:order-1">
                   <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                    <Image 
-                      src={testimonial.image} 
-                      alt={testimonial.author} 
+                    <Image
+                      src={testimonial.image}
+                      alt={testimonial.author}
                       width={400}
                       height={300}
-                      className="object-cover rounded-2xl w-full h-64 sm:h-80 lg:h-96" 
+                      className="object-cover rounded-2xl w-full h-64 sm:h-80 lg:h-96"
                     />
                   </div>
                 </div>
@@ -91,13 +93,13 @@ const TestimonialSlider = () => {
                 {/* Content Section */}
                 <div className="text-white space-y-4 sm:space-y-6 relative order-2 lg:order-2 px-4 sm:px-0">
                   {/* Quote Icon */}
-                  <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-white rounded-br-full relative">
-                    <Image 
-                      src={image2} 
-                      width={20} 
-                      height={20} 
-                      alt="quote" 
-                      className="absolute top-3 left-2 sm:top-4 sm:left-2.5"
+                  <div className="w-12 h-12 sm:w-11 sm:h-11 flex items-center justify-center bg-white rounded-br-full relative">
+                    <Image
+                      src={image2}
+                      width={21}
+                      height={21}
+                      alt="quote"
+                      className="absolute top-3 left-2 sm:top-3.5 sm:left-2"
                     />
                   </div>
 
@@ -106,7 +108,7 @@ const TestimonialSlider = () => {
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <svg
                         key={i}
-                        className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400 fill-current"
+                        className="w-4 h-4 sm:w-6 sm:h-6 text-yellow-400 fill-current"
                         viewBox="0 0 24 24"
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -121,7 +123,7 @@ const TestimonialSlider = () => {
 
                   {/* Author Info */}
                   <div className="pt-2 sm:pt-4">
-                    <div className="font-semibold text-lg sm:text-xl">
+                    <div className="font-[500] text-lg sm:text-xl">
                       {testimonial.author}
                     </div>
                     <div className="text-teal-100 text-sm sm:text-base">
