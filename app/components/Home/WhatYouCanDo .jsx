@@ -1,8 +1,5 @@
 import React from 'react';
-import image from '../../assets/service/icon.png';
-import image1 from '../../assets/service/icon1.png';
-import image2 from '../../assets/service/icon2.png';
-import image3 from '../../assets/service/icon3.png';
+
 import Image from 'next/image';
 
 const WhatYouCanDo = () => {
@@ -10,12 +7,12 @@ const WhatYouCanDo = () => {
     {
       id: 1,
       title: 'Connect With Trusted Partners',
-      icon: '/assets/service/icon.png',
+      icon: '/assets/service/icon4.png',
     },
     {
       id: 2,
       title: 'Track Your Health, Holistically',
-      icon: '/assets/service/icon1.png',
+      icon: '/assets/service/icon3.png',
     },
     {
       id: 3,
@@ -25,13 +22,13 @@ const WhatYouCanDo = () => {
     {
       id: 4,
       title: 'Book and Manage Lab Tests Online',
-      icon: '/assets/service/icon3.png',
+      icon: '/assets/service/icon1.png',
     }
   ];
 
   return (
-    <div className="container mx-auto __gapTop bg-white ">
-      <h2 className="text-4xl font-bold text-center mb-12 __secondary-text __heading">
+    <div className="container mx-auto __gapTop px-4 lg:px-0">
+      <h2 className=" text-2xl md:text-4xl font-bold text-center mb-8 md:mb-12 __secondary-text __heading">
         What You Can Do
       </h2>
 

@@ -1,10 +1,41 @@
+import Image from "next/image";
 import React from "react";
+import image from "../../assets/RecommendedImages/banner.jpg";
+import image1 from "../../assets/RecommendedImages/banner1.jpg"; 
+import image2 from "../../assets/RecommendedImages/banner2.jpg";
+import image3 from "../../assets/RecommendedImages/banner3.jpg";
+import { ArrowUpRight } from "lucide-react";
+
 
 function TestDetails() {
+  // Add package data
+  const packages = [
+    {
+      id: 1,
+      title: "Basic Health Package",
+      image: image,
+    },
+    {
+      id: 2,
+      title: "Family Wellness",
+      image: image1,
+    },
+    {
+      id: 3,
+      title: "Advanced Diagnostics",
+      image: image2,
+    },
+    {
+      id: 4,
+      title: "Comprehensive Care",
+      image: image3,
+    },
+  ];
+
   return (
-    <div>
+    <div className="container mx-auto">
       <div className="__gapTop">
-        <div className="container mx-auto ">
+        <div className=" ">
           <div className="text-left mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
               More Than Just Reports

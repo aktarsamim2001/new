@@ -66,3 +66,27 @@ h6 {
   padding-top: 60px;
 }
 
+.sliding-text {
+  display: inline-block;
+  white-space: nowrap; /* Prevents text from wrapping */
+  animation: slide 15s linear infinite; /* Adjust duration (10s) as needed */
+}
+
+/* Animation keyframes for sliding effect */
+@keyframes slide {
+  0% {
+    transform: translateX(100%); /* Start from the right */
+  }
+  100% {
+    transform: translateX(-100%); /* Move to the left */
+  }
+}
+
+/* Apply sliding effect only on mobile view (≤ 768px) */
+@media (min-width: 769px) {
+  .sliding-text {
+    animation: none; /* Disable animation on larger screens */
+    display: block; /* Normal text display for desktop */
+  }
+}
+

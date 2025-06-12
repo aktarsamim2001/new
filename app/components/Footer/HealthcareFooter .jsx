@@ -23,9 +23,10 @@ const HealthcareFooter = () => {
 
   return (
     <footer className="">
-      <div className="container mx-auto __gapTop">
-        <div className="grid grid-cols-1 md:grid-cols-5 justify-between gap-y-3">
-          <div className="space-y-6">
+      <div className="container mx-auto px-4 lg:px-0 __gapTop">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-6">
+          {/* Logo and Description */}
+          <div className="space-y-6 lg:col-span-1">
             <div className="flex items-center space-x-2">
               <Image
                 src="/sukaii-logo.png"
@@ -37,105 +38,99 @@ const HealthcareFooter = () => {
 
             <p className="text-gray-600 font-[400] text-[14px] leading-[145%] max-w-sm">
               With Medicare services you will receive the best medical treatment
-              in your area. Made by doctors and <br />
-              professionals and aids ensure that you get the care you need and
+              in your area. Made by doctors and professionals and aids ensure that you get the care you need and
               deserve.
             </p>
           </div>
 
-          <div className=" flex justify-center pt-8">
-            <div className="space-y-3">
-              <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
-                COMPANY
-              </h3>
-              <ul className="space-y-3">
-                {companyLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          {/* Company Links */}
+          <div className="space-y-4">
+            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+              COMPANY
+            </h3>
+            <ul className="space-y-3">
+              {companyLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Services Links */}
-          <div className=" flex justify-center pt-8">
-            <div className="space-y-3">
-              <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
-                SERVICES
-              </h3>
-              <ul className="space-y-3">
-                {serviceLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
+          <div className="space-y-4">
+            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+              SERVICES
+            </h3>
+            <ul className="space-y-3">
+              {serviceLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Resources & Contact */}
-          <div className=" flex justify-center pt-8">
-            <div className="space-y-3">
-              <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
-                RESOURCES
-              </h3>
-              <ul className="space-y-3">
-                {resourceLinks.map((link, index) => (
-                  <li key={index}>
-                    <Link
-                      href={link.href}
-                      className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          <div>
-            {/* Contact Section */}
-            <div className="pt-8 flex items-center">
-              <div className="text-gray-600 space-y-3">
-                <p className="font-[900] text-[18px] leading-[100%] __primary-text">
-                  Drop Link message and take charge of your health now!
-                </p>
-                <div className="flex items-center space-x-2 pt-5">
-                  <svg
-                    className="w-4 h-4 text-teal-500"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
+          {/* Resources */}
+          <div className="space-y-4">
+            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+              RESOURCES
+            </h3>
+            <ul className="space-y-3">
+              {resourceLinks.map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href={link.href}
+                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                    />
-                  </svg>
-                  <span className="font-[600] text-[18px] leading-[100%]">
-                    954 733 3245.
-                  </span>
-                </div>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Contact Section */}
+          <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
+            <div className="text-gray-600 space-y-4">
+              <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
+                Drop Link message and take charge of your health now!
+              </p>
+              <div className="flex items-center space-x-3">
+                <svg
+                  className="w-5 h-5 text-teal-500 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                  />
+                </svg>
+                <span className="font-[600] text-[16px] sm:text-[18px] leading-[100%]">
+                  954 733 3245
+                </span>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="mb-12 pt-5">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+        {/* Footer Bottom */}
+        <div className="mt-12 mb-6 pt-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <p className="text-gray-500 text-sm">© Sukali Health 2025</p>
           </div>
         </div>
