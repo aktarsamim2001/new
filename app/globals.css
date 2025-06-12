@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --primary-color: #00B8C1;
-  --secondary-color: #EC098D;
-  --navbar-text-color: #BBBBBB;
+  --primary-color: #00b8c1;
+  --secondary-color: #ec098d;
+  --navbar-text-color: #bbbbbb;
   --paragraph-text-color: #787878;
 
   --font-heading: var(--font-rubik);
   --font-body: var(--font-lato);
+  /* --font-body: var(--font-poppins); */
 }
 
 .__nav-link {
   font-family: var(--font-heading);
-  font-weight: 600;
-  font-size: 16px;
+  font-weight: 400;
   color: var(--navbar-text-color);
+  font-size: 17.5px;
 }
 
 .__heading {
@@ -29,7 +30,7 @@
   color: var(--paragraph-text-color);
 }
 
-.__paragraph-bg{
+.__paragraph-bg {
   background-color: var(--paragraph-text-color);
 }
 
@@ -89,4 +90,3 @@ h6 {
     display: block; /* Normal text display for desktop */
   }
 }
-

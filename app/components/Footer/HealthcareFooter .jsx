@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { IoLogoWhatsapp } from "react-icons/io";
+import ovalSmall from "./Oval.png";
+import ovalLarge from "./Oval (1).png";
 
 const HealthcareFooter = () => {
   const companyLinks = [
@@ -12,18 +15,39 @@ const HealthcareFooter = () => {
 
   const serviceLinks = [
     { label: "Book Link Test", href: "/book-test" },
-    { label: "Smart Health Dashboard", href: "/dashboard" },
+    { label: "Smart Health Dashboard", href: "/user-dashboard" },
     { label: "Report", href: "/reports" },
   ];
 
   const resourceLinks = [
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms & Conditions", href: "/terms" },
+    { label: "FAQ", href: "/faq" },
+    { label: "Enquiry and Support", href: "/enquiry" },
   ];
 
   return (
-    <footer className="">
-      <div className="container mx-auto px-4 lg:px-0 __gapTop">
+    <footer className="relative mt-20">
+      <div className="absolute left-0 bottom-[-25px]">
+        <Image
+          src={ovalSmall}
+          alt="Decorative texture"
+          width={500}
+          height={500}
+          className=""
+        />
+      </div>
+
+      <div className="absolute left-0 bottom-[-25px]">
+        <Image
+          src={ovalLarge}
+          alt="Decorative texture"
+          width={650}
+          height={650}
+          className=""
+        />
+      </div>
+      <div className="container mx-auto px-4 __gapTop ">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-6">
           {/* Logo and Description */}
           <div className="space-y-6 lg:col-span-1">
@@ -36,16 +60,16 @@ const HealthcareFooter = () => {
               />
             </div>
 
-            <p className="text-gray-600 font-[400] text-[14px] leading-[145%] max-w-sm">
+            <p className="text-gray-500 font-[400] text-[16px] leading-[145%] max-w-sm">
               With Medicare services you will receive the best medical treatment
-              in your area. Made by doctors and professionals and aids ensure that you get the care you need and
-              deserve.
+              in your area. Made by doctors and professionals and aids ensure
+              that you get the care you need and deserve.
             </p>
           </div>
 
           {/* Company Links */}
           <div className="space-y-4">
-            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
               COMPANY
             </h3>
             <ul className="space-y-3">
@@ -64,7 +88,7 @@ const HealthcareFooter = () => {
 
           {/* Services Links */}
           <div className="space-y-4">
-            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
               SERVICES
             </h3>
             <ul className="space-y-3">
@@ -83,7 +107,7 @@ const HealthcareFooter = () => {
 
           {/* Resources */}
           <div className="space-y-4">
-            <h3 className="font-[600] text-[18px] leading-[100%] __primary-text">
+            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
               RESOURCES
             </h3>
             <ul className="space-y-3">
@@ -102,25 +126,14 @@ const HealthcareFooter = () => {
 
           {/* Contact Section */}
           <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
-            <div className="text-gray-600 space-y-4">
+            <div className="text-gray-500 space-y-4">
               <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
                 Drop Link message and take charge of your health now!
               </p>
-              <div className="flex items-center space-x-3">
-                <svg
-                  className="w-5 h-5 text-teal-500 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                  />
-                </svg>
-                <span className="font-[600] text-[16px] sm:text-[18px] leading-[100%]">
+              <div className="flex items-center space-x-2">
+                <IoLogoWhatsapp className="w-[25px] h-[25px] text-[#EC098D]" />
+
+                <span className="font-[600] relative top-[-2px] text-[16px] sm:text-[18px] leading-[100%]">
                   954 733 3245
                 </span>
               </div>

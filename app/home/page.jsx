@@ -10,17 +10,16 @@ import WhatYouCanDo from "../components/Home/WhatYouCanDo ";
 
 function Home() {
   return (
-    
     <>
       <SmartHealthBanner />
       <RecommendedPackages />
       <WhatYouCanDo />
       <HowProcessWorks />
-      <BrandLogo/>
+      <BrandLogo />
       <TestimonialSlider />
       <HealthSection />
     </>
-  )
+  );
 }
 
-export default Home
+export default Home;
