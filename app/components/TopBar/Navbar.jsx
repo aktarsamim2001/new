@@ -33,12 +33,14 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
           <Link href="/">
-            <Image
-              src="/sukaii-logo.png"
-              alt="Sukai Logo"
-              width={150}
-              height={50}
-            />
+            <span>
+              <Image
+                src="/sukaii-logo.png"
+                alt="Sukai Logo"
+                width={150}
+                height={50}
+              />
+            </span>
           </Link>
         </div>
 
