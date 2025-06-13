@@ -51,13 +51,13 @@ const TestimonialSlider = () => {
         <div className="hidden lg:flex justify-center items-center">
           <button
             variant="outline"
-            className="live_event_prev absolute border-[1px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-8 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_prev absolute border-[1px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowLeftLong size={28} />
           </button>
           <button
             variant="outline"
-            className="live_event_next border-[1px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-8 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_next border-[1px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowRightLong size={28} />
           </button>

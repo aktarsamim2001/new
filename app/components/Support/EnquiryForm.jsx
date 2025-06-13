@@ -81,12 +81,12 @@ export default function EnquiryForm() {
             {/* Image Section */}
             <div className="lg:w-1/3 bg-gradient-to-br from-gray-100 to-gray-200">
               <div className="h-full flex items-center justify-center p-8">
-                <div className="text-center">
+                {/* <div className="text-center">
                   <div className="w-48 h-64 bg-gradient-to-br from-pink-200 to-pink-300 rounded-2xl mx-auto mb-4 flex items-center justify-center">
                     <div className="text-6xl">👩‍💼</div>
                   </div>
                   <p className="text-gray-600 text-sm">Professional consultation available</p>
-                </div>
+                </div> */}
               </div>
             </div>
 

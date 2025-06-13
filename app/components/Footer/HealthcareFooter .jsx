@@ -23,7 +23,7 @@ const HealthcareFooter = () => {
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms & Conditions", href: "/terms" },
     { label: "FAQ", href: "/faq" },
-    { label: "Enquiry and Support", href: "/enquiry" },
+    { label: "Enquiry and Support", href: "/enquiry-form" },
   ];
 
   return (
