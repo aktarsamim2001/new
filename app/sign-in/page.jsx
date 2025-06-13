@@ -5,6 +5,7 @@ import image from "../../public/login-banner/login-banner.jpg";
 import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
+import Link from "next/link";
 
 // Review/avatars data array
 const slide = {
@@ -166,12 +167,16 @@ export default function LoginComponent() {
           {/* Logo */}
           <div className="mb-8">
             <div className="flex items-center space-x-2">
+             <Link href="/">
+            <span>
               <Image
                 src="/sukaii-logo.png"
-                alt="Sukaii Logo"
+                alt="Sukai Logo"
                 width={150}
                 height={50}
               />
+            </span>
+          </Link>
             </div>
           </div>
 
@@ -270,7 +275,7 @@ export default function LoginComponent() {
               className="rounded-[50px] shadow-lg object-cover h-full w-full"
             />
           </div>
-          <div className="absolute bottom-20 -left-8 max-w-[260px] md:max-w-xl ml-3 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+          <div className="absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
             <div className="flex -space-x-3">
               {slide.reviewAvatars.map((avatar, i) => (
                 <div

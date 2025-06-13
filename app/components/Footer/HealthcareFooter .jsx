@@ -16,11 +16,11 @@ const HealthcareFooter = () => {
   const serviceLinks = [
     { label: "Book Link Test", href: "/book-test" },
     { label: "Smart Health Dashboard", href: "/user-dashboard" },
-    { label: "Report", href: "/reports" },
+    { label: "Report", href: "/upload-documents" },
   ];
 
   const resourceLinks = [
-    { label: "Privacy Policy", href: "/privacy" },
+    { label: "Privacy Policy", href: "/privacy-policy" },
     { label: "Terms & Conditions", href: "/terms" },
     { label: "FAQ", href: "/faq" },
     { label: "Enquiry and Support", href: "/enquiry-form" },

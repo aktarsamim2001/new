@@ -38,7 +38,7 @@ function ServicesList() {
                   height={475}
                 />
                 <div>
-                  <div className="absolute p-4 bottom-0 text-xl font-semibold __primary-bg text-white rounded-[7px] flex gap-2.5">
+                  <div className="absolute p-4 bottom-0 text-xl font-[500] __primary-bg text-white rounded-[7px] flex gap-2.5">
                     <h2> {service.title}</h2>
                     <ArrowUpRight className="h-5 w-5 -mt-3 -mr-2" />
                   </div>
