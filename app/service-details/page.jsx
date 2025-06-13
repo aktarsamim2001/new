@@ -1,4 +1,4 @@
-import HealthSection from '@/app/components/Home/HealthSection '
+import HealthSection from '@/app/components/Home/HealthSection'
 import HowProcessWorks from '@/app/components/Home/HowProcessWorks '
 import DetailsBanner from '@/app/components/ServiceDetails/DetailsBanner'
 import React from 'react'
