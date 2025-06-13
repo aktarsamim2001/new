@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from 'react';
 import { Calendar, FileText, RefreshCw, CreditCard } from 'lucide-react';
 

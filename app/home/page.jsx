@@ -1,12 +1,12 @@
 "use client";
 
 import BrandLogo from "../components/BrandLogo/BrandLogo";
-import HealthSection from "../components/Home/HealthSection ";
+import HealthSection from "../components/Home/HealthSection";
 import HowProcessWorks from "../components/Home/HowProcessWorks ";
-import RecommendedPackages from "../components/Home/RecommendedPackages ";
+import RecommendedPackages from "../components/Home/RecommendedPackages";
 import SmartHealthBanner from "../components/Home/SmartHealthBanner";
-import TestimonialSlider from "../components/Home/TestimonialSlider ";
-import WhatYouCanDo from "../components/Home/WhatYouCanDo ";
+import TestimonialSlider from "../components/Home/TestimonialSlider";
+import WhatYouCanDo from "../components/Home/WhatYouCanDo";
 
 function Home() {
   return (
