@@ -32,12 +32,16 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
-          <Image
-            src="/sukaii-logo.png"
-            alt="Sukai Logo"
-            width={150}
-            height={50}
-          />
+          <Link href="/">
+            <span>
+              <Image
+                src="/sukaii-logo.png"
+                alt="Sukai Logo"
+                width={150}
+                height={50}
+              />
+            </span>
+          </Link>
         </div>
 
         {/* Desktop Navigation Menu */}
