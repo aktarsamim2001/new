@@ -117,7 +117,7 @@ export default function Navbar() {
           {/* Desktop Search Icon/Button */}
           <div className="ml-2 relative flex items-center cursor-pointer">
             <button
-              className={`transition-all duration-300 bg-[#EC098D] text-white rounded-[8px] flex items-center justify-center max-w-xl px-3 py-3.5 gap-5 h-10 ${
+              className={`transition-all duration-300 bg-[#EC098D] text-white rounded-[8px] flex items-center justify-center max-w-xl px-5 cursor-pointer py-3 gap-5 ${
                 desktopSearchOpen ? "bg-[#00B8C1]" : ""
               }`}
               onClick={handleDesktopSearch}
@@ -137,7 +137,7 @@ export default function Navbar() {
                 ref={inputRef}
                 type="text"
                 placeholder="Search"
-                className="transition-all duration-300 px-3 border-0 pr-10 py-2 text-sm w-full focus:outline-none"
+                className="transition-all duration-300 px-4 border-0 pr-10 py-3 text-sm w-full focus:outline-none"
                 style={{
                   minWidth: desktopSearchOpen ? "14rem" : "0",
                   maxWidth: desktopSearchOpen ? "14rem" : "0",
@@ -242,7 +242,7 @@ export default function Navbar() {
               </Link>
               <div className="mt-4 border-t pt-4">
                 <Link
-                  href="/login"
+                  href="/sign-in"
                   onClick={() => setMobileMenu(false)}
                   className="block py-2 text-gray-700"
                 >
