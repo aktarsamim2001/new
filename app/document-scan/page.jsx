@@ -116,12 +116,12 @@ const UploadReport = () => {
           <div className="flex gap-4 px-14 pt-10">
             <button
               onClick={handleFileUploadClick}
-              className="flex-1 p-4 bg-white  rounded-lg shadow-xl flex flex-col items-start justify-center gap-2"
+              className="flex-1 p-4 bg-white rounded-lg shadow-xl flex flex-col items-start justify-center gap-2"
             >
               <div>
                 <BiCloudUpload size={35} className=" __secondary-text" />
               </div>
-              <div className="text-[16px] font-medium">
+              <div className="text-[16px] font-medium cursor-pointer">
                 Upload a PDF/Image file
               </div>
             </button>
@@ -193,7 +193,7 @@ const UploadReport = () => {
                     Uploaded File Preview
                   </h2>
                 </div>
-                <div className="bg-white shadow-lg rounded-xl p-8 text-center text-[16px] font-bold cursor-pointer flex-1">
+                <div className="bg-white shadow-xl rounded-xl p-8 text-center text-[16px] font-bold cursor-pointer flex-1">
                   <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
                     <MdOutlineZoomOutMap className="w-5 h-5" />
                     View Uploaded File
@@ -212,7 +212,7 @@ const UploadReport = () => {
                 </div>
                 <div className="space-y-4 flex-1 px-4">
                   {/* Basic Info */}
-                  <div className="grid grid-cols-1 gap-4 bg-white p-6 rounded-lg shadow-md">
+                  <div className="grid grid-cols-1 gap-4 bg-white p-6 rounded-lg shadow-xl">
                     <div className="flex justify-between items-center p-3 ">
                       <span className="text-gray-600 font-medium">
                         Test Name
@@ -263,7 +263,7 @@ const UploadReport = () => {
                     </div>
                   </div>
                   {/* Detailed Parameters */}
-                  <div className="mt-8 bg-white p-6 rounded-lg shadow-md">
+                  <div className="mt-8 bg-white p-6 rounded-lg shadow-xl">
                     <h3 className="text-lg font-semibold text-gray-800 mb-4">
                       Detailed Parameters
                     </h3>
@@ -353,7 +353,7 @@ const UploadReport = () => {
                     className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                       selectedOption === "upload"
                         ? "__secondary-bg"
-                        : "bg-white shadow-lg "
+                        : "bg-white shadow-xl "
                     }`}
                     onClick={() => setSelectedOption("upload")}
                   >
@@ -372,7 +372,7 @@ const UploadReport = () => {
                     className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                       selectedOption === "manual"
                         ? "__secondary-bg"
-                        : "bg-white shadow-lg"
+                        : "bg-white shadow-xl"
                     }`}
                     onClick={() => setSelectedOption("manual")}
                   >

@@ -1,46 +1,48 @@
 "use client";
 
-import React, { useState } from 'react';
-import { ChevronDown, Calendar, X, Plus, Star } from 'lucide-react';
-import Image from 'next/image';
-import { MdOutlinePhotoCamera, MdOutlineEdit } from "react-icons/md";
+import React, { useState } from "react";
+import { ChevronDown, Calendar, X, Plus, Star,Eye } from "lucide-react";
+import Image from "next/image";
 import { GoArrowUpRight } from "react-icons/go";
+import { IoMdAddCircleOutline } from "react-icons/io";
+import image from "../assets/woman/shape.png";
 
 export default function AddReportManually() {
+    const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
-    testName: '',
-    dateOfReport: '',
-    labName: '',
+    testName: "",
+    dateOfReport: "",
+    labName: "",
     parameters: [
-      { name: 'LDL', value: '130', unit: 'mg/dl', normalRange: '<100' }
+      { name: "LDL", value: "130", unit: "mg/dl", normalRange: "<100" },
     ],
-    remarks: ''
+    remarks: "",
   });
 
   const [dropdownOpen, setDropdownOpen] = useState({
     testName: false,
-    labName: false
+    labName: false,
   });
 
   const [reportAdded, setReportAdded] = useState(false);
 
   const testOptions = [
-    'Lipid Profile',
-    'Complete Blood Count',
-    'Liver Function Test',
-    'Kidney Function Test',
-    'Thyroid Function Test'
+    "Lipid Profile",
+    "Complete Blood Count",
+    "Liver Function Test",
+    "Kidney Function Test",
+    "Thyroid Function Test",
   ];
 
   const labOptions = [
-    'ABC Diagnostics',
-    'HealthLab Center',
-    'MediTest Labs',
-    'Precision Diagnostics',
-    'CareFirst Laboratory'
+    "ABC Diagnostics",
+    "HealthLab Center",
+    "MediTest Labs",
+    "Precision Diagnostics",
+    "CareFirst Laboratory",
   ];
 
-  const unitOptions = ['mg/dl', 'g/dl', 'mmol/L', 'IU/L', 'ng/ml', 'pg/ml'];
+  const unitOptions = ["mg/dl", "g/dl", "mmol/L", "IU/L", "ng/ml", "pg/ml"];
 
   const slide = {
     reviewAvatars: [
@@ -56,66 +58,79 @@ export default function AddReportManually() {
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleParameterChange = (index, field, value) => {
     const newParameters = [...formData.parameters];
     newParameters[index][field] = value;
-    setFormData(prev => ({ ...prev, parameters: newParameters }));
+    setFormData((prev) => ({ ...prev, parameters: newParameters }));
   };
 
   const addParameter = () => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      parameters: [...prev.parameters, { name: '', value: '', unit: 'mg/dl', normalRange: '' }]
+      parameters: [
+        ...prev.parameters,
+        { name: "", value: "", unit: "mg/dl", normalRange: "" },
+      ],
     }));
   };
 
   const removeParameter = (index) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      parameters: prev.parameters.filter((_, i) => i !== index)
+      parameters: prev.parameters.filter((_, i) => i !== index),
     }));
   };
 
   const handleSave = () => {
     setReportAdded(true);
-    console.log('Saving report:', formData);
+    console.log("Saving report:", formData);
     // Handle save logic here
   };
 
   const toggleDropdown = (field) => {
-    setDropdownOpen(prev => ({ ...prev, [field]: !prev[field] }));
+    setDropdownOpen((prev) => ({ ...prev, [field]: !prev[field] }));
   };
 
   const selectOption = (field, value) => {
     handleInputChange(field, value);
-    setDropdownOpen(prev => ({ ...prev, [field]: false }));
+    setDropdownOpen((prev) => ({ ...prev, [field]: false }));
+  };
+
+    const handleContinue = () => {
+    if (currentStep < 4) {
+      setCurrentStep(currentStep + 1);
+    }
   };
 
   return (
     <div className="container mx-auto p-5">
       {/* Banner and Title always on top */}
-     <div className="flex item-center justify-center relative">
-            <div className="h-full w-full rounded-2xl">
-              <Image
-                src="/reports-upload/report-banner.jpg"
-                alt="People Consulting"
-                width={600}
-                height={150}
-                className="rounded-2xl h-[250px] object-cover"
-              />
-            </div>
-            <div className='flex items-center justify-center absolute bottom-14 left-4/9'>
-              <h1 className="text-[45px] font-[600] ">Upload Report<span className='block'>Manually</span></h1>
-            </div>
-          </div>
-      {/* Conditional Sections Below */}
+      <div className="flex item-center justify-center relative">
+        <div className="h-full w-full rounded-2xl">
+          <Image
+            src="/reports-upload/report-banner.jpg"
+            alt="People Consulting"
+            width={600}
+            height={150}
+            className="rounded-2xl h-[250px] object-cover"
+          />
+        </div>
+        <div className="flex items-center justify-center absolute bottom-14 left-4/9">
+          <h1 className="text-[45px] font-[600] ">
+            Upload Report<span className="block">Manually</span>
+          </h1>
+        </div>
+      </div>
       {/* Success Modal Section */}
       {reportAdded && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-3xl max-w-[90%] mx-auto max-h-[90vh] overflow-hidden shadow-2xl relative" onClick={e => e.stopPropagation()}>
+          <div
+            className="bg-white rounded-3xl w-[90%] mx-auto max-h-[90vh] overflow-hidden shadow-2xl relative"
+            onClick={(e) => e.stopPropagation()}
+          >
             {/* Header */}
             <div className="relative pb-8 z-10">
               <button
@@ -137,45 +152,83 @@ export default function AddReportManually() {
                     height={40}
                   />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  Report Added Successfully!
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  Your report has been added successfully!
                 </h2>
-                <div className="mb-6">
-                  <h3 className="font-semibold text-gray-900 mb-6 text-center">
-                    Your report has been added and is now available for review in your dashboard.
-                  </h3>
-                  <p className="text-gray-600 text-sm leading-relaxed text-center">
-                    Thank you for using Sukaii Health. You can add more reports or return to your dashboard.
-                  </p>
-                </div>
                 {/* Add the two cards below the success message */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                   {/* Scan or Upload Report Option */}
                   <div
-                    className="relative p-3 rounded-2xl border-2 cursor-pointer transition-all duration-200 border-gray-200 hover:border-gray-300"
+                    className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
+                      selectedOption === "upload"
+                        ? "__secondary-bg"
+                        : "bg-white shadow-xl "
+                    }`}
+                    onClick={() => setSelectedOption("upload")}
                   >
                     <div className="text-left">
-                      <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mb-4">
-                        <MdOutlinePhotoCamera className="w-6 h-6 __secondary-text" />
+                      <div className="w-12 h-12 flex items-center justify-center mb-4">
+                        <Eye
+                          className={`w-6 h-6 ${
+                            selectedOption === "upload"
+                              ? "text-white"
+                              : "__secondary-text"
+                          }`}
+                        />
                       </div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        Scan or Upload Report
+                      <h4
+                        className={`font-[500] mb-2 ${
+                          selectedOption === "upload"
+                            ? "text-white"
+                            : "text-gray-900"
+                        }`}
+                      >
+                        View in Dashboard
                       </h4>
-                      <GoArrowUpRight className="absolute top-3 right-3 w-6 h-6" />
+                      <GoArrowUpRight
+                        className={`absolute top-3 right-3 w-6 h-6 ${
+                          selectedOption === "upload"
+                            ? "text-white"
+                            : "text-black"
+                        }`}
+                      />
                     </div>
                   </div>
                   {/* Manual Entry Option */}
                   <div
-                    className="relative p-3 rounded-2xl border-2 cursor-pointer transition-all duration-200 border-gray-200 hover:border-gray-300"
+                    className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
+                      selectedOption === "manual"
+                        ? "__secondary-bg"
+                        : "bg-white shadow-xl"
+                    }`}
+                    onClick={() => setSelectedOption("manual")}
                   >
-                    <div className="text-left">
-                      <div className="w-12 h-12 bg-pink-100 rounded-full flex items-center justify-center mb-4">
-                        <MdOutlineEdit className="w-6 h-6 __secondary-text" />
+                    <div className="text-left flex flex-col items-start relative">
+                      <div className="w-12 h-12 flex items-center justify-center mb-4">
+                        <IoMdAddCircleOutline
+                          className={`w-6 h-6 ${
+                            selectedOption === "manual"
+                              ? "text-white"
+                              : "__secondary-text"
+                          }`}
+                        />
                       </div>
-                      <h4 className="font-semibold text-gray-900 mb-2">
-                        Manual Entry
+                      <h4
+                        className={`font-semibold text-gray-900 mb-2 ${
+                          selectedOption === "manual"
+                            ? "text-white"
+                            : "text-gray-900"
+                        }`}
+                      >
+                        Upload Another Report
                       </h4>
-                      <GoArrowUpRight className="absolute top-3 right-3 w-6 h-6" />
+                      <GoArrowUpRight
+                        className={`absolute top-3 right-3 w-6 h-6 ${
+                          selectedOption === "manual"
+                            ? "text-white"
+                            : "text-black"
+                        }`}
+                      />
                     </div>
                   </div>
                 </div>
@@ -246,109 +299,72 @@ export default function AddReportManually() {
       )}
       {/* Main Form Section */}
       {!reportAdded && (
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto __gapTop">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-3xl font-bold text-pink-600 mb-2">
               Add Report Manually
             </h1>
             <p className="text-gray-600">
-              Enter your test report details manually and keep everything in 
-              one place.
+              Enter your test report details manually and keep everything in one
+              place.
             </p>
           </div>
 
-          <div className="">
-            {/* Basic Report Details */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">
-                Basic Report Details
-              </h2>
-              
-              <div className="space-y-6">
-                {/* Test Name Dropdown */}
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Test Name
-                  </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => toggleDropdown('testName')}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-left flex items-center justify-between hover:bg-gray-100 transition-colors"
-                    >
-                      <span className={formData.testName ? 'text-gray-800' : 'text-gray-400'}>
-                        {formData.testName || 'Select test name'}
-                      </span>
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    </button>
-                    {dropdownOpen.testName && (
-                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
-                        {testOptions.map((option, index) => (
-                          <button
-                            key={index}
-                            onClick={() => selectOption('testName', option)}
-                            className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
-                          >
-                            {option}
-                          </button>
-                        ))}
+          <div className="rounded-lg flex items-center justify-between">
+                {/* Left Section - Increased width and margin */}
+                <div className="space-y-6 w-[50%]">
+                  <h2 className="text-[30px] font-[600] mb-6">Basic Report Details</h2>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Test Name
+                      </label>
+                      <input
+                        type="text"
+                        name="fullName"
+                        value={formData.fullName}
+                        onChange={(e) => handleInputChange("fullName", e.target.value)}
+                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                      />
+                    </div>
+                    <div className="grid gap-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Date of Report
+                        </label>
+                        <select
+                          value={formData.gender}
+                          onChange={(e) => handleInputChange("gender", e.target.value)}
+                          className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                        >
+                          <option value="">Select Gender</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                          <option value="other">Other</option>
+                        </select>
                       </div>
-                    )}
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Lab Name
+                      </label>
+                      <select
+                        value={formData.labName}
+                        onChange={(e) =>
+                          handleInputChange("labName", e.target.value)
+                        }
+                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                      >
+                        <option value="">Select Lab</option>
+                        <option value="lab1">Lab 1</option>
+                        <option value="lipid-profile">Lipid Profile</option>
+                        <option value="diabetes-screening">Diabetes Screening</option>
+                        <option value="thyroid-function">Thyroid Function Test</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-
-                {/* Date of Report */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Date of Report
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="date"
-                      value={formData.dateOfReport}
-                      onChange={(e) => handleInputChange('dateOfReport', e.target.value)}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent"
-                    />
-                    <Calendar className="absolute right-3 top-3 w-5 h-5 text-gray-400 pointer-events-none" />
-                  </div>
-                </div>
-
-                {/* Lab Name Dropdown */}
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Lab Name
-                  </label>
-                  <div className="relative">
-                    <button
-                      type="button"
-                      onClick={() => toggleDropdown('labName')}
-                      className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg text-left flex items-center justify-between hover:bg-gray-100 transition-colors"
-                    >
-                      <span className={formData.labName ? 'text-gray-800' : 'text-gray-400'}>
-                        {formData.labName || 'Select lab name'}
-                      </span>
-                      <ChevronDown className="w-5 h-5 text-gray-400" />
-                    </button>
-                    {dropdownOpen.labName && (
-                      <div className="absolute z-10 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg">
-                        {labOptions.map((option, index) => (
-                          <button
-                            key={index}
-                            onClick={() => selectOption('labName', option)}
-                            className="w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors"
-                          >
-                            {option}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Add Test Parameters */}
+                  {/* Add Test Parameters */}
             <div className="mb-8">
               <h2 className="text-xl font-semibold text-gray-800 mb-6">
                 Add Test Parameters
@@ -444,15 +460,26 @@ export default function AddReportManually() {
             </div>
 
             {/* Save Button */}
-            <div className="text-center">
+            <div className="text-left">
               <button
                 onClick={handleSave}
-                className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-3 rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl shadow-lg"
               >
                 Save Report
               </button>
             </div>
-          </div>
+                </div>
+                {/* Right Section - Image flush right */}
+                <div className="flex justify-end items-end w-[40%] absolute right-0 top-30 h-full">
+                  <Image
+                    src={image}
+                    width={400}
+                    height={300}
+                    alt="Sukaii Logo"
+                    className="object-cover rounded-lg"
+                  />
+                </div>
+              </div>
         </div>
       )}
     </div>
