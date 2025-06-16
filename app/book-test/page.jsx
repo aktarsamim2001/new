@@ -41,20 +41,20 @@ const TestBookingSystem = () => {
 
   const HeaderSection = () => (
     <div className="__gapTop">
-      <div className="flex items-center justify-between w-full ">
+      <div className="flex flex-col-reverse lg:flex-row items-center justify-between w-full ">
         {/* Text Section - 30%, aligned to right */}
-        <div className="w-[31%] flex justify-center items-center">
-          <h1 className="__secondary-text text-5xl font-bold text-right">
+        <div className="w-full lg:mt-0 mt-[2rem] lg:w-[31%] flex justify-center items-center">
+          <h1 className="__secondary-text text-4xl lg:text-5xl font-bold text-right">
             Book Your Test
           </h1>
         </div>
 
         {/* Image Section - 70% */}
-        <div className="w-[60%]">
+        <div className="w-[100%] md:w-[50%]">
           <img
             src="/test-book-banner/banner.jpg"
             alt="Sukaii Logo"
-            className="w-full h-[280px] object-cover rounded-l-4xl"
+            className="w-full h-[280px] object-cover  lg:rounded-l-4xl"
           />
         </div>
       </div>
@@ -64,11 +64,11 @@ const TestBookingSystem = () => {
   const Step1 = () => (
     <div className="rounded-lg p-6 flex items-center justify-between">
       {/* Left Section - Increased width and margin */}
-      <div className="space-y-6 ml-[100px] w-[40%]">
+      <div className="space-y-6 lg:ml-[100px] lg:w-[40%]">
         <h2 className="text-[30px] font-[600] mb-8">Fill in the Details</h2>
         <div className="space-y-4">
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="block text-[15px] lg:mb-0 mb-2 font-medium text-gray-700 lg:w-[110px]">
               Full Name
             </label>
             <input
@@ -80,8 +80,8 @@ const TestBookingSystem = () => {
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-row items-start gap-3">
-              <label className="block text-[15px] font-medium text-gray-700 w-[110px] mr-6 pt-2">
+            <div className="lg:flex flex-row items-start gap-3">
+              <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px] mr-6 pt-2">
                 Gender
               </label>
               <select
@@ -95,8 +95,8 @@ const TestBookingSystem = () => {
                 <option value="other">Other</option>
               </select>
             </div>
-            <div className="flex flex-row items-start gap-3">
-              <label className="block text-[15px] font-medium text-gray-700 mr-4 ml-2 pt-2">
+            <div className="lg:flex flex-row items-start gap-3">
+              <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 mr-4 ml-2 pt-2">
                 Age
               </label>
               <input
@@ -108,8 +108,8 @@ const TestBookingSystem = () => {
               />
             </div>
           </div>
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
               Selected Test
             </label>
             <select
@@ -126,8 +126,8 @@ const TestBookingSystem = () => {
               <option value="thyroid-function">Thyroid Function Test</option>
             </select>
           </div>
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
               Type of Test
             </label>
             <select
@@ -142,8 +142,8 @@ const TestBookingSystem = () => {
             </select>
           </div>
         </div>
-        <div className="flex items-center mt-10 cursor-pointer">
-          <label className="block text-[15px] font-medium text-gray-700 w-[105px]"></label>
+        <div className="flex items-center justify-center lg:justify-start mt-10 cursor-pointer">
+          <label className="block text-[15px] font-medium text-gray-700 lg:w-[105px]"></label>
           <button
             onClick={handleContinue}
             className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
@@ -167,51 +167,51 @@ const TestBookingSystem = () => {
 
   const Step2 = () => (
     <div className="rounded-lg p-6 flex items-center justify-between realtive">
-      <div className="space-y-4 ml-16 w-[40%]">
+      <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
         <h2 className="text-[30px] font-[600] mb-8">Contact Details</h2>
 
         <div className="space-y-4">
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Contact
             </label>
             <input
               type="tel"
               value={formData.contact}
               onChange={(e) => handleInputChange("contact", e.target.value)}
-              className="w-[80%] px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
               placeholder="Enter phone number"
             />
           </div>
 
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Street Name
             </label>
             <input
               type="text"
               value={formData.streetName}
               onChange={(e) => handleInputChange("streetName", e.target.value)}
-              className="w-[80%] px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
               placeholder="Enter street address"
             />
           </div>
 
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="block mb-2 lg:mb-0 text-[15px] font-medium text-gray-700 w-[110px]">
               Pin Code
             </label>
             <input
               type="text"
               value={formData.pincode}
               onChange={(e) => handleInputChange("pincode", e.target.value)}
-              className="w-[80%] px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
               placeholder="Enter pincode"
             />
           </div>
 
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Date
             </label>
 
@@ -219,18 +219,18 @@ const TestBookingSystem = () => {
               type="date"
               value={formData.date}
               onChange={(e) => handleInputChange("date", e.target.value)}
-              className="w-[80%] px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
             />
           </div>
 
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Select Time Slot
             </label>
             <select
               value={formData.timeSlot}
               onChange={(e) => handleInputChange("timeSlot", e.target.value)}
-              className="w-[80%] px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
             >
               <option value="">Select Time</option>
               <option value="09:00-10:00">09:00 - 10:00 AM</option>
@@ -241,22 +241,22 @@ const TestBookingSystem = () => {
             </select>
           </div>
 
-          <div className="flex flex-row items-start gap-3">
-            <label className="block text-[15px] font-medium text-gray-700 w-[110px]">
+          <div className="lg:flex flex-row items-start gap-3">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Remarks
             </label>
             <textarea
               value={formData.remarks}
               onChange={(e) => handleInputChange("remarks", e.target.value)}
               rows={3}
-              className="w-[150%] relative left-11 px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              className="lg:w-[150%] w-full relative lg:left-11 px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
               placeholder="Any special instructions or remarks"
             />
           </div>
         </div>
 
-        <div className="flex items-center mt-6 pl-[8px] cursor-pointer">
-          <label className="w-[110px]"></label>
+        <div className="flex items-center justify-center lg:justify-start mt-6 pl-[8px] cursor-pointer">
+          <label className="lg:w-[110px]"></label>
           <button
             onClick={handleContinue}
             className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
@@ -280,16 +280,16 @@ const TestBookingSystem = () => {
 
   const Step3 = () => (
     <div className="rounded-lg p-6 flex items-center justify-between relative">
-      <div className="space-y-6 ml-16 w-[50%]">
+      <div className="space-y-6 lg:ml-16 md:w-[50%] w-full">
         <h2 className="text-[30px] font-[600] mb-8">Review and Pay</h2>
 
-        <div className="space-y-6">
+        <div className="md:space-y-6">
           {/* Booking Summary - Now properly aligned */}
-          <div className="flex flex-row items-start gap-3">
-            <div className="w-[160px] ">
+          <div className="md:flex flex-row items-start gap-3">
+            <div className="md:w-[160px] w-full">
               {" "}
               {/* Added pt-4 to match textarea padding */}
-              <label className="text-[15px] font-medium text-gray-700">
+              <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
                 Booking Summary
               </label>
             </div>
@@ -302,12 +302,12 @@ const TestBookingSystem = () => {
           </div>
 
           {/* Cost and Discount Code - Consistent with above */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-row items-start gap-3">
+          <div className="md:grid grid-cols-2 gap-4">
+            <div className="md:flex flex-row items-start gap-3">
               <div className="w-[220px] pt-4">
                 {" "}
                 {/* Added pt-4 */}
-                <label className="text-[15px] font-medium text-gray-700">
+                <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
                   Total Cost
                 </label>
               </div>
@@ -320,11 +320,11 @@ const TestBookingSystem = () => {
               />
             </div>
 
-            <div className="flex flex-row items-start gap-3">
-              <div className="w-[160px] ml-4 pt-4">
+            <div className="md:flex flex-row items-start gap-3">
+              <div className="w-[160px] md:ml-4 pt-4">
                 {" "}
                 {/* Added pt-4 */}
-                <label className="text-[15px] font-medium text-gray-700">
+                <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
                   Apply Code
                 </label>
               </div>
@@ -339,11 +339,9 @@ const TestBookingSystem = () => {
           </div>
 
           {/* Payment Mode - Consistent with above */}
-          <div className="flex flex-row items-start gap-3">
-            <div className="w-[160px] pt-4">
-              {" "}
-              {/* Added pt-4 */}
-              <label className="text-[15px] font-medium text-gray-700">
+          <div className="md:flex flex-row items-start gap-3">
+            <div className="md:w-[160px] pt-4">
+              <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
                 Payment Mode
               </label>
             </div>
@@ -361,10 +359,14 @@ const TestBookingSystem = () => {
           </div>
 
           {/* Terms and Conditions - Consistent spacing */}
-          <div className="flex flex-row items-start gap-3">
-            <div className="w-[130px]"></div>
-            <div className="flex items-center gap-2">
-              <input type="checkbox" id="terms" className="rounded" />
+          <div className="mt-4 md:nt-0 flex flex-row items-start gap-3">
+            <div className="md:w-[130px]"></div>
+            <div className="flex md:items-center items-start gap-2">
+              <input
+                type="checkbox"
+                id="terms"
+                className="rounded relative top-1 md:top-0"
+              />
               <label htmlFor="terms" className="text-sm text-gray-600">
                 By continuing, you agree to our Terms & Conditions and Privacy
                 Policy
@@ -374,8 +376,8 @@ const TestBookingSystem = () => {
         </div>
 
         {/* Continue Button */}
-        <div className="flex items-center mt-6 cursor-pointer">
-          <div className="w-[140px]"></div>
+        <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
+          <div className="md:w-[140px]"></div>
           <button
             onClick={handleContinue}
             className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
@@ -399,21 +401,21 @@ const TestBookingSystem = () => {
   );
 
   const Step4 = () => (
-    <div className="bg-white rounded-lg p-6">
-      <div className="flex items-center justify-center gap-10">
-        <div className=" rounded-lg flex items-center justify-center overflow-hidden">
+    <div className="bg-white rounded-lg">
+      <div className="md:flex items-center justify-center gap-10">
+        <div className="md:rounded-lg flex items-center justify-center overflow-hidden">
           <Image
             src="/thank-you-page/thank-you.jpg"
             alt="thank you bg-image"
             width={460}
             height={100}
-            className="object-cover rounded-4xl w-[full]"
+            className="object-cover md:rounded-4xl h-[350] md:h-[680px] w-[full]"
           />
         </div>
 
-        <div className="">
+        <div className="p-6 md:p-0">
           <div className="flex items-center gap-2">
-            <CheckCircle className="w-10 h-10 text-green-500" />
+            {/* <CheckCircle className="w-10 h-10 text-green-500" /> */}
             <h2 className="text-[38px] font-bold __secondary-text">
               Congratulations!
             </h2>
@@ -486,7 +488,7 @@ const TestBookingSystem = () => {
             </div>
           </div>
 
-          <div className="flex space-x-3 mt-6">
+          <div className="flex flex-col md:flex-row gap-3 mt-6">
             <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
               <Image
                 src={image2}
@@ -496,7 +498,7 @@ const TestBookingSystem = () => {
                 className="object-cover"
               />{" "}
               <span className="text-sm leading-[16px]">
-                Book a <br /> New Test
+                Book a <br className="d-none md:block" /> New Test
               </span>
             </div>
             <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
@@ -525,7 +527,7 @@ const TestBookingSystem = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-start mt-6 cursor-pointer">
+          <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
             <button
               onClick={handleContinue}
               className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
