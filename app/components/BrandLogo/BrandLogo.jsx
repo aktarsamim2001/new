@@ -15,7 +15,7 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto ">
       <ul className="flex md:flex-row mb-3 flex-col items-center justify-evenly gap-5 md:gap-0">
         {logo.map((logos) => (
           <li key={logos.id}>

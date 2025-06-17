@@ -45,7 +45,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <div className='bg-[#FCD3EA] mt-[60px]'>
+    <div className='bg-[#FCD3EA] md:mt-[80px]'>
       <section className="container mx-auto">
         {steps.map((step, index) => (
           <div 
@@ -53,7 +53,7 @@ export const HowItWorks = () => {
             className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 xl:gap-14 items-center mb-6 lg:mb-10"
           >
             {/* Text Content - Always left */}
-            <div className="space-y-4 sm:space-y-6 px-4 lg:px-0 text-left">
+            <div className="space-y-4 sm:space-y-6 px-4 text-left">
               <div className="space-y-3 sm:space-y-4">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">
                   {step.number}.
@@ -82,15 +82,15 @@ export const HowItWorks = () => {
             </div>
 
             {/* Image Content - Always right */}
-            <div className="relative flex justify-center lg:justify-end">
-              <div className="relative group">
+            <div className="relative flex justify-center lg:justify-end w-full">
+              <div className="relative group w-full">
                 
                 {/* Main image container */}
-                <div className="relative z-10 overflow-hidden ">
+                <div className="relative z-10 overflow-hidden w-full">
                   <img 
                     src={step.image}
                     alt={step.alt}
-                    className="w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl h-64 sm:h-80 lg:h-96 xl:h-[38rem] object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-64 sm:h-80 lg:h-96 xl:h-[38rem] object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
                   

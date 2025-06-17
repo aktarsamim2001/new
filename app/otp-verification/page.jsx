@@ -37,8 +37,8 @@ function OtpVerificationContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-md p-8">
         <div className="mb-8 flex flex-col items-center">
           <Image src="/sukaii-logo.png" alt="Sukaii Logo" width={120} height={40} />
           <h2 className="text-2xl font-bold text-gray-900 mt-4 mb-2">Verify Your Identity</h2>

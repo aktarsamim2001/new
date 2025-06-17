@@ -174,11 +174,11 @@ export default function FAQTabs() {
   ];
 
   return (
-      <div className="container mx-auto">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div className="container mx-auto __gapTop">
+        <div className="overflow-hidden">
           <div className="flex flex-col lg:flex-row">
             {/* Left Sidebar - Categories */}
-            <div className="lg:w-1/4 bg-gray-50 p-6">
+            <div className="lg:w-1/4 p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-[#EC098D] inline-block w-full">
                 Categories
               </h3>
@@ -187,9 +187,9 @@ export default function FAQTabs() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`w-full text-left px-4 py-3 font-[300px] cursor-pointer rounded-lg text-sm !bg-transparent !text-black text-[14px] shadow-lg ${
+                    className={`w-full text-left px-4 py-3 font-[300px] cursor-pointer rounded-lg text-sm !bg-transparent !text-black text-[14px] __cardShadow ${
                       activeTab === tab.id
-                        ? 'border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold shadow-md'
+                        ? 'border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold'
                         : 'border-none text-gray-600 hover:bg-gray-200'
                     }`}
                   >

@@ -60,7 +60,7 @@ export default function EnquiryForm() {
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
-                className={`${item.bgColor} rounded-[22px] p-8 shadow-xl transition-shadow cursor-pointer`}
+                className={`${item.bgColor} rounded-[22px] p-8 __cardShadow cursor-pointer`}
               >
                 <div className="flex flex-col items-start space-y-3">
                   <div className="">
@@ -172,7 +172,7 @@ export default function EnquiryForm() {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="__secondary-bg text-white font-semibold px-8 py-3 rounded-xl cursor-pointer shadow-lg hover:shadow-xl"
                   >
                     Submit
                   </button>

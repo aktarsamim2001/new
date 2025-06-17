@@ -28,7 +28,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white container mx-auto py-6">
+    <nav className="container mx-auto py-6">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
