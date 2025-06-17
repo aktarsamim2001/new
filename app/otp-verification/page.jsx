@@ -1,9 +1,10 @@
 "use client";
-import React, { useState } from "react";
+
+import React, { useState, Suspense } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 
-export default function OtpVerification() {
+function OtpVerificationContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
@@ -67,5 +68,13 @@ export default function OtpVerification() {
         </form>
       </div>
     </div>
+  );
+}
+
+export default function OtpVerification() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <OtpVerificationContent />
+    </Suspense>
   );
 }

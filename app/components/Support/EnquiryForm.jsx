@@ -1,7 +1,8 @@
 "use client";
 
+import Image from 'next/image';
 import React, { useState } from 'react';
-import { Calendar, FileText, RefreshCw, CreditCard } from 'lucide-react';
+import image from '../../assets/woman/support-woman.jpg'; 
 
 export default function EnquiryForm() {
   const [formData, setFormData] = useState({
@@ -24,47 +25,46 @@ export default function EnquiryForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
-    // Handle form submission here
   };
 
   const quickHelpItems = [
     {
-      icon: <Calendar className="w-6 h-6 text-pink-500" />,
+      icon: "/support-icon/icon.png",
       title: "Make or Change Appointment",
-      bgColor: "bg-pink-50"
+      bgColor: "bg-[#FFFFFF]"
     },
     {
-      icon: <FileText className="w-6 h-6 text-pink-500" />,
+      icon: "/support-icon/icon (2).png",
       title: "Book or Access Reports",
-      bgColor: "bg-pink-50"
+      bgColor: "bg-[#FFFFFF]"
     },
     {
-      icon: <RefreshCw className="w-6 h-6 text-pink-500" />,
+      icon: "/support-icon/icon (3).png",
       title: "Reschedule or Request Refund",
-      bgColor: "bg-pink-50"
+      bgColor: "bg-[#FFFFFF]"
     },
     {
-      icon: <CreditCard className="w-6 h-6 text-pink-500" />,
+      icon: "/support-icon/icon (4).png",
       title: "Understand or Use Your Dashboard",
-      bgColor: "bg-pink-50"
+      bgColor: "bg-[#FFFFFF]"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-blue-50 p-4 md:p-8">
-      <div className="max-w-6xl mx-auto">
+    <div className="min-h-screen p-4 md:p-8">
+      <div className="container mx-auto">
         {/* Quick Help Section */}
-        <div className="mb-12">
+        <div className="__gapTop">
           <h2 className="text-2xl font-bold text-gray-800 mb-8">Quick Help</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
-                className={`${item.bgColor} rounded-xl p-6 hover:shadow-lg transition-shadow cursor-pointer border border-pink-100`}
+                className={`${item.bgColor} rounded-[22px] p-8 shadow-xl transition-shadow cursor-pointer`}
               >
-                <div className="flex flex-col items-center text-center space-y-3">
-                  <div className="p-3 bg-white rounded-full shadow-sm">
-                    {item.icon}
+                <div className="flex flex-col items-start space-y-3">
+                  <div className="">
+                    <Image src={item.icon} alt={item.title} width={24} height={30} />
                   </div>
                   <p className="text-sm font-medium text-gray-700 leading-tight">
                     {item.title}
@@ -76,17 +76,18 @@ export default function EnquiryForm() {
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden">
+        <div className="__gapTop overflow-hidden">
           <div className="flex flex-col lg:flex-row">
             {/* Image Section */}
-            <div className="lg:w-1/3 bg-gradient-to-br from-gray-100 to-gray-200">
+            <div className="">
               <div className="h-full flex items-center justify-center p-8">
-                {/* <div className="text-center">
-                  <div className="w-48 h-64 bg-gradient-to-br from-pink-200 to-pink-300 rounded-2xl mx-auto mb-4 flex items-center justify-center">
-                    <div className="text-6xl">👩‍💼</div>
-                  </div>
-                  <p className="text-gray-600 text-sm">Professional consultation available</p>
-                </div> */}
+                <Image
+                  src={image}
+                  alt="Support Image"
+                  width={400}
+                  height={400}
+                  className="rounded-lg shadow-lg"
+                />
               </div>
             </div>
 
@@ -171,7 +172,7 @@ export default function EnquiryForm() {
                 <div className="pt-4">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
                   >
                     Submit
                   </button>

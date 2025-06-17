@@ -552,7 +552,7 @@ const TestBookingSystem = () => {
                 className="object-cover"
               />{" "}
               <span className="text-sm leading-[16px]">
-                Upload Past <br /> Reports
+                Upload Past Reports
               </span>
             </div>
             <div className="flex ____shadow-card  items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
@@ -564,7 +564,7 @@ const TestBookingSystem = () => {
                 className="object-cover"
               />{" "}
               <span className="text-sm leading-[16px]">
-                View Health <br /> Summary
+                View Health Summary
               </span>
             </div>
           </div>
@@ -581,7 +581,6 @@ const TestBookingSystem = () => {
       </div>
     </div>
   );
-
   return (
     <>
       {currentStep <= 3 && <HeaderSection />}

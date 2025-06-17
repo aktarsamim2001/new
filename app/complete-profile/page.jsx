@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import React, { useState, useEffect, Suspense } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
@@ -18,7 +19,7 @@ const slide = {
   reviews: "(1.2k reviews)",
 };
 
-export default function CompleteProfile() {
+function CompleteProfileContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [formData, setFormData] = useState({
@@ -137,56 +138,63 @@ export default function CompleteProfile() {
         </form>
       </div>
       <div className="hidden lg:block lg:w-1/2 relative h-screen">
-              <div className="absolute inset-0 h-full">
-                <div className="h-full flex items-center justify-center p-8">
-                  <Image
-                    src="/login-banner/login-banner.jpg"
-                    alt="Sukaii Health"
-                    width={800}
-                    height={1200}
-                    className="rounded-[50px] shadow-lg object-cover h-full w-full"
-                  />
+        <div className="absolute inset-0 h-full">
+          <div className="h-full flex items-center justify-center p-8">
+            <Image
+              src="/login-banner/login-banner.jpg"
+              alt="Sukaii Health"
+              width={800}
+              height={1200}
+              className="rounded-[50px] shadow-lg object-cover h-full w-full"
+            />
+          </div>
+          <div className="absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+            <div className="flex -space-x-3">
+              {slide.reviewAvatars.map((avatar, i) => (
+                <div
+                  key={i}
+                  className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
+                >
+                  {avatar.image ? (
+                    <Image
+                      src={avatar.image}
+                      alt={`Avatar`}
+                      width={32}
+                      height={32}
+                      className="w-full h-full object-cover rounded-full"
+                    />
+                  ) : (
+                    avatar.name
+                  )}
                 </div>
-                <div className="absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
-                  <div className="flex -space-x-3">
-                    {slide.reviewAvatars.map((avatar, i) => (
-                      <div
-                        key={i}
-                        className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
-                      >
-                        {avatar.image ? (
-                          <Image
-                            src={avatar.image}
-                            alt={`Avatar`}
-                            width={32}
-                            height={32}
-                            className="w-full h-full object-cover rounded-full"
-                          />
-                        ) : (
-                          avatar.name
-                        )}
-                      </div>
-                    ))}
-                    <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
-                      {slide.extra}
-                    </div>
-                  </div>
-      
-                  <div className="flex flex-col items-start">
-                    <div className="font-[600] text-gray-900 text-[20px]">
-                      {slide.patients}
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                      <span className="text-sm font-medium text-gray-900">
-                        {slide.rating}
-                      </span>
-                      <span className="text-xs text-gray-500">{slide.reviews}</span>
-                    </div>
-                  </div>
-                </div>
+              ))}
+              <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
+                {slide.extra}
               </div>
             </div>
+            <div className="flex flex-col items-start">
+              <div className="font-[600] text-gray-900 text-[20px]">
+                {slide.patients}
+              </div>
+              <div className="flex items-center gap-1">
+                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                <span className="text-sm font-medium text-gray-900">
+                  {slide.rating}
+                </span>
+                <span className="text-xs text-gray-500">{slide.reviews}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  );
+}
+
+export default function CompleteProfile() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <CompleteProfileContent />
+    </Suspense>
   );
 }

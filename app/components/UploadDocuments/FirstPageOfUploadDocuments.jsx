@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import { X, Edit3, Star } from "lucide-react";
 import Image from "next/image";
@@ -27,9 +28,9 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
 
   const handleNext = () => {
     if (selectedOption === "upload") {
-      router.push("/upload-externally");
+      router.push("/document-scan");
     } else if (selectedOption === "manual") {
-      router.push("/upload-documents/manual-entry");
+      router.push("/manual-entry");
     }
   };
 
@@ -201,7 +202,7 @@ const Demo = () => {
       <div className="container mx-auto py-20">
         <div className="text-center text-white mb-8">
           <h1 className="text-3xl font-bold mb-4">
-            Add External Report Modal Demo
+            Add External Report 
           </h1>
           <button
             onClick={() => setIsModalOpen(true)}
