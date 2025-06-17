@@ -166,7 +166,7 @@ const TestBookingSystem = () => {
   );
 
   const Step2 = () => (
-    <div className="rounded-lg p-6 flex items-center justify-between realtive">
+    <div className="rounded-lg p-6 flex items-center justify-between relative">
       <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
         <h2 className="text-[30px] font-[600] mb-8">Contact Details</h2>
 
@@ -510,7 +510,7 @@ const TestBookingSystem = () => {
                 className="object-cover"
               />{" "}
               <span className="text-sm leading-[16px]">
-                Upload Past <br /> Reports
+                Upload Past Reports
               </span>
             </div>
             <div className="flex ____shadow-card  items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
@@ -522,7 +522,7 @@ const TestBookingSystem = () => {
                 className="object-cover"
               />{" "}
               <span className="text-sm leading-[16px]">
-                View Health <br /> Summary
+                View Health Summary
               </span>
             </div>
           </div>
@@ -539,7 +539,6 @@ const TestBookingSystem = () => {
       </div>
     </div>
   );
-
   return (
     <>
       <HeaderSection />
