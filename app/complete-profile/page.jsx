@@ -57,12 +57,25 @@ function CompleteProfileContent() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-evenly">
-      <div className="">
-        <div className="mb-8 flex flex-col items-center">
+    <div className="min-h-screen flex flex-col lg:flex-row items-center justify-evenly">
+      {/* Responsive image for mobile/tablet */}
+      <div className="block lg:hidden w-full relative">
+        <div className="w-full h-56 sm:h-72 md:h-96 relative">
+          <Image
+            src="/login-banner/login-banner.jpg"
+            alt="Sukaii Health"
+            fill
+            className="object-cover w-full h-full"
+            priority
+          />
+        </div>
+      </div>
+      {/* Form section */}
+      <div className="lg:w-1/2 w-full max-w-md px-4 mt-12 lg:mt-0">
+        <div className="mb-8 flex flex-col items-start">
           <Image src="/sukaii-logo.png" alt="Sukaii Logo" width={120} height={40} />
           <h2 className="text-2xl font-bold text-gray-900 mt-4 mb-2">Complete Your Profile</h2>
-          <p className="text-gray-600 text-center">Please provide your details to finish setting up your account.</p>
+          <p className="text-gray-600">Please provide your details to finish setting up your account.</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
@@ -131,12 +144,13 @@ function CompleteProfileContent() {
           </div>
           <button
             type="submit"
-            className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="w-[70%] __secondary-bg text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
             Continue to OTP Verification
           </button>
         </form>
       </div>
+      {/* Desktop image section */}
       <div className="hidden lg:block lg:w-1/2 relative h-screen">
         <div className="absolute inset-0 h-full">
           <div className="h-full flex items-center justify-center p-8">

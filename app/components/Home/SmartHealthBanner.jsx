@@ -199,8 +199,8 @@ const SmartHealthBanner = () => {
                     <Image
                       src={slide.centerImage}
                       alt="Person"
-                      width={150}
-                      height={100}
+                      width={450}
+                      height={800}
                       className="w-full h-[505px] object-cover"
                     />
                   </div>

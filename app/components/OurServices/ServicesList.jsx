@@ -25,15 +25,15 @@ const services = [
 function ServicesList() {
   return (
     <div>
-      <div className="container mx-auto __gapTop  px-4 lg:px-0">
+      <div className="container mx-auto md:mt-[80px] mt-10 px-5 lg:px-0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
-            <div key={service.id} className="h-[300px] relative">
+            <div key={service.id} className="h-[200px] md:h-[300px] relative">
               <Link href={"/service-details"} target="_blank">
                 <Image
                   src={service.image}
                   alt={service.title}
-                  className="object-cover rounded-br-[40px] rounded-t-[40px] mb-4 h-[300px] rounded-es-[7px]"
+                  className="object-cover rounded-br-[40px] rounded-t-[40px] md:mb-4 h-[200px] md:h-[300px] rounded-es-[7px]"
                   width={700}
                   height={475}
                 />

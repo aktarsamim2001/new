@@ -13,11 +13,11 @@ import Link from "next/link";
 
 export const About = () => {
   return (
-    <div className="mt-[130px]">
+    <div className="">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:mt-[80px] mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="text-center lg:text-left flex flex-col align-middle justify-start h-[100%]">
+          <div className="text-left flex flex-col align-middle justify-start h-[100%] mb-10 lg:mb-0">
             <h2 className="text-2xl sm:text-3xl mb-5 lg:text-4xl xl:text-[43px] font-bold text-gray-900 leading-tight">
               A Central Hub for Your
               <br className="hidden sm:block" />
@@ -51,14 +51,14 @@ export const About = () => {
       </div>
 
       {/* Reports Section */}
-      <section className="__gapTop">
+      <section className="md:mt-[80px] mt-12">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-left mb-8 sm:mb-12 lg:mb-16">
+          <div className="text-left mb-8 lg:mb-16">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
               More Than Just Reports
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 ">
             {[
               {
                 img: image,
@@ -83,7 +83,7 @@ export const About = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-4 sm:p-6 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-white p-4 sm:p-6 rounded-xl __cardShadow"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-1.5">
                   <Image
@@ -107,8 +107,8 @@ export const About = () => {
       </section>
 
       {/* Import Reports Section */}
-      <div className="mt-[60px] lg:mt-[110px]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="md:mt-[80px] mt-12">
+        <div className="container mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-30">
             <div className="flex items-center justify-center order-2 lg:order-1">
               <div className="w-full sm:max-w-md">
@@ -121,8 +121,8 @@ export const About = () => {
                 </div>
               </div>
             </div>
-            <div className="space-y-4 sm:space-y-6 text-center lg:text-left order-1 lg:order-2">
-              <div className="inline-block bg-pink-100 text-pink-600 px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
+            <div className="space-y-4 sm:space-y-6 text-left order-1 lg:order-2">
+              <div className="inline-block bg-pink-100 __secondary-text px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
                 NEW
               </div>
               <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
@@ -135,7 +135,7 @@ export const About = () => {
                 technology reads and interprets your existing reports, giving
                 you comprehensive health insights.
               </p>
-              <button className="bg-pink-500 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-lg font-semibold hover:bg-pink-600 transition-colors text-sm sm:text-base w-full sm:w-auto">
+              <button className="__secondary-bg text-white md:px-6 md:py-3 py-1.5 rounded-lg font-semibold text-sm sm:text-base w-1/3">
                 <Link
                   href="/upload-documents"
                   className="flex items-center justify-center gap-2"
@@ -160,7 +160,7 @@ export const About = () => {
                 <Check className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
               </div>
               <div className="">
-                <h3 className="text-xl lg:text-4xl font-bold __secondary-text mb-3 sm:mb-4">
+                <h3 className="text-xl lg:text-4xl font-bold __secondary-text text-left mb-3 sm:mb-4">
                   Built Around Your Needs
                 </h3>
                 <ul className="space-y-2  sm:space-y-3 text-sm sm:text-base __text">

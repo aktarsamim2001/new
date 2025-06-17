@@ -4,12 +4,12 @@ import image from '../../assets/service/service-banner.jpg'
 
 function ServicesBanner() {
   return (
-    <div className='container mx-auto __gapTop  px-4 lg:px-0'>
+    <div className='container mx-auto md:mt-[60px]'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start'>
 
         {/* Image Section */}
         <div className="flex justify-center items-center">
-          <div className="relative w-full h-[200px] md:h-[287px] rounded-[30px] overflow-hidden shadow-lg">
+          <div className="relative w-full h-[200px] md:h-[287px] md:rounded-[30px] overflow-hidden shadow-lg">
             <Image
               src={image}
               alt="Services Banner"
@@ -21,12 +21,12 @@ function ServicesBanner() {
         </div>
 
         {/* Text Section */}
-        <div className="p-4 text-left max-w-lg">
-          <h1 className="text-4xl font-bold __secondary-text">
+        <div className="px-4 text-left max-w-lg">
+          <h1 className="text-[28px] md:text-4xl font-bold __secondary-text">
             Find the Right 
             <span className='block'>Test For You</span>
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 text-[16px] text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae beatae fuga quas quidem quaerat.
           </p>
         </div>

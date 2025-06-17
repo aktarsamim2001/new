@@ -50,13 +50,13 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
             className="absolute bg-gray-200 cursor-pointer rounded-full p-1.5 top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors z-20"
             style={{ zIndex: 20 }}
           >
-            <X size={24} />
+            <X size={24} className="hover:__secondary-text"/>
           </button>
         </div>
 
         {/* Content Area */}
         <div className="px-6 pb-6 flex items-center justify-center gap-14 flex-col md:flex-row">
-          <div className="w-full px-5">
+          <div className="w-ful h-full px-5">
               <div className="flex items-center mb-8">
                 <Image
                   src="/sukaii-logo.png"
@@ -125,7 +125,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
               <div className="flex justify-center mt-4">
                 <button
                   onClick={handleNext}
-                  className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-colors"
+                  className="__secondary-bg cursor-pointer text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-colors"
                 >
                   {selectedOption === "upload"
                     ? "Continue to Upload/Scan"
@@ -134,7 +134,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
               </div>
             )}
           </div>
-          <div className="w-full relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
+          <div className="w-full relative h-[400px] md:h-[500px] ">
             <div className="absolute inset-0 h-full">
               <div className="h-full flex items-center justify-center p-8">
                 <Image

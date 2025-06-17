@@ -7,10 +7,10 @@ import Button from "../ui/Button";
 
 const HealthSection = () => {
   return (
-    <div className="container mx-auto px-4  mt-[5rem]">
+    <div className="container mx-auto mt-[5rem]">
       <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 items-center">
         {/* Content Section */}
-        <div className="space-y-6 sm:space-y-8 order-2 lg:order-1">
+        <div className="space-y-6 sm:space-y-8 order-2 lg:order-1 px-4">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.2rem] font-bold leading-tight bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
           </h1>
@@ -32,13 +32,13 @@ const HealthSection = () => {
 
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className="relative w-full pr-8">
+          <div className="relative w-full md:pr-8">
             <Image
               src={image}
               alt="Handshake"
               width={500}
               height={500}
-              className="object-cover rounded-2xl h-[350px] lg:w-[100%]"
+              className="object-cover md:rounded-2xl h-[350px] w-full md:w-[100%]"
               priority
             />
           </div>

@@ -160,9 +160,9 @@ export default function LoginComponent() {
   }
 
   return (
-    <div className=" bg-gray-50 flex items-center justify-center min-h-screen">
+    <div className=" bg-gray-50 flex flex-col md:flex-row items-center justify-center min-h-screen ">
       {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 order-2 md:order-1">
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8">
@@ -264,18 +264,18 @@ export default function LoginComponent() {
       </div>
 
       {/* Right Side - Image */}
-      <div className="hidden lg:block lg:w-1/2 relative h-screen">
-        <div className="absolute inset-0 h-full">
-          <div className="h-full flex items-center justify-center p-8">
+      <div className="w-full md:w-1/2 md:h-screen relative order-1 md:order-2">
+        <div className="md:absolute inset-0 h-full">
+          <div className="h-full flex items-center justify-start md:justify-center md:p-8">
             <Image
               src="/login-banner/login-banner.jpg"
               alt="Sukaii Health"
               width={800}
               height={1200}
-              className="rounded-[50px] shadow-lg object-cover h-full w-full"
+              className="md:rounded-[50px] shadow-lg object-cover md:h-full w-full"
             />
           </div>
-          <div className="absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+          <div className="hidden absolute bottom-20 -left-12 ml-3 px-8 md:flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
             <div className="flex -space-x-3">
               {slide.reviewAvatars.map((avatar, i) => (
                 <div
