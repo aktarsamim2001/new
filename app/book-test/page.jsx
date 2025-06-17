@@ -34,16 +34,16 @@ const TestBookingSystem = () => {
   };
 
   const handleContinue = () => {
-    if (currentStep < 4) {
+    if (currentStep <= 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   const HeaderSection = () => (
-    <div className="__gapTop">
+    <div className="pt-[0] md:pt-[60px]">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between w-full ">
         {/* Text Section - 30%, aligned to right */}
-        <div className="w-full lg:mt-0 mt-[2rem] lg:w-[31%] flex justify-center items-center">
+        <div className="w-full md:mt-0 mt-[2rem] lg:w-[31%] flex justify-center items-center">
           <h1 className="__secondary-text text-4xl lg:text-5xl font-bold text-right">
             Book Your Test
           </h1>
@@ -62,10 +62,12 @@ const TestBookingSystem = () => {
   );
 
   const Step1 = () => (
-    <div className="rounded-lg p-6 flex items-center justify-between">
+    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between pt-[60px]">
       {/* Left Section - Increased width and margin */}
       <div className="space-y-6 lg:ml-[100px] lg:w-[40%]">
-        <h2 className="text-[30px] font-[600] mb-8">Fill in the Details</h2>
+        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+          Fill in the Details
+        </h2>
         <div className="space-y-4">
           <div className="lg:flex flex-row items-start gap-3">
             <label className="block text-[15px] lg:mb-0 mb-2 font-medium text-gray-700 lg:w-[110px]">
@@ -80,20 +82,27 @@ const TestBookingSystem = () => {
             />
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <div className="lg:flex flex-row items-start gap-3">
+            <div className="lg:flex flex-row items-start gap-3 relative ">
               <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px] mr-6 pt-2">
                 Gender
               </label>
-              <select
-                value={formData.gender}
-                onChange={(e) => handleInputChange("gender", e.target.value)}
-                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
+              <div className="relative w-full">
+                <select
+                  value={formData.gender}
+                  onChange={(e) => handleInputChange("gender", e.target.value)}
+                  className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+
+                {/* Custom arrow */}
+                <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  ▼
+                </div>
+              </div>
             </div>
             <div className="lg:flex flex-row items-start gap-3">
               <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 mr-4 ml-2 pt-2">
@@ -112,34 +121,50 @@ const TestBookingSystem = () => {
             <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
               Selected Test
             </label>
-            <select
-              value={formData.selectedTest}
-              onChange={(e) =>
-                handleInputChange("selectedTest", e.target.value)
-              }
-              className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            >
-              <option value="">Select Test</option>
-              <option value="complete-blood-count">Complete Blood Count</option>
-              <option value="lipid-profile">Lipid Profile</option>
-              <option value="diabetes-screening">Diabetes Screening</option>
-              <option value="thyroid-function">Thyroid Function Test</option>
-            </select>
+            <div className="relative w-full">
+              <select
+                value={formData.selectedTest}
+                onChange={(e) =>
+                  handleInputChange("selectedTest", e.target.value)
+                }
+                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              >
+                <option value="">Select Test</option>
+                <option value="complete-blood-count">
+                  Complete Blood Count
+                </option>
+                <option value="lipid-profile">Lipid Profile</option>
+                <option value="diabetes-screening">Diabetes Screening</option>
+                <option value="thyroid-function">Thyroid Function Test</option>
+              </select>
+
+              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                ▼
+              </div>
+            </div>
           </div>
           <div className="lg:flex flex-row items-start gap-3">
             <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
               Type of Test
             </label>
-            <select
-              value={formData.typeOfTest}
-              onChange={(e) => handleInputChange("typeOfTest", e.target.value)}
-              className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            >
-              <option value="">Select Type</option>
-              <option value="home-collection">Home Collection</option>
-              <option value="lab-visit">Lab Visit</option>
-              <option value="express">Express Service</option>
-            </select>
+            <div className="relative w-full">
+              {" "}
+              <select
+                value={formData.typeOfTest}
+                onChange={(e) =>
+                  handleInputChange("typeOfTest", e.target.value)
+                }
+                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              >
+                <option value="">Select Type</option>
+                <option value="home-collection">Home Collection</option>
+                <option value="lab-visit">Lab Visit</option>
+                <option value="express">Express Service</option>
+              </select>
+              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                ▼
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex items-center justify-center lg:justify-start mt-10 cursor-pointer">
@@ -153,7 +178,7 @@ const TestBookingSystem = () => {
         </div>
       </div>
       {/* Right Section - Image flush right */}
-      <div className="flex justify-end items-end w-[60%] absolute right-0 top-50 h-full">
+      <div className="flex justify-end items-end w-[60%] z-[-1] absolute right-0 top-50 h-full">
         <Image
           src={image}
           width={400}
@@ -166,9 +191,11 @@ const TestBookingSystem = () => {
   );
 
   const Step2 = () => (
-    <div className="rounded-lg p-6 flex items-center justify-between realtive">
+    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between realtive pt-[60px]">
       <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
-        <h2 className="text-[30px] font-[600] mb-8">Contact Details</h2>
+        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+          Contact Details
+        </h2>
 
         <div className="space-y-4">
           <div className="lg:flex flex-row items-start gap-3">
@@ -227,18 +254,23 @@ const TestBookingSystem = () => {
             <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
               Select Time Slot
             </label>
-            <select
-              value={formData.timeSlot}
-              onChange={(e) => handleInputChange("timeSlot", e.target.value)}
-              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            >
-              <option value="">Select Time</option>
-              <option value="09:00-10:00">09:00 - 10:00 AM</option>
-              <option value="10:00-11:00">10:00 - 11:00 AM</option>
-              <option value="11:00-12:00">11:00 - 12:00 PM</option>
-              <option value="12:00-13:00">12:00 - 01:00 PM</option>
-              <option value="14:00-15:00">02:00 - 03:00 PM</option>
-            </select>
+            <div className="relative md:w-[80%] w-full">
+              <select
+                value={formData.timeSlot}
+                onChange={(e) => handleInputChange("timeSlot", e.target.value)}
+                className=" appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              >
+                <option value="">Select Time</option>
+                <option value="09:00-10:00">09:00 - 10:00 AM</option>
+                <option value="10:00-11:00">10:00 - 11:00 AM</option>
+                <option value="11:00-12:00">11:00 - 12:00 PM</option>
+                <option value="12:00-13:00">12:00 - 01:00 PM</option>
+                <option value="14:00-15:00">02:00 - 03:00 PM</option>
+              </select>
+              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                ▼
+              </div>
+            </div>
           </div>
 
           <div className="lg:flex flex-row items-start gap-3">
@@ -279,9 +311,11 @@ const TestBookingSystem = () => {
   );
 
   const Step3 = () => (
-    <div className="rounded-lg p-6 flex items-center justify-between relative">
+    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
       <div className="space-y-6 lg:ml-16 md:w-[50%] w-full">
-        <h2 className="text-[30px] font-[600] mb-8">Review and Pay</h2>
+        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+          Review and Pay
+        </h2>
 
         <div className="md:space-y-6">
           {/* Booking Summary - Now properly aligned */}
@@ -345,17 +379,25 @@ const TestBookingSystem = () => {
                 Payment Mode
               </label>
             </div>
-            <select
-              value={formData.paymentMode}
-              onChange={(e) => handleInputChange("paymentMode", e.target.value)}
-              className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            >
-              <option value="">Select Payment Method</option>
-              <option value="credit-card">Credit Card</option>
-              <option value="debit-card">Debit Card</option>
-              <option value="online-banking">Online Banking</option>
-              <option value="digital-wallet">Digital Wallet</option>
-            </select>
+            <div className="relative w-full">
+              <select
+                value={formData.paymentMode}
+                onChange={(e) =>
+                  handleInputChange("paymentMode", e.target.value)
+                }
+                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+              >
+                <option value="">Select Payment Method</option>
+                <option value="credit-card">Credit Card</option>
+                <option value="debit-card">Debit Card</option>
+                <option value="online-banking">Online Banking</option>
+                <option value="digital-wallet">Digital Wallet</option>
+              </select>
+
+              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                ▼
+              </div>
+            </div>
           </div>
 
           {/* Terms and Conditions - Consistent spacing */}
@@ -420,70 +462,70 @@ const TestBookingSystem = () => {
               Congratulations!
             </h2>
           </div>
-          <h2 className="text-[28px] text-gray-700 mb-6">
+          <h2 className="text-[28px]  text-gray-700 mb-6">
             Your test is booked!
           </h2>
 
           <div className="space-y-4 text-[15px] w-full">
             <div className="flex gap-4">
-              <span className="text-gray-600">Full Name</span>
+              <span className="text-gray-600 min-w-[100px]">Full Name</span>
               <span className="font-medium">
                 {formData.fullName || "John Doe"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Gender</span>
+              <span className="text-gray-600 min-w-[100px]">Gender</span>
               <span className="font-medium">{formData.gender || "Male"}</span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Age</span>
+              <span className="text-gray-600 min-w-[100px]">Age</span>
               <span className="font-medium">{formData.age || "36"}</span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Contact</span>
+              <span className="text-gray-600 min-w-[100px]">Contact</span>
               <span className="font-medium">
                 {formData.contact || "+60 123 456 789"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Address</span>
+              <span className="text-gray-600 min-w-[100px]">Address</span>
               <span className="font-medium">
                 {formData.streetName || "3rd Street, Malaysia"} -{" "}
                 {formData.pincode || "19028"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Remarks</span>
+              <span className="text-gray-600 min-w-[100px]">Remarks</span>
               <span className="font-medium">
                 {formData.remarks || "Lorem ipsum dolor sit amet"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Selected Test</span>
+              <span className="text-gray-600 min-w-[100px]">Selected Test</span>
               <span className="font-medium">
                 {formData.selectedTest || "Complete Blood Count"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Type</span>
+              <span className="text-gray-600 min-w-[100px]">Type</span>
               <span className="font-medium">
                 {formData.typeOfTest || "Home Collection"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Date</span>
+              <span className="text-gray-600 min-w-[100px]">Date</span>
               <span className="font-medium">
                 {formData.date || "14/05/2025"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Time Slot</span>
+              <span className="text-gray-600 min-w-[100px]">Time Slot</span>
               <span className="font-medium">
                 {formData.timeSlot || "12:00 - 02:00 PM"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600">Total Paid</span>
+              <span className="text-gray-600 min-w-[100px]">Total Paid</span>
               <span className="font-medium">60 RM (Including Tax)</span>
             </div>
           </div>
@@ -542,10 +584,10 @@ const TestBookingSystem = () => {
 
   return (
     <>
-      <HeaderSection />
+      {currentStep <= 3 && <HeaderSection />}
       <div className="container mx-auto realtive">
         {/* Step content */}
-        <div className="container mx-auto __gapTop">
+        <div className="container mx-auto pt-[0] md:pt-[60px]">
           {currentStep === 1 && <Step1 />}
           {currentStep === 2 && <Step2 />}
           {currentStep === 3 && <Step3 />}
