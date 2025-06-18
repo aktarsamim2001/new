@@ -144,7 +144,7 @@ function CompleteProfileContent() {
           </div>
           <button
             type="submit"
-            className="w-[70%] __secondary-bg text-white font-semibold py-3 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+            className="w-[70%] __secondary-bg text-white font-semibold py-3 rounded-xl shadow-lg "
           >
             Continue to OTP Verification
           </button>

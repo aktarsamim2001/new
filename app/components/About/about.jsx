@@ -15,7 +15,7 @@ export const About = () => {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 md:mt-[80px] mt-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 __gapTop">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           <div className="text-left flex flex-col align-middle justify-start h-[100%] mb-10 lg:mb-0">
             <h2 className="text-2xl sm:text-3xl mb-5 lg:text-4xl xl:text-[43px] font-bold text-gray-900 leading-tight">
@@ -51,10 +51,10 @@ export const About = () => {
       </div>
 
       {/* Reports Section */}
-      <section className="md:mt-[80px] mt-12">
+      <section className="__gapTop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-left mb-8 lg:mb-16">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900">
+          <div className="text-left">
+            <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-8 lg:mb-15 md:mb-12">
               More Than Just Reports
             </h2>
           </div>
@@ -107,7 +107,7 @@ export const About = () => {
       </section>
 
       {/* Import Reports Section */}
-      <div className="md:mt-[80px] mt-12">
+      <div className="__gapTop">
         <div className="container mx-auto px-4 md:px-0">
           <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-30">
             <div className="flex items-center justify-center order-2 lg:order-1">

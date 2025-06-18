@@ -59,8 +59,8 @@ const HowProcessWorks = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 py-16 lg:py-24">
-      <div className="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden">
+    <div className="container mx-auto px-4 __gapTop">
+      <div className="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-4 sm:p-12 lg:p-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>
 
@@ -135,7 +135,7 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * step.id }}
                 viewport={{ once: true }}
-                className="bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+                className="bg-white cursor-pointer rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
               >
                 {/* Step Header with icon and smooth hover effects */}
                 <button
@@ -147,9 +147,6 @@ const HowProcessWorks = () => {
                   }`}
                 >
                   <div className="flex items-center space-x-4">
-                    {/* <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-indigo-100 to-purple-100 text-indigo-600 text-lg">
-                      {step.icon}
-                    </div> */}
                     <span className="text-lg font-semibold text-gray-800">
                       {step.id}. {step.title}
                     </span>

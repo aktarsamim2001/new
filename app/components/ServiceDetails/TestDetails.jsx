@@ -33,16 +33,16 @@ function TestDetails() {
   ];
 
   return (
-    <div className="container mx-auto mb-20">
+    <div className="container mx-auto">
       <div className="__gapTop">
         <div className=" ">
-          <div className="text-left mb-16">
-            <h2 className="text-[48px] leading-[150%] -tracking-[2%] font-[600] text-left mb-12  __text">
+          <div className="text-left">
+            <h2 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-8 md:mb-12 ">
               What This Test Measures
             </h2>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-14 h-14 flex items-center justify-center mb-2">
                 <Image src='/event-details/icon (1).png' width={30} height={40} alt="icon" />
               </div>
@@ -50,7 +50,7 @@ function TestDetails() {
                 Track your daily nutrition with smart visual recognition
               </p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
                 <Image src='/event-details/icon (2).png' width={30} height={30} alt="icon" />
               </div>
@@ -58,7 +58,7 @@ function TestDetails() {
                 Manage health data for your entire family in one place
               </p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
                 <Image src='/event-details/icon (3).png' width={30} height={30} alt="icon" />
               </div>
@@ -66,7 +66,7 @@ function TestDetails() {
                 AI-powered insights from your medical reports
               </p>
             </div>
-            <div className="bg-white p-6 rounded-xl shadow-lg">
+            <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
                 <Image src='/event-details/icon (4).png' width={30} height={30} alt="icon" />
               </div>
@@ -77,8 +77,8 @@ function TestDetails() {
           </div>
         </div>
       </div>
-      <div className="__gapTop mb-20">
-        <h1 className="text-[48px] leading-[150%] -tracking-[2%] font-[600] text-left mb-12  __text">
+      <div className="__gapTop">
+        <h1 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-8 md:mb-12 ">
           Why You Should Take It
         </h1>
         {/* Package Grid */}
@@ -107,7 +107,7 @@ function TestDetails() {
           ))}
         </div>
       </div>
-      <div className="__primary-bg rounded-3xl p-8 md:p-12 relative overflow-hidden pt-[60px]">
+      <div className="__primary-bg rounded-3xl p-8 md:p-12 relative overflow-hidden mt-[80px]">
         <div className="grid md:grid-cols-2 gap-6 items-center relative z-10">
             <div>
               <h3 className="text-3xl font-bold text-white mb-3">

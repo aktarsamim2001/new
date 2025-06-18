@@ -69,8 +69,21 @@ h6 {
 }
 
 .__gapTop {
-  padding-top: 60px;
+  padding-top: 40px; /* default for small screens */
+
+  @media (min-width: 768px) {
+    padding-top: 60px; /* md screens */
+  }
+
+  @media (min-width: 1024px) {
+    padding-top: 80px; /* lg screens */
+  }
+
+  @media (min-width: 1280px) {
+    padding-top: 100px; /* xl screens */
+  }
 }
+
 .__cardShadow {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }

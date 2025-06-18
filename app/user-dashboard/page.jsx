@@ -199,130 +199,198 @@ const UserDashboard = () => {
     </div>
   );
 
-  const TestsSection = () => (
-    <div className="px-4 md:px-22 space-y-6">
-      {/* Upcoming Bookings */}
-      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-        <div className="bg-teal-500 text-white px-4 md:px-6 py-3">
-          <h3 className="font-semibold">Upcoming Bookings</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="  w-full text-xs md:text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Test Name
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Date & Time
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Location
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Status
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="">
-              {upcomingBookings.map((booking) => (
-                <tr key={booking.id}>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {booking.testName}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {booking.dateTime}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {booking.location}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        booking.status === "Confirmed"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    <div className="flex flex-col flex-1 gap-1">
-                      <button className="text-gray-900 text-left">
-                        <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
-                        Add a New Test
-                      </button>
-                      <button className="text-gray-900 text-left">
-                        <CircleX className="inline w-3.5 h-3.5 mr-1" />
-                        Cancel Booking
-                      </button>
-                      <button className="text-gray-900 text-left">
-                        <Wrench className="inline w-3.5 h-3.5 mr-1" />
-                        Reschedule
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+const TestsSection = () => (
+  <div className="px-4 md:px-22 space-y-6">
+    {/* Upcoming Bookings */}
+    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+      <div className="__primary-bg text-white px-4 md:px-6 py-3">
+        <h3 className="font-semibold">Upcoming Bookings</h3>
       </div>
-
-      {/* Past Bookings */}
-      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-        <div className="bg-teal-500 text-white px-4 md:px-6 py-3">
-          <h3 className="font-semibold">Past Bookings</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-xs md:text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Test Name
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Date Completed
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Status
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Report
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Actions
-                </th>
+      <div className="overflow-x-auto w-full">
+        <table className="w-full text-xs md:text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr className="">
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Test Name
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Date & Time
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Location
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Status
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="">
+            {upcomingBookings.map((booking) => (
+              <tr key={booking.id} >
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {booking.testName}
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {booking.dateTime}
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {booking.location}
+                </td>
+                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full ${
+                      booking.status === "Confirmed"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {booking.status}
+                  </span>
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
+                  <div className="flex flex-col gap-1">
+                    <button className="text-gray-900 text-left flex items-center gap-1">
+                      <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
+                      Add a New Test
+                    </button>
+                    <button className="text-gray-900 text-left">
+                      <CircleX className="inline w-3.5 h-3.5 mr-1" />
+                      Cancel Booking
+                    </button>
+                    <button className="text-gray-900 text-left">
+                      <Wrench className="inline w-3.5 h-3.5 mr-1" />
+                      Reschedule
+                    </button>
+                  </div>
+                </td>
               </tr>
-            </thead>
-            <tbody className="">
-              {pastBookings.map((booking) => (
-                <tr key={booking.id}>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {booking.testName}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {booking.dateCompleted}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                      {booking.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    <span className="flex items-center gap-2">
-                      <span className="flex items-center justify-center w-4 h-4">
-                        <FolderOpen className="w-4 h-4" />
-                      </span>
-                      Ready
-                    </span>
-                  </td>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-                  <td className="px-6 py-4 text-sm">
+    {/* Past Bookings */}
+    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+      <div className="__primary-bg text-white px-4 md:px-6 py-3">
+        <h3 className="font-semibold">Past Bookings</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="w-full text-xs md:text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Test Name
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Date Completed
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Status
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Report
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="">
+            {pastBookings.map((booking) => (
+              <tr key={booking.id}>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {booking.testName}
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {booking.dateCompleted}
+                </td>
+                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                  <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                    {booking.status}
+                  </span>
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  <span className="flex items-center gap-2">
+                    <span className="flex items-center justify-center w-4 h-4">
+                      <FolderOpen className="w-4 h-4" />
+                    </span>
+                    Ready
+                  </span>
+                </td>
+
+                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
+                  <div className="flex flex-col gap-1">
+                    <button className="text-gray-900 text-left flex items-center gap-1">
+                      <Eye className="w-3 h-3" />
+                      View Report
+                    </button>
+                    <button className="text-gray-900 text-left flex items-center gap-1">
+                      <Download className="w-3 h-3" />
+                      Download
+                    </button>
+                    <button className="text-gray-900 text-left">
+                      Book Again
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+);
+const ReportsSection = () => (
+  <div className="px-4 md:px-22 container mx-auto">
+    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+      <div className="__primary-bg text-white px-4 md:px-6 py-3">
+        <h3 className="font-semibold">Your Reports</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="min-w-[600px] w-full text-xs md:text-sm">
+          <thead className="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Test Name
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Date Taken
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Report Status
+              </th>
+              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                Actions
+              </th>
+            </tr>
+          </thead>
+          <tbody className="">
+            {reports.map((report) => (
+              <tr key={report.id}>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {report.testName}
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                  {report.dateTaken}
+                </td>
+                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                  <span
+                    className={`px-2 py-1 text-xs rounded-full ${
+                      report.status === "Ready"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-yellow-100 text-yellow-800"
+                    }`}
+                  >
+                    {report.status}
+                  </span>
+                </td>
+                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
+                  {report.status === "Ready" ? (
                     <div className="flex flex-col gap-1">
                       <button className="text-gray-900 text-left flex items-center gap-1">
                         <Eye className="w-3 h-3" />
@@ -332,94 +400,25 @@ const UserDashboard = () => {
                         <Download className="w-3 h-3" />
                         Download
                       </button>
-                      <button className="text-gray-900 text-left">
-                        Book Again
-                      </button>
                     </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  );
-
-  const ReportsSection = () => (
-    <div className="px-4 md:px-22 container mx-auto">
-      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-        <div className="__primary-bg text-white px-4 md:px-6 py-3">
-          <h3 className="font-semibold">Your Reports</h3>
-        </div>
-        <div className="overflow-x-auto">
-          <table className="min-w-[600px] w-full text-xs md:text-sm">
-            <thead className="bg-gray-50 border-b border-gray-200">
-              <tr>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Test Name
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Date Taken
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Report Status
-                </th>
-                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                  Actions
-                </th>
+                  ) : (
+                    <span className="text-gray-900">-</span>
+                  )}
+                </td>
               </tr>
-            </thead>
-            <tbody className="">
-              {reports.map((report) => (
-                <tr key={report.id}>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {report.testName}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-900">
-                    {report.dateTaken}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 py-1 text-xs rounded-full ${
-                        report.status === "Ready"
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
-                    >
-                      {report.status}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm">
-                    {report.status === "Ready" ? (
-                      <div className="flex flex-col gap-1">
-                        <button className="text-gray-900 text-left flex items-center gap-1">
-                          <Eye className="w-3 h-3" />
-                          View Report
-                        </button>
-                        <button className="text-gray-900 text-left flex items-center gap-1">
-                          <Download className="w-3 h-3" />
-                          Download
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-gray-900">-</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <div className="px-6 py-3">
-          <button className="cursor-pointer __secondary-bg hover:bg-pink-600 text-white px-4 py-2 rounded-lg text-sm flex items-center gap-2">
-            <Upload className="w-4 h-4" />
-            Upload External Report
-          </button>
-        </div>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="px-6 py-3">
+        <button className="cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 ">
+          <Upload className="w-4 h-4" />
+          Upload External Report
+        </button>
       </div>
     </div>
-  );
+  </div>
+);
 
   const SmartHealthSection = () => (
     <div className="px-22">
@@ -488,7 +487,7 @@ const UserDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen md:p-4">
+    <div className="min-h-screen md:p-x4 __gapTop" >
       <div className="container mx-auto">
         {/* Header */}
         <div className=" rounded-lg px-6">
@@ -514,7 +513,7 @@ const UserDashboard = () => {
           </div>
 
           {/* Tab Navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:px-17 mt-[60px]">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:px-17 __gapTop">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -553,7 +552,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="transition-all duration-300 mt-[60px]">
+        <div className="transition-all duration-300 __gapTop">
           {activeTab === "profile" && <ProfileSection />}
           {activeTab === "tests" && <TestsSection />}
           {activeTab === "reports" && <ReportsSection />}

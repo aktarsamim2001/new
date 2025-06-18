@@ -47,9 +47,9 @@ const RecommendedPackages = () => {
   ];
 
   return (
-    <div className="container mx-auto px-4 lg:px-4 mt-[3.5rem]">
+    <div className="container mx-auto px-4 lg:px-0 __gapTop">
       {/* Header */}
-      <h1 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 lg:mb-15 md:mb-12 __secondary-text">
+      <h1 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 md:mb-12 __secondary-text">
         Recommended Packages
       </h1>
 
@@ -115,8 +115,8 @@ const RecommendedPackages = () => {
               <Image
                 src={image5}
                 alt="Woman talking on phone"
-                width={850}
-                height={800}
+                width={350}
+                height={300}
                 className="object-cover h-full w-auto max-w-full"
                 priority
               />
@@ -153,8 +153,8 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="md:px-12">
-        <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative mt-8 sm:mt-10 lg:mt-12">
+      <div className="md:px-12 __gapTop">
+        <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
               <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">

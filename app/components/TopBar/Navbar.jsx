@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Menu } from "lucide-react";
+import { Search, Menu, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -12,13 +12,14 @@ export default function Navbar() {
   const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
   const inputRef = useRef(null);
   const pathname = usePathname();
+  const [searchQuery, setSearchQuery] = useState('');
 
-  const toggleSearch = () => {
-    setExpanded((prev) => !prev);
-    setTimeout(() => {
-      if (!expanded) inputRef.current?.focus();
-    }, 100);
-  };
+  // const toggleSearch = () => {
+  //   setExpanded((prev) => !prev);
+  //   setTimeout(() => {
+  //     if (!expanded) inputRef.current?.focus();
+  //   }, 100);
+  // };
 
   const handleDesktopSearch = () => {
     setDesktopSearchOpen((prev) => !prev);
@@ -27,16 +28,51 @@ export default function Navbar() {
     }, 100);
   };
 
+   const toggleSearch = () => {
+    setExpanded(!expanded);
+    if (!expanded) {
+      // Focus input when opening
+      setTimeout(() => inputRef.current?.focus(), 100);
+    } else {
+      // Clear search when closing
+      setSearchQuery('');
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchQuery.trim()) {
+      console.log('Searching for:', searchQuery);
+      // Add your search logic here
+    }
+  };
+
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+    if (e.key === 'Escape') {
+      toggleSearch();
+    }
+  };
+
+  // Close on outside click
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      toggleSearch();
+    }
+  };
+
   return (
-    <nav className="container mx-auto py-6">
+    <nav className="container mx-auto pt-4 md:pt-6 px-4">
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
           <Link href="/">
-            <span>
+            <span className="block w-30 md:w-38">
               <Image
                 src="/sukaii-logo.png"
                 alt="Sukai Logo"
+                layout="responsive"
                 width={150}
                 height={50}
               />
@@ -125,7 +161,7 @@ export default function Navbar() {
               type="button"
               style={{ display: desktopSearchOpen ? "none" : "flex" }}
             >
-              Search
+              <h3>Search</h3>
               <Search className="ml-3 w-[18px] h-[18px]" />
             </button>
             <div
@@ -264,22 +300,90 @@ export default function Navbar() {
 
       {/* Mobile Search Drawer */}
       {expanded && (
-        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center">
-          <div className="bg-white rounded-xl shadow-lg p-4 w-11/12 max-w-md flex items-center gap-2 mx-auto my-auto">
-            <input
-              ref={inputRef}
-              type="text"
-              placeholder="Search"
-              className="pl-3 pr-10 py-3 text-sm w-full focus:outline-none border border-gray-300 rounded"
-            />
-            <button
-              className="bg-[#00B8C1] hover:bg-[#009ba3] px-5 py-3 rounded text-white"
-              onClick={toggleSearch}
-            >
-              <Search className="h-5 w-5" />
-            </button>
+        <div
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-start justify-center pt-20 px-4"
+          onClick={handleBackdropClick}
+        >
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl mx-auto transform transition-all duration-300 ease-out">
+            {/* Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-100">
+              <h3 className="text-lg font-semibold text-gray-900">Search</h3>
+              <button
+                onClick={toggleSearch}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors duration-200"
+              >
+                <X className="h-5 w-5 text-gray-500" />
+              </button>
+            </div>
+
+            {/* Search Input */}
+            <div className="p-6">
+              <div className="relative">
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Type to search..."
+                  className="w-full pl-12 pr-20 py-4 text-lg border-2 border-[#ec098d] rounded-xl"
+                />
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-6 w-6 text-gray-400" />
+                <button
+                  onClick={handleSearch}
+                  disabled={!searchQuery.trim()}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 __secondary-bg disabled:cursor-not-allowed px-6 py-2 rounded-lg text-white font-medium transition-all duration-200"
+                >
+                  Search
+                </button>
+              </div>
+            </div>
+
+            {/* Search Results/Suggestions Area */}
+            <div className="px-6 pb-6">
+              {searchQuery ? (
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <p className="text-sm text-gray-600 mb-3">
+                    Searching for: "{searchQuery}"
+                  </p>
+                  <div className="space-y-2">
+                    {/* Mock search results */}
+                    {["Result 1", "Result 2", "Result 3"].map(
+                      (result, index) => (
+                        <div
+                          key={index}
+                          className="p-3 bg-white rounded-lg hover:bg-gray-100 cursor-pointer transition-colors duration-200"
+                        >
+                          <p className="font-medium text-gray-900">
+                            {result} for "{searchQuery}"
+                          </p>
+                          <p className="text-sm text-gray-500 mt-1">
+                            Sample description for this search result...
+                          </p>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500">Start typing to search...</p>
+                  <div className="flex flex-wrap gap-2 justify-center mt-4">
+                    {["Popular", "Recent", "Trending"].map((tag) => (
+                      <button
+                        key={tag}
+                        onClick={() => setSearchQuery(tag.toLowerCase())}
+                        className="px-3 py-1 bg-gray-100 hover:bg-gray-200 rounded-full text-sm text-gray-600 transition-colors duration-200"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
-          <div className="flex-1" onClick={toggleSearch} />
         </div>
       )}
     </nav>
