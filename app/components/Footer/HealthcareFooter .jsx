@@ -21,14 +21,14 @@ const HealthcareFooter = () => {
 
   const resourceLinks = [
     { label: "Privacy Policy", href: "/privacy-policy" },
-    { label: "Terms & Conditions", href: "/terms" },
+    { label: "Terms & Conditions", href: "/terms-condition" },
     { label: "FAQ", href: "/faq" },
     { label: "Enquiry and Support", href: "/enquiry-form" },
   ];
 
   return (
-    <footer className="relative mt-20">
-      <div className="absolute left-0 bottom-[-25px]">
+    <footer className="relative">
+      <div className="absolute left-0 bottom-[-25px] z-[-1]">
         <Image
           src={ovalSmall}
           alt="Decorative texture"
@@ -38,7 +38,7 @@ const HealthcareFooter = () => {
         />
       </div>
 
-      <div className="absolute left-0 bottom-[-25px]">
+      <div className="absolute left-0 bottom-[-25px] z-[-1]">
         <Image
           src={ovalLarge}
           alt="Decorative texture"
@@ -50,14 +50,19 @@ const HealthcareFooter = () => {
       <div className="container mx-auto px-4 __gapTop ">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-6">
           {/* Logo and Description */}
-          <div className="space-y-6 lg:col-span-1">
-            <div className="flex items-center space-x-2">
-              <Image
-                src="/sukaii-logo.png"
-                alt="Sukali Health Logo"
-                width={150}
-                height={50}
-              />
+          <div className="space-y-6">
+            <div className="flex items-center space-x-2 justify-start">
+              <Link href="/">
+                <span className="block w-30 md:w-38">
+                  <Image
+                    src="/sukaii-logo.png"
+                    alt="Sukai Logo"
+                    layout="responsive"
+                    width={150}
+                    height={50}
+                  />
+                </span>
+              </Link>
             </div>
 
             <p className="text-gray-500 font-[400] text-[16px] leading-[145%] max-w-sm">
@@ -72,12 +77,12 @@ const HealthcareFooter = () => {
             <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
               COMPANY
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-3 cursor-pointer">
               {companyLinks.map((link, index) => (
-                <li key={index}>
+                <li key={index} className="cursor-pointer">
                   <Link
                     href={link.href}
-                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                    className="__paragraph cursor-pointer hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
                   >
                     {link.label}
                   </Link>

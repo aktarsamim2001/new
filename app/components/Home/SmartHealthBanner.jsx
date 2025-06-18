@@ -364,7 +364,7 @@ const SmartHealthBanner = () => {
               </div>
               {/* TRUST FEATURES - Responsive */}
               <div className="__primary-bg px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 rounded-2xl lg:rounded-3xl overflow-hidden relative z-20">
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white items-start">
                   {trustFeatures.map((feature, index) => (
                     <div
                       key={index}
@@ -379,7 +379,7 @@ const SmartHealthBanner = () => {
                           className="sm:w-[50px] sm:h-[50px]"
                         />
                       </div>
-                      <div className="font-[400] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left">
+                      <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
                         {feature.title}
                       </div>
                     </div>

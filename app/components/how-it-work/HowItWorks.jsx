@@ -1,3 +1,5 @@
+import { MoveRight } from 'lucide-react';
+import Link from 'next/link';
 import React from 'react';
 
 export const HowItWorks = () => {
@@ -5,56 +7,66 @@ export const HowItWorks = () => {
     {
       number: "01",
       title: "Book Tests Online, Anytime",
-      description: "No queues, No calls. Just a few clicks, book a test and get results within 24 hours and also consult to our doctors anytime anywhere you want.",
-      note: "* Book for yourself or family",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop",
+      description: "No queues. No calls. Just a few clicks. Search and book lab tests or health packages from home.",
+      note1: "Choose from a wide range of tests",
+      note2: "Transparent pricing",
+      note3: "Book for yourself or family",
+      image: "/how-it-work/image (1).jpg",
       alt: "Person using laptop for online booking"
     },
     {
       number: "02",
       title: "One-of-a-kind health experience",
-      description: "Get a full comprehensive health check-up at the comfort of your home with experienced professionals and advanced technology.",
-      note: "* Support 24/7 care",
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=600&h=400&fit=crop",
+      description: "Not just a booking site—it's your digital health home.",
+      note1: "Built for individuals & families",
+      note2: "Location-smart suggestions",
+      note3: " Support that cares",
+      image: "/how-it-work/image (2).jpg",
       alt: "Healthcare professional in lab"
     },
     {
       number: "03",
-      title: "Home Sample Collection",
-      description: "Our certified professionals will visit your home to collect samples safely and hygienically at your convenience.",
-      note: "* Safe and hygienic collection",
-      image: "https://images.unsplash.com/photo-1576671081837-49000212a370?w=600&h=400&fit=crop",
+      title: "Tests, packages, or answers—right at your fingertips",
+      description: "Search and compare based on what you need.",
+      note1: "Smart filters by symptom or type",
+      note2: "Nearest available lab slots",
+      note3: " Curated health packages",
+      image: "/how-it-work/image (3).jpg",
       alt: "Healthcare professional collecting samples"
     },
     {
       number: "04",
-      title: "Advanced Lab Processing",
-      description: "Your samples are processed in our state-of-the-art laboratories using cutting-edge technology and quality standards.",
-      note: "* NABL certified labs",
-      image: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=600&h=400&fit=crop",
+      title: "Get Tested, Hassle-Free",
+      description: "Choose a lab visit or home sample collection.",
+      note1: "Timely appointment updates",
+      note2: "Certified lab partners",
+      note3: "Hygienic, quality-tested processes",
+      image: "/how-it-work/image (4).jpg",
       alt: "Advanced laboratory equipment"
     },
     {
       number: "05",
-      title: "Tests, packages, or answers—right at your fingertips",
-      description: "From basic health screenings to comprehensive packages, find exactly what you need with instant access to results and expert guidance.",
-      note: "* Receive detailed test results",
-      image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=400&fit=crop",
+      title: "Your health. Visualized clearly",
+      description: "Monitor everything in one place after your test.",
+     note1: "Visual trend reports",
+      note2: "Add and manage family profiles",
+      note3: "Secure access anytime",
+      image: "/how-it-work/image (5).jpg",
       alt: "Healthcare professionals reviewing results"
     }
   ];
 
   return (
-    <div className='bg-[#FCD3EA] md:mt-[80px]'>
-      <section className="container mx-auto">
+    <div className=' __gapTop'>
+      <section className=" bg-[#FCD3EA]">
         {steps.map((step, index) => (
           <div 
             key={step.number}
-            className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10 xl:gap-14 items-center mb-6 lg:mb-10"
+            className="grid grid-cols-1 lg:grid-cols-2 mb-4 md:mb-8 items-center container mx-auto"
           >
             {/* Text Content - Always left */}
-            <div className="space-y-4 sm:space-y-6 px-4 text-left">
-              <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-4 px-4 md:px-0 text-left ">
+              <div className="space-y-1">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">
                   {step.number}.
                 </h1>
@@ -75,10 +87,27 @@ export const HowItWorks = () => {
                 <p className="text-sm md:text-lg text-gray-600 leading-relaxed md:max-w-lg ">
                   {step.description}
                 </p>
-                <p className="text-xs sm:text-sm text-gray-500 italic">
-                  {step.note}
+                <p className="text-xs sm:text-sm text-gray-500 italic flex items-center gap-1">
+                  <MoveRight size={15} />{step.note1}
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 italic flex items-center gap-1">
+                  <MoveRight size={15} />{step.note2}
+                </p>
+                <p className="text-xs sm:text-sm text-gray-500 italic flex items-center gap-1">
+                  <MoveRight size={15} />{step.note3}
                 </p>
               </div>
+              
+              {/* Show button only for the last step (05) */}
+              {step.number === "05" && (
+                <div className="pt-1">
+                  <button className="cursor-pointer __secondary-bg text-white px-8 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
+                    <Link href="/sign-up" className="text-white">
+                      Find Out More 
+                    </Link>
+                  </button>
+                </div>
+              )}
             </div>
 
             {/* Image Content - Always right */}

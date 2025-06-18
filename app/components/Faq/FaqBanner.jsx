@@ -10,7 +10,7 @@ function FaqBanner() {
     
             {/* Image Section */}
             <div className="flex justify-center items-center">
-              <div className="relative w-full h-[200px] md:h-[287px] rounded-[30px] overflow-hidden shadow-lg">
+              <div className="relative w-full h-[200px] md:h-[287px] md:rounded-[30px] overflow-hidden shadow-lg">
                 <Image
                   src={image}
                   alt="Services Banner"

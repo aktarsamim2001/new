@@ -1,4 +1,5 @@
 "use client";
+
 import { Rubik, Lato } from "next/font/google";
 import "./globals.css";
 import Header from "./components/TopBar/Header";

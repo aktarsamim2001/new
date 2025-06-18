@@ -7,7 +7,7 @@ function AboutBanner() {
   return (
     <div>
       {" "}
-      <div className="container mx-auto md:mt-[60px]">
+      <div className="container mx-auto __gapTop">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start">
           {/* Image Section */}
           <div className="flex justify-center items-center">

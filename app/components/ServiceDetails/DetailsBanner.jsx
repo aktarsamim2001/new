@@ -23,7 +23,7 @@ function DetailsBanner() {
             </div>
     
             {/* Text Section */}
-            <div className="p-4 text-left max-w-lg">
+            <div className="p-x4 text-left max-w-lg">
               <h1 className="text-4xl font-bold __secondry-text">
                 Complete Blood Count Test (CBC)
               </h1>
