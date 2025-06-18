@@ -1,14 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, Calendar, X, Plus, Star,Eye } from "lucide-react";
+import { ChevronDown, Calendar, X, Plus, Star, Eye } from "lucide-react";
 import Image from "next/image";
 import { GoArrowUpRight } from "react-icons/go";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import image from "../assets/woman/shape.png";
 
 export default function AddReportManually() {
-    const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState(null);
   const [formData, setFormData] = useState({
     testName: "",
     dateOfReport: "",
@@ -99,32 +99,31 @@ export default function AddReportManually() {
     setDropdownOpen((prev) => ({ ...prev, [field]: false }));
   };
 
-    const handleContinue = () => {
+  const handleContinue = () => {
     if (currentStep < 4) {
       setCurrentStep(currentStep + 1);
     }
   };
 
   return (
-    <div className="container mx-auto p-5">
+    <div className="container mx-auto md:p-4">
       {/* Banner and Title always on top */}
-      <div className="flex item-center justify-center relative">
-        <div className="h-full w-full rounded-2xl">
-          <Image
-            src="/reports-upload/report-banner.jpg"
-            alt="People Consulting"
-            width={600}
-            height={150}
-            className="rounded-2xl h-[250px] object-cover"
-          />
-        </div>
-        <div className="flex items-center justify-center absolute bottom-14 left-4/9">
-          <h1 className="text-[45px] font-[600] ">
-            Upload Report<span className="block">Manually</span>
-          </h1>
-        </div>
+      <div className="flex gap-4 md:flex-row flex-col item-center justify-start md:items-center md:gap-20">
+        <Image
+          src="/reports-upload/report-banner.jpg"
+          alt="People Consulting"
+          width={600}
+          height={150}
+          className="md:rounded-2xl h-[250px] object-cover"
+        />
+
+        <h1 className="px-4 md:px-0 text-[28px] leading-[1] md:leading-[1.5] md:text-[45px] font-[600] ">
+          Upload Report<span className="ml-2 md:ml-0 md:block">Manually</span>
+        </h1>
       </div>
+
       {/* Success Modal Section */}
+
       {reportAdded && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div
@@ -132,7 +131,7 @@ export default function AddReportManually() {
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="relative pb-8 z-10">
+            <div className="relative md:pb-8 z-10">
               <button
                 onClick={() => setReportAdded(false)}
                 className="absolute bg-gray-200 cursor-pointer rounded-full p-1.5 top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors z-20"
@@ -141,9 +140,10 @@ export default function AddReportManually() {
                 <X size={24} />
               </button>
             </div>
+
             {/* Content Area */}
-            <div className="px-6 pb-6 flex items-center justify-center gap-14 flex-col md:flex-row">
-              <div className="w-full px-5">
+            <div className="md:px-6 md:pb-6 flex flex-col-reverse items-center justify-center gap-8 md:gap-14 md:flex-row">
+              <div className="w-full px-[10px] md:px-5">
                 <div className="flex items-center mb-8">
                   <Image
                     src="/sukaii-logo.png"
@@ -232,27 +232,21 @@ export default function AddReportManually() {
                     </div>
                   </div>
                 </div>
-                <div className="flex justify-center mt-4">
-                  <button
-                    onClick={() => setReportAdded(false)}
-                    className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-colors"
-                  >
-                    Close
-                  </button>
-                </div>
               </div>
-              <div className="w-full relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
+
+              <div className="w-full relative h-[200px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
                 <div className="absolute inset-0 h-full">
-                  <div className="h-full flex items-center justify-center p-8">
+                  <div className="h-full flex items-center justify-center md:p-8">
                     <Image
                       src="/login-banner/login-banner.jpg"
                       alt="Sukaii Health"
                       width={800}
                       height={1200}
-                      className="rounded-[50px] shadow-lg object-cover h-full w-full"
+                      className="md:rounded-[50px] md:shadow-lg object-cover h-full w-full"
                     />
                   </div>
-                  <div className="absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+
+                  <div className="hidden md:block absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
                     <div className="flex -space-x-3">
                       {slide.reviewAvatars.map((avatar, i) => (
                         <div
@@ -291,6 +285,7 @@ export default function AddReportManually() {
                       </div>
                     </div>
                   </div>
+
                 </div>
               </div>
             </div>
@@ -299,10 +294,10 @@ export default function AddReportManually() {
       )}
       {/* Main Form Section */}
       {!reportAdded && (
-        <div className="max-w-7xl mx-auto __gapTop">
+        <div className="max-w-7xl mx-auto pt-10 md:pt-[60px] md:p-0 p-4">
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-pink-600 mb-2">
+            <h1 className="text-[24px] md:text-3xl font-bold text-pink-600 md:mb-2 mb-1">
               Add Report Manually
             </h1>
             <p className="text-gray-600">
@@ -312,174 +307,229 @@ export default function AddReportManually() {
           </div>
 
           <div className="rounded-lg flex items-center justify-between">
-                {/* Left Section - Increased width and margin */}
-                <div className="space-y-6 w-[50%]">
-                  <h2 className="text-[30px] font-[600] mb-6">Basic Report Details</h2>
-                  <div className="space-y-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Test Name
-                      </label>
-                      <input
-                        type="text"
-                        name="fullName"
-                        value={formData.fullName}
-                        onChange={(e) => handleInputChange("fullName", e.target.value)}
-                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                      />
-                    </div>
-                    <div className="grid gap-4">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Date of Report
-                        </label>
-                        <select
-                          value={formData.gender}
-                          onChange={(e) => handleInputChange("gender", e.target.value)}
-                          className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                        >
-                          <option value="">Select Gender</option>
-                          <option value="male">Male</option>
-                          <option value="female">Female</option>
-                          <option value="other">Other</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Lab Name
-                      </label>
-                      <select
-                        value={formData.labName}
-                        onChange={(e) =>
-                          handleInputChange("labName", e.target.value)
-                        }
-                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                      >
-                        <option value="">Select Lab</option>
-                        <option value="lab1">Lab 1</option>
-                        <option value="lipid-profile">Lipid Profile</option>
-                        <option value="diabetes-screening">Diabetes Screening</option>
-                        <option value="thyroid-function">Thyroid Function Test</option>
-                      </select>
-                    </div>
-                  </div>
-                  {/* Add Test Parameters */}
-            <div className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">
-                Add Test Parameters
+            {/* Left Section - Increased width and margin */}
+            <div className="space-y-6 md:w-[50%]">
+              <h2 className="text-[30px] font-[600] mb-6">
+                Basic Report Details
               </h2>
-              
-              {/* Parameters Header */}
-              <div className="grid grid-cols-12 gap-4 mb-4 text-sm font-medium text-gray-600">
-                <div className="col-span-3">Parameter Name</div>
-                <div className="col-span-2">Value</div>
-                <div className="col-span-2">Unit</div>
-                <div className="col-span-4">Normal Range</div>
-                <div className="col-span-1"></div>
-              </div>
-
-              {/* Parameters List */}
-              <div className="space-y-3">
-                {formData.parameters.map((param, index) => (
-                  <div key={index} className="grid grid-cols-12 gap-4 items-center">
-                    <div className="col-span-3">
-                      <input
-                        type="text"
-                        value={param.name}
-                        onChange={(e) => handleParameterChange(index, 'name', e.target.value)}
-                        placeholder="Parameter name"
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <input
-                        type="text"
-                        value={param.value}
-                        onChange={(e) => handleParameterChange(index, 'value', e.target.value)}
-                        placeholder="Value"
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      />
-                    </div>
-                    <div className="col-span-2">
-                      <select
-                        value={param.unit}
-                        onChange={(e) => handleParameterChange(index, 'unit', e.target.value)}
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      >
-                        {unitOptions.map((unit, unitIndex) => (
-                          <option key={unitIndex} value={unit}>{unit}</option>
-                        ))}
-                      </select>
-                    </div>
-                    <div className="col-span-4">
-                      <input
-                        type="text"
-                        value={param.normalRange}
-                        onChange={(e) => handleParameterChange(index, 'normalRange', e.target.value)}
-                        placeholder="Normal range"
-                        className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                      />
-                    </div>
-                    <div className="col-span-1">
-                      {formData.parameters.length > 1 && (
-                        <button
-                          onClick={() => removeParameter(index)}
-                          className="p-1 text-gray-400 hover:text-red-500 transition-colors"
-                        >
-                          <X className="w-4 h-4" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Add Another Parameter Button */}
-              <button
-                onClick={addParameter}
-                className="flex items-center gap-2 mt-4 text-pink-500 hover:text-pink-600 font-medium transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-                Add Another Parameter
-              </button>
-            </div>
-
-            {/* Remarks */}
-            <div className="mb-8">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Remarks
-              </label>
-              <textarea
-                value={formData.remarks}
-                onChange={(e) => handleInputChange('remarks', e.target.value)}
-                placeholder="Add any additional notes or remarks..."
-                rows={4}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none"
-              />
-            </div>
-
-            {/* Save Button */}
-            <div className="text-left">
-              <button
-                onClick={handleSave}
-                className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl shadow-lg"
-              >
-                Save Report
-              </button>
-            </div>
-                </div>
-                {/* Right Section - Image flush right */}
-                <div className="flex justify-end items-end w-[40%] absolute right-0 top-30 h-full">
-                  <Image
-                    src={image}
-                    width={400}
-                    height={300}
-                    alt="Sukaii Logo"
-                    className="object-cover rounded-lg"
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Test Name
+                  </label>
+                  <input
+                    type="text"
+                    name="fullName"
+                    placeholder="Enter Test Name"
+                    value={formData.fullName}
+                    onChange={(e) =>
+                      handleInputChange("fullName", e.target.value)
+                    }
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   />
                 </div>
+                <div className="grid gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Date of Report
+                    </label>
+                    <div className="relative w-full">
+                      {" "}
+                      <select
+                        value={formData.gender}
+                        onChange={(e) =>
+                          handleInputChange("gender", e.target.value)
+                        }
+                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all appearance-none"
+                      >
+                        <option value="">Select Gender</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        ▼
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Lab Name
+                  </label>
+                  <div className="relative">
+                    <select
+                      value={formData.labName}
+                      onChange={(e) =>
+                        handleInputChange("labName", e.target.value)
+                      }
+                      className="w-full p-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all appearance-none"
+                    >
+                      <option value="">Select Lab</option>
+                      <option value="lab1">Lab 1</option>
+                      <option value="lipid-profile">Lipid Profile</option>
+                      <option value="diabetes-screening">
+                        Diabetes Screening
+                      </option>
+                      <option value="thyroid-function">
+                        Thyroid Function Test
+                      </option>
+                    </select>
+
+                    <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                      ▼
+                    </span>
+                  </div>
+                </div>
               </div>
+              {/* Add Test Parameters */}
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold text-gray-800 mb-6">
+                  Add Test Parameters
+                </h2>
+
+                <div className="overflow-x-auto w-[93vw] md:w-full">
+                  <table className="w-[600px] md:w-full text-sm text-left text-gray-700 border border-gray-200">
+                    <thead className="text-xs text-gray-600 uppercase bg-gray-100">
+                      <tr>
+                        <th className="px-3 py-2 w-1/4">Parameter Name</th>
+                        <th className="px-3 py-2 w-1/4">Value</th>
+                        <th className="px-3 py-2 w-1/5">Unit</th>
+                        <th className="px-3 py-2 w-1/4">Normal Range</th>
+                        <th className="px-3 py-2 w-12">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {formData.parameters.map((param, index) => (
+                        <tr key={index}>
+                          <td className="px-3 py-2">
+                            <input
+                              type="text"
+                              value={param.name}
+                              onChange={(e) =>
+                                handleParameterChange(
+                                  index,
+                                  "name",
+                                  e.target.value,
+                                )
+                              }
+                              placeholder="Parameter name"
+                              className="w-full px-2 py-1 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <input
+                              type="text"
+                              value={param.value}
+                              onChange={(e) =>
+                                handleParameterChange(
+                                  index,
+                                  "value",
+                                  e.target.value,
+                                )
+                              }
+                              placeholder="Value"
+                              className="w-full px-2 py-1 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            />
+                          </td>
+                          <td className="px-3 py-2">
+                            <select
+                              value={param.unit}
+                              onChange={(e) =>
+                                handleParameterChange(
+                                  index,
+                                  "unit",
+                                  e.target.value,
+                                )
+                              }
+                              className="w-full px-2 py-1 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            >
+                              {unitOptions.map((unit, unitIndex) => (
+                                <option key={unitIndex} value={unit}>
+                                  {unit}
+                                </option>
+                              ))}
+                            </select>
+                          </td>
+                          <td className="px-3 py-2">
+                            <input
+                              type="text"
+                              value={param.normalRange}
+                              onChange={(e) =>
+                                handleParameterChange(
+                                  index,
+                                  "normalRange",
+                                  e.target.value,
+                                )
+                              }
+                              placeholder="Normal range"
+                              className="w-full px-2 py-1 bg-gray-50 border border-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500"
+                            />
+                          </td>
+                          <td className="px-3 py-2 text-start">
+                            <button
+                              disabled={formData.parameters.length <= 1}
+                              onClick={() => removeParameter(index)}
+                              className={`text-gray-400 hover:text-red-500 transition-colors ${
+                                formData.parameters.length <= 1
+                                  ? "opacity-50 cursor-not-allowed"
+                                  : ""
+                              }`}
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Add Another Parameter Button */}
+                <button
+                  onClick={addParameter}
+                  className="flex items-center gap-2 mt-4 text-pink-500 hover:text-pink-600 font-medium transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                  Add Another Parameter
+                </button>
+              </div>
+
+              {/* Remarks */}
+              <div className="mb-8">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Remarks
+                </label>
+                <textarea
+                  value={formData.remarks}
+                  onChange={(e) => handleInputChange("remarks", e.target.value)}
+                  placeholder="Add any additional notes or remarks..."
+                  rows={4}
+                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none"
+                />
+              </div>
+
+              {/* Save Button */}
+              <div className="text-left">
+                <button
+                  onClick={handleSave}
+                  className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl shadow-lg"
+                >
+                  Save Report
+                </button>
+              </div>
+            </div>
+            {/* Right Section - Image flush right */}
+            <div className="flex justify-end items-end w-[40%] absolute right-0 top-30 h-full">
+              <Image
+                src={image}
+                width={400}
+                height={300}
+                alt="Sukaii Logo"
+                className="object-cover rounded-lg"
+              />
+            </div>
+          </div>
         </div>
       )}
     </div>
