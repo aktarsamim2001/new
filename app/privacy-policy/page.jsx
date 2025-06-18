@@ -10,19 +10,19 @@ export default function PrivacyPolicy() {
         <p className="text-gray-700 mb-4">
           Your privacy is important to us. This Privacy Policy explains how Sukaii Health collects, uses, and protects your personal information when you use our services.
         </p>
-        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-2">Information We Collect</h2>
+        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-3">Information We Collect</h2>
         <ul className="list-disc pl-6 text-gray-700 mb-4">
           <li>Personal details (name, phone, email, etc.) provided during registration.</li>
           <li>Health and medical data you choose to share.</li>
           <li>Usage data and cookies for improving our services.</li>
         </ul>
-        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-2">How We Use Your Information</h2>
+        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-3">How We Use Your Information</h2>
         <ul className="list-disc pl-6 text-gray-700 mb-4">
           <li>To provide and improve our health services.</li>
           <li>To communicate with you about your account and updates.</li>
           <li>To ensure security and prevent fraud.</li>
         </ul>
-        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-2">Your Rights</h2>
+        <h2 className="text-xl font-semibold text-pink-500 mt-6 mb-3">Your Rights</h2>
         <ul className="list-disc pl-6 text-gray-700 mb-4">
           <li>You can access, update, or delete your personal information at any time.</li>
           <li>You can opt out of marketing communications.</li>
@@ -34,7 +34,7 @@ export default function PrivacyPolicy() {
           For any questions about our privacy practices, please contact us at <span className="text-pink-600">support@sukaii.com</span>.
         </p>
         <div className="mt-8 text-center">
-          <Link href="/" className="text-pink-500 hover:underline font-medium">Back to Home</Link>
+          <Link href="/" className="text-pink-500 underline font-medium">Back to Home</Link>
         </div>
       </div>
     </div>

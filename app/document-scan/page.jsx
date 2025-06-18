@@ -98,7 +98,7 @@ const UploadReport = () => {
   };
 
   return (
-    <div className="relative">
+    <div className={`relative ${poppins.className}`}>
       <Image
         src={shapeImage}
         alt="People Consulting"
@@ -118,8 +118,8 @@ const UploadReport = () => {
               className="md:rounded-4xl h-[250px] object-cover"
             />
           </div>
-          <div className="mt- flex items-center justify-center md:absolute bottom-14  left-4/9">
-            <h1 className="text-[28px] md:text-[45px] font-[600] ">
+          <div className="mt- flex items-center justify-center md:absolute bottom-14  left-4/9 p-4">
+            <h1 className="text-[30px] md:text-[45px] font-[600] md:leading-[1.5] leading-[1.2]">
               Scan or Upload <span className="md:block">Your Report</span>
             </h1>
           </div>
@@ -129,14 +129,14 @@ const UploadReport = () => {
         {/* Upload Method Section */}
 
         {!showProgress && !review && (
-          <div className="max-w-7xl mx-auto __gapTop">
+          <div className="max-w-7xl mx-auto md:pt-[60px] px-4 md:px-0">
             <h2 className="text-[30px] font-semibold __secondary-text mb-2">
               Choose Upload Method
             </h2>
             <p className="text-[18px] text-gray-600 mb-5">
               Ensure the report is clear and well-lit.
             </p>
-            <div className="flex gap-10 px-14 pt-10">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10 md:px-14 pt-6 md:pt-10">
               <button
                 onClick={handleFileUploadClick}
                 className="flex-1 p-5 bg-white rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
@@ -174,7 +174,7 @@ const UploadReport = () => {
         )}
         {/* Progress Bar Section */}
         {showProgress && (
-          <div className="max-w-7xl mx-auto __gapTop">
+          <div className="max-w-7xl mx-auto __gapTop px-4">
             <h2 className="text-[30px] font-semibold __secondary-text mb-2 text-left">
               Uploading Your Report
             </h2>
@@ -197,12 +197,14 @@ const UploadReport = () => {
           </div>
         )}
         {/* Review Message Section */}
+
         {review && (
-          <div className="">
-            <div className="max-w-7xl mx-auto __gapTop">
+          <div className="px-4">
+            <div className="max-w-7xl mx-auto pt-0 md:pt-[60]">
               {/* Header */}
+
               <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">
+                <h1 className="text-[25px]  md:text-3xl font-[550] text-[#EC098D] mb-4">
                   Review & Confirm Your Report
                 </h1>
                 <p className="text-gray-600">
@@ -210,43 +212,44 @@ const UploadReport = () => {
                   and make corrections if needed before saving.
                 </p>
               </div>
-              <div className="space-y-6 px-14 pt-10">
+
+              <div className="space-y-6 md:px-14 md:pt-10">
                 {/* Section 01: File Preview */}
-                <div className="flex items-start justify-between gap-8 w-full mb-8">
+
+                <div className="flex flex-col md:flex-row items-start justify-between gap-5 md:gap-16 w-full md:w-[90%] mb-8">
                   <div className="flex items-center gap-3 min-w-fit">
-                    <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                      01
-                    </div>
+                    <div className="text-black font-[550] text-[20px]">01</div>
                     <h2 className="text-xl font-semibold text-gray-800">
                       Uploaded File Preview
                     </h2>
                   </div>
-                  <div className="bg-white shadow-xl rounded-xl p-8 text-center text-[16px] font-bold cursor-pointer flex-1">
+                  <div className="bg-white ____shadow-card w-full rounded-xl p-8 text-center text-[16px] font-[550] cursor-pointer flex-1">
                     <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
                       <MdOutlineZoomOutMap className="w-5 h-5" />
                       View Uploaded File
                     </button>
                   </div>
                 </div>
+
                 {/* Section 02: Auto-Extracted Info */}
-                <div className="flex items-start justify-between gap-8 w-full mb-8">
+
+                <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-20 md:w-[90%] mb-8">
                   <div className="flex items-center gap-3 min-w-fit">
-                    <div className="w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                      02
-                    </div>
+                    <div className="text-black font-[550] text-[20px]">02</div>
                     <h2 className="text-xl font-semibold text-gray-800">
                       Auto-Extracted Info
                     </h2>
                   </div>
-                  <div className="space-y-4 flex-1 px-4">
+
+                  <div className="space-y-4 w-full flex-1">
                     {/* Basic Info */}
-                    <div className="grid grid-cols-1 gap-4 bg-white p-6 rounded-lg shadow-xl">
-                      <div className="flex justify-between items-center p-3 ">
-                        <span className="text-gray-600 font-medium">
+                    <div className="w-full grid grid-cols-1 gap-4 bg-white p-4 md:p-6 rounded-lg ____shadow-card">
+                      <div className="flex justify-between items-center md:grid grid-cols-3 md:p-3">
+                        <span className="text-gray-600 font-[400]">
                           Test Name
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-gray-800 text-[16px] font-bold">
+                          <span className="text-gray-800 text-[16px] font-[550]">
                             {reportData.testName}
                           </span>
                         </div>
@@ -257,12 +260,12 @@ const UploadReport = () => {
                           Edit
                         </button>
                       </div>
-                      <div className="flex justify-between items-center p-3 ">
-                        <span className="text-gray-600 font-medium">
+                      <div className="flex justify-between items-center md:grid grid-cols-3 md:p-3">
+                        <span className="text-gray-600 font-[400]">
                           Date of Report
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-gray-800 text-[16px] font-bold">
+                          <span className="text-gray-800 text-[16px] font-[550]">
                             {reportData.dateOfReport}
                           </span>
                         </div>
@@ -273,12 +276,12 @@ const UploadReport = () => {
                           Edit
                         </button>
                       </div>
-                      <div className="flex justify-between items-center p-3 ">
-                        <span className="text-gray-600 font-medium">
+                      <div className="flex justify-between items-center md:grid grid-cols-3 md:p-3 ">
+                        <span className="text-gray-600 font-[400]">
                           Lab Name
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className="text-gray-800 text-[16px] font-bold">
+                          <span className="text-gray-800 text-[16px] font-[550]">
                             {reportData.labName}
                           </span>
                         </div>
@@ -290,20 +293,18 @@ const UploadReport = () => {
                         </button>
                       </div>
                     </div>
+
                     {/* Detailed Parameters */}
-                    <div className="mt-8 bg-white p-6 rounded-lg shadow-xl">
+                    <div className="mt-8 bg-white p-4 md:p-6 rounded-lg ____shadow-card">
                       <h3 className="text-lg font-semibold text-gray-800 mb-4">
                         Detailed Parameters
                       </h3>
                       <div className="space-y-3">
                         {reportData.parameters.map((param, index) => (
-                          <div
-                            key={index}
-                            className="flex justify-between items-center p-3"
-                          >
-                            <span className=" font-medium">{param.name}</span>
+                          <div key={index} className=" flex justify-between items-center md:grid grid-cols-3 p-3">
+                            <span className="font-[400]">{param.name}</span>
                             <div className="flex items-center gap-2">
-                              <span className=" text-[16px] font-bold">
+                              <span className=" text-[16px] font-[550]">
                                 {param.value}
                               </span>
                               <span className=" text-[15px] font-semibold">
@@ -319,21 +320,22 @@ const UploadReport = () => {
                           </div>
                         ))}
                       </div>
-                      <button className="mt-4 flex items-center gap-2 text-gray-500 hover:text-gray-600 cursor-pointer font-medium transition-colors">
+                      <button className="mt-4 md:mt-10 bg-[#eee] p-3 rounded-[4px] flex items-center gap-2 text-gray-500 hover:text-gray-600 cursor-pointer font-[400] transition-colors">
                         <BadgePlus />
                         <span>Add Another Parameter</span>
                       </button>
                     </div>
+
+                    {/* Confirm Button */}
+                    <div className="text-left mt-10">
+                      <button
+                        onClick={handleConfirm}
+                        className="__secondary-bg px-5 py-3 text-white font-semibold rounded-lg shadow-md hover:bg-pink-600 transition-colors __heading"
+                      >
+                        Confirm & Save
+                      </button>
+                    </div>
                   </div>
-                </div>
-                {/* Confirm Button */}
-                <div className="text-right">
-                  <button
-                    onClick={handleConfirm}
-                    className="__secondary-bg px-5 py-3 text-white font-semibold rounded-lg shadow-md hover:bg-pink-600 transition-colors __heading"
-                  >
-                    Confirm & Save
-                  </button>
                 </div>
               </div>
             </div>
@@ -367,7 +369,7 @@ const UploadReport = () => {
                       height={50}
                     />
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                  <h2 className="text-2xl font-[550] text-gray-900 mb-6">
                     Your report has been added successfully!
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -496,7 +498,7 @@ const UploadReport = () => {
                         </div>
                         <div className="flex items-center gap-1">
                           <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                          <span className="text-sm font-medium text-gray-900">
+                          <span className="text-sm font-[400] text-gray-900">
                             {slide.rating}
                           </span>
                           <span className="text-xs text-gray-500">

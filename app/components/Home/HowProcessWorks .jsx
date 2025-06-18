@@ -60,14 +60,11 @@ const HowProcessWorks = () => {
 
   return (
     <div className="container mx-auto px-4 py-16 lg:py-24">
-      {/* Premium gradient background with subtle noise texture */}
       <div className="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden">
-        {/* Decorative elements */}
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>
 
         <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
-          {/* Left Side - Content with elegant typography */}
           <div className="flex flex-col justify-around">
             <div>
               <motion.div

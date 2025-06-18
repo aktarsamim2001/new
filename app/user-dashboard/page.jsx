@@ -108,7 +108,7 @@ const UserDashboard = () => {
 
   const ProfileSection = () => (
     <div className="md:px-22 p-4 md:p-0">
-      <div className="bg-white rounded-[20px] shadow-2xl p-6">
+      <div className="bg-white rounded-[20px] __cardShadow p-6">
         <div className="flex items-start mb-6">
           <div className="hidden md:flex items-center justify-center mr-4">
             <Image
@@ -202,12 +202,12 @@ const UserDashboard = () => {
   const TestsSection = () => (
     <div className="px-4 md:px-22 space-y-6">
       {/* Upcoming Bookings */}
-      <div className="bg-white rounded-[20px] overflow-x-auto shadow-md">
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
         <div className="bg-teal-500 text-white px-4 md:px-6 py-3">
           <h3 className="font-semibold">Upcoming Bookings</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-[600px] w-full text-xs md:text-sm">
+          <table className="  w-full text-xs md:text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
@@ -251,7 +251,7 @@ const UserDashboard = () => {
                     </span>
                   </td>
                   <td className="px-6 py-4 text-sm">
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col flex-1 gap-1">
                       <button className="text-gray-900 text-left">
                         <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
                         Add a New Test
@@ -274,12 +274,12 @@ const UserDashboard = () => {
       </div>
 
       {/* Past Bookings */}
-      <div className="bg-white rounded-[20px] overflow-x-auto shadow-md">
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
         <div className="bg-teal-500 text-white px-4 md:px-6 py-3">
           <h3 className="font-semibold">Past Bookings</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-[600px] w-full text-xs md:text-sm">
+          <table className="w-full text-xs md:text-sm">
             <thead className="bg-gray-50 border-b border-gray-200">
               <tr>
                 <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
@@ -348,7 +348,7 @@ const UserDashboard = () => {
 
   const ReportsSection = () => (
     <div className="px-4 md:px-22 container mx-auto">
-      <div className="bg-white rounded-[20px] overflow-x-auto shadow-2xl">
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
         <div className="__primary-bg text-white px-4 md:px-6 py-3">
           <h3 className="font-semibold">Your Reports</h3>
         </div>
@@ -491,8 +491,8 @@ const UserDashboard = () => {
     <div className="min-h-screen md:p-4">
       <div className="container mx-auto">
         {/* Header */}
-        <div className=" rounded-lg p-6 mb-6 ">
-          <div className="md:flex flex-rowitems-center mb-24">
+        <div className=" rounded-lg px-6">
+          <div className="md:flex flex-rowitems-center">
             <div className="flex items-center justify-start md:justify-center mr-4">
               <Image
                 src="/profile-image.png"
@@ -514,17 +514,17 @@ const UserDashboard = () => {
           </div>
 
           {/* Tab Navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:px-17">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:px-17 mt-[60px]">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`p-3.5 rounded-[22px] text-left transition-all duration-200 ${
+                  className={`p-3.5 rounded-[22px] text-left transition-all duration-200 cursor-pointer ${
                     activeTab === tab.id
                       ? "__primary-bg text-white shadow-lg transform scale-105"
-                      : "shadow-md"
+                      : "__cardShadow"
                   }`}
                 >
                   <IconComponent
@@ -553,7 +553,7 @@ const UserDashboard = () => {
         </div>
 
         {/* Tab Content */}
-        <div className="transition-all duration-300">
+        <div className="transition-all duration-300 mt-[60px]">
           {activeTab === "profile" && <ProfileSection />}
           {activeTab === "tests" && <TestsSection />}
           {activeTab === "reports" && <ReportsSection />}

@@ -25,13 +25,13 @@ function DetailsBanner() {
             {/* Text Section */}
             <div className="p-4 text-left max-w-lg">
               <h1 className="text-4xl font-bold __secondry-text">
-                Find the Right Test For You
+                Complete Blood Count Test (CBC)
               </h1>
               <p className="mt-4 text-lg text-gray-600">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae beatae fuga quas quidem quaerat.
+                The Complete Blood Count (CBC) test is a common and essential blood test that gives insights into your overall health by measuring key components like red blood cells, white blood cells, and platelets. It's often the first step in detecting infections, anemia, immune system issues, and more.
               </p>
-               <button className="mt-4 bg-pink-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
-                Login to Dashboard
+               <button className="mt-4 __secondary-bg text-white px-10 py-4 rounded-lg font-semibold">
+                Book Now
               </button>
             </div>
           </div>

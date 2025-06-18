@@ -72,7 +72,7 @@ const RecommendedPackages = () => {
 
               {/* Package Label - Responsive positioning */}
               <div
-                className={`absolute bottom-4 sm:-bottom-7 left-3 sm:left-7 right-3 sm:right-auto ${poppins.className}`}
+                className={`absolute -bottom-7 left-3 sm:left-7 right-3 sm:right-auto ${poppins.className}`}
               >
                 <div className="__primary-bg pr-5 py-4 sm:py-5 rounded-[7px] flex items-center justify-between text-[#FFFFFF] sm:justify-start gap-2 shadow-lg">
                   <span className="text-sm lg:text-[18px] font-[500] lg:leading-[100%] px-1 sm:px-3.5 flex-1">
@@ -103,7 +103,7 @@ const RecommendedPackages = () => {
 
       {/* Smart Health Dashboard Section */}
       <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-20">
-        <div className="absolute top-[45%] z-10 right-[-40px]">
+        <div className="absolute top-[45%] z-10 right-[-15px] md:right-[-40px]">
           <Image src={shapeImage} alt="Effect" width={400} height={50} />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-center">
@@ -115,8 +115,8 @@ const RecommendedPackages = () => {
               <Image
                 src={image5}
                 alt="Woman talking on phone"
-                width={350}
-                height={300}
+                width={850}
+                height={800}
                 className="object-cover h-full w-auto max-w-full"
                 priority
               />
@@ -175,10 +175,6 @@ const RecommendedPackages = () => {
               </Button>
             </div>
           </div>
-
-          {/* Decorative Elements - Responsive */}
-          {/* <div className="absolute top-0 right-0 w-20 h-20 sm:w-32 sm:h-32 bg-teal-400 rounded-full opacity-30 transform translate-x-8 sm:translate-x-16 -translate-y-8 sm:-translate-y-16"></div>
-          <div className="absolute bottom-0 right-0 w-16 h-16 sm:w-24 sm:h-24 bg-teal-400 rounded-full opacity-20 transform translate-x-6 sm:translate-x-12 translate-y-6 sm:translate-y-12"></div> */}
         </div>
       </div>
     </div>
