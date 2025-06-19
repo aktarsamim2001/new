@@ -24,59 +24,58 @@ const services = [
 
 function ServicesList() {
   return (
-    <div>
-      <div className="container mx-auto md:mt-[80px] mt-10 px-5 lg:px-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {services.map((service) => (
-            <div key={service.id} className="h-[200px] md:h-[300px] relative">
-              <Link href={"/service-details"} target="_blank">
-                <Image
-                  src={service.image}
-                  alt={service.title}
-                  className="object-cover rounded-br-[40px] rounded-t-[40px] md:mb-4 h-[200px] md:h-[300px] rounded-es-[7px]"
-                  width={700}
-                  height={475}
-                />
-                <div>
-                  <div className="absolute p-4 bottom-0 text-xl font-[500] __primary-bg text-white rounded-[7px] flex gap-2.5">
-                    <h2> {service.title}</h2>
-                    <ArrowUpRight className="h-5 w-5 -mt-3 -mr-2" />
-                  </div>
+    <div className="container mx-auto md:mt-[80px] mt-10 px-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {services.map((service) => (
+          <div key={service.id} className="h-[200px] md:h-[300px] relative">
+            <Link href={"/service-details"} target="_blank">
+              <Image
+                src={service.image}
+                alt={service.title}
+                className="object-cover rounded-br-[40px] rounded-t-[40px] md:mb-4 h-[200px] md:h-[300px] rounded-es-[7px]"
+                width={700}
+                height={475}
+              />
+              <div>
+                <div className="absolute p-4 bottom-0 text-xl font-[500] __primary-bg text-white rounded-[7px] flex gap-2.5">
+                  <h2> {service.title}</h2>
+                  <ArrowUpRight className="h-5 w-5 -mt-3 -mr-2" />
                 </div>
-              </Link>
-            </div>
-          ))}
-        </div>
-        <div className="flex justify-center mt-12">
-          <nav className="flex items-center space-x-2">
-            {/* Left Arrow */}
-            <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
-              <CircleArrowLeft />
-            </button>
+              </div>
+            </Link>
+          </div>
+        ))}
+      </div>
 
-            {/* Page Numbers */}
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              01
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              02
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border-b-2 border-blue-600 text-blue-600 cursor-pointer">
-              03
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              04
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              05
-            </button>
+      <div className="flex justify-center mt-12 mb-10">
+        <nav className="flex items-center space-x-2">
+          {/* Left Arrow */}
+          <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
+            <CircleArrowLeft />
+          </button>
 
-            {/* Right Arrow */}
-            <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
-              <CircleArrowRight />
-            </button>
-          </nav>
-        </div>
+          {/* Page Numbers */}
+          <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
+            01
+          </button>
+          <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
+            02
+          </button>
+          <button className="w-8 h-8 flex items-center justify-center border-b-2 border-blue-600 text-blue-600 cursor-pointer">
+            03
+          </button>
+          <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
+            04
+          </button>
+          <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
+            05
+          </button>
+
+          {/* Right Arrow */}
+          <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
+            <CircleArrowRight />
+          </button>
+        </nav>
       </div>
     </div>
   );

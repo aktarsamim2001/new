@@ -24,7 +24,8 @@ function OtpVerificationContent() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
 
-  const handleOtpChange = (value) => {
+  const handleOtpChange = (e) => {
+    const value = e.target.value;
     // Only allow numbers and limit to 6 digits
     const numericValue = value.replace(/\D/g, "").slice(0, 6);
     setOtp(numericValue);
@@ -66,10 +67,10 @@ function OtpVerificationContent() {
             <input
               type="text"
               value={otp}
-              onChange={(e) => handleOtpChange(e.target.value)}
+              onChange={handleOtpChange}
               placeholder="Enter 6-digit OTP"
               className="w-full h-14 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 tracking-widest"
-              maxLength="6"
+              maxLength={6}
               inputMode="numeric"
               pattern="[0-9]*"
             />

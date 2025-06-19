@@ -52,10 +52,9 @@ export default function EnquiryForm() {
   ];
 
   return (
-    <div className="min-h-screen p-4 md:p-0">
-      <div className="container mx-auto">
-        {/* Quick Help Section */}
-        <div className="__gapTop">
+    <div className="min-h-screen ">
+      <div className="container mx-auto px-4 md:px-4">
+        <div className="__gapTop md:px-24 ">
           <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-8 lg:mb-15 md:mb-12">
             Quick Help
           </h2>
@@ -82,136 +81,148 @@ export default function EnquiryForm() {
             ))}
           </div>
         </div>
+      </div>
 
-        {/* Main Content */}
-        <div className="__gapTop overflow-hidden">
-          <div className="flex flex-col lg:flex-row">
-            {/* Image Section */}
-            <div className="">
-              <div className="h-full flex items-center justify-center p-8">
-                <Image
-                  src={image}
-                  alt="Support Image"
-                  width={400}
-                  height={400}
-                  className="rounded-lg shadow-lg"
+      {/* Main Content */}
+      <div className="__gapTop overflow-hidden">
+        <div className="flex flex-col md:flex-row items-center md:gap-5">
+          {/* Image Section */}
+
+          <div className="h-full">
+            <Image
+              src={image}
+              alt="Support Image"
+              width={500}
+              height={400}
+              className="md:rounded-r-[50px] shadow-lg md:h-full h-[400px] object-cover"
+            />
+          </div>
+
+          {/* Form Section */}
+          <div className="md:w-3/5 w-full md:px-8 mt-4 md:pt-0 p-[12px] lg:px-12">
+            <h2 className="text-3xl font-[550] text-gray-800 mb-10">
+              Submit Your Enquiry
+            </h2>
+
+            <div className="space-y-6">
+              {/* Full Name */}
+              <div className="md:flex items-center ">
+                <p className="md:min-w-[100px] pb-2 md:pb-0">Full Name</p>
+                <input
+                  type="text"
+                  name="fullName"
+                  placeholder="Full Name"
+                  value={formData.fullName}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                 />
               </div>
-            </div>
 
-            {/* Form Section */}
-            <div className="lg:w-2/3 px-8 lg:px-12">
-              <h2 className="text-3xl font-bold text-gray-800 mb-8">
-                Submit Your Enquiry
-              </h2>
-
-              <div className="space-y-6">
-                {/* Full Name */}
-                <div>
-                  <input
-                    type="text"
-                    name="fullName"
-                    placeholder="Full Name"
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                  />
-                </div>
-
-                {/* Gender and Age */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* Gender and Age */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+                <div className="md:flex items-center w-full">
+                  <p className="md:min-w-[100px] pb-2 md:pb-0">Gender</p>
                   <select
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all text-gray-700"
+                    className="px-4 py-4 bg-gray-50 border w-full border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all text-gray-700"
                   >
                     <option value="">Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                     <option value="other">Other</option>
                   </select>
+                </div>
 
+                <div className="md:flex items-center w-full md:pl-10">
+                  <p className="md:min-w-[100px] pb-2 md:pb-0">Age</p>
                   <input
                     type="number"
                     name="age"
                     placeholder="Age"
                     value={formData.age}
                     onChange={handleInputChange}
-                    className="px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                  />
+                    className="px-4 py-4 w-full bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                  />{" "}
                 </div>
+              </div>
 
-                {/* Contact */}
-                <div>
-                  <input
-                    type="tel"
-                    name="contact"
-                    placeholder="Contact"
-                    value={formData.contact}
-                    onChange={handleInputChange}
-                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                  />
-                </div>
+              {/* Contact */}
+              <div className="md:flex items-center w-full">
+                <p className="md:min-w-[100px] pb-2 md:pb-0">Contact</p>
+                <input
+                  type="tel"
+                  name="contact"
+                  placeholder="Contact"
+                  value={formData.contact}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-                {/* Address */}
-                <div>
-                  <textarea
-                    name="address"
-                    placeholder="Address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                    rows="3"
-                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
-                  />
-                </div>
+              {/* Address */}
+              <div className="md:flex items-center w-full">
+                <p className="md:min-w-[100px] pb-2 md:pb-0">Address</p>
+                <textarea
+                  name="address"
+                  placeholder="Address"
+                  value={formData.address}
+                  onChange={handleInputChange}
+                  rows="3"
+                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
+                />
+              </div>
 
-                {/* Remarks */}
-                <div>
-                  <textarea
-                    name="remarks"
-                    placeholder="Remarks"
-                    value={formData.remarks}
-                    onChange={handleInputChange}
-                    rows="4"
-                    className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
-                  />
-                </div>
+              {/* Remarks */}
+              <div className="md:flex items-center w-full">
+                <p className="md:min-w-[100px] pb-2 md:pb-0">Remarks</p>
+                <textarea
+                  name="remarks"
+                  placeholder="Remarks"
+                  value={formData.remarks}
+                  onChange={handleInputChange}
+                  rows="4"
+                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
+                />
+              </div>
 
-                {/* Submit Button */}
-                <div className="pt-">
-                  <button
-                    type="submit"
-                    className="__secondary-bg text-white font-semibold px-8 py-3 rounded-xl cursor-pointer shadow-lg hover:shadow-xl"
-                  >
-                    Submit
-                  </button>
-                </div>
+              {/* Submit Button */}
+
+              <div className="md:flex items-center w-full mt-10">
+                <p className="md:min-w-[100px]"> </p>
+                <button
+                  type="submit"
+                  className="__secondary-bg text-white font-semibold px-8 py-3 rounded-xl cursor-pointer shadow-lg hover:shadow-xl"
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>
-          <div className="md:px-12">
-            <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative mt-[80px]">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
-                <div className="text-left">
-                  <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">
-                    Smarter Health Starts Here
-                  </h3>
-                  <p className="text-white text-opacity-90 text-sm sm:text-[17px]">
-                    Discover how our Smart Health Dashboard helps you stay on
-                    top of
-                    <br /> your health effortlessly.
-                  </p>
-                </div>
+        </div>
 
-                <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
-                  <Button
-                    variant="outline"
-                    className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
-                  >
-                    Explore More!
-                  </Button>
-                </div>
+        <div className="md:px-20 px-[12px]">
+          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative mt-[80px]">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
+              <div className="text-left">
+                <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">
+                  Smarter Health Starts Here
+                </h3>
+                <p className="text-white text-opacity-90 text-sm sm:text-[17px]">
+                  Discover how our Smart Health Dashboard helps you stay on top
+                  of
+                  <br /> your health effortlessly.
+                </p>
+              </div>
+
+              <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+                <Button
+                  variant="outline"
+                  className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
+                >
+                  Explore More!
+                </Button>
               </div>
             </div>
           </div>

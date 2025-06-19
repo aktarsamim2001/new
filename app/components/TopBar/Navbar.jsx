@@ -6,13 +6,21 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export default function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
   const inputRef = useRef(null);
   const pathname = usePathname();
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   // const toggleSearch = () => {
   //   setExpanded((prev) => !prev);
@@ -28,29 +36,29 @@ export default function Navbar() {
     }, 100);
   };
 
-   const toggleSearch = () => {
+  const toggleSearch = () => {
     setExpanded(!expanded);
     if (!expanded) {
       // Focus input when opening
       setTimeout(() => inputRef.current?.focus(), 100);
     } else {
       // Clear search when closing
-      setSearchQuery('');
+      setSearchQuery("");
     }
   };
 
   const handleSearch = () => {
     if (searchQuery.trim()) {
-      console.log('Searching for:', searchQuery);
+      console.log("Searching for:", searchQuery);
       // Add your search logic here
     }
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch();
     }
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       toggleSearch();
     }
   };
@@ -63,7 +71,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="container mx-auto pt-4 md:pt-6 px-4">
+    <nav className={`container mx-auto pt-4 md:pt-6 px-4 `}>
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
@@ -81,7 +89,9 @@ export default function Navbar() {
         </div>
 
         {/* Desktop Navigation Menu */}
-        <div className="hidden md:flex items-center space-x-6 __nav-link ">
+        <div
+          className={`hidden md:flex items-center space-x-6 __nav-link ${poppins.className}`}
+        >
           <Link
             href="/"
             className={
@@ -125,7 +135,9 @@ export default function Navbar() {
         </div>
 
         {/* Right Side Actions (Desktop Only) */}
-        <div className="hidden md:flex items-center space-x-2">
+        <div
+          className={`hidden md:flex items-center space-x-2 ${poppins.className}`}
+        >
           <Link
             href="/sign-in"
             className={`__nav-link cursor-pointer ${
@@ -151,7 +163,9 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Search Icon/Button */}
-          <div className="ml-2 relative flex items-center cursor-pointer">
+          <div
+            className={`ml-2 relative flex items-center cursor-pointer ${poppins.className}`}
+          >
             <button
               className={`transition-all duration-300 bg-[#EC098D] text-white rounded-[8px] flex items-center justify-center max-w-xl px-5 cursor-pointer py-3 gap-5 ${
                 desktopSearchOpen ? "bg-[#00B8C1]" : ""
@@ -161,7 +175,7 @@ export default function Navbar() {
               type="button"
               style={{ display: desktopSearchOpen ? "none" : "flex" }}
             >
-              <h3>Search</h3>
+              <h3 className={`text-[17px] `}>Search</h3>
               <Search className="ml-3 w-[18px] h-[18px]" />
             </button>
             <div
@@ -173,7 +187,7 @@ export default function Navbar() {
                 ref={inputRef}
                 type="text"
                 placeholder="Search"
-                className="transition-all duration-300 px-4 border-0 pr-10 py-3 text-sm w-full focus:outline-none"
+                className="transition-all duration-300 px-4 border-0 pr-10 py-3 text-[17px] w-full focus:outline-none"
                 style={{
                   minWidth: desktopSearchOpen ? "14rem" : "0",
                   maxWidth: desktopSearchOpen ? "14rem" : "0",
@@ -194,7 +208,7 @@ export default function Navbar() {
         <div className="md:hidden flex items-end">
           <button
             onClick={toggleSearch}
-            className="rounded-full bg-[#EC098D] text-white flex items-center justify-center w-10 h-10 ml-36"
+            className="rounded-full bg-[#EC098D] text-white  flex items-center justify-center w-10 h-10 ml-36"
             aria-label="Search"
           >
             <Search className="w-5 h-5" />
@@ -361,7 +375,7 @@ export default function Navbar() {
                             Sample description for this search result...
                           </p>
                         </div>
-                      )
+                      ),
                     )}
                   </div>
                 </div>

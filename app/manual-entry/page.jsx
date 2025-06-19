@@ -1,7 +1,17 @@
 "use client";
 
 import React, { useState } from "react";
-import { ChevronDown, Calendar, X, Plus, Star, Eye } from "lucide-react";
+import {
+  ChevronDown,
+  Calendar,
+  X,
+  Plus,
+  Star,
+  Eye,
+  BadgePlus,
+  Beaker,
+} from "lucide-react";
+
 import Image from "next/image";
 import { GoArrowUpRight } from "react-icons/go";
 import { IoMdAddCircleOutline } from "react-icons/io";
@@ -106,7 +116,7 @@ export default function AddReportManually() {
   };
 
   return (
-    <div className="container mx-auto md:p-4">
+    <div className="container mx-auto md:p-4 pt-[25px] md:pt-[60px]">
       {/* Banner and Title always on top */}
       <div className="flex gap-4 md:flex-row flex-col item-center justify-start md:items-center md:gap-20">
         <Image
@@ -127,11 +137,10 @@ export default function AddReportManually() {
       {reportAdded && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div
-            className="bg-white rounded-3xl w-[90%] mx-auto max-h-[90vh] overflow-hidden shadow-2xl relative"
+            className="bg-white rounded-3xl w-[90%] md:w-[1300px] mx-auto max-h-[90vh] md:max-h-[600px] overflow-hidden shadow-2xl relative"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
-            <div className="relative md:pb-8 z-10">
+            <div className="relative z-10">
               <button
                 onClick={() => setReportAdded(false)}
                 className="absolute bg-gray-200 cursor-pointer rounded-full p-1.5 top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors z-20"
@@ -141,33 +150,32 @@ export default function AddReportManually() {
               </button>
             </div>
 
-            {/* Content Area */}
-            <div className="md:px-6 md:pb-6 flex flex-col-reverse items-center justify-center gap-8 md:gap-14 md:flex-row">
-              <div className="w-full px-[10px] md:px-5">
+            <div className="flex flex-col-reverse items-center justify-center gap-4 md:gap-14 md:flex-row pb-[30px] md:pb-0">
+              <div className="w-full h-full px-[10px] md:pl-[3rem] md:pr-[2rem] md:pb-[4rem]">
                 <div className="flex items-center mb-8">
                   <Image
                     src="/sukaii-logo.png"
                     alt="Sukai Logo"
-                    width={140}
+                    width={155}
                     height={40}
                   />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                <h2 className="text-[30px] md:text-[40px] font-[500] text-gray-900 mb-6">
                   Your report has been added successfully!
                 </h2>
                 {/* Add the two cards below the success message */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-[20px] md:px-0">
                   {/* Scan or Upload Report Option */}
                   <div
                     className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                       selectedOption === "upload"
                         ? "__secondary-bg"
-                        : "bg-white shadow-xl "
+                        : "bg-white ____shadow-card"
                     }`}
                     onClick={() => setSelectedOption("upload")}
                   >
                     <div className="text-left">
-                      <div className="w-12 h-12 flex items-center justify-center mb-4">
+                      <div className="h-12 flex items-center ">
                         <Eye
                           className={`w-6 h-6 ${
                             selectedOption === "upload"
@@ -199,12 +207,12 @@ export default function AddReportManually() {
                     className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                       selectedOption === "manual"
                         ? "__secondary-bg"
-                        : "bg-white shadow-xl"
+                        : "bg-white ____shadow-card"
                     }`}
                     onClick={() => setSelectedOption("manual")}
                   >
                     <div className="text-left flex flex-col items-start relative">
-                      <div className="w-12 h-12 flex items-center justify-center mb-4">
+                      <div className=" h-12 flex items-center justify-center">
                         <IoMdAddCircleOutline
                           className={`w-6 h-6 ${
                             selectedOption === "manual"
@@ -236,17 +244,17 @@ export default function AddReportManually() {
 
               <div className="w-full relative h-[200px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
                 <div className="absolute inset-0 h-full">
-                  <div className="h-full flex items-center justify-center md:p-8">
+                  <div className="h-full flex items-center justify-center">
                     <Image
                       src="/login-banner/login-banner.jpg"
                       alt="Sukaii Health"
                       width={800}
                       height={1200}
-                      className="md:rounded-[50px] md:shadow-lg object-cover h-full w-full"
+                      className="md:rounded-l-[32px] md:shadow-lg object-cover h-full w-full"
                     />
                   </div>
 
-                  <div className="hidden md:block absolute bottom-20 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+                  <div className="hidden md:block absolute bottom-50 -left-12 ml-3 px-8 flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
                     <div className="flex -space-x-3">
                       {slide.reviewAvatars.map((avatar, i) => (
                         <div
@@ -285,7 +293,6 @@ export default function AddReportManually() {
                       </div>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -294,7 +301,7 @@ export default function AddReportManually() {
       )}
       {/* Main Form Section */}
       {!reportAdded && (
-        <div className="max-w-7xl mx-auto pt-10 md:pt-[60px] md:p-0 p-4">
+        <div className="max-w-7xl mx-auto pt-8 md:pt-[60px] md:p-0 p-4">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-[24px] md:text-3xl font-bold text-pink-600 md:mb-2 mb-1">
@@ -312,9 +319,10 @@ export default function AddReportManually() {
               <h2 className="text-[30px] font-[600] mb-6">
                 Basic Report Details
               </h2>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+
+              <div className="space-y-4 md:mb-10">
+                <div className="md:flex items-center">
+                  <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
                     Test Name
                   </label>
                   <input
@@ -329,8 +337,8 @@ export default function AddReportManually() {
                   />
                 </div>
                 <div className="grid gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="md:flex items-center">
+                    <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
                       Date of Report
                     </label>
                     <div className="relative w-full">
@@ -348,16 +356,16 @@ export default function AddReportManually() {
                         <option value="other">Other</option>
                       </select>
                       <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                        ▼
+                        <Calendar className="w-5" />
                       </span>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                <div className="md:flex items-center w-full">
+                  <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
                     Lab Name
                   </label>
-                  <div className="relative">
+                  <div className="relative w-full">
                     <select
                       value={formData.labName}
                       onChange={(e) =>
@@ -377,13 +385,14 @@ export default function AddReportManually() {
                     </select>
 
                     <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                      ▼
+                      <Beaker className="w-5" />
                     </span>
                   </div>
                 </div>
               </div>
+
               {/* Add Test Parameters */}
-              <div className="mb-8">
+              <div className="mb-10">
                 <h2 className="text-xl font-semibold text-gray-800 mb-6">
                   Add Test Parameters
                 </h2>
@@ -488,37 +497,42 @@ export default function AddReportManually() {
                 {/* Add Another Parameter Button */}
                 <button
                   onClick={addParameter}
-                  className="flex items-center gap-2 mt-4 text-pink-500 hover:text-pink-600 font-medium transition-colors"
+                  className="cursor-pointer flex items-center gap-2 mt-4 bg-[#eee] p-3 rounded-[8px] font-medium transition-colors"
                 >
-                  <Plus className="w-4 h-4" />
+                  <BadgePlus className="w-4 h-4" />
                   Add Another Parameter
                 </button>
               </div>
 
               {/* Remarks */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              <div className="mb-10 md:flex items-start w-full">
+                <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
                   Remarks
                 </label>
-                <textarea
-                  value={formData.remarks}
-                  onChange={(e) => handleInputChange("remarks", e.target.value)}
-                  placeholder="Add any additional notes or remarks..."
-                  rows={4}
-                  className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none"
-                />
-              </div>
+                <div className="flex flex-col w-full gap-8">
+                
+                  <textarea
+                    value={formData.remarks}
+                    onChange={(e) =>
+                      handleInputChange("remarks", e.target.value)
+                    }
+                    placeholder="Add any additional notes or remarks..."
+                    rows={4}
+                    className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent resize-none"
+                  />
 
-              {/* Save Button */}
-              <div className="text-left">
-                <button
-                  onClick={handleSave}
-                  className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl shadow-lg"
-                >
-                  Save Report
-                </button>
+                  <div className="text-left">
+                    <button
+                      onClick={handleSave}
+                      className="__secondary-bg text-white font-semibold px-8 py-4 rounded-xl shadow-lg"
+                    >
+                      Save Report
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
+
             {/* Right Section - Image flush right */}
             <div className="flex justify-end items-end w-[40%] absolute right-0 top-30 h-full">
               <Image

@@ -7,14 +7,14 @@ import Navbar from "./components/TopBar/Navbar";
 import HealthcareFooter from "./components/Footer/HealthcareFooter ";
 import { usePathname } from "next/navigation";
 import { hideHeaderFooterRoutes } from "./utils/hideHeaderFooterRoutes";
-
+import { Provider } from "react-redux";
+import store from "@/features/store";
 
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin"],
   display: "swap",
 });
-
 
 const lato = Lato({
   variable: "--font-lato",
@@ -28,13 +28,21 @@ export default function RootLayout({ children }) {
   const hideHeaderFooter = hideHeaderFooterRoutes.includes(pathname);
   return (
     <html lang="en" className={`${rubik.variable} ${lato.variable}`}>
+      <head>
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+
       <body className="antialiased">
-        {!hideHeaderFooter && <Header />}
-        {!hideHeaderFooter && <Navbar />}
-        {children}
-        {!hideHeaderFooter && <HealthcareFooter />}
+        <Provider store={store}>
+          {!hideHeaderFooter && <Header />}
+          {!hideHeaderFooter && <Navbar />}
+          {children}
+          {!hideHeaderFooter && <HealthcareFooter />}
+        </Provider>
       </body>
     </html>
   );
 }
-

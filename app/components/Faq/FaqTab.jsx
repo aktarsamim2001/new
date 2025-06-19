@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
+
 export default function FAQTabs() {
   const [activeTab, setActiveTab] = useState("bookings");
   const [expandedItems, setExpandedItems] = useState({});
@@ -15,7 +23,7 @@ export default function FAQTabs() {
 
   const handleTabSelect = (tabId) => {
     setActiveTab(tabId);
-    setIsDropdownOpen(false); // Close dropdown after selection
+    setIsDropdownOpen(false);
   };
 
   const faqData = {
@@ -178,10 +186,12 @@ export default function FAQTabs() {
     { id: "privacy", label: "Privacy, Certification & Safety" },
   ];
 
-  const activeTabLabel = tabs.find(tab => tab.id === activeTab)?.label || "Bookings & Appointments";
+  const activeTabLabel =
+    tabs.find((tab) => tab.id === activeTab)?.label ||
+    "Bookings & Appointments";
 
   return (
-    <div className="container mx-auto __gapTop relative">
+    <div className={`container mx-auto __gapTop relative ${poppins.className}`}>
       <div className="overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Desktop Categories Sidebar - Hidden on mobile */}
@@ -196,8 +206,8 @@ export default function FAQTabs() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`w-full text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
                     activeTab === tab.id
-                      ? 'border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold'
-                      : 'border border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300'
+                      ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
+                      : "border-2  border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
                   }`}
                 >
                   {tab.label}
@@ -211,7 +221,7 @@ export default function FAQTabs() {
             <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-[#EC098D] inline-block">
               Categories
             </h3>
-            
+
             <div className="relative w-full mb-6">
               {/* Dropdown Button */}
               <button
@@ -235,8 +245,8 @@ export default function FAQTabs() {
                       onClick={() => handleTabSelect(tab.id)}
                       className={`w-full text-left px-4 py-3 text-sm transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg ${
                         activeTab === tab.id
-                          ? 'bg-[#EC098D] text-white font-semibold'
-                          : 'text-gray-600 hover:bg-gray-50 border-b border-gray-100 last:border-b-0'
+                          ? "bg-[#EC098D] text-white font-semibold"
+                          : "text-gray-600 hover:bg-gray-50 border-b border-gray-100 last:border-b-0"
                       }`}
                     >
                       {tab.label}
@@ -331,7 +341,7 @@ export default function FAQTabs() {
           </div>
         </div>
       </div>
-      
+
       {/* Decorative Elements */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-bl from-pink-100 to-transparent rounded-full -z-10 opacity-30"></div>
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-blue-100 to-transparent rounded-full -z-10 opacity-30"></div>
