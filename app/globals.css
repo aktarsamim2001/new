@@ -10,16 +10,47 @@
   --font-body: var(--font-lato);
   /* --font-body: var(--font-poppins); */
 }
-
-.__nav-link {
-  font-family: var(--font-heading);
-  font-weight: 400;
-  color: var(--navbar-text-color);
-  font-size: 17.5px;
+.__poppins-font,
+.__poppins-font h1,
+.__poppins-font h2,
+.__poppins-font h3,
+.__poppins-font h4,
+.__poppins-font h5,
+.__poppins-font h6,
+.__poppins-font p,
+.__poppins-font span,
+.__poppins-font div,
+.__poppins-font a,
+.__poppins-font li,
+.__poppins-font ul,
+.__poppins-font ol,
+.__poppins-font label,
+.__poppins-font input,
+.__poppins-font textarea,
+.__poppins-font button,
+.__poppins-font strong,
+.__poppins-font em,
+.__poppins-font b,
+.__poppins-font i,
+.__poppins-font th,
+.__poppins-font td {
+  font-family: "Poppins", sans-serif !important;
 }
 
+select,
+input,
+button {
+  cursor: pointer;
+}
 
-.____shadow-card{
+.__nav-link {
+  /* font-family: var(--font-heading); */
+  font-weight: 400;
+  color: var(--navbar-text-color);
+  font-size: 17px;
+}
+
+.____shadow-card {
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 

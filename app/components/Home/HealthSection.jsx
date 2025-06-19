@@ -8,7 +8,7 @@ import Button from "../ui/Button";
 const HealthSection = () => {
   return (
     <div className="container mx-auto md:mt-[80px]">
-      <div className="grid grid-cols-1 lg:grid-cols-[60%_40%] gap-8 items-center">
+      <div className="grid grid-cols-1 lg:grid-cols-[56%_43%] gap-8 items-center">
         {/* Content Section */}
         <div className="space-y-5 order-2 lg:order-1 px-4">
           <h1 className="text-3xl md:text-5xl lg:text-[3.2rem] font-bold leading-tight bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">

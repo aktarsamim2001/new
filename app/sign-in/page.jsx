@@ -26,8 +26,9 @@ export default function LoginComponent() {
   const [formData, setFormData] = useState({
     phoneNumber: "",
     username: "",
-    otp: ["", "", "", "", "", ""],
+    otp: "",
   });
+  const [error, setError] = useState("");
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -37,22 +38,15 @@ export default function LoginComponent() {
     }));
   };
 
-  const handleOtpChange = (index, value) => {
-    if (value.length > 1) return; // Only allow single digit
-
-    const newOtp = [...formData.otp];
-    newOtp[index] = value;
-
+  const handleOtpChange = (e) => {
+    const value = e.target.value;
+    // Only allow numbers and limit to 6 digits
+    const numericValue = value.replace(/\D/g, "").slice(0, 6);
     setFormData((prev) => ({
       ...prev,
-      otp: newOtp,
+      otp: numericValue,
     }));
-
-    // Auto-focus next input
-    if (value && index < 5) {
-      const nextInput = document.getElementById(`otp-${index + 1}`);
-      if (nextInput) nextInput.focus();
-    }
+    if (error) setError("");
   };
 
   const handleNext = () => {
@@ -61,12 +55,15 @@ export default function LoginComponent() {
     }
   };
 
-  const handleVerifyOtp = () => {
-    const otpString = formData.otp.join("");
-    if (otpString.length === 6) {
-      console.log("OTP Verified:", otpString);
-      // Handle OTP verification logic here
+  const handleVerifyOtp = (e) => {
+    e.preventDefault();
+    if (formData.otp.length !== 6) {
+      setError("Please enter a 6-digit OTP");
+      return;
     }
+    setError("");
+    console.log("OTP Verified:", formData.otp);
+    // Handle OTP verification logic here
   };
 
   const handleSocialLogin = (provider) => {
@@ -105,29 +102,28 @@ export default function LoginComponent() {
             </div>
 
             {/* OTP Input */}
-            <div className="mb-8">
-              <div className="flex space-x-3 justify-center">
-                {formData.otp.map((digit, index) => (
-                  <input
-                    key={index}
-                    id={`otp-${index}`}
-                    type="text"
-                    maxLength="1"
-                    value={digit}
-                    onChange={(e) => handleOtpChange(index, e.target.value)}
-                    className="w-12 h-12 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200"
-                  />
-                ))}
+            <form onSubmit={handleVerifyOtp} className="mb-8">
+              <div className="mb-4">
+                <input
+                  type="text"
+                  name="otp"
+                  value={formData.otp}
+                  onChange={handleOtpChange}
+                  placeholder="Enter 6-digit OTP"
+                  className="w-full h-14 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 tracking-widest"
+                  maxLength={6}
+                  inputMode="numeric"
+                  pattern="[0-9]*"
+                />
+                {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
               </div>
-            </div>
-
-            {/* Verify Button */}
-            <button
-              onClick={handleVerifyOtp}
-              className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
-            >
-              Verify
-            </button>
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-semibold py-4 rounded-xl transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
+              >
+                Verify
+              </button>
+            </form>
 
             {/* Back to Login */}
             <div className="text-center">
@@ -160,23 +156,23 @@ export default function LoginComponent() {
   }
 
   return (
-    <div className=" bg-gray-50 flex flex-col md:flex-row items-center justify-center min-h-screen ">
+    <div className="bg-gray-50 flex flex-col md:flex-row items-center justify-center min-h-screen">
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 order-2 md:order-1">
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8">
             <div className="flex items-center space-x-2">
-             <Link href="/">
-            <span>
-              <Image
-                src="/sukaii-logo.png"
-                alt="Sukai Logo"
-                width={150}
-                height={50}
-              />
-            </span>
-          </Link>
+              <Link href="/">
+                <span>
+                  <Image
+                    src="/sukaii-logo.png"
+                    alt="Sukai Logo"
+                    width={150}
+                    height={50}
+                  />
+                </span>
+              </Link>
             </div>
           </div>
 
@@ -229,7 +225,7 @@ export default function LoginComponent() {
             {/* Next Button */}
             <button
               onClick={handleNext}
-              className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl  shadow-lg hover:shadow-xl"
+              className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl"
             >
               Next
             </button>
@@ -247,7 +243,7 @@ export default function LoginComponent() {
                 onClick={() => handleSocialLogin("Google")}
                 className="flex cursor-pointer items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
               >
-                <FcGoogle className="w-5 h-5 text-blue-600"/>
+                <FcGoogle className="w-5 h-5" />
                 <span className="text-gray-700 font-medium">Google</span>
               </button>
 

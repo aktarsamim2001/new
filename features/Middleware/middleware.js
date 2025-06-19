@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 
 export function middleware(request) {
   const token = request.cookies.get("token")?.value;
-  const protectedRoutes = ["/profile", "/cart", "/buy", "/products"];
 
+  const protectedRoutes = ["/profile", "/cart", "/buy", "/faq"];
   const path = request.nextUrl.pathname;
 
-  const isProtected = protectedRoutes.some((route) => path.startsWith(route));
+  const isProtected = protectedRoutes.some(
+    (route) => path === route || path.startsWith(`${route}/`),
+  );
 
   if (!token && isProtected) {
     return NextResponse.redirect(new URL("/sign-in", request.url));
@@ -17,9 +19,7 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    "/profile/:path*",
-    "/cart/:path*",
-    "/buy/:path*",
+    "/(profile|cart|faq|buy)(.*)?", // covers both base and nested routes
     "/products/:path*",
   ],
 };

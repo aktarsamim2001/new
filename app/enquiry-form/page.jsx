@@ -5,7 +5,7 @@ import BrandLogo from '../components/BrandLogo/BrandLogo'
 
 function page() {
   return (
-    <div>
+    <div className='__poppins-font'>
         <SupportBanner/>
         <EnquiryForm/>
         <BrandLogo/>

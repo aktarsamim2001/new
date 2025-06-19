@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import {
-  User,
   FileText,
   Activity,
   Heart,
@@ -15,9 +14,18 @@ import {
   BadgePlus,
   FolderOpen,
   CircleX,
+  SquareUser,
 } from "lucide-react";
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
+
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -107,71 +115,73 @@ const UserDashboard = () => {
   ];
 
   const ProfileSection = () => (
-    <div className="md:px-22 p-4 md:p-0">
+    <div className={`md:px-22 p-4 md:p-0 __poppins-font`}>
       <div className="bg-white rounded-[20px] __cardShadow p-6">
-        <div className="flex items-start mb-6">
-          <div className="hidden md:flex items-center justify-center mr-4">
+        <div className="flex items-start">
+          <div className="hidden md:flex items-center justify-center mr-6">
             <Image
               src="/profile-image.png"
               alt="User Avatar"
               width={88}
               height={88}
-              className="w-18 h-18 rounded-full object-cover"
+              className="w-18 h-18 rounded-full object-cover border-2 border-amber-100 "
             />
           </div>
           <div>
-            <div className="space-y-4">
+            <div className={`space-y-5 `}>
               {/* Name */}
-              <div className="flex items-center justify-between pb-2">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+              <div className={`flex items-center justify-between pb-2 `}>
+                <label
+                  className={`text-[14px] font-medium text-gray-700 w-40 text-left`}
+                >
                   Name
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.name}
                 </p>
               </div>
               {/* Phone Number */}
               <div className="flex items-center justify-between pb-2">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+                <label className="text-[14px] font-medium text-gray-700 w-40 text-left">
                   Phone Number
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.phoneNumber}
                 </p>
               </div>
               {/* DOB */}
               <div className="flex items-center justify-between pb-2">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+                <label className="text-[14px] font-medium text-gray-700 w-40 text-left">
                   DOB
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.dob}
                 </p>
               </div>
               {/* Gender */}
               <div className="flex items-center justify-between pb-2">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+                <label className="text-[14px] font-medium text-gray-700 w-40 text-left">
                   Gender
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.gender}
                 </p>
               </div>
               {/* Home Address */}
               <div className="flex items-center justify-between pb-2">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+                <label className="text-[14px] font-medium text-gray-700 w-40 text-left">
                   Home Address
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.homeAddress}
                 </p>
               </div>
               {/* Work Address */}
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-gray-700 w-40 text-left">
+                <label className="text-[14px] font-medium text-gray-700 w-40 text-left">
                   Work Address
                 </label>
-                <p className="text-gray-900 text-left flex-1 font-bold text-[12px] leading-[135%]">
+                <p className="text-gray-900 text-left flex-1 font-[550] text-[14px] leading-[135%]">
                   {profileData.workAddress}
                 </p>
               </div>
@@ -199,198 +209,130 @@ const UserDashboard = () => {
     </div>
   );
 
-const TestsSection = () => (
-  <div className="px-4 md:px-22 space-y-6">
-    {/* Upcoming Bookings */}
-    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-      <div className="__primary-bg text-white px-4 md:px-6 py-3">
-        <h3 className="font-semibold">Upcoming Bookings</h3>
-      </div>
-      <div className="overflow-x-auto w-full">
-        <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr className="">
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Test Name
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Date & Time
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Location
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Status
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {upcomingBookings.map((booking) => (
-              <tr key={booking.id} >
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {booking.testName}
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {booking.dateTime}
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {booking.location}
-                </td>
-                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      booking.status === "Confirmed"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {booking.status}
-                  </span>
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
-                  <div className="flex flex-col gap-1">
-                    <button className="text-gray-900 text-left flex items-center gap-1">
-                      <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
-                      Add a New Test
-                    </button>
-                    <button className="text-gray-900 text-left">
-                      <CircleX className="inline w-3.5 h-3.5 mr-1" />
-                      Cancel Booking
-                    </button>
-                    <button className="text-gray-900 text-left">
-                      <Wrench className="inline w-3.5 h-3.5 mr-1" />
-                      Reschedule
-                    </button>
-                  </div>
-                </td>
+  const TestsSection = () => (
+    <div className="px-4 md:px-22 space-y-6 __poppins-font">
+      {/* Upcoming Bookings */}
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+        <div className="__primary-bg text-white px-4 md:px-6 py-3">
+          <h3 className="font-semibold">Upcoming Bookings</h3>
+        </div>
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-xs md:text-sm">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr className="">
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Test Name
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Date & Time
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Location
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Status
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    {/* Past Bookings */}
-    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-      <div className="__primary-bg text-white px-4 md:px-6 py-3">
-        <h3 className="font-semibold">Past Bookings</h3>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Test Name
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Date Completed
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Status
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Report
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {pastBookings.map((booking) => (
-              <tr key={booking.id}>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {booking.testName}
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {booking.dateCompleted}
-                </td>
-                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
-                  <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                    {booking.status}
-                  </span>
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  <span className="flex items-center gap-2">
-                    <span className="flex items-center justify-center w-4 h-4">
-                      <FolderOpen className="w-4 h-4" />
+            </thead>
+            <tbody className="">
+              {upcomingBookings.map((booking) => (
+                <tr key={booking.id}>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {booking.testName}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {booking.dateTime}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {booking.location}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        booking.status === "Confirmed"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {booking.status}
                     </span>
-                    Ready
-                  </span>
-                </td>
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
+                    <div className="flex flex-col gap-1">
+                      <button className="text-gray-900 text-left flex items-center gap-1">
+                        <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
+                        Add a New Test
+                      </button>
+                      <button className="text-gray-900 text-left">
+                        <CircleX className="inline w-3.5 h-3.5 mr-1" />
+                        Cancel Booking
+                      </button>
+                      <button className="text-gray-900 text-left">
+                        <Wrench className="inline w-3.5 h-3.5 mr-1" />
+                        Reschedule
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
-                  <div className="flex flex-col gap-1">
-                    <button className="text-gray-900 text-left flex items-center gap-1">
-                      <Eye className="w-3 h-3" />
-                      View Report
-                    </button>
-                    <button className="text-gray-900 text-left flex items-center gap-1">
-                      <Download className="w-3 h-3" />
-                      Download
-                    </button>
-                    <button className="text-gray-900 text-left">
-                      Book Again
-                    </button>
-                  </div>
-                </td>
+      {/* Past Bookings */}
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+        <div className="__primary-bg text-white px-4 md:px-6 py-3">
+          <h3 className="font-semibold">Past Bookings</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-xs md:text-sm">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Test Name
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Date Completed
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Status
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Report
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-);
-const ReportsSection = () => (
-  <div className="px-4 md:px-22 container mx-auto">
-    <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-      <div className="__primary-bg text-white px-4 md:px-6 py-3">
-        <h3 className="font-semibold">Your Reports</h3>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-[600px] w-full text-xs md:text-sm">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Test Name
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Date Taken
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Report Status
-              </th>
-              <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="">
-            {reports.map((report) => (
-              <tr key={report.id}>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {report.testName}
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                  {report.dateTaken}
-                </td>
-                <td className="px-4 md:px-6 py-3 whitespace-nowrap">
-                  <span
-                    className={`px-2 py-1 text-xs rounded-full ${
-                      report.status === "Ready"
-                        ? "bg-green-100 text-green-800"
-                        : "bg-yellow-100 text-yellow-800"
-                    }`}
-                  >
-                    {report.status}
-                  </span>
-                </td>
-                <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
-                  {report.status === "Ready" ? (
+            </thead>
+            <tbody className="">
+              {pastBookings.map((booking) => (
+                <tr key={booking.id}>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {booking.testName}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {booking.dateCompleted}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                    <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
+                      {booking.status}
+                    </span>
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    <span className="flex items-center gap-2">
+                      <span className="flex items-center justify-center w-4 h-4">
+                        <FolderOpen className="w-4 h-4" />
+                      </span>
+                      Ready
+                    </span>
+                  </td>
+
+                  <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
                     <div className="flex flex-col gap-1">
                       <button className="text-gray-900 text-left flex items-center gap-1">
                         <Eye className="w-3 h-3" />
@@ -400,28 +342,97 @@ const ReportsSection = () => (
                         <Download className="w-3 h-3" />
                         Download
                       </button>
+                      <button className="text-gray-900 text-left">
+                        Book Again
+                      </button>
                     </div>
-                  ) : (
-                    <span className="text-gray-900">-</span>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-      <div className="px-6 py-3">
-        <button className="cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 ">
-          <Upload className="w-4 h-4" />
-          Upload External Report
-        </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+
+  const ReportsSection = () => (
+    <div className="px-4 md:px-22 container mx-auto">
+      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+        <div className="__primary-bg text-white px-4 md:px-6 py-3">
+          <h3 className="font-semibold">Your Reports</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-[600px] w-full text-xs md:text-sm">
+            <thead className="bg-gray-50 border-b border-gray-200">
+              <tr>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Test Name
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Date Taken
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Report Status
+                </th>
+                <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="">
+              {reports.map((report) => (
+                <tr key={report.id}>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {report.testName}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
+                    {report.dateTaken}
+                  </td>
+                  <td className="px-4 md:px-6 py-3 whitespace-nowrap">
+                    <span
+                      className={`px-2 py-1 text-xs rounded-full ${
+                        report.status === "Ready"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-yellow-100 text-yellow-800"
+                      }`}
+                    >
+                      {report.status}
+                    </span>
+                  </td>
+                  <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
+                    {report.status === "Ready" ? (
+                      <div className="flex flex-col gap-1">
+                        <button className="text-gray-900 text-left flex items-center gap-1">
+                          <Eye className="w-3 h-3" />
+                          View Report
+                        </button>
+                        <button className="text-gray-900 text-left flex items-center gap-1">
+                          <Download className="w-3 h-3" />
+                          Download
+                        </button>
+                      </div>
+                    ) : (
+                      <span className="text-gray-900">-</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="px-6 py-3">
+          <button className="cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 ">
+            <Upload className="w-4 h-4" />
+            Upload External Report
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   const SmartHealthSection = () => (
-    <div className="px-22">
+    <div className="md:px-22">
       <div className="bg-white rounded-lg p-6">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Smart Health
@@ -463,7 +474,7 @@ const ReportsSection = () => (
     {
       id: "profile",
       label: "My Profile",
-      icon: User,
+      icon: SquareUser,
       description: "Manage your account",
     },
     {
@@ -487,22 +498,22 @@ const ReportsSection = () => (
   ];
 
   return (
-    <div className="min-h-screen md:p-x4 __gapTop" >
+    <div className="min-h-screen md:p-x4 __gapTop __poppins-font">
       <div className="container mx-auto">
         {/* Header */}
         <div className=" rounded-lg px-6">
-          <div className="md:flex flex-rowitems-center">
+          <div className="md:flex flex-row items-center">
             <div className="flex items-center justify-start md:justify-center mr-4">
               <Image
                 src="/profile-image.png"
                 alt="User Avatar"
                 width={88}
                 height={88}
-                className="w-18 h-18 rounded-full object-cover"
+                className="w-18 border-2 border-amber-100 h-18 rounded-full object-cover"
               />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-800">
+              <h1 className="text-2xl font-bold text-gray-800 mb-1">
                 Welcome Back Alex!
               </h1>
               <p className="text-gray-600">
@@ -513,7 +524,7 @@ const ReportsSection = () => (
           </div>
 
           {/* Tab Navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:px-17 __gapTop">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-8 gap-4 md:px-17 __gapTop __poppins-font">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (
@@ -540,7 +551,7 @@ const ReportsSection = () => (
                   </h3>
                   <p
                     className={`text-xs mt-1 ${
-                      activeTab === tab.id ? "text-teal-100" : "text-gray-900"
+                      activeTab === tab.id ? "text-white" : "text-gray-900"
                     }`}
                   >
                     {tab.description}
