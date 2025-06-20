@@ -16,6 +16,7 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 import shapeImage from "../assets/home/shape2.png";
 
 import { Poppins } from "next/font/google";
+import Link from "next/link";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -374,6 +375,7 @@ const UploadReport = () => {
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     {/* Scan or Upload Report Option */}
+                  <Link href="/user-dashboard" passHref>
                     <div
                       className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                         selectedOption === "upload"
@@ -410,7 +412,9 @@ const UploadReport = () => {
                         />
                       </div>
                     </div>
+                  </Link>
                     {/* Manual Entry Option */}
+                    <Link href="/upload-documents" passHref>
                     <div
                       className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
                         selectedOption === "manual"
@@ -447,15 +451,16 @@ const UploadReport = () => {
                         />
                       </div>
                     </div>
+                    </Link>
                   </div>
-                  <div className="flex justify-center mt-4">
+                  {/* <div className="flex justify-center mt-4">
                     <button
                       onClick={() => setReportAdded(false)}
                       className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-colors"
                     >
                       Close
                     </button>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="w-full relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
                   <div className="absolute inset-0 h-full">

@@ -9,7 +9,7 @@ const HealthcareFooter = () => {
   const companyLinks = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Tests", href: "/tests" },
+    { label: "Tests", href: "/our-services" },
     { label: "Clinics", href: "/clinics" },
   ];
 

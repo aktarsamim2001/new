@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function PrivacyPolicy() {
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full container mx-auto p-6">
+      <div className="w-full container mx-auto px-6 __gapTop">
         <h1 className="text-3xl font-bold __secondary-text mb-6">Privacy Policy</h1>
         <p className="text-gray-700 mb-4">
           Your privacy is important to us. This Privacy Policy explains how Sukaii Health collects, uses, and protects your personal information when you use our services.
@@ -33,9 +33,6 @@ export default function PrivacyPolicy() {
         <p className="text-gray-700 mb-4">
           For any questions about our privacy practices, please contact us at <span className="__secondary-text">support@sukaii.com</span>.
         </p>
-        <div className="mt-8 text-center">
-          <Link href="/" className="__secondary-text underline font-medium">Back to Home</Link>
-        </div>
       </div>
     </div>
   );

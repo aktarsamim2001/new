@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Terms() {
   return (
     <div className="flex items-center justify-center">
-      <div className="w-full container mx-auto p-6">
+      <div className="w-full container mx-auto px-6 __gapTop">
         <h1 className="text-3xl font-bold __secondary-text mb-6">Terms & Conditions</h1>
         <p className="text-gray-700 mb-4">
           Welcome to Sukaii Health. By accessing or using our services, you agree to be bound by these Terms & Conditions. Please read them carefully.

@@ -166,6 +166,7 @@ const RecommendedPackages = () => {
               </p>
             </div>
 
+           <Link href="/our-services">
             <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
               <Button
                 variant="outline"
@@ -174,6 +175,7 @@ const RecommendedPackages = () => {
                 Explore More!
               </Button>
             </div>
+           </Link>
           </div>
         </div>
       </div>

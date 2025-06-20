@@ -1,11 +1,12 @@
 import Image from "next/image";
 import React from "react";
 import image from "../../assets/RecommendedImages/banner.jpg";
-import image1 from "../../assets/RecommendedImages/banner1.jpg"; 
+import image1 from "../../assets/RecommendedImages/banner1.jpg";
 import image2 from "../../assets/RecommendedImages/banner2.jpg";
 import image3 from "../../assets/RecommendedImages/banner3.jpg";
 import { ArrowUpRight } from "lucide-react";
-
+import Link from "next/link";
+import Button from "../ui/Button";
 
 function TestDetails() {
   // Add package data
@@ -44,7 +45,12 @@ function TestDetails() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-14 h-14 flex items-center justify-center mb-2">
-                <Image src='/event-details/icon (1).png' width={30} height={40} alt="icon" />
+                <Image
+                  src="/event-details/icon (1).png"
+                  width={30}
+                  height={40}
+                  alt="icon"
+                />
               </div>
               <p className="text-gray-600 text-sm">
                 Track your daily nutrition with smart visual recognition
@@ -52,7 +58,12 @@ function TestDetails() {
             </div>
             <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
-                <Image src='/event-details/icon (2).png' width={30} height={30} alt="icon" />
+                <Image
+                  src="/event-details/icon (2).png"
+                  width={30}
+                  height={30}
+                  alt="icon"
+                />
               </div>
               <p className="text-gray-600 text-sm">
                 Manage health data for your entire family in one place
@@ -60,7 +71,12 @@ function TestDetails() {
             </div>
             <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
-                <Image src='/event-details/icon (3).png' width={30} height={30} alt="icon" />
+                <Image
+                  src="/event-details/icon (3).png"
+                  width={30}
+                  height={30}
+                  alt="icon"
+                />
               </div>
               <p className="text-gray-600 text-sm">
                 AI-powered insights from your medical reports
@@ -68,7 +84,12 @@ function TestDetails() {
             </div>
             <div className="bg-white p-6 rounded-xl __cardShadow">
               <div className="w-12 h-12 flex items-center justify-center mb-2">
-                <Image src='/event-details/icon (4).png' width={30} height={30} alt="icon" />
+                <Image
+                  src="/event-details/icon (4).png"
+                  width={30}
+                  height={30}
+                  alt="icon"
+                />
               </div>
               <p className="text-gray-600 text-sm">
                 Bank-level security for all your health information
@@ -109,21 +130,26 @@ function TestDetails() {
       </div>
       <div className="__primary-bg rounded-3xl p-8 md:p-12 relative overflow-hidden mt-[80px]">
         <div className="grid md:grid-cols-2 gap-6 items-center relative z-10">
-            <div>
-              <h3 className="text-3xl font-bold text-white mb-3">
-                Smarter Health Starts Here
-              </h3>
-              <p className="text-white text-opacity-90">
-                Discover how our Smart Health Dashboard helps you stay on top of
-                your health — effortlessly.
-              </p>
-            </div>
-            <div className="flex justify-end">
-              <button className="__secondary-bg text-white font-medium px-6 py-3 rounded-lg">
-                Explore More!
-              </button>
-            </div>
+          <div>
+            <h3 className="text-3xl font-bold text-white mb-3">
+              Smarter Health Starts Here
+            </h3>
+            <p className="text-white text-opacity-90">
+              Discover how our Smart Health Dashboard helps you stay on top of
+              your health — effortlessly.
+            </p>
           </div>
+          <Link href="/our-services">
+            <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+              <Button
+                variant="outline"
+                className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
+              >
+                Explore More!
+              </Button>
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );
