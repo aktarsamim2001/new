@@ -1,8 +1,10 @@
 import { MoveRight } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import image from "../../../public/texture-bg.png";
 
 import { Poppins } from "next/font/google";
+import Image from "next/image";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -67,15 +69,37 @@ export const HowItWorks = () => {
 
   return (
     <div className=" __gapTop">
-      <section className=" bg-[#FCD3EA]">
+      <section className=" bg-[#FCD3EA] pt-16 md:pt-0">
         {steps.map((step, index) => (
           <div
             key={step.number}
-            className={`grid grid-cols-1 lg:grid-cols-2 mb-4 md:mb-8 items-center container mx-auto ${poppins.className}`}
+            className={`grid grid-cols-1 lg:grid-cols-2 mb-4 md:mb-8 items-center container mx-auto relative ${poppins.className}`}
           >
-            {/* Text Content - Always left */}
-            <div className="space-y-4 p-4 md:px-20 text-left ">
-              <div className="space-y-1">
+            {/* Decorative texture only above the first text content */}
+            <div className="space-y-4 p-4 md:px-20 text-left relative">
+              {index === 0 && (
+                <div className="absolute md:-top-10 -top-14  -left-35 md:left-[-30px] w-full max-w-md opacity-25 z-0 flex flex-col pointer-events-none">
+                  <div>
+                    <Image
+                      src={image}
+                      alt="Decorative texture"
+                      width={600}
+                      height={600}
+                      className="filter brightness-0 invert"
+                    />
+                  </div>
+                  <div className="-mt-24">
+                    <Image
+                      src={image}
+                      alt="Decorative texture"
+                      width={600}
+                      height={600}
+                      className="filter brightness-0 invert"
+                    />
+                  </div>
+                </div>
+              )}
+              <div className="space-y-1 relative mt-6 md:mt-34 z-10">
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">
                   {step.number}.
                 </h1>
@@ -136,11 +160,11 @@ export const HowItWorks = () => {
             <div className="relative flex justify-center lg:justify-end w-full">
               <div className="relative group w-full">
                 {/* Main image container */}
-                <div className="relative z-10 overflow-hidden w-full">
+                <div className="relative z-10 overflow-hidden w-full h-full">
                   <img
                     src={step.image}
                     alt={step.alt}
-                    className="w-full h-64 sm:h-80 lg:h-96 xl:h-[38rem] object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="w-full h-80 md:h-[50rem] object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
 

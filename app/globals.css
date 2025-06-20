@@ -99,12 +99,29 @@ h6 {
   font-family: var(--font-rubik);
 }
 
+/* global.css or inside Tailwind @layer utilities */
+.custom-swiper .swiper-pagination-bullet {
+  background-color: #787878; 
+  opacity: 1;
+  width: 15px;
+  height: 4px;
+  border-radius: 9999px;
+  transition: all 0.3s ease;
+}
+
+.custom-swiper .swiper-pagination-bullet-active {
+  background-color: #00b8c1; 
+  transform: scale(1.3);
+}
+
+
 .__gapTop {
   padding-top: 40px; /* default for small screens */
 
   @media (min-width: 768px) {
     padding-top: 60px; /* md screens */
   }
+
 
   @media (min-width: 1024px) {
     padding-top: 80px; /* lg screens */
@@ -121,11 +138,10 @@ h6 {
 
 .sliding-text {
   display: inline-block;
-  white-space: nowrap; /* Prevents text from wrapping */
-  animation: slide 15s linear infinite; /* Adjust duration (10s) as needed */
+  white-space: nowrap; 
+  animation: slide 15s linear infinite; 
 }
 
-/* Animation keyframes for sliding effect */
 @keyframes slide {
   0% {
     transform: translateX(100%); /* Start from the right */

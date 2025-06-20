@@ -11,7 +11,7 @@ function DetailsBanner() {
     
             {/* Image Section */}
             <div className="flex justify-center items-center">
-              <div className="relative w-full h-[200px] md:h-[287px] rounded-[30px] overflow-hidden shadow-lg">
+              <div className="relative w-full h-[200px] md:h-[287px] md:rounded-[30px] overflow-hidden shadow-lg">
                 <Image
                   src={image}
                   alt="Services Banner"
@@ -23,7 +23,7 @@ function DetailsBanner() {
             </div>
     
             {/* Text Section */}
-            <div className="p-x4 text-left max-w-lg">
+            <div className="px-4 md:px-0 text-left max-w-lg">
               <h1 className="text-4xl font-bold __secondry-text">
                 Complete Blood Count Test (CBC)
               </h1>
