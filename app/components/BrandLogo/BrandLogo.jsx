@@ -1,6 +1,12 @@
 "use client";
 import React from "react";
 import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/pagination";
+
 import image from "../../assets/brand-logo/logo1.png";
 import image1 from "../../assets/brand-logo/logo2.png";
 import image2 from "../../assets/brand-logo/logo3.png";
@@ -15,14 +21,46 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto __gapTop">
-      <ul className="flex md:flex-row mb-3 md:mb-0 flex-col items-center justify-evenly gap-5 md:gap-0">
+    <div className="container mx-auto">
+      <Swiper
+        modules={[Autoplay, Pagination]}
+        spaceBetween={20}
+        slidesPerView={2}
+        className="custom-swiper"
+        loop={true}
+        autoplay={{
+          delay: 2000,
+          disableOnInteraction: false,
+        }}
+        pagination={{ clickable: true }}
+        breakpoints={{
+          640: { slidesPerView: 2 },
+          768: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
+        }}
+      >
         {logo.map((logos) => (
-          <li key={logos.id}>
-            <Image src={logos.icon} width={150} height={150} alt="brand-logo" />
-          </li>
+          <SwiperSlide key={logos.id}>
+            <div className="w-[150px] h-[150px] mx-auto flex items-center justify-center">
+              <Image
+                src={logos.icon}
+                alt="brand-logo"
+                width={150}
+                height={150}
+                className="object-contain w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300"
+              />
+            </div>
+          </SwiperSlide>
         ))}
-      </ul>
+      </Swiper>
+      <style jsx global>{`
+        .custom-swiper .swiper-pagination-bullet {
+          @apply bg-indigo-600 opacity-100 w-3 h-3 mx-1 rounded-full transition-all;
+        }
+        .custom-swiper .swiper-pagination-bullet-active {
+          @apply bg-blue-700 scale-110;
+        }
+      `}</style>
     </div>
   );
 }
