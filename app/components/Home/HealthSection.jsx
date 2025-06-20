@@ -4,6 +4,7 @@ import React from "react";
 import image from "../..//assets/partner-image/handshake.png";
 import Image from "next/image";
 import Button from "../ui/Button";
+import Link from "next/link";
 
 const HealthSection = () => {
   return (
@@ -20,14 +21,16 @@ const HealthSection = () => {
             well-being — all in one place.
           </p>
 
-          <div className="">
-            <Button
-              variant="outline"
-              className="text-white rounded-xl text-base sm:text-lg font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]"
-            >
-              Get Started
-            </Button>
-          </div>
+           <div>
+      <Link href="/book-test" passHref>
+        <Button
+          variant="outline"
+          className="text-white rounded-xl text-base sm:text-lg font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]"
+        >
+          Get Started
+        </Button>
+      </Link>
+    </div>
         </div>
 
         {/* Image Section */}

@@ -116,19 +116,19 @@ h6 {
 
 
 .__gapTop {
-  padding-top: 40px; /* default for small screens */
+  padding-top: 40px; 
 
   @media (min-width: 768px) {
-    padding-top: 60px; /* md screens */
+    padding-top: 60px; 
   }
 
 
   @media (min-width: 1024px) {
-    padding-top: 80px; /* lg screens */
+    padding-top: 80px; 
   }
 
   @media (min-width: 1280px) {
-    padding-top: 100px; /* xl screens */
+    padding-top: 100px; 
   }
 }
 
@@ -144,17 +144,16 @@ h6 {
 
 @keyframes slide {
   0% {
-    transform: translateX(100%); /* Start from the right */
+    transform: translateX(100%); 
   }
   100% {
-    transform: translateX(-100%); /* Move to the left */
+    transform: translateX(-100%); 
   }
 }
 
-/* Apply sliding effect only on mobile view (≤ 768px) */
 @media (min-width: 769px) {
   .sliding-text {
-    animation: none; /* Disable animation on larger screens */
-    display: block; /* Normal text display for desktop */
+    animation: none;
+    display: block; 
   }
 }

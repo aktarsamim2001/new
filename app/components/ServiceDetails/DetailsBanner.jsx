@@ -3,6 +3,7 @@
 import Image from 'next/image'
 import React from 'react'
 import image from '../../assets/service/service-banner.jpg'
+import Link from 'next/link'
 
 function DetailsBanner() {
   return (
@@ -30,9 +31,11 @@ function DetailsBanner() {
               <p className="mt-4 text-lg text-gray-600">
                 The Complete Blood Count (CBC) test is a common and essential blood test that gives insights into your overall health by measuring key components like red blood cells, white blood cells, and platelets. It's often the first step in detecting infections, anemia, immune system issues, and more.
               </p>
-               <button className="mt-4 __secondary-bg text-white px-10 py-4 rounded-lg font-semibold">
-                Book Now
-              </button>
+              <Link href="/book-test">
+                <button className="mt-4 __secondary-bg text-white px-10 py-4 rounded-lg font-semibold">
+                  Book Now
+                </button>
+              </Link>
             </div>
           </div>
         </div></div>
