@@ -147,7 +147,7 @@ export const HowItWorks = () => {
               {/* Show button only for the last step (05) */}
               {step.number === "05" && (
                 <div className="pt-4">
-                  <button className="cursor-pointer __secondary-bg text-white px-8 py-2 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
+                  <button className="cursor-pointer __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
                     <Link href="/sign-up" className="text-white">
                       Find Out More
                     </Link>

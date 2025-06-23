@@ -5,6 +5,26 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Star } from "lucide-react";
 
+// Modal component
+function SuccessModal({ open, onClose }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
+      <div className="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full flex flex-col items-center">
+        <Image src="/sukaii-logo.png" alt="Sukaii Logo" width={80} height={30} />
+        <h3 className="text-xl font-bold mt-4 mb-2 text-center">OTP Verified!</h3>
+        <p className="text-gray-600 mb-6 text-center">Signup Complete. You will be redirected to sign in.</p>
+        <button
+          onClick={onClose}
+          className="px-6 py-2 bg-pink-500 text-white rounded-lg font-semibold shadow hover:bg-pink-600 transition"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  );
+}
+
 const slide = {
   reviewAvatars: [
     { name: "AB", bg: "bg-pink-500" },
@@ -23,6 +43,7 @@ function OtpVerificationContent() {
   const searchParams = useSearchParams();
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
+  const [modalOpen, setModalOpen] = useState(false);
 
   const handleOtpChange = (e) => {
     const value = e.target.value;
@@ -39,14 +60,14 @@ function OtpVerificationContent() {
       return;
     }
     setError("");
-    // Here you would verify the OTP with your backend
-    // On success, redirect or show success message
-    alert("OTP Verified! Signup Complete.");
-    router.push("/sign-in");
+    // Show modal instead of alert
+    setModalOpen(true);
+    // Removed auto-close and redirect
   };
 
   return (
     <div className="min-h-screen flex items-start justify-center">
+      <SuccessModal open={modalOpen} onClose={() => { setModalOpen(false); router.push("/sign-in"); }} />
       <div className="w-full max-w-md lg:w-1/2 p-8">
         <div className="mb-8 flex flex-col items-start">
           <Image
@@ -68,8 +89,7 @@ function OtpVerificationContent() {
               type="text"
               value={otp}
               onChange={handleOtpChange}
-              placeholder="Enter 6-digit OTP"
-              className="w-full h-14 text-center text-xl font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:border-pink-500 focus:ring-2 focus:ring-pink-200 tracking-widest"
+             className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
               maxLength={6}
               inputMode="numeric"
               pattern="[0-9]*"

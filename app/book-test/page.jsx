@@ -40,7 +40,7 @@ const TestBookingSystem = () => {
   };
 
   const HeaderSection = () => (
-    <div className="pt-[0] md:pt-[60px]">
+    <div className="__gapTop">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between w-full ">
         {/* Text Section - 30%, aligned to right */}
         <div className="w-full md:mt-0 mt-[2rem] lg:w-[31%] flex justify-center items-center">
@@ -62,7 +62,7 @@ const TestBookingSystem = () => {
   );
 
   const Step1 = () => (
-    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between pt-[60px]">
+    <div className="rounded-lg px-4 flex items-center justify-between ">
       {/* Left Section - Increased width and margin */}
       <div className="space-y-6 lg:ml-[100px] lg:w-[40%]">
         <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
@@ -569,14 +569,11 @@ const TestBookingSystem = () => {
             </div>
           </div>
 
-          <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
-            <button
-              onClick={handleContinue}
-              className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
-            >
+          <Link href="/dashboard">
+            <button className="mt-6 __secondary-bg text-white py-3 px-6 rounded-lg font-medium">
               Dashboard
             </button>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
@@ -586,7 +583,7 @@ const TestBookingSystem = () => {
       {currentStep <= 3 && <HeaderSection />}
       <div className="container mx-auto realtive">
         {/* Step content */}
-        <div className="container mx-auto pt-[0] md:pt-[60px]">
+        <div className="container mx-auto __gapTop">
           {currentStep === 1 && <Step1 />}
           {currentStep === 2 && <Step2 />}
           {currentStep === 3 && <Step3 />}
