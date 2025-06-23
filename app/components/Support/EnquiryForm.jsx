@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import image from "../../assets/woman/support-woman.jpg";
 import Button from "../ui/Button";
+import Link from "next/link";
 
 export default function EnquiryForm() {
   const [formData, setFormData] = useState({
@@ -216,7 +217,8 @@ export default function EnquiryForm() {
                 </p>
               </div>
 
-              <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+             <Link href="/our-services" passHref>
+               <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
                 <Button
                   variant="outline"
                   className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
@@ -224,6 +226,7 @@ export default function EnquiryForm() {
                   Explore More!
                 </Button>
               </div>
+             </Link>
             </div>
           </div>
         </div>

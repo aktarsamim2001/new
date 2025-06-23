@@ -7,6 +7,7 @@ import image from "../assets/woman/shape.png";
 import image1 from "../assets/book-test/heart.png";
 import image2 from "../assets/book-test/lab.png";
 import image3 from "../assets/book-test/medical-team.png";
+import Link from "next/link";
 
 const TestBookingSystem = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -569,7 +570,7 @@ const TestBookingSystem = () => {
             </div>
           </div>
 
-          <Link href="/dashboard">
+          <Link href="/user-dashboard">
             <button className="mt-6 __secondary-bg text-white py-3 px-6 rounded-lg font-medium">
               Dashboard
             </button>
