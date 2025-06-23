@@ -29,9 +29,6 @@ export default function Terms() {
         <p className="text-gray-700 mb-4">
           We may update these Terms & Conditions from time to time. Continued use of the service means you accept the new terms.
         </p>
-        <div className="mt-8 text-center">
-          <Link href="/" className="__secondary-text underline font-medium">Back to Home</Link>
-        </div>
       </div>
     </div>
   );
