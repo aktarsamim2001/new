@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { CheckCircle, FileText, BarChart3, Activity } from "lucide-react";
 import Image from "next/image";
 import image from "../assets/woman/shape.png";
@@ -8,6 +8,10 @@ import image1 from "../assets/book-test/heart.png";
 import image2 from "../assets/book-test/lab.png";
 import image3 from "../assets/book-test/medical-team.png";
 import Link from "next/link";
+import { FaCalendarAlt } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import './custom-datepicker.css';
 
 const TestBookingSystem = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -27,11 +31,23 @@ const TestBookingSystem = () => {
     applyCode: "",
   });
 
+  const [dateValue, setDateValue] = useState(null);
+
+  const dateInputRef = useRef(null);
+
   const handleInputChange = (field, value) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormData((prev) => {
+      // If the field is a select, don't clear other fields
+      return {
+        ...prev,
+        [field]: value,
+      };
+    });
+  };
+
+  const handleDateChange = (date) => {
+    setDateValue(date);
+    handleInputChange("date", date ? date.toISOString().split("T")[0] : "");
   };
 
   const handleContinue = () => {
@@ -239,16 +255,44 @@ const TestBookingSystem = () => {
           </div>
 
           <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[130px]">
               Date
             </label>
-
-            <input
-              type="date"
-              value={formData.date}
-              onChange={(e) => handleInputChange("date", e.target.value)}
-              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            />
+            <div className="relative w-full">
+              <DatePicker
+                selected={dateValue}
+                onChange={handleDateChange}
+                dateFormat="yyyy-MM-dd"
+                placeholderText="Select date"
+                className="w-full bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all pr-12"
+                calendarClassName="custom-datepicker"
+                popperPlacement="bottom"
+                showPopperArrow={false}
+                minDate={new Date()}
+                renderCustomHeader={({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
+                  <div className="flex justify-between items-center px-2 py-1 bg-pink-50 rounded-t-xl">
+                    <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className="text-pink-500 px-2 py-1 rounded disabled:opacity-30">‹</button>
+                    <span className="font-semibold text-pink-600">{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
+                    <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className="text-pink-500 px-2 py-1 rounded disabled:opacity-30">›</button>
+                  </div>
+                )}
+                customInput={
+                  <div className="flex items-center w-full">
+                    <input
+                      type="text"
+                      value={dateValue ? dateValue.toLocaleDateString() : ""}
+                      readOnly
+                      className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all pr-12 cursor-pointer"
+                      placeholder="Select date"
+                    />
+                    <FaCalendarAlt
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-pink-500 cursor-pointer"
+                      size={20}
+                    />
+                  </div>
+                }
+              />
+            </div>
           </div>
 
           <div className="lg:flex flex-row items-start gap-3">
@@ -392,7 +436,6 @@ const TestBookingSystem = () => {
                 <option value="credit-card">Credit Card</option>
                 <option value="debit-card">Debit Card</option>
                 <option value="online-banking">Online Banking</option>
-                <option value="digital-wallet">Digital Wallet</option>
               </select>
 
               <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
