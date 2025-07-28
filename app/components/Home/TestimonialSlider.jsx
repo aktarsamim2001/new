@@ -6,8 +6,8 @@ import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
-import image from "../../assets/testimonials-image/testimonials-image.jpg";
+// import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
+import image from "../../assets/testimonials-image/testimonials.png";
 import Image from "next/image";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -17,7 +17,7 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy",
+      "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy.",
     author: "Mr. Williams",
     role: "Diabetics Patient",
     rating: 5,
@@ -45,19 +45,19 @@ const testimonials = [
 
 const TestimonialSlider = () => {
   return (
-    <div className="__primary-bg mt-[60px]">
-      <div className="container mx-auto relative">
+    <div className="__primary-bg mt-[60px] py-[110px]">
+      <div className="max-w-6xl mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
         <div className="hidden lg:flex justify-center items-center">
           <button
             variant="outline"
-            className="live_event_prev absolute border-[1px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_prev absolute border-[2px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowLeftLong size={28} />
           </button>
           <button
             variant="outline"
-            className="live_event_next border-[1px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_next border-[2px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowRightLong size={28} />
           </button>
@@ -68,30 +68,28 @@ const TestimonialSlider = () => {
           spaceBetween={20}
           slidesPerView={1}
           loop
+          speed={1000}
+          effect="ease"
           navigation={{
             prevEl: ".live_event_prev",
             nextEl: ".live_event_next",
           }}
-          className="!py-8 sm:!py-12"
+          className="max-w-4xl mx-auto"
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
-              <div className="relative grid grid-cols-1 lg:grid-cols-2 items-center gap-6 sm:gap-8 justify-center max-w-6xl mx-auto">
+              <div className="relative grid grid-cols-1 lg:grid-cols-[362px_auto] items-center gap-6 sm:gap-10 justify-center">
                 {/* Image Section */}
                 <div className="w-full flex items-center justify-center order-1 lg:order-1">
-                  <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg">
-                    <Image
-                      src={testimonial.image}
-                      alt={testimonial.author}
-                      width={400}
-                      height={300}
-                      className="object-cover rounded-2xl w-full h-64 sm:h-80 lg:h-96"
-                    />
-                  </div>
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.author}
+                    className="object-cover rounded-2xl w-full lg:w-[362px] h-64 sm:h-[345px] lg:h-[345px] "
+                  />
                 </div>
 
                 {/* Content Section */}
-                <div className="text-white space-y-4 sm:space-y-6 relative order-2 lg:order-2 px-4 sm:px-0">
+                <div className="text-white space-y-4 sm:space-y-3 relative order-2 lg:order-2 px-4 sm:px-0">
                   {/* Quote Icon */}
                   <div className="w-12 h-12 sm:w-11 sm:h-11 flex items-center justify-center bg-white rounded-br-full relative">
                     <Image
@@ -108,7 +106,7 @@ const TestimonialSlider = () => {
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <svg
                         key={i}
-                        className="w-4 h-4 sm:w-6 sm:h-6 text-yellow-400 fill-current"
+                        className="w-4 h-4 sm:w-8 sm:h-8 text-yellow-400 fill-current"
                         viewBox="0 0 24 24"
                       >
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
@@ -117,7 +115,7 @@ const TestimonialSlider = () => {
                   </div>
 
                   {/* Quote Text */}
-                  <p className="text-lg sm:text-xl lg:text-2xl font-medium leading-relaxed">
+                  <p className="text-lg sm:text-xl lg:text-[32px] font-semibold leading-tight">
                     "{testimonial.quote}"
                   </p>
 

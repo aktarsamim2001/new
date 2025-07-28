@@ -3,7 +3,7 @@ import image from "../../assets/RecommendedImages/banner.jpg";
 import image2 from "../../assets/RecommendedImages/banner1.jpg";
 import image3 from "../../assets/RecommendedImages/banner2.jpg";
 import image4 from "../../assets/RecommendedImages/banner3.jpg";
-import image5 from "../../assets/woman/woman-figure.png";
+import image5 from "../../assets/home/your-health.png";
 import Image from "next/image";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
@@ -22,39 +22,55 @@ const RecommendedPackages = () => {
   const packages = [
     {
       id: 1,
-      title: "Complete Blood Count",
+      title: (
+        <>
+          Complete <br /> Blood Count
+        </>
+      ),
       image: image,
       alt: "Blood test procedure",
     },
     {
       id: 2,
-      title: "Kidney Function",
+      title: (
+        <>
+          Kidney <br /> Function
+        </>
+      ),
       image: image4,
       alt: "Kidney function test",
     },
     {
       id: 3,
-      title: "Cancer Markers",
+      title: (
+        <>
+          Cancer <br /> Markers
+        </>
+      ),
       image: image3,
       alt: "Medical scan results",
     },
     {
       id: 4,
-      title: "Lipid Profile",
+      title: (
+        <>
+          Lipid <br /> Profile
+        </>
+      ),
       image: image2,
       alt: "Laboratory testing",
     },
   ];
 
   return (
-    <div className="container mx-auto px-4 lg:px-0 __gapTop">
+    <div className="container mx-auto lg:px-0 __gapTop">
       {/* Header */}
-      <h1 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-8 md:mb-12 __secondary-text">
-        Recommended Packages
+      <h1 className="text-[28px]  px-6 lg:px-0 md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] md:text-center mb-8 md:mb-12 __secondary-text">
+        Recommended <br className="md:hidden" /> Packages
       </h1>
 
       {/* Package Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-[4rem]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-6 lg:px-0">
         {packages.map((pkg) => (
           <Link
             href={"/service-details"}
@@ -62,7 +78,7 @@ const RecommendedPackages = () => {
             key={pkg.id}
             className=" cursor-pointer"
           >
-            <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4 transition-transform duration-300 transform hover:scale-102 hover:shadow-2xs">
+            <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4 transition-transform duration-300 transform hover:scale-102 hover:shadow-2xs h-[135px] lg:h-auto w-full">
               <Image
                 src={pkg.image || "/placeholder.svg"}
                 alt={pkg.title}
@@ -72,13 +88,13 @@ const RecommendedPackages = () => {
 
               {/* Package Label - Responsive positioning */}
               <div
-                className={`absolute -bottom-7 left-3 sm:left-7 right-3 sm:right-auto ${poppins.className}`}
+                className={`absolute -bottom-7 left-3 sm:left-7 right-3 sm:right-auto ${poppins.className} w-[154px]`}
               >
-                <div className="__primary-bg pr-5 py-4 sm:py-5 rounded-[7px] flex items-center justify-between text-[#FFFFFF] sm:justify-start gap-2 shadow-lg">
-                  <span className="text-sm lg:text-[18px] font-[500] lg:leading-[100%] px-1 sm:px-3.5 flex-1">
+                <div className="__primary-bg p-4 rounded-[7px] flex items-center justify-between text-[#FFFFFF] sm:justify-start gap-2 shadow-lg relative">
+                  <span className="text-sm lg:text-[18px] font-[500] lg:leading-[21px] flex-1">
                     {pkg.title}
                   </span>
-                  <ArrowUpRight className="h-[20px] w-[20px] flex-shrink-0 absolute top-0 right-0 m-1.5" />
+                  <ArrowUpRight className="h-[20px] w-[20px] flex-shrink-0 absolute top-[13px] right-[13px]" />
                 </div>
               </div>
             </div>
@@ -90,11 +106,11 @@ const RecommendedPackages = () => {
       <div className="text-center">
         <Button
           variant="outline"
-          className="cursor-pointer __secondary-bg __text text-white !font-[700] text-[20px] text-base sm:text-lg w-full max-w-[187px]"
+          className="cursor-pointer __secondary-bg __text text-white !font-[700] text-base sm:text-lg w-full max-w-[187px] !py-3 !rounded-[10px]"
         >
           <Link
             href={"/our-services"}
-            className="flex items-center justify-center gap-2"
+            className="flex items-center justify-center gap-2 text-base leading-[145%]"
           >
             Explore
           </Link>
@@ -102,49 +118,45 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Smart Health Dashboard Section */}
-      <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-20">
-        <div className="absolute top-[45%] z-10 right-[-15px] md:right-[-40px]">
-          <Image src={shapeImage} alt="Effect" width={400} height={50} />
+      <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-16 ">
+        <div className="absolute bottom-[-67%] z-10 right-[-15px] md:right-[-7.5%] hidden lg:block">
+          <Image src={shapeImage} alt="Effect" width={400} />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center">
           {/* Left Image Column */}
-          <div className="relative h-[300px] sm:h-[400px] lg:h-[500px] order-2 md:order-1">
-            <div className="__secondary-bg rounded-3xl w-full h-[120px] md:h-[160px] lg:h-[180px] absolute bottom-0 left-0 z-0"></div>
-
-            <div className="absolute inset-0 z-10 flex items-center justify-center md:justify-start">
-              <Image
-                src={image5}
-                alt="Woman talking on phone"
-                width={350}
-                height={300}
-                className="object-cover h-full w-auto max-w-full"
-                priority
-              />
-            </div>
+          <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
+            <Image
+              src={image5}
+              alt="Woman talking on phone"
+              // width={350}
+              // height={300}
+              className="h-full w-full max-w-full"
+              priority
+            />
           </div>
 
           {/* Right Content Column */}
-          <div className="order-1 md:order-2  ">
-            <div className="flex md:flex-row sm:flex-col items-start justify-center gap-2 sm:gap-4">
-              <div className="__primary-bg h-12 w-12 sm:h-14 sm:w-14 flex items-center justify-center rounded-full flex-shrink-0 relative top-2">
-                <Check className="h-6 w-6 sm:h-7 sm:w-7 text-white" />
+          <div className=" lg:pl-10 mt-2 lg:mt-0 px-6 lg:px-0">
+            <div className="grid grid-cols-[70px_auto] gap-x- lg:block">
+              <div className="__primary-bg h-12 w-12 sm:h-[66px] sm:w-[66px] flex items-center justify-center rounded-full mb-5">
+                <Check className="h-6 w-6 sm:h-8 sm:w-9 text-white" />
               </div>
               <div className="space-y-4 sm:space-y-6 flex-1">
-                <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold __secondary-text leading-tight">
-                  Your Smart Health Dashboard, Simplified!
+                <h2 className="text-xl sm:text-2xl lg:text-[40px] font-bold __secondary-text leading-[97%]">
+                  Your Health in <br /> Your Hands
                 </h2>
 
-                <p className="text-gray-700 font-medium text-sm sm:text-base">
-                  Sukai Health's Smart Dashboard puts you in control of your
-                  health journey.
+                <p className="font-medium text-sm sm:text-[18px]">
+                  The Sukaii Smart Health Dashboard puts you in control of your
+                  health.  With all your records in one secure, easy-to-
+                  <br className="hidden lg:block" />
+                  understand platform, you can finally make sense of your test
+                  <br className="hidden lg:block" /> results, a window into your
+                  health. 
                 </p>
 
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-                  From booking lab tests to tracking results, storing
-                  prescriptions, and consulting with doctors — everything you
-                  need is now in one secure, easy-to-use platform. No more
-                  paperwork, no more guesswork. Just smart, seamless healthcare
-                  at your fingertips.
+                <p className="font-medium text-sm sm:text-[18px] mt-4">
+                  No more paperwork, no more guesswork.
                 </p>
               </div>
             </div>
@@ -153,29 +165,31 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="md:px-12 __gapTop">
-        <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
+      <div className="px-10 lg:px-14 __gapTop">
+        <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-10 lg:py-14 lg:px-20 relative">
+          <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
-              <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">
+              <h3 className="text-xl sm:text-2xl lg:text-[44px] font-bold text-white mb-2 sm:mb-5 leading-[100%]">
                 Smarter Health Starts Here
               </h3>
-              <p className="text-white text-opacity-90 text-sm sm:text-[17px]">
-                Discover how our Smart Health Dashboard helps you stay on top of
-                <br /> your health effortlessly.
+              <p className="text-white text-opacity-90 text-sm sm:text-[20px] font-[700]">
+                Start today by uploading existing test results easily and track
+                them on the Sukaii Smart Health Dashboard.  Maintain all records
+                from tests, either booked on Sukaii or elsewhere, in one easy
+                secure place.
               </p>
             </div>
 
-           <Link href="/our-services">
-            <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
-              <Button
-                variant="outline"
-                className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
-              >
-                Explore More!
-              </Button>
-            </div>
-           </Link>
+            <Link href="/our-services">
+              <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+                <Button
+                  variant="outline"
+                  className="__secondary-bg hover:bg-pink-600 text-white !py-3 !text-[14px] lg:!text-[20px] !font-[700] text-sm sm:text-base"
+                >
+                  Explore More!
+                </Button>
+              </div>
+            </Link>
           </div>
         </div>
       </div>
