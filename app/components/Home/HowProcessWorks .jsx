@@ -3,7 +3,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import shapeImage from "../../assets/home/Shape.png";
-import { FaArrowUpLong } from "react-icons/fa6";
+import { IoMdArrowUp } from "react-icons/io";
+
 import { motion, AnimatePresence } from "framer-motion";
 
 const HowProcessWorks = () => {
@@ -14,7 +15,7 @@ const HowProcessWorks = () => {
       id: 1,
       title: "Sign Up",
       description:
-        "Create your Sukla Health account in just a few clicks. Your information is encrypted and stored securely — your health data stays private and protected.",
+        "Create your Sukaii Health account in just a few clicks.  Your information is encrypted and stored securely.  All your health data stays private and protected - accessible only by you.",
       icon: "🔐",
     },
     {
@@ -38,20 +39,20 @@ const HowProcessWorks = () => {
         "Monitor your test progress in real-time through our dashboard. Get notifications at every stage from sample collection to report generation.",
       icon: "📊",
     },
-    {
-      id: 5,
-      title: "Access Reports Instantly",
-      description:
-        "Receive your reports digitally as soon as they're ready. Download, share, or consult with doctors directly through our platform.",
-      icon: "📲",
-    },
-    {
-      id: 6,
-      title: "Monitor Your Health Over Time",
-      description:
-        "Track trends, set health goals, and get personalized insights. Our AI-powered analytics help you understand your health journey better.",
-      icon: "🧠",
-    },
+    // {
+    //   id: 5,
+    //   title: "Access Reports Instantly",
+    //   description:
+    //     "Receive your reports digitally as soon as they're ready. Download, share, or consult with doctors directly through our platform.",
+    //   icon: "📲",
+    // },
+    // {
+    //   id: 6,
+    //   title: "Monitor Your Health Over Time",
+    //   description:
+    //     "Track trends, set health goals, and get personalized insights. Our AI-powered analytics help you understand your health journey better.",
+    //   icon: "🧠",
+    // },
   ];
 
   const toggleStep = (stepId) => {
@@ -59,14 +60,14 @@ const HowProcessWorks = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 __gapTop">
-      <div className="relative bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-3xl p-4 sm:p-12 lg:p-16 overflow-hidden">
+    <div className="container mx-auto lg:px-4 __gapTop">
+      <div className="relative bg-[#EC098D2E] lg:rounded-3xl p-6 py-12 pb-16 lg:py-16 sm:p-12 lg:p-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>
 
-        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
+        <div className="relative grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div className="flex flex-col justify-around">
-            <div>
+            <div className="">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -74,8 +75,8 @@ const HowProcessWorks = () => {
                 viewport={{ once: true }}
                 className="inline-block mb-8"
               >
-                <span className="bg-gradient-to-r from-[black] to-[black] text-white px-6 py-2 rounded-full text-sm font-medium tracking-wider shadow-lg shadow-indigo-100">
-                  HOW IT WORKS
+                <span className="bg-gradient-to-r from-[black] to-[black] text-white px-6 py-2 rounded-full text-sm font-medium tracking-wider">
+                  # HOW IT WORKS
                 </span>
               </motion.div>
 
@@ -85,31 +86,25 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="relative left-[-68px] top-0 w-full max-w-md opacity-20"
+                className="relative w-full max-w-md opacity-20"
               >
                 <Image
                   src={shapeImage}
                   alt="Decorative texture"
-                  width={600}
-                  height={600}
-                  className=""
+                  className="w-[340px] h-[220px] absolute top-[-90px] lg:top-[-15px] left-[-65px] z-[-1]"
                 />
               </motion.div>
             </div>
 
-            <div className="space-y-6 mt-0">
+            <div className="space-y-2 mt-[40px] lg:mt-[150px]">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
+                className="text-3xl sm:text-4xl lg:text-[56px] font-semibold text-[#222222] leading-tight"
               >
-                How Our{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#000] to-[#000]">
-                  Process
-                </span>{" "}
-                Works
+                How it Works
               </motion.h2>
 
               <motion.p
@@ -117,11 +112,12 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 viewport={{ once: true }}
-                className="text-gray-600 text-lg leading-relaxed"
+                className="text-gray-500 text-lg leading-relaxed font-[400]"
               >
-                Discover our seamless healthcare journey designed with your
-                convenience in mind. From signup to long-term health tracking,
-                we've crafted each step for maximum comfort and clarity.
+                Explore our diverse services designed to nurture your mental
+                health. From online counseling to self-care tools, we offer a
+                holistic approach to help you achieve the emotional balance and
+                strength you deserve.
               </motion.p>
             </div>
           </div>
@@ -135,30 +131,24 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * step.id }}
                 viewport={{ once: true }}
-                className="bg-white cursor-pointer rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+                className="cursor-pointer duration-300 overflow-hidden border-b"
               >
                 {/* Step Header with icon and smooth hover effects */}
                 <button
                   onClick={() => toggleStep(step.id)}
-                  className={`w-full flex items-center justify-between p-5 lg:p-6 text-left transition-all duration-300 ${
-                    expandedStep === step.id
-                      ? "bg-gradient-to-r from-indigo-50 to-purple-50"
-                      : "hover:bg-gray-50"
+                  className={`w-full flex items-center justify-between p-5 !pt-0 !pb-3 lg:!pb-5 lg:p-6 text-left transition-all duration-300 ${
+                    expandedStep === step.id ? "" : ""
                   }`}
                 >
                   <div className="flex items-center space-x-4">
-                    <span className="text-lg font-semibold text-gray-800">
+                    <span className="text-[18px] lg:text-2xl font-extrabold text-gray-800">
                       {step.id}. {step.title}
                     </span>
                   </div>
                   <div
-                    className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 ${
-                      expandedStep === step.id
-                        ? "bg-gradient-to-br from-[#00b8c1] to-[#00b8c1] text-white"
-                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
+                    className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
                   >
-                    <FaArrowUpLong
+                    <IoMdArrowUp
                       className={`transition-transform duration-300 ${
                         expandedStep === step.id ? "rotate-180" : ""
                       }`}
@@ -176,7 +166,7 @@ const HowProcessWorks = () => {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <div className="px-5 lg:px-6 pb-5 lg:py-4">
-                        <p className="text-gray-600 leading-relaxed">
+                        <p className="text-gray-500 leading-relaxed text-[18px]">
                           {step.description}
                         </p>
                       </div>

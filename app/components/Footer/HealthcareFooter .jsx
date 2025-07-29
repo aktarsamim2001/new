@@ -3,7 +3,7 @@ import Link from "next/link";
 import React from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
 import ovalSmall from "./Oval.png";
-import ovalLarge from "./Oval (1).png";
+import ovalLarge from "./round.png";
 
 const HealthcareFooter = () => {
   const companyLinks = [
@@ -28,28 +28,27 @@ const HealthcareFooter = () => {
 
   return (
     <footer className="relative">
-      <div className="absolute left-0 bottom-[-25px] z-[-1]">
+      <div className="absolute left-[-5%] bottom-[-60px] z-[-1] w-full">
         <Image
           src={ovalSmall}
           alt="Decorative texture"
-          width={500}
-          height={500}
-          className=""
+          // width={500}
+          // height={500}
+          className="w-[55%] h-[450px]"
         />
       </div>
 
-      <div className="absolute left-0 bottom-[-25px] z-[-1]">
+      <div className="absolute left-[-130px] bottom-[-60px] z-[-1] w-full">
         <Image
           src={ovalLarge}
           alt="Decorative texture"
-          width={650}
-          height={650}
-          className=""
+          // width={650}
+          // height={650}
+          className="w-[65%] h-[500px]"
         />
       </div>
       <div className="container mx-auto px-4 __gapTop ">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-8 lg:gap-6">
-          {/* Logo and Description */}
+        <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[60px] items-start">
           <div className="space-y-6">
             <div className="flex items-center space-x-2 justify-start">
               <Link href="/">
@@ -72,75 +71,79 @@ const HealthcareFooter = () => {
             </p>
           </div>
 
-          {/* Company Links */}
-          <div className="space-y-4">
-            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
-              COMPANY
-            </h3>
-            <ul className="space-y-3 cursor-pointer">
-              {companyLinks.map((link, index) => (
-                <li key={index} className="cursor-pointer">
-                  <Link
-                    href={link.href}
-                    className="__paragraph cursor-pointer hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-6 mt-4">
+            {/* Logo and Description */}
 
-          {/* Services Links */}
-          <div className="space-y-4">
-            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
-              SERVICES
-            </h3>
-            <ul className="space-y-3">
-              {serviceLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Company Links */}
+            <div className="space-y-4">
+              <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
+                COMPANY
+              </h3>
+              <ul className="space-y-3 cursor-pointer">
+                {companyLinks.map((link, index) => (
+                  <li key={index} className="cursor-pointer">
+                    <Link
+                      href={link.href}
+                      className="__paragraph cursor-pointer hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Resources */}
-          <div className="space-y-4">
-            <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
-              RESOURCES
-            </h3>
-            <ul className="space-y-3">
-              {resourceLinks.map((link, index) => (
-                <li key={index}>
-                  <Link
-                    href={link.href}
-                    className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+            {/* Services Links */}
+            <div className="space-y-4">
+              <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
+                SERVICES
+              </h3>
+              <ul className="space-y-3">
+                {serviceLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.href}
+                      className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-          {/* Contact Section */}
-          <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
-            <div className="text-gray-500 space-y-4">
-              <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
-                Drop Link message and take charge of your health now!
-              </p>
-              <div className="flex items-center space-x-2">
-                <IoLogoWhatsapp className="w-[25px] h-[25px] text-[#EC098D]" />
+            {/* Resources */}
+            <div className="space-y-4">
+              <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
+                RESOURCES
+              </h3>
+              <ul className="space-y-3">
+                {resourceLinks.map((link, index) => (
+                  <li key={index}>
+                    <Link
+                      href={link.href}
+                      className="__paragraph hover:text-teal-500 transition-colors duration-200 text-[16px] font-[400] leading-[30px] block"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-                <span className="font-[600] relative top-[-2px] text-[16px] sm:text-[18px] leading-[100%]">
-                  954 733 3245
-                </span>
+            {/* Contact Section */}
+            <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
+              <div className="text-gray-500 space-y-4">
+                <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
+                  Drop Link message and take charge of your health now!
+                </p>
+                <div className="flex items-center space-x-2">
+                  <IoLogoWhatsapp className="w-[25px] h-[25px] text-[#EC098D]" />
+
+                  <span className="font-[600] relative top-[-2px] text-[16px] sm:text-[18px] leading-[100%]">
+                    954 733 3245
+                  </span>
+                </div>
               </div>
             </div>
           </div>

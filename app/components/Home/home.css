@@ -1,3 +1,42 @@
 .WhatYouCanDo {
-  box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  box-shadow: 4px 4px 4px 1px #cdcdcd;
+}
+
+.carousel-overlay {
+  background: linear-gradient(
+    to bottom,
+    #ffffff,
+    #ffffff,
+    #ffffff,
+    #ddf2f677,
+    #ddf2f6,
+    #ddf2f659,
+    #00b8c100,
+    #00b8c100
+  );
+}
+
+.custom-swiper {
+  padding-bottom: 30px;
+}
+
+.custom-swiper .swiper-pagination {
+  bottom: 0px !important;
+}
+
+@media screen and (min-width: 768px) {
+  .carousel-overlay {
+    background: linear-gradient(
+      to right,
+      #ffffff,
+      #ffffff,
+      #ddf2f6f6,
+      #00b8c100,
+      #00b8c100,
+      #00b8c100
+    );
+  }
+  .custom-swiper {
+    padding-bottom: 0px;
+  }
 }

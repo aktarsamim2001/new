@@ -1,8 +1,10 @@
 import React, { useState } from "react";
-import { Star, Shield, Award, Lock, Icon } from "lucide-react";
+// import { Star, Shield, Award, Lock, Icon } from "lucide-react";
+import { IoStarSharp } from "react-icons/io5";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
+import "./home.css";
 import "swiper/css";
 import image from "../../../public/star-badge.png";
 import image2 from "../../../public/test-tube.png";
@@ -12,126 +14,104 @@ import person from "../../assets/person/person-1.jpg";
 import person2 from "../../assets/person/person-2.jpg";
 import person3 from "../../assets/person/person-3.jpg";
 import person4 from "../../assets/person/person-4.jpg";
+import img from "../../assets/carousel-home/image1.jpg";
+import img2 from "../../assets/carousel-home/image2.jpg";
+import img3 from "../../assets/carousel-home/image3.jpg";
+import line from "../../assets/carousel-home/line.png";
 
-const SmartHealthBanner = () => {
+const sliderData = [
+  {
+    heading: (
+      <>
+        Smart Health.
+        <br />
+        <span>One Dashboard.</span>
+      </>
+    ),
+    description:
+      "Your health, simplified. With the Sukai Health Smart Dashboard, you can book tests, track results, consult doctors, and manage prescriptions — all in one secure place. Stay informed, stay in control.",
+    button: "Explore Packages",
+    leftImage: "/bg-effect.png",
+    centerImage: "/bg-person.png",
+    rightImage: img,
+    reviewAvatars: [
+      {
+        image: person,
+        bg: "bg-gradient-to-br from-indigo-500 to-purple-600",
+      },
+      { image: person2, bg: "bg-gradient-to-br from-pink-500 to-red-500" },
+      { image: person3, bg: "bg-gradient-to-br from-blue-500 to-cyan-500" },
+      { image: person4, bg: "bg-gradient-to-br from-green-500 to-teal-500" },
+    ],
+    patients: "120+ patients",
+    rating: "5.0",
+    reviews: "(450k reviews)",
+    extra: "70+",
+  },
+  {
+    heading: (
+      <>
+        Health Packages
+        <br />
+        for Every Need
+      </>
+    ),
+    description:
+      "From routine checkups to specialized health panels, Sukai Health offers comprehensive test packages tailored to your needs. Find the right package, book instantly, and take charge of your well-being.",
+    button: "Explore Packages",
+    leftImage: "/bg-effect2.png",
+    centerImage: "/bg-person-1.png",
+    rightImage: img2,
+    reviewAvatars: [
+      {
+        image: person,
+        bg: "bg-gradient-to-br from-yellow-500 to-orange-500",
+      },
+      { image: person2, bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
+      { image: person3, bg: "bg-gradient-to-br from-blue-500 to-green-500" },
+      { image: person4, bg: "bg-gradient-to-br from-red-500 to-yellow-500" },
+    ],
+    patients: "120+ patients",
+    rating: "5.0",
+    reviews: "(450k reviews)",
+    extra: "70+",
+  },
+  {
+    heading: (
+      <>
+        Book. Test. Track.
+        <br />
+        It’s That Easy!
+      </>
+    ),
+    description:
+      "Skip the long waits and complicated bookings. Sukai Health lets you schedule lab tests in just a few clicks. Choose your test, pick a time, and get results delivered straight to your dashboard.",
+    button: "Book Appointment",
+    leftImage: "/bg-effect2.png",
+    centerImage: "/bg-person.png",
+    rightImage: img3,
+    reviewAvatars: [
+      { image: person2, bg: "bg-gradient-to-br from-teal-500 to-cyan-500" },
+      { image: person3, bg: "bg-gradient-to-br from-pink-500 to-purple-500" },
+      { image: person4, bg: "bg-gradient-to-br from-green-500 to-blue-500" },
+      {
+        image: person,
+        bg: "bg-gradient-to-br from-yellow-500 to-orange-500",
+      },
+    ],
+    patients: "120+ patients",
+    rating: "5.0",
+    reviews: "(450k reviews)",
+    extra: "70+",
+  },
+];
+
+const slides = sliderData;
+
+export const SmartHealthBanner2 = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // Slider data array
-  const sliderData = [
-    {
-      heading: (
-        <>
-          Smart Health.
-          <br />
-          <span>One Dashboard.</span>
-        </>
-      ),
-      description:
-        "Your health, simplified. With the Sukai Health Smart Dashboard, you can book tests, track results, consult doctors, and manage prescriptions — all in one secure place. Stay informed, stay in control.",
-      button: "Find Out More",
-      leftImage: "/bg-effect.png",
-      centerImage: "/bg-person.png",
-      rightImage: "/bg-effect.png",
-      reviewAvatars: [
-        {
-          image: person,
-          bg: "bg-gradient-to-br from-indigo-500 to-purple-600",
-        },
-        { image: person2, bg: "bg-gradient-to-br from-pink-500 to-red-500" },
-        { image: person3, bg: "bg-gradient-to-br from-blue-500 to-cyan-500" },
-        { image: person4, bg: "bg-gradient-to-br from-green-500 to-teal-500" },
-      ],
-      patients: "120+ patients",
-      rating: 5.0,
-      reviews: "(450k reviews)",
-      extra: "70+",
-    },
-    {
-      heading: (
-        <>
-          AI Powered.
-          <br />
-          <span>Personal Insights.</span>
-        </>
-      ),
-      description:
-        "Get personalized health analytics and actionable insights powered by advanced AI. Make smarter decisions for your wellbeing.",
-      button: "Explore AI Features",
-      leftImage: "/bg-effect2.png",
-      centerImage: "/bg-person-1.png",
-      rightImage: "/bg-effect2.png",
-      reviewAvatars: [
-        {
-          image: person,
-          bg: "bg-gradient-to-br from-yellow-500 to-orange-500",
-        },
-        { image: person2, bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
-        { image: person3, bg: "bg-gradient-to-br from-blue-500 to-green-500" },
-        { image: person4, bg: "bg-gradient-to-br from-red-500 to-yellow-500" },
-      ],
-      patients: "200+ users",
-      rating: 4.9,
-      reviews: "(320k reviews)",
-      extra: "100+",
-    },
-    {
-      heading: (
-        <>
-          Secure & Private.
-          <br />
-          <span>Your Control.</span>
-        </>
-      ),
-      description:
-        "We prioritize your privacy with bank-level security. Your health data is encrypted, ensuring you have complete control over who accesses it.",
-      button: "Learn More",
-      leftImage: "/bg-effect2.png",
-      centerImage: "/bg-person.png",
-      rightImage: "/bg-effect2.png",
-      reviewAvatars: [
-        { image: person2, bg: "bg-gradient-to-br from-teal-500 to-cyan-500" },
-        { image: person3, bg: "bg-gradient-to-br from-pink-500 to-purple-500" },
-        { image: person4, bg: "bg-gradient-to-br from-green-500 to-blue-500" },
-        {
-          image: person,
-          bg: "bg-gradient-to-br from-yellow-500 to-orange-500",
-        },
-      ],
-      patients: "300+ users",
-      rating: 4.8,
-      reviews: "(280k reviews)",
-      extra: "150+",
-    },
-    {
-      heading: (
-        <>
-          Comprehensive Health.
-          <br />
-        </>
-      ),
-      description:
-        "From lab tests to doctor consultations, manage all your health needs seamlessly. Our platform integrates everything you need for a healthier life.",
-      button: "Get Started",
-      leftImage: "/bg-effect2.png",
-      centerImage: "/bg-person-1.png",
-      rightImage: "/bg-effect2.png",
-      reviewAvatars: [
-        { image: person, bg: "bg-gradient-to-br from-indigo-500 to-blue-500" },
-        { image: person2, bg: "bg-gradient-to-br from-purple-500 to-pink-500" },
-        {
-          image: person3,
-          bg: "bg-gradient-to-br from-green-500 to-yellow-500",
-        },
-        { image: person4, bg: "bg-gradient-to-br from-red-500 to-orange-500" },
-      ],
-      patients: "400+ users",
-      rating: 4.7,
-      reviews: "(360k reviews)",
-      extra: "200+",
-    },
-  ];
-
-  const slides = sliderData;
 
   const trustFeatures = [
     {
@@ -156,7 +136,7 @@ const SmartHealthBanner = () => {
           spaceBetween={30}
           slidesPerView={1}
           autoplay={{
-            delay: 3500,
+            delay: 300500,
             disableOnInteraction: false,
           }}
           loop
@@ -391,6 +371,170 @@ const SmartHealthBanner = () => {
         </Swiper>
       </div>
     </div>
+  );
+};
+
+const SmartHealthBanner = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  return (
+    <>
+      <div className="lg:mt-[20px]">
+        <Swiper
+          modules={[Autoplay]}
+          spaceBetween={0}
+          slidesPerView={1}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+          }}
+          loop
+          onSlideChange={(swiper) => setCurrentSlide(swiper.realIndex)}
+        >
+          {slides.map((slide, ind) => (
+            <SwiperSlide key={ind}>
+              <div className="bg-white">
+                <div className="lg:flex justify-between lg:ml-[7%] h-auto relative z-0">
+                  <div className="relative z-[100]">
+                    {/* left content */}
+                    <div className="w-full mt-[80px] px-6 lg:px-0">
+                      <div className="space-y-4">
+                        <h1 className="text-4xl lg:text-[55px] text-black font-[600] leading-[100%] __heading">
+                          {slide.heading}
+                        </h1>
+                        <div className="relative w-[520px] h-[40px] left-[-50px]">
+                          <Image
+                            src={line}
+                            alt="Effect"
+                            // width={700}
+                            // height={50}
+                            fill
+                            className="w-full h-[25px] block border absolute left-0 top-0 z-10"
+                          />
+                        </div>
+                        <p className="text-[18px] font-[400] __paragraph leading-[145%] __text pr-3 max-w-[450px]">
+                          {slide.description}
+                        </p>
+                      </div>
+                      <Button
+                        variant="outline"
+                        className="cursor-pointer __secondary-bg text-white font-[600] text-[16px] __text mt-4"
+                      >
+                        {slide.button}
+                      </Button>
+                    </div>
+                    {/* ratings */}
+                    <div className="flex lg:block justify-end px-6 lg:px-0 mt-6">
+                      <div className="w-[195px] lg:w-[220px] lg:absolute bottom-[80px] right-[150px] md:bottom-[140px] md:left-[350px] z-50 flex flex-col gap-3 p-4 border-2 border-sky-500 rounded-[5px] bg-white shadow-2xl">
+                        <div className="flex -space-x-3">
+                          {slide.reviewAvatars.map((avatar, i) => (
+                            <div
+                              key={i}
+                              className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
+                            >
+                              {avatar.image ? (
+                                <Image
+                                  src={avatar.image}
+                                  alt={`Avatar`}
+                                  width={32}
+                                  height={32}
+                                  className="w-full h-full object-cover rounded-full"
+                                />
+                              ) : (
+                                avatar.name
+                              )}
+                            </div>
+                          ))}
+                          <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
+                            {slide.extra}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-start -mt-2">
+                          <div className="font-[600] text-gray-900 text-[20px]">
+                            {slide.patients}
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <IoStarSharp className="text-[23px] fill-yellow-400 text-yellow-400" />
+                            <span className="text-base font-medium text-gray-900">
+                              {slide.rating}
+                            </span>
+                            <span className="text-base font-[500] text-gray-500">
+                              {slide.reviews}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="absolute w-full left-0 top-0 h-full carousel-overlay z-[-1]" />
+                  {/* right image */}
+                  <div className="flex-1 h-[350px] overflow-hidden lg:h-full relative z-[-10] mt-[-10px] lg:mt-0">
+                    <Image
+                      src={slide.rightImage}
+                      alt={`hero image ${ind}`}
+                      className="block w-full h-[300px] lg:h-[650px] mt-3 transform-[scale(1.4)] lg:transform-[scale(1.3)]"
+                    />
+                  </div>
+                </div>
+              </div>
+            </SwiperSlide>
+          ))}
+        </Swiper>
+        <div className="__primary-bg mt-[-20px] lg:mt-[-50px] px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 container mx-auto">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white lg:items-start justify-center lg:justify-start">
+            <div
+              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
+                <Image
+                  src={image}
+                  alt={"medal"}
+                  width={40}
+                  height={40}
+                  className="sm:w-[50px] sm:h-[50px]"
+                />
+              </div>
+              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+                MOH-Certified Medical Staff
+              </div>
+            </div>
+            <div
+              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
+                <Image
+                  src={image2}
+                  alt={"medal"}
+                  width={40}
+                  height={40}
+                  className="sm:w-[50px] sm:h-[50px]"
+                />
+              </div>
+              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+                Accredited Malaysian Labs
+              </div>
+            </div>
+            <div
+              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
+            >
+              <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
+                <Image
+                  src={image3}
+                  alt={"medal"}
+                  width={40}
+                  height={40}
+                  className="sm:w-[50px] sm:h-[50px]"
+                />
+              </div>
+              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+                Secure & Private, Always
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 

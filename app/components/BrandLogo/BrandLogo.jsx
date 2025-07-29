@@ -24,9 +24,9 @@ function BrandLogo() {
     <div className="container mx-auto">
       <Swiper
         modules={[Autoplay, Pagination]}
-        spaceBetween={20}
-        slidesPerView={2}
-        className="custom-swiper"
+        spaceBetween={0}
+        slidesPerView={1}
+        className="custom-swiper mt-3"
         loop={true}
         autoplay={{
           delay: 2000,
@@ -35,13 +35,13 @@ function BrandLogo() {
         pagination={{ clickable: true }}
         breakpoints={{
           640: { slidesPerView: 2 },
-          768: { slidesPerView: 3 },
+          768: { slidesPerView: 2, spaceBetween: 20 },
           1024: { slidesPerView: 4 },
         }}
       >
         {logo.map((logos) => (
           <SwiperSlide key={logos.id}>
-            <div className="w-[150px] h-[150px] mx-auto flex items-center justify-center">
+            <div className="lg:max-w-[200px] h-[150px] mx-auto flex items-center justify-center aspect-video lg:aspect-auto">
               <Image
                 src={logos.icon}
                 alt="brand-logo"
