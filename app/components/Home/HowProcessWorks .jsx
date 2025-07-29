@@ -136,12 +136,12 @@ const HowProcessWorks = () => {
                 {/* Step Header with icon and smooth hover effects */}
                 <button
                   onClick={() => toggleStep(step.id)}
-                  className={`w-full flex items-center justify-between p-5 !pt-0 !pb-5 lg:p-6 text-left transition-all duration-300 ${
+                  className={`w-full flex items-center justify-between p-5 !pt-0 !pb-3 lg:!pb-5 lg:p-6 text-left transition-all duration-300 ${
                     expandedStep === step.id ? "" : ""
                   }`}
                 >
                   <div className="flex items-center space-x-4">
-                    <span className="text-2xl font-extrabold text-gray-800">
+                    <span className="text-[18px] lg:text-2xl font-extrabold text-gray-800">
                       {step.id}. {step.title}
                     </span>
                   </div>

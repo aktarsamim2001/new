@@ -9,7 +9,7 @@ import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
 import Button from "../ui/Button";
 import shapeImage from "../../assets/home/shape2.png";
-
+import shapeImage2 from "../../assets/home/Shape.png";
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -119,8 +119,19 @@ const RecommendedPackages = () => {
 
       {/* Smart Health Dashboard Section */}
       <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-16 ">
-        <div className="absolute bottom-[-67%] z-10 right-[-15px] md:right-[-7.5%] hidden lg:block">
-          <Image src={shapeImage} alt="Effect" width={400} />
+        <div className="absolute left-0 bottom-[-67%] z-10 lg:left-auto right-[-15px] md:right-[-7.5%] hidden">
+          <Image
+            src={shapeImage}
+            alt="Effect"
+            width={400}
+            className="hidden lg:block"
+          />
+          <Image
+            src={shapeImage2}
+            alt="Effect"
+            width={400}
+            className="hidden"
+          />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center">
           {/* Left Image Column */}
@@ -142,7 +153,7 @@ const RecommendedPackages = () => {
                 <Check className="h-6 w-6 sm:h-8 sm:w-9 text-white" />
               </div>
               <div className="space-y-4 sm:space-y-6 flex-1">
-                <h2 className="text-xl sm:text-2xl lg:text-[40px] font-bold __secondary-text leading-[97%]">
+                <h2 className="text-[26px] sm:text-4xl lg:text-[40px] font-bold __secondary-text leading-[97%]">
                   Your Health in <br /> Your Hands
                 </h2>
 
@@ -165,12 +176,12 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="px-10 lg:px-14 __gapTop">
-        <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-10 lg:py-14 lg:px-20 relative">
+      <div className="min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] lg:px-14 __gapTop mx-auto">
+        <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-6 lg:py-14 lg:px-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
-              <h3 className="text-xl sm:text-2xl lg:text-[44px] font-bold text-white mb-2 sm:mb-5 leading-[100%]">
-                Smarter Health Starts Here
+              <h3 className="text-[26px] sm:text-2xl lg:text-[44px] font-bold text-white mb-2 sm:mb-5 leading-[100%]">
+                Smarter Health <br className="lg:hidden" /> Starts Here
               </h3>
               <p className="text-white text-opacity-90 text-sm sm:text-[20px] font-[700]">
                 Start today by uploading existing test results easily and track

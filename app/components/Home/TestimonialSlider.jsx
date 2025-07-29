@@ -45,19 +45,19 @@ const testimonials = [
 
 const TestimonialSlider = () => {
   return (
-    <div className="__primary-bg mt-[60px] py-[110px]">
+    <div className="__primary-bg mt-[60px] p-6 pb-24 lg:py-[110px]">
       <div className="max-w-6xl mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
-        <div className="hidden lg:flex justify-center items-center">
+        <div className="flex justify-center items-center ">
           <button
             variant="outline"
-            className="live_event_prev absolute border-[2px] p-2 rounded-full top-1/2 -translate-y-1/2 cursor-pointer left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_prev absolute border-[2px] p-2 rounded-full bottom-[-90px] lg:top-1/2 lg:bottom-auto -translate-y-1/2 cursor-pointer left-0 lg:left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowLeftLong size={28} />
           </button>
           <button
             variant="outline"
-            className="live_event_next border-[2px] p-2 rounded-full absolute top-1/2 -translate-y-1/2 cursor-pointer right-4 xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
+            className="live_event_next border-[2px] p-2 rounded-full absolute bottom-[-90px] lg:top-1/2 lg:bottom-auto -translate-y-1/2 cursor-pointer left-[60px] lg:right-4 lg:left-auto xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowRightLong size={28} />
           </button>
@@ -89,7 +89,7 @@ const TestimonialSlider = () => {
                 </div>
 
                 {/* Content Section */}
-                <div className="text-white space-y-4 sm:space-y-3 relative order-2 lg:order-2 px-4 sm:px-0">
+                <div className="text-white space-y-4 sm:space-y-3 relative order-2 lg:order-2 sm:px-0">
                   {/* Quote Icon */}
                   <div className="w-12 h-12 sm:w-11 sm:h-11 flex items-center justify-center bg-white rounded-br-full relative">
                     <Image
@@ -135,7 +135,7 @@ const TestimonialSlider = () => {
         </Swiper>
 
         {/* Mobile Navigation Dots (Optional) */}
-        <div className="flex lg:hidden justify-center space-x-2 pb-4">
+        <div className="hidden justify-center space-x-2 pb-4">
           {testimonials.map((_, index) => (
             <div
               key={index}

@@ -31,7 +31,7 @@ const WhatYouCanDo = () => {
   ];
 
   return (
-    <div className="container mx-auto mt-15 lg:mt-10 px-8 lg:px-0">
+    <div className="container mx-auto mt-15 lg:mt-10 min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
       <h2 className="__secondary-text text-2xl md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-5 md:mb-12">
         What You Can Do
       </h2>

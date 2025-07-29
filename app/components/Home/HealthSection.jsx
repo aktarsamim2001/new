@@ -8,11 +8,11 @@ import Link from "next/link";
 
 const HealthSection = () => {
   return (
-    <div className="container mx-auto md:mt-[100px] mb-[100px]">
+    <div className="container mx-auto md:mt-[100px] mb-5 lg:mb-[100px]">
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
         {/* Content Section */}
         <div className="order-2 lg:order-1 px-4">
-          <h1 className="text-3xl md:text-5xl lg:text-[3.5rem] font-[500] leading-[62px] bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
+          <h1 className="text-[26px] leading-[31px] md:text-5xl lg:text-[3.5rem] font-[500] lg:leading-[62px] bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
           </h1>
 
@@ -36,13 +36,13 @@ const HealthSection = () => {
 
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className="relative w-full md:pr-8">
+          <div className="relative w-full md:pr-8 z-[-1] mt-[-100px] lg:mt-0">
             <Image
               src={image}
               alt="Handshake"
               // width={500}
               // height={500}
-              className="object-fill md:rounded-2xl h-[417px] md:h-[417px] w-full md:w-[100%]"
+              className="object-fill md:rounded-2xl h-[auto] md:h-[417px] w-full md:w-[100%]"
               priority
             />
           </div>
