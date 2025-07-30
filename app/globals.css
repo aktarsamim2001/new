@@ -160,3 +160,9 @@ h6 {
   background-color: rgba(0, 0, 0, 0.184);
   backdrop-filter: blur(2px); 
 }
+
+@media (width >= 96rem) {
+  .container {
+    max-width: 90rem;
+  }
+}
