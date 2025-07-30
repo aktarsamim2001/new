@@ -11,8 +11,9 @@ function page(params) {
     <div>
       <DetailsBanner/>
       <TestDetails/>
-        <HowProcessWorks/>
         <BrandLogo/>
+        <HowProcessWorks/>
+        <div className="mt-25 md:mt-0"></div>
         <HealthSection/>
     </div>
   )

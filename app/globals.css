@@ -160,3 +160,15 @@ h6 {
   background-color: rgba(0, 0, 0, 0.184);
   backdrop-filter: blur(2px); 
 }
+
+@media (width >= 96rem) {
+  .container {
+    max-width: 90rem;
+  }
+}
+
+.test-details-swiper .swiper-pagination{
+  left:0 !important;
+  bottom: 0 !important;
+  width: auto !important;
+}
