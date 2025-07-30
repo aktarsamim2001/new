@@ -9,7 +9,7 @@ function DetailsBanner() {
   return (
     <div>
       {" "}
-      <div className="max-w-7xl __gapTop">
+      <div className="max-w-7xl mt-12">
         <div className="grid grid-cols-1 md:grid-cols-[620px_auto] gap-8 items-center justify-start">
           {/* Image Section */}
           {/* <div className="flex justify-start items-center"> */}
@@ -26,10 +26,10 @@ function DetailsBanner() {
 
           {/* Text Section */}
           <div className="px-4 md:px-0 text-left">
-            <h1 className="text-5xl font-bold __secondary-text">
+            <h1 className="lg:text-5xl text-2xl font-bold __secondary-text">
               Complete Blood Count <br /> Test (CBC)
             </h1>
-            <p className="mt-4 text-lg text-[#222222] leading-6">
+            <p className="mt-4 text-sm leading-5  md:text-lg text-[#222222] md:leading-6">
               The Complete Blood Count (CBC) test is a common and essential
               blood test that gives insights into your overall health by
               measuring key components like red blood cells, white blood cells,

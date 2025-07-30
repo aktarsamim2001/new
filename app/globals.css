@@ -166,3 +166,9 @@ h6 {
     max-width: 90rem;
   }
 }
+
+.test-details-swiper .swiper-pagination{
+  left:0 !important;
+  bottom: 0 !important;
+  width: auto !important;
+}

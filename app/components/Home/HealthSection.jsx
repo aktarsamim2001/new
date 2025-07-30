@@ -2,11 +2,15 @@
 
 import React from "react";
 import image from "../../assets/partner-image/women.png";
+import image2 from "../../assets/service/Why you should take/healthSection.png";
 import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const HealthSection = () => {
+  const path = usePathname()
+  console.log("path name", path);
   return (
     <div className="container mx-auto md:mt-[100px] mb-5 lg:mb-[100px]">
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
@@ -38,7 +42,7 @@ const HealthSection = () => {
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
           <div className="relative w-full md:pr-8 z-[-1] mt-[-100px] lg:mt-0">
             <Image
-              src={image}
+              src={ path === "/" ? image : image2}
               alt="Handshake"
               // width={500}
               // height={500}
