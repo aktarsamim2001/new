@@ -158,5 +158,5 @@ h6 {
 
 .test {
   background-color: rgba(0, 0, 0, 0.184);
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px); 
 }
