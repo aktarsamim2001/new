@@ -2,7 +2,7 @@
 
 import React from "react";
 import image from "../../assets/partner-image/women.png";
-import image2 from "../../assets/service/Why you should take/healthSection.png";
+import image2 from "../../assets/service/Why you should take/healthSection2.png";
 import Image from "next/image";
 import Button from "../ui/Button";
 import Link from "next/link";
@@ -46,7 +46,7 @@ const HealthSection = () => {
               alt="Handshake"
               // width={500}
               // height={500}
-              className="object-fill md:rounded-2xl h-[auto] md:h-[417px] w-full md:w-[100%]"
+              className="object-cover h-[417px] md:rounded-2xl w-full md:w-[100%]"
               priority
             />
           </div>
