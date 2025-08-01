@@ -30,8 +30,8 @@ const TestBookingSystem = () => {
     <div className="__gapTop">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between w-full ">
         {/* Text Section - 30%, aligned to right */}
-        <div className="w-full md:mt-0 mt-[2rem] md:w-[29%] flex justify-end items-center">
-          <h1 className="__secondary-text text-4xl lg:text-5xl font-bold text-right">
+        <div className="w-full md:mt-0 mt-[2rem] md:w-[29%] flex ml-8 lg:justify-end items-center">
+          <h1 className="__secondary-text text-2xl lg:text-5xl font-bold text-right">
             Book Your Test
           </h1>
         </div>
@@ -48,213 +48,214 @@ const TestBookingSystem = () => {
     </div>
   );
 
-const Step1 = ({ handleContinue }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({
-    defaultValues: allFormData,
-  });
+  const Step1 = ({ handleContinue }) => {
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      defaultValues: allFormData,
+    });
 
-  const onSubmit = (data) => {
-    console.log("Step 1 Form Data:", data);
-    handleContinue(data);
-  };
+    const onSubmit = (data) => {
+      console.log("Step 1 Form Data:", data);
+      handleContinue(data);
+    };
 
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="rounded-lg px-4 flex items-center justify-between relative">
-        {/* Left Section */}
-        <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
-          <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
-            Fill in the Details
-          </h2>
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="rounded-lg px-4 flex items-center justify-between relative">
+          {/* Left Section */}
+          <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
+            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+              Fill in the Details
+            </h2>
 
-          <div className="space-y-6">
-            {/* Full Name */}
-            <div className="lg:flex lg:flex-row lg:items-center gap-8">
-              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
-                Full Name
-              </label>
-              <div className="flex-1">
-                <input
-                  {...register("fullName", {
-                    required: "Full Name is required",
-                  })}
-                  type="text"
-                  className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                  placeholder="Enter your full name"
-                />
-                {errors.fullName && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.fullName.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Gender and Age Row */}
-            <div className="lg:flex lg:flex-row lg:items-center gap-8">
-              <div className="lg:w-[140px] lg:text-right">
-                <label className="block text-[16px] font-medium text-gray-700 mb-2 lg:mb-0">
-                  Personal Info
+            <div className="space-y-6">
+              {/* Full Name */}
+              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center">
+                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
+                  Full Name
                 </label>
+                <div className="lg:w-[70%]">
+                  <input
+                    {...register("fullName", {
+                      required: "Full Name is required",
+                    })}
+                    type="text"
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    // placeholder="Enter your full name"
+                  />
+                  {errors.fullName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.fullName.message}
+                    </p>
+                  )}
+                </div>
               </div>
-              <div className="flex-1 flex flex-row items-center gap-6">
-                {/* Gender */}
-                <div className="flex items-center gap-3">
-                  <label className="text-[14px] font-medium text-gray-600 whitespace-nowrap">
+
+              {/* Gender and Age Row */}
+
+              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
+                <div className="lg:text-right">
+                  <label className="block text-[20px] font-medium text-gray-700 mb-2 lg:mb-0">
                     Gender
                   </label>
-                  <div className="relative w-[140px]">
-                    <select
-                      {...register("gender", {
-                        required: "Gender is required",
-                      })}
-                      className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    >
-                      <option value="">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                      <ChevronDown />
+                </div>
+                <div className="lg:w-[70%] flex flex-row items-center gap-6">
+                  {/* Gender */}
+                  <div className="flex items-center gap-3">
+                    <div className="relative w-[140px]">
+                      <select
+                        {...register("gender", {
+                          required: "Gender is required",
+                        })}
+                        className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                      >
+                        <option value=""></option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                      </select>
+                      <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                        <ChevronDown />
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Age */}
+                  <div className="lg:flex lg:flex-row lg:items-center flex flex-col -mt-10 md:mt-0 gap-3">
+                    <label className="text-[20px] font-medium block text-gray-600 whitespace-nowrap">
+                      Age
+                    </label>
+                    <div className="w-[full]">
+                      <input
+                        {...register("age", {
+                          required: "Age is required",
+                          min: {
+                            value: 1,
+                            message: "Age must be greater than 0",
+                          },
+                          max: {
+                            value: 120,
+                            message: "Age must be less than 120",
+                          },
+                        })}
+                        type="number"
+                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                        // placeholder="Enter age"
+                      />
                     </div>
                   </div>
                 </div>
 
-                {/* Age */}
-                <div className="flex items-center gap-3">
-                  <label className="text-[14px] font-medium text-gray-600 whitespace-nowrap">
-                    Age
-                  </label>
-                  <div className="w-[100px]">
-                    <input
-                      {...register("age", {
-                        required: "Age is required",
-                        min: {
-                          value: 1,
-                          message: "Age must be greater than 0",
-                        },
-                        max: {
-                          value: 120,
-                          message: "Age must be less than 120",
-                        },
-                      })}
-                      type="number"
-                      className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                      placeholder="Enter age"
-                    />
+                {/* Error Messages */}
+                <div className="lg:hidden">
+                  {errors.gender && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.gender.message}
+                    </p>
+                  )}
+                  {errors.age && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.age.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Selected Test */}
+              <div className="lg:flex lg:justify-between lg:flex-row lg:items-center gap-8">
+                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
+                  Selected Test
+                </label>
+                <div className="lg:w-[70%] relative">
+                  <select
+                    {...register("selectedTest", {
+                      required: "Test selection is required",
+                    })}
+                    className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  >
+                    <option value=""></option>
+                    <option value="complete-blood-count">
+                      Complete Blood Count
+                    </option>
+                    <option value="lipid-profile">Lipid Profile</option>
+                    <option value="diabetes-screening">
+                      Diabetes Screening
+                    </option>
+                    <option value="thyroid-function">
+                      Thyroid Function Test
+                    </option>
+                  </select>
+                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <ChevronDown />
                   </div>
+                  {errors.selectedTest && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.selectedTest.message}
+                    </p>
+                  )}
                 </div>
               </div>
-              
-              {/* Error Messages */}
-              <div className="lg:hidden">
-                {errors.gender && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.gender.message}
-                  </p>
-                )}
-                {errors.age && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.age.message}
-                  </p>
-                )}
+
+              {/* Type of Test */}
+              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
+                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
+                  Service Type
+                </label>
+                <div className="lg:w-[70%] relative">
+                  <select
+                    {...register("typeOfTest", {
+                      required: "Type of test is required",
+                    })}
+                    className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  >
+                    <option value=""></option>
+                    <option value="home-collection">Home Collection</option>
+                    <option value="lab-visit">Lab Visit</option>
+                    <option value="express">Express Service</option>
+                  </select>
+                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <ChevronDown />
+                  </div>
+                  {errors.typeOfTest && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.typeOfTest.message}
+                    </p>
+                  )}
+                </div>
               </div>
             </div>
 
-            {/* Selected Test */}
-            <div className="lg:flex lg:flex-row lg:items-center gap-8">
-              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
-                Selected Test
-              </label>
-              <div className="flex-1 relative">
-                <select
-                  {...register("selectedTest", {
-                    required: "Test selection is required",
-                  })}
-                  className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+            {/* Submit Button */}
+            <div className="flex items-center justify-between mt-10">
+              <div className="hidden lg:block lg:w-[30%]"></div>
+              <div className="lg:w-[70%]">
+                <button
+                  type="submit"
+                  className="w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity"
                 >
-                  <option value="">Select Test</option>
-                  <option value="complete-blood-count">
-                    Complete Blood Count
-                  </option>
-                  <option value="lipid-profile">Lipid Profile</option>
-                  <option value="diabetes-screening">
-                    Diabetes Screening
-                  </option>
-                  <option value="thyroid-function">
-                    Thyroid Function Test
-                  </option>
-                </select>
-                <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <ChevronDown />
-                </div>
-                {errors.selectedTest && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.selectedTest.message}
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Type of Test */}
-            <div className="lg:flex lg:flex-row lg:items-center gap-8">
-              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
-                Service Type
-              </label>
-              <div className="flex-1 relative">
-                <select
-                  {...register("typeOfTest", {
-                    required: "Type of test is required",
-                  })}
-                  className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                >
-                  <option value="">Select Type</option>
-                  <option value="home-collection">Home Collection</option>
-                  <option value="lab-visit">Lab Visit</option>
-                  <option value="express">Express Service</option>
-                </select>
-                <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <ChevronDown />
-                </div>
-                {errors.typeOfTest && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.typeOfTest.message}
-                  </p>
-                )}
+                  Continue
+                </button>
               </div>
             </div>
           </div>
 
-          {/* Submit Button */}
-          <div className="flex items-center justify-center lg:justify-start mt-10">
-            <button
-              type="submit"
-              className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-              Continue
-            </button>
+          {/* Right Section - Image */}
+          <div className="hidden lg:flex justify-end items-end w-[60%] z-[-1] absolute -right-10 -top-10 h-full">
+            <Image
+              src={image}
+              width={400}
+              height={400}
+              alt="Sukaii Logo"
+              className="object-cover rounded-lg"
+            />
           </div>
         </div>
-
-        {/* Right Section - Image */}
-        <div className="hidden lg:flex justify-end items-end w-[60%] z-[-1] absolute right-0 top-50 h-full">
-          <Image
-            src={image}
-            width={400}
-            height={400}
-            alt="Sukaii Logo"
-            className="object-cover rounded-lg"
-          />
-        </div>
-      </div>
-    </form>
-  );
-};
+      </form>
+    );
+  };
   const Step2 = ({ handleContinue }) => {
     const {
       register,
@@ -276,18 +277,18 @@ const Step1 = ({ handleContinue }) => {
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
+        <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative lg:pt-[60px]">
           <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
             <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
               Contact Details
             </h2>
 
             <div className="space-y-4">
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+              <div className="lg:flex flex-row items-center gap-3">
+                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
                   Contact
                 </label>
-                <div className="lg:w-[80%] w-full">
+                <div className="lg:w-[60%] w-full">
                   <input
                     {...register("contact", {
                       required: "Contact number is required",
@@ -298,7 +299,7 @@ const Step1 = ({ handleContinue }) => {
                     })}
                     type="tel"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Enter phone number"
+                    // placeholder="Enter phone number"
                   />
                   {errors.contact && (
                     <p className="text-red-500 text-sm mt-1">
@@ -308,18 +309,18 @@ const Step1 = ({ handleContinue }) => {
                 </div>
               </div>
 
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+              <div className="lg:flex flex-row items-center gap-3">
+                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
                   Street Name
                 </label>
-                <div className="lg:w-[80%] w-full">
+                <div className="lg:w-[60%] w-full">
                   <input
                     {...register("streetName", {
                       required: "Street address is required",
                     })}
                     type="text"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Enter street address"
+                    // placeholder="Enter street address"
                   />
                   {errors.streetName && (
                     <p className="text-red-500 text-sm mt-1">
@@ -329,11 +330,11 @@ const Step1 = ({ handleContinue }) => {
                 </div>
               </div>
 
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="block mb-2 lg:mb-0 text-[15px] font-medium text-gray-700 w-[110px]">
+              <div className="lg:flex flex-row items-center gap-3">
+                <label className="block mb-2 lg:mb-0 text-[20px] font-medium text-gray-700 w-[160px]">
                   Pin Code
                 </label>
-                <div className="lg:w-[80%] w-full">
+                <div className="lg:w-[60%] w-full">
                   <input
                     {...register("pincode", {
                       required: "Pin code is required",
@@ -344,7 +345,7 @@ const Step1 = ({ handleContinue }) => {
                     })}
                     type="text"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Enter pincode"
+                    // placeholder="Enter pincode"
                   />
                   {errors.pincode && (
                     <p className="text-red-500 text-sm mt-1">
@@ -354,18 +355,23 @@ const Step1 = ({ handleContinue }) => {
                 </div>
               </div>
 
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[130px]">
+              <div className="lg:flex flex-row items-center gap-3">
+                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
                   Date
                 </label>
-                <div className="relative w-full">
+                <div className="relative lg:w-[60%] w-full">
                   <input
                     {...register("date", {
                       required: "Date is required",
                     })}
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    className="custom-date w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    style={{
+                      WebkitTextFillColor: watch("date")
+                        ? "black"
+                        : "transparent", // Chrome/Safari
+                    }}
                   />
                   {errors.date && (
                     <p className="text-red-500 text-sm mt-1">
@@ -375,18 +381,18 @@ const Step1 = ({ handleContinue }) => {
                 </div>
               </div>
 
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+              <div className="lg:flex flex-row items-center gap-3">
+                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
                   Select Time Slot
                 </label>
-                <div className="relative md:w-[80%] w-full">
+                <div className="relative md:w-[60%] w-full">
                   <select
                     {...register("timeSlot", {
                       required: "Time slot is required",
                     })}
                     className="appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >
-                    <option value="">Select Time</option>
+                    <option value=""></option>
                     <option value="09:00-10:00">09:00 - 10:00 AM</option>
                     <option value="10:00-11:00">10:00 - 11:00 AM</option>
                     <option value="11:00-12:00">11:00 - 12:00 PM</option>
@@ -405,25 +411,25 @@ const Step1 = ({ handleContinue }) => {
               </div>
 
               <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
                   Remarks
                 </label>
-                <div className="lg:w-[150%] w-full relative lg:left-11">
+                <div className="lg:w-[105%] w-full relative lg:left-11">
                   <textarea
                     {...register("remarks")}
                     rows={3}
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Any special instructions or remarks"
+                    // placeholder="Any special instructions or remarks"
                   />
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center justify-center lg:justify-start mt-6 pl-[8px] cursor-pointer">
-              <label className="lg:w-[110px]"></label>
+            <div className="flex items-center lg:justify-start mt-6 lg:pl-[8px] cursor-pointer">
+              <label className="hidden lg:block lg:w-[160px]"></label>
               <button
                 type="submit"
-                className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
+                className="w-[166px] __secondary-bg text-white text-[20px] lg:ml-2 font-bold py-3 px-6 rounded-lg"
               >
                 Continue
               </button>
@@ -463,8 +469,8 @@ const Step1 = ({ handleContinue }) => {
 
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
-          <div className="space-y-6 lg:ml-16 md:w-[50%] w-full">
+        <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
+          <div className="space-y-6 lg:ml-16 md:w-[70%] w-full">
             <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
               Review and Pay
             </h2>
@@ -610,7 +616,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
           </div>
 
           {/* Right Section - Image */}
-          <div className="flex justify-end items-end w-[60%] absolute right-0 top-[0%] h-full">
+          <div className="flex justify-end items-end w-[60%] absolute -right-30 top-[0%] h-full">
             <Image
               src={image}
               width={400}
@@ -779,7 +785,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
         </div>
 
         {/* Navigation */}
-        {currentStep > 1 && currentStep < 4 && (
+        {/* {currentStep > 1 && currentStep < 4 && (
           <div className="flex justify-center">
             <button
               onClick={() => setCurrentStep(currentStep - 1)}
@@ -788,7 +794,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
               ← Back
             </button>
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

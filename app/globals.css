@@ -176,3 +176,10 @@ h6 {
 .cardShadow2 {
   box-shadow: 4px 4px 6px 1px #cdcdcd;
 }
+
+/* .custom-date::-webkit-datetime-edit {
+  color: transparent;
+} */
+.custom-date:focus::-webkit-datetime-edit {
+  color: black;
+}
