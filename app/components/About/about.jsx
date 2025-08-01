@@ -5,8 +5,9 @@ import image1 from "../../assets/about/icon2 (2).png";
 import image2 from "../../assets/about/icon (2).png";
 import image3 from "../../assets/about/icon (3).png";
 import image4 from "../../assets/about/about-image.png";
-import image5 from "../../assets/about/about-image (2).png";
+import image5 from "../../../public/about-image.png";
 import image6 from "../../assets/woman/woman-figure.png";
+import image7 from "../../../public/mobile-view-image.jpg";
 import shape from "../../assets/woman/shape.png";
 import { Check } from "lucide-react";
 import Link from "next/link";
@@ -15,36 +16,36 @@ export const About = () => {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 __gapTop">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          <div className="text-left flex flex-col align-middle justify-start h-[100%] mb-10 lg:mb-0">
-            <h2 className="text-2xl sm:text-3xl mb-5 lg:text-4xl xl:text-[43px] font-bold text-gray-900 leading-tight">
+      <div className=" __gapTop md:mt-16 relative container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col-reverse lg:grid lg:grid-cols-[55%_auto] items-center justify-center">
+          <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7 mb- lg:mb-0">
+            <h2 className="text-[26px] mb-5 md:text-[45px] font-[600] text-gray-900 leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%]">
               A Central Hub for Your
               <br className="hidden sm:block" />
               <span className="block sm:inline"> Wellbeing</span>
             </h2>
-            <p className="text-sm sm:text-base lg:text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="text-sm md:text-lg font-[400] text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
               Safely store and protected data as in one place and get the most
               detailed insights into your health through detailed metrics and
               professional medical analysis.
             </p>
           </div>
 
-          <div className="relative w-[full] flex justify-end">
+          <div className="relative w-[full] flex justify-end mt-5 ml-4 md:ml-0 lg:ml-0">
             <Image
               src={image4}
-              width={200}
-              height={200}
+              width={600}
+              height={300}
               alt="about image"
-              className="rounded-3xl h-[80%] w-[80%] shadow"
+              className="rounded-3xl h-[80%] w-[100%] shadow"
             />
 
             <Image
               src={image5}
-              width={200}
-              height={200}
+              width={600}
+              height={300}
               alt="about image"
-              className="absolute right-10 top-[-60px] rounded-3xl h-[100%] w-[80%] shadow"
+              className="absolute right-3 -top-[25px] md:right-10 md:top-[-60px] rounded-3xl h-[100%] w-[100%] shadow"
             />
           </div>
         </div>
@@ -54,7 +55,7 @@ export const About = () => {
       <section className="__gapTop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-left">
-            <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-8 lg:mb-15 md:mb-12">
+            <h2 className="text-[26px] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] md:text-[45px] font-[600] text-gray-900 leading-tight mb-4 lg:mb-10 md:mb-8">
               More Than Just Reports
             </h2>
           </div>
@@ -83,7 +84,7 @@ export const About = () => {
             ].map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-4 sm:p-6 rounded-xl __cardShadow"
+                className="bg-white p-4 sm:p-6 rounded-xl cardShadow2"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-1.5">
                   <Image
@@ -94,7 +95,7 @@ export const About = () => {
                     className="sm:w-[30px] sm:h-[30px]"
                   />
                 </div>
-                <h3 className="text-base sm:text-lg font-semibold mb-2 text-gray-900">
+                <h3 className="text-[20px] font-[500] md:font-[800] sm:text-lg mb-2 text-gray-900 line-hight-[135%]">
                   {item.title}
                 </h3>
                 <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
@@ -108,24 +109,21 @@ export const About = () => {
 
       {/* Import Reports Section */}
       <div className="__gapTop">
-        <div className="container mx-auto px-4 md:px-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-8 lg:gap-30">
-            <div className="flex items-center justify-center order-2 lg:order-1">
-              <div className="w-full sm:max-w-md">
-                <div className="aspect-[4/3] relative lg:w-[600px]">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
+            <div className="flex items-start justify-start order-2 lg:order-1">
+              <div className="w-full">
+                <div className="h-[220px] md:h-[465px] relative w-full">
                   <Image
                     src={image5}
                     alt="Person using mobile health app"
-                    className="object-cover rounded-4xl shadow-lg w-[full] "
+                    className=" rounded-4xl shadow-lg w-full h-full"
                   />
                 </div>
               </div>
             </div>
-            <div className="space-y-4 sm:space-y-6 text-left order-1 lg:order-2">
-              <div className="inline-block bg-pink-100 __secondary-text px-3 py-1 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold">
-                NEW
-              </div>
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight">
+            <div className="space-y-4 sm:space-y-6 text-left order-2 lg:order-1">
+              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pink-500 md:text-gray-900 leading-tight">
                 Have Reports from
                 <br className="hidden sm:block" />
                 <span className="block sm:inline"> Other Labs?</span>
@@ -149,59 +147,55 @@ export const About = () => {
       </div>
 
       {/* Built Around Your Needs Section */}
-      <div className="__gapTop relative">
-        <div className="absolute top-0 right-0 z-50">
-          <Image src={shape} alt=" " className="h-[300px] w-[300px]" />
+      <div className="__gapTop relative pb-10">
+        <div className="absolute top-5 right-0 z-50 hidden md:block">
+          <Image src={shape} alt=" " className="h-[400px] w-[400px]" />
         </div>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="flex w-full items-start justify-center gap-3 sm:gap-4 text-center sm:text-left order-2 lg:order-1">
-              <div className="w-10 relative top-[-2px] h-10 sm:w-12 sm:h-12 rounded-full __primary-bg p-2 flex-shrink-0 mx-auto sm:mx-0 flex items-center justify-center">
-                <Check className="w-4 h-4 sm:w-6 sm:h-6 text-white" />
-              </div>
-              <div className="">
-                <h3 className="text-xl lg:text-4xl font-bold __secondary-text text-left mb-3 sm:mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Mobile: image above text, Desktop: side by side */}
+          {/* Mobile: image then text, Desktop: side by side */}
+          <div className="w-full order-2 lg:order-1 md:order-1 flex-col md:flex-row flex items-start justify-start gap-3 sm:gap-4 text-center ml-0 md:ml-10 relative">
+            {/* Mobile image at the top, only on mobile */}
+            <div className="block md:hidden w-screen relative left-1/2 right-1/2 -translate-x-1/2 mb-6 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
+              <Image
+                src={image7}
+                alt="Mobile view of health app"
+                fill
+                className="object-cover object-bottom"
+                style={{ borderRadius: 0 }}
+              />
+            </div>
+            {/* Text block always visible below image on mobile, side by side on desktop */}
+            <div className="flex flex-col items-start w-full">
+              <div className="flex flex-row items-center gap-3 mb-2 ml-0 sm:ml-2">
+                <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-teal-500 flex items-center justify-center">
+                  <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+                </div>
+                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pink-500 mb-0 text-left">
                   Built Around Your Needs
                 </h3>
-                <ul className="space-y-2  sm:space-y-3 text-sm sm:text-base __text">
-                  <li className="text-[17px] flex items-start gap-2">
-                    <span className=" text-pink-500 font-bold">•</span>
-                    <span className="">
-                      Mobile-friendly and accessible anywhere
-                    </span>
-                  </li>
-                  <li className="flex text-[17px] items-start gap-2">
-                    <span className="text-pink-500 font-bold">•</span>
-                    <span>
-                      Get reminders and health nudges based on past trends
-                    </span>
-                  </li>
-                  <li className="flex text-[17px] items-start gap-2">
-                    <span className="text-pink-500 font-bold">•</span>
-                    <span>Share reports securely with your doctor</span>
-                  </li>
-                  <li className="flex text-[17px] items-start gap-2">
-                    <span className="text-pink-500 font-bold">•</span>
-                    <span>24/7 health monitoring support</span>
-                  </li>
-                </ul>
               </div>
+              <ul className="list-disc mt-2 space-y-2 text-base sm:text-lg text-black text-left ml-[52px] sm:ml-[60px]">
+                <li>Mobile-friendly and accessible anywhere</li>
+                <li>Get reminders and health nudges based on past trends</li>
+                <li>Share reports securely with your doctor</li>
+                <li>24/7 health monitoring support</li>
+              </ul>
             </div>
+          </div>
 
-            <div className="relative order-1 lg:order-2">
-              <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg mx-auto">
-                {/* Background pink shape - responsive */}
-                <div className="bg-pink-500 rounded-2xl sm:rounded-3xl w-full h-32 sm:h-40 lg:h-44 xl:h-48 absolute bottom-0 left-0 z-0"></div>
+          <div className="relative order-1 lg:order-2 md:order-2">
+            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-xl mx-auto hidden md:block">
+              <div className="bg-pink-500 rounded-2xl sm:rounded-3xl w-full h-28 sm:h-36 lg:h-40 xl:h-42 absolute bottom-0 left-0 z-0"></div>
 
-                {/* Woman image - responsive */}
-                <div className="relative z-10 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
-                  <Image
-                    src={image6}
-                    alt="Woman talking on phone"
-                    fill
-                    className="object-contain object-bottom"
-                  />
-                </div>
+              {/* Woman image - responsive */}
+              <div className="relative z-10 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
+                <Image
+                  src={image6}
+                  alt="Woman talking on phone"
+                  fill
+                  className="object-contain object-bottom"
+                />
               </div>
             </div>
           </div>
