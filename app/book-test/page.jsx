@@ -11,46 +11,16 @@ import Link from "next/link";
 import { FaCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import './custom-datepicker.css';
+import "./custom-datepicker.css";
+import { useForm } from "react-hook-form";
+import { ChevronDown } from "lucide-react";
 
 const TestBookingSystem = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [formData, setFormData] = useState({
-    fullName: "",
-    gender: "",
-    age: "",
-    selectedTest: "",
-    typeOfTest: "",
-    contact: "",
-    streetName: "",
-    pincode: "",
-    date: "",
-    timeSlot: "",
-    remarks: "",
-    paymentMode: "",
-    applyCode: "",
-  });
+  const [allFormData, setAllFormData] = useState({});
 
-  const [dateValue, setDateValue] = useState(null);
-
-  const dateInputRef = useRef(null);
-
-  const handleInputChange = (field, value) => {
-    setFormData((prev) => {
-      // If the field is a select, don't clear other fields
-      return {
-        ...prev,
-        [field]: value,
-      };
-    });
-  };
-
-  const handleDateChange = (date) => {
-    setDateValue(date);
-    handleInputChange("date", date ? date.toISOString().split("T")[0] : "");
-  };
-
-  const handleContinue = () => {
+  const handleStepContinue = (stepData) => {
+    setAllFormData((prev) => ({ ...prev, ...stepData }));
     if (currentStep <= 4) {
       setCurrentStep(currentStep + 1);
     }
@@ -60,7 +30,7 @@ const TestBookingSystem = () => {
     <div className="__gapTop">
       <div className="flex flex-col-reverse lg:flex-row items-center justify-between w-full ">
         {/* Text Section - 30%, aligned to right */}
-        <div className="w-full md:mt-0 mt-[2rem] lg:w-[31%] flex justify-center items-center">
+        <div className="w-full md:mt-0 mt-[2rem] md:w-[29%] flex justify-end items-center">
           <h1 className="__secondary-text text-4xl lg:text-5xl font-bold text-right">
             Book Your Test
           </h1>
@@ -78,413 +48,581 @@ const TestBookingSystem = () => {
     </div>
   );
 
-  const Step1 = () => (
-    <div className="rounded-lg px-4 flex items-center justify-between ">
-      {/* Left Section - Increased width and margin */}
-      <div className="space-y-6 lg:ml-[100px] lg:w-[40%]">
-        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
-          Fill in the Details
-        </h2>
-        <div className="space-y-4">
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="block text-[15px] lg:mb-0 mb-2 font-medium text-gray-700 lg:w-[110px]">
-              Full Name
-            </label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={(e) => handleInputChange("fullName", e.target.value)}
-              className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="lg:flex flex-row items-start gap-3 relative ">
-              <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px] mr-6 pt-2">
-                Gender
+const Step1 = ({ handleContinue }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    defaultValues: allFormData,
+  });
+
+  const onSubmit = (data) => {
+    console.log("Step 1 Form Data:", data);
+    handleContinue(data);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <div className="rounded-lg px-4 flex items-center justify-between relative">
+        {/* Left Section */}
+        <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
+          <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+            Fill in the Details
+          </h2>
+
+          <div className="space-y-6">
+            {/* Full Name */}
+            <div className="lg:flex lg:flex-row lg:items-center gap-8">
+              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
+                Full Name
               </label>
-              <div className="relative w-full">
+              <div className="flex-1">
+                <input
+                  {...register("fullName", {
+                    required: "Full Name is required",
+                  })}
+                  type="text"
+                  className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  placeholder="Enter your full name"
+                />
+                {errors.fullName && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.fullName.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Gender and Age Row */}
+            <div className="lg:flex lg:flex-row lg:items-center gap-8">
+              <div className="lg:w-[140px] lg:text-right">
+                <label className="block text-[16px] font-medium text-gray-700 mb-2 lg:mb-0">
+                  Personal Info
+                </label>
+              </div>
+              <div className="flex-1 flex flex-row items-center gap-6">
+                {/* Gender */}
+                <div className="flex items-center gap-3">
+                  <label className="text-[14px] font-medium text-gray-600 whitespace-nowrap">
+                    Gender
+                  </label>
+                  <div className="relative w-[140px]">
+                    <select
+                      {...register("gender", {
+                        required: "Gender is required",
+                      })}
+                      className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    >
+                      <option value="">Select Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                    <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                      <ChevronDown />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Age */}
+                <div className="flex items-center gap-3">
+                  <label className="text-[14px] font-medium text-gray-600 whitespace-nowrap">
+                    Age
+                  </label>
+                  <div className="w-[100px]">
+                    <input
+                      {...register("age", {
+                        required: "Age is required",
+                        min: {
+                          value: 1,
+                          message: "Age must be greater than 0",
+                        },
+                        max: {
+                          value: 120,
+                          message: "Age must be less than 120",
+                        },
+                      })}
+                      type="number"
+                      className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                      placeholder="Enter age"
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              {/* Error Messages */}
+              <div className="lg:hidden">
+                {errors.gender && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.gender.message}
+                  </p>
+                )}
+                {errors.age && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.age.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Selected Test */}
+            <div className="lg:flex lg:flex-row lg:items-center gap-8">
+              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
+                Selected Test
+              </label>
+              <div className="flex-1 relative">
                 <select
-                  value={formData.gender}
-                  onChange={(e) => handleInputChange("gender", e.target.value)}
+                  {...register("selectedTest", {
+                    required: "Test selection is required",
+                  })}
                   className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                 >
-                  <option value="">Select Gender</option>
-                  <option value="male">Male</option>
-                  <option value="female">Female</option>
-                  <option value="other">Other</option>
+                  <option value="">Select Test</option>
+                  <option value="complete-blood-count">
+                    Complete Blood Count
+                  </option>
+                  <option value="lipid-profile">Lipid Profile</option>
+                  <option value="diabetes-screening">
+                    Diabetes Screening
+                  </option>
+                  <option value="thyroid-function">
+                    Thyroid Function Test
+                  </option>
                 </select>
-
-                {/* Custom arrow */}
                 <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  ▼
+                  <ChevronDown />
+                </div>
+                {errors.selectedTest && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.selectedTest.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Type of Test */}
+            <div className="lg:flex lg:flex-row lg:items-center gap-8">
+              <label className="block text-[16px] font-medium text-gray-700 lg:w-[140px] lg:mb-0 mb-2 lg:text-right">
+                Service Type
+              </label>
+              <div className="flex-1 relative">
+                <select
+                  {...register("typeOfTest", {
+                    required: "Type of test is required",
+                  })}
+                  className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                >
+                  <option value="">Select Type</option>
+                  <option value="home-collection">Home Collection</option>
+                  <option value="lab-visit">Lab Visit</option>
+                  <option value="express">Express Service</option>
+                </select>
+                <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                  <ChevronDown />
+                </div>
+                {errors.typeOfTest && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.typeOfTest.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex items-center justify-center lg:justify-start mt-10">
+            <button
+              type="submit"
+              className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium hover:opacity-90 transition-opacity"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+
+        {/* Right Section - Image */}
+        <div className="hidden lg:flex justify-end items-end w-[60%] z-[-1] absolute right-0 top-50 h-full">
+          <Image
+            src={image}
+            width={400}
+            height={400}
+            alt="Sukaii Logo"
+            className="object-cover rounded-lg"
+          />
+        </div>
+      </div>
+    </form>
+  );
+};
+  const Step2 = ({ handleContinue }) => {
+    const {
+      register,
+      handleSubmit,
+      control,
+      setValue,
+      watch,
+      formState: { errors },
+    } = useForm({
+      defaultValues: allFormData,
+    });
+
+    const watchDate = watch("date");
+
+    const onSubmit = (data) => {
+      console.log("Step 2 Form Data:", data);
+      handleContinue(data);
+    };
+
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
+          <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
+            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+              Contact Details
+            </h2>
+
+            <div className="space-y-4">
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+                  Contact
+                </label>
+                <div className="lg:w-[80%] w-full">
+                  <input
+                    {...register("contact", {
+                      required: "Contact number is required",
+                      pattern: {
+                        value: /^[+]?[\d\s-()]+$/,
+                        message: "Please enter a valid phone number",
+                      },
+                    })}
+                    type="tel"
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Enter phone number"
+                  />
+                  {errors.contact && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.contact.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+                  Street Name
+                </label>
+                <div className="lg:w-[80%] w-full">
+                  <input
+                    {...register("streetName", {
+                      required: "Street address is required",
+                    })}
+                    type="text"
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Enter street address"
+                  />
+                  {errors.streetName && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.streetName.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="block mb-2 lg:mb-0 text-[15px] font-medium text-gray-700 w-[110px]">
+                  Pin Code
+                </label>
+                <div className="lg:w-[80%] w-full">
+                  <input
+                    {...register("pincode", {
+                      required: "Pin code is required",
+                      pattern: {
+                        value: /^\d{5,6}$/,
+                        message: "Please enter a valid pin code",
+                      },
+                    })}
+                    type="text"
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Enter pincode"
+                  />
+                  {errors.pincode && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.pincode.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[130px]">
+                  Date
+                </label>
+                <div className="relative w-full">
+                  <input
+                    {...register("date", {
+                      required: "Date is required",
+                    })}
+                    type="date"
+                    min={new Date().toISOString().split("T")[0]}
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  />
+                  {errors.date && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.date.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+                  Select Time Slot
+                </label>
+                <div className="relative md:w-[80%] w-full">
+                  <select
+                    {...register("timeSlot", {
+                      required: "Time slot is required",
+                    })}
+                    className="appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  >
+                    <option value="">Select Time</option>
+                    <option value="09:00-10:00">09:00 - 10:00 AM</option>
+                    <option value="10:00-11:00">10:00 - 11:00 AM</option>
+                    <option value="11:00-12:00">11:00 - 12:00 PM</option>
+                    <option value="12:00-13:00">12:00 - 01:00 PM</option>
+                    <option value="14:00-15:00">02:00 - 03:00 PM</option>
+                  </select>
+                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <ChevronDown />
+                  </div>
+                  {errors.timeSlot && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.timeSlot.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              <div className="lg:flex flex-row items-start gap-3">
+                <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
+                  Remarks
+                </label>
+                <div className="lg:w-[150%] w-full relative lg:left-11">
+                  <textarea
+                    {...register("remarks")}
+                    rows={3}
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Any special instructions or remarks"
+                  />
                 </div>
               </div>
             </div>
-            <div className="lg:flex flex-row items-start gap-3">
-              <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 mr-4 ml-2 pt-2">
-                Age
-              </label>
-              <input
-                type="number"
-                value={formData.age}
-                onChange={(e) => handleInputChange("age", e.target.value)}
-                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                placeholder="Enter age"
-              />
-            </div>
-          </div>
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Selected Test
-            </label>
-            <div className="relative w-full">
-              <select
-                value={formData.selectedTest}
-                onChange={(e) =>
-                  handleInputChange("selectedTest", e.target.value)
-                }
-                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              >
-                <option value="">Select Test</option>
-                <option value="complete-blood-count">
-                  Complete Blood Count
-                </option>
-                <option value="lipid-profile">Lipid Profile</option>
-                <option value="diabetes-screening">Diabetes Screening</option>
-                <option value="thyroid-function">Thyroid Function Test</option>
-              </select>
 
-              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                ▼
-              </div>
+            <div className="flex items-center justify-center lg:justify-start mt-6 pl-[8px] cursor-pointer">
+              <label className="lg:w-[110px]"></label>
+              <button
+                type="submit"
+                className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
+              >
+                Continue
+              </button>
             </div>
           </div>
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="lg:mb-0 mb-2 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Type of Test
-            </label>
-            <div className="relative w-full">
-              {" "}
-              <select
-                value={formData.typeOfTest}
-                onChange={(e) =>
-                  handleInputChange("typeOfTest", e.target.value)
-                }
-                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              >
-                <option value="">Select Type</option>
-                <option value="home-collection">Home Collection</option>
-                <option value="lab-visit">Lab Visit</option>
-                <option value="express">Express Service</option>
-              </select>
-              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                ▼
-              </div>
-            </div>
+          {/* Right Section - Image flush right */}
+          <div className="flex justify-end items-end w-[60%] absolute right-0 top-[50%] h-full">
+            <Image
+              src={image}
+              width={400}
+              height={300}
+              alt="Sukaii Logo"
+              className="object-cover rounded-lg"
+            />
           </div>
         </div>
-        <div className="flex items-center justify-center lg:justify-start mt-10 cursor-pointer">
-          <label className="block text-[15px] font-medium text-gray-700 lg:w-[105px]"></label>
-          <button
-            onClick={handleContinue}
-            className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
-          >
-            Continue
-          </button>
-        </div>
-      </div>
-      {/* Right Section - Image flush right */}
-      <div className="flex justify-end items-end w-[60%] z-[-1] absolute right-0 top-50 h-full">
-        <Image
-          src={image}
-          width={400}
-          height={400}
-          alt="Sukaii Logo"
-          className="object-cover rounded-lg"
-        />
-      </div>
-    </div>
-  );
+      </form>
+    );
+  };
 
-  const Step2 = () => (
-    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between realtive pt-[60px]">
-      <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
-        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
-          Contact Details
-        </h2>
+  const Step3 = ({ handleContinue }) => {
+    const {
+      register,
+      handleSubmit,
+      formState: { errors },
+    } = useForm({
+      defaultValues: {
+        ...allFormData,
+        totalCost: allFormData.totalCost || "60",
+      },
+    });
 
-        <div className="space-y-4">
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Contact
-            </label>
-            <input
-              type="tel"
-              value={formData.contact}
-              onChange={(e) => handleInputChange("contact", e.target.value)}
-              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              placeholder="Enter phone number"
-            />
-          </div>
+    const onSubmit = (data) => {
+      console.log("Step 3 Form Data:", data);
+      handleContinue(data);
+    };
 
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Street Name
-            </label>
-            <input
-              type="text"
-              value={formData.streetName}
-              onChange={(e) => handleInputChange("streetName", e.target.value)}
-              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              placeholder="Enter street address"
-            />
-          </div>
+    return (
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
+          <div className="space-y-6 lg:ml-16 md:w-[50%] w-full">
+            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+              Review and Pay
+            </h2>
 
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="block mb-2 lg:mb-0 text-[15px] font-medium text-gray-700 w-[110px]">
-              Pin Code
-            </label>
-            <input
-              type="text"
-              value={formData.pincode}
-              onChange={(e) => handleInputChange("pincode", e.target.value)}
-              className="lg:w-[80%] w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              placeholder="Enter pincode"
-            />
-          </div>
+            <div className="md:space-y-6">
+              {/* Booking Summary - Now properly aligned */}
+              <div className="md:flex flex-row items-start gap-3">
+                <div className="md:w-[160px] w-full">
+                  <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                    Booking Summary
+                  </label>
+                </div>
+                <textarea
+                  value={`Test: ${allFormData.selectedTest || "Not selected"}
+Type: ${allFormData.typeOfTest || "Not selected"}
+Date: ${allFormData.date || "Not selected"}
+Time: ${allFormData.timeSlot || "Not selected"}
+Name: ${allFormData.fullName || "Not provided"}
+Contact: ${allFormData.contact || "Not provided"}
+Address: ${allFormData.streetName || "Not provided"} - ${
+                    allFormData.pincode || "Not provided"
+                  }`}
+                  readOnly
+                  rows={7}
+                  className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                />
+              </div>
 
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[130px]">
-              Date
-            </label>
-            <div className="relative w-full">
-              <DatePicker
-                selected={dateValue}
-                onChange={handleDateChange}
-                dateFormat="yyyy-MM-dd"
-                placeholderText="Select date"
-                className="w-full bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all pr-12"
-                calendarClassName="custom-datepicker"
-                popperPlacement="bottom"
-                showPopperArrow={false}
-                minDate={new Date()}
-                renderCustomHeader={({ date, changeYear, changeMonth, decreaseMonth, increaseMonth, prevMonthButtonDisabled, nextMonthButtonDisabled }) => (
-                  <div className="flex justify-between items-center px-2 py-1 bg-pink-50 rounded-t-xl">
-                    <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled} className="text-pink-500 px-2 py-1 rounded disabled:opacity-30">‹</button>
-                    <span className="font-semibold text-pink-600">{date.toLocaleString('default', { month: 'long' })} {date.getFullYear()}</span>
-                    <button onClick={increaseMonth} disabled={nextMonthButtonDisabled} className="text-pink-500 px-2 py-1 rounded disabled:opacity-30">›</button>
+              {/* Cost and Discount Code - Consistent with above */}
+              <div className="md:grid grid-cols-2 gap-4">
+                <div className="md:flex flex-row items-start gap-3">
+                  <div className="w-[220px] pt-4">
+                    <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                      Total Cost
+                    </label>
                   </div>
-                )}
-                customInput={
-                  <div className="flex items-center w-full">
+                  <div className="w-full">
                     <input
-                      type="text"
-                      value={dateValue ? dateValue.toLocaleDateString() : ""}
-                      readOnly
-                      className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all pr-12 cursor-pointer"
-                      placeholder="Select date"
+                      {...register("totalCost", {
+                        required: "Total cost is required",
+                        min: {
+                          value: 1,
+                          message: "Cost must be greater than 0",
+                        },
+                      })}
+                      type="number"
+                      className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                      placeholder="Enter cost"
                     />
-                    <FaCalendarAlt
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-pink-500 cursor-pointer"
-                      size={20}
-                    />
+                    {errors.totalCost && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.totalCost.message}
+                      </p>
+                    )}
                   </div>
-                }
-              />
-            </div>
-          </div>
+                </div>
 
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Select Time Slot
-            </label>
-            <div className="relative md:w-[80%] w-full">
-              <select
-                value={formData.timeSlot}
-                onChange={(e) => handleInputChange("timeSlot", e.target.value)}
-                className=" appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              >
-                <option value="">Select Time</option>
-                <option value="09:00-10:00">09:00 - 10:00 AM</option>
-                <option value="10:00-11:00">10:00 - 11:00 AM</option>
-                <option value="11:00-12:00">11:00 - 12:00 PM</option>
-                <option value="12:00-13:00">12:00 - 01:00 PM</option>
-                <option value="14:00-15:00">02:00 - 03:00 PM</option>
-              </select>
-              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                ▼
+                <div className="md:flex flex-row items-start gap-3">
+                  <div className="w-[160px] md:ml-4 pt-4">
+                    <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                      Apply Code
+                    </label>
+                  </div>
+                  <input
+                    {...register("applyCode")}
+                    type="text"
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Discount code"
+                  />
+                </div>
               </div>
+
+              {/* Payment Mode - Consistent with above */}
+              <div className="md:flex flex-row items-start gap-3">
+                <div className="md:w-[160px] pt-4">
+                  <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                    Payment Mode
+                  </label>
+                </div>
+                <div className="relative w-full">
+                  <select
+                    {...register("paymentMode", {
+                      required: "Payment mode is required",
+                    })}
+                    className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                  >
+                    <option value="">Select Payment Method</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="debit-card">Debit Card</option>
+                    <option value="online-banking">Online Banking</option>
+                    <option value="cash-on-delivery">Cash on Delivery</option>
+                  </select>
+
+                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <ChevronDown />
+                  </div>
+                  {errors.paymentMode && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.paymentMode.message}
+                    </p>
+                  )}
+                </div>
+              </div>
+
+              {/* Terms and Conditions - Consistent spacing */}
+              <div className="mt-4 md:mt-0 flex flex-row items-start gap-3">
+                <div className="md:w-[130px]"></div>
+                <div className="flex md:items-center items-start gap-2">
+                  <input
+                    {...register("agreeTerms", {
+                      required: "You must agree to terms and conditions",
+                    })}
+                    type="checkbox"
+                    id="terms"
+                    className="rounded relative top-1 md:top-0"
+                  />
+                  <label htmlFor="terms" className="text-sm text-gray-600">
+                    By continuing, you agree to our Terms & Conditions and
+                    Privacy Policy
+                  </label>
+                </div>
+              </div>
+              {errors.agreeTerms && (
+                <div className="md:flex flex-row items-start gap-3">
+                  <div className="md:w-[130px]"></div>
+                  <p className="text-red-500 text-sm">
+                    {errors.agreeTerms.message}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            {/* Continue Button */}
+            <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
+              <div className="md:w-[140px]"></div>
+              <button
+                type="submit"
+                className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
+              >
+                Continue
+              </button>
             </div>
           </div>
 
-          <div className="lg:flex flex-row items-start gap-3">
-            <label className="mb-2 lg:mb-0 block text-[15px] font-medium text-gray-700 w-[110px]">
-              Remarks
-            </label>
-            <textarea
-              value={formData.remarks}
-              onChange={(e) => handleInputChange("remarks", e.target.value)}
-              rows={3}
-              className="lg:w-[150%] w-full relative lg:left-11 px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              placeholder="Any special instructions or remarks"
+          {/* Right Section - Image */}
+          <div className="flex justify-end items-end w-[60%] absolute right-0 top-[0%] h-full">
+            <Image
+              src={image}
+              width={400}
+              height={300}
+              alt="Sukaii Logo"
+              className="object-cover rounded-lg"
             />
           </div>
         </div>
-
-        <div className="flex items-center justify-center lg:justify-start mt-6 pl-[8px] cursor-pointer">
-          <label className="lg:w-[110px]"></label>
-          <button
-            onClick={handleContinue}
-            className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
-          >
-            Continue
-          </button>
-        </div>
-      </div>
-      {/* Right Section - Image flush right */}
-      <div className="flex justify-end items-end w-[60%] absolute right-0 top-[50%] h-full">
-        <Image
-          src={image}
-          width={400}
-          height={300}
-          alt="Sukaii Logo"
-          className="object-cover rounded-lg"
-        />
-      </div>
-    </div>
-  );
-
-  const Step3 = () => (
-    <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative pt-[60px]">
-      <div className="space-y-6 lg:ml-16 md:w-[50%] w-full">
-        <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
-          Review and Pay
-        </h2>
-
-        <div className="md:space-y-6">
-          {/* Booking Summary - Now properly aligned */}
-          <div className="md:flex flex-row items-start gap-3">
-            <div className="md:w-[160px] w-full">
-              {" "}
-              {/* Added pt-4 to match textarea padding */}
-              <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
-                Booking Summary
-              </label>
-            </div>
-            <textarea
-              value={formData.remarks}
-              onChange={(e) => handleInputChange("remarks", e.target.value)}
-              rows={7}
-              className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-            />
-          </div>
-
-          {/* Cost and Discount Code - Consistent with above */}
-          <div className="md:grid grid-cols-2 gap-4">
-            <div className="md:flex flex-row items-start gap-3">
-              <div className="w-[220px] pt-4">
-                {" "}
-                {/* Added pt-4 */}
-                <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
-                  Total Cost
-                </label>
-              </div>
-              <input
-                type="text"
-                value={formData.totalCost}
-                onChange={(e) => handleInputChange("totalCost", e.target.value)}
-                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                placeholder="Cost"
-              />
-            </div>
-
-            <div className="md:flex flex-row items-start gap-3">
-              <div className="w-[160px] md:ml-4 pt-4">
-                {" "}
-                {/* Added pt-4 */}
-                <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
-                  Apply Code
-                </label>
-              </div>
-              <input
-                type="text"
-                value={formData.applyCode}
-                onChange={(e) => handleInputChange("applyCode", e.target.value)}
-                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                placeholder="Discount code"
-              />
-            </div>
-          </div>
-
-          {/* Payment Mode - Consistent with above */}
-          <div className="md:flex flex-row items-start gap-3">
-            <div className="md:w-[160px] pt-4">
-              <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
-                Payment Mode
-              </label>
-            </div>
-            <div className="relative w-full">
-              <select
-                value={formData.paymentMode}
-                onChange={(e) =>
-                  handleInputChange("paymentMode", e.target.value)
-                }
-                className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-              >
-                <option value="">Select Payment Method</option>
-                <option value="credit-card">Credit Card</option>
-                <option value="debit-card">Debit Card</option>
-                <option value="online-banking">Online Banking</option>
-              </select>
-
-              <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                ▼
-              </div>
-            </div>
-          </div>
-
-          {/* Terms and Conditions - Consistent spacing */}
-          <div className="mt-4 md:nt-0 flex flex-row items-start gap-3">
-            <div className="md:w-[130px]"></div>
-            <div className="flex md:items-center items-start gap-2">
-              <input
-                type="checkbox"
-                id="terms"
-                className="rounded relative top-1 md:top-0"
-              />
-              <label htmlFor="terms" className="text-sm text-gray-600">
-                By continuing, you agree to our Terms & Conditions and Privacy
-                Policy
-              </label>
-            </div>
-          </div>
-        </div>
-
-        {/* Continue Button */}
-        <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
-          <div className="md:w-[140px]"></div>
-          <button
-            onClick={handleContinue}
-            className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
-          >
-            Continue
-          </button>
-        </div>
-      </div>
-
-      {/* Right Section - Image */}
-      <div className="flex justify-end items-end w-[60%] absolute right-0 top-[0%] h-full">
-        <Image
-          src={image}
-          width={400}
-          height={300}
-          alt="Sukaii Logo"
-          className="object-cover rounded-lg"
-        />
-      </div>
-    </div>
-  );
+      </form>
+    );
+  };
 
   const Step4 = () => (
     <div className="bg-white rounded-lg">
@@ -501,12 +639,11 @@ const TestBookingSystem = () => {
 
         <div className="p-6 md:p-0">
           <div className="flex items-center gap-2">
-            {/* <CheckCircle className="w-10 h-10 text-green-500" /> */}
             <h2 className="text-[38px] font-bold __secondary-text">
               Congratulations!
             </h2>
           </div>
-          <h2 className="text-[28px]  text-gray-700 mb-6">
+          <h2 className="text-[28px] text-gray-700 mb-6">
             Your test is booked!
           </h2>
 
@@ -514,63 +651,69 @@ const TestBookingSystem = () => {
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Full Name</span>
               <span className="font-medium">
-                {formData.fullName || "John Doe"}
+                {allFormData.fullName || "John Doe"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Gender</span>
-              <span className="font-medium">{formData.gender || "Male"}</span>
+              <span className="font-medium">
+                {allFormData.gender || "Male"}
+              </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Age</span>
-              <span className="font-medium">{formData.age || "36"}</span>
+              <span className="font-medium">{allFormData.age || "36"}</span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Contact</span>
               <span className="font-medium">
-                {formData.contact || "+60 123 456 789"}
+                {allFormData.contact || "+60 123 456 789"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Address</span>
               <span className="font-medium">
-                {formData.streetName || "3rd Street, Malaysia"} -{" "}
-                {formData.pincode || "19028"}
+                {allFormData.streetName || "3rd Street, Malaysia"} -{" "}
+                {allFormData.pincode || "19028"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Remarks</span>
               <span className="font-medium">
-                {formData.remarks || "Lorem ipsum dolor sit amet"}
+                {allFormData.remarks || "Lorem ipsum dolor sit amet"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Selected Test</span>
               <span className="font-medium">
-                {formData.selectedTest || "Complete Blood Count"}
+                {allFormData.selectedTest || "Complete Blood Count"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Type</span>
               <span className="font-medium">
-                {formData.typeOfTest || "Home Collection"}
+                {allFormData.typeOfTest || "Home Collection"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Date</span>
               <span className="font-medium">
-                {formData.date || "14/05/2025"}
+                {allFormData.date || "14/05/2025"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Time Slot</span>
               <span className="font-medium">
-                {formData.timeSlot || "12:00 - 02:00 PM"}
+                {allFormData.timeSlot || "12:00 - 02:00 PM"}
               </span>
             </div>
             <div className="flex gap-4">
               <span className="text-gray-600 min-w-[100px]">Total Paid</span>
-              <span className="font-medium">60 RM (Including Tax)</span>
+              <span className="font-medium">
+                {allFormData.totalCost
+                  ? `${allFormData.totalCost} RM (Including Tax)`
+                  : "60 RM (Including Tax)"}
+              </span>
             </div>
           </div>
 
@@ -582,7 +725,7 @@ const TestBookingSystem = () => {
                 width={35}
                 height={35}
                 className="object-cover"
-              />{" "}
+              />
               <span className="text-sm leading-[16px]">
                 Book a <br className="d-none md:block" /> New Test
               </span>
@@ -594,19 +737,19 @@ const TestBookingSystem = () => {
                 width={35}
                 height={35}
                 className="object-cover"
-              />{" "}
+              />
               <span className="text-sm leading-[16px]">
                 Upload Past Reports
               </span>
             </div>
-            <div className="flex ____shadow-card  items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
+            <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
               <Image
                 src={image3}
                 alt="thank you bg-image"
                 width={35}
                 height={35}
                 className="object-cover"
-              />{" "}
+              />
               <span className="text-sm leading-[16px]">
                 View Health Summary
               </span>
@@ -622,15 +765,16 @@ const TestBookingSystem = () => {
       </div>
     </div>
   );
+
   return (
     <>
       {currentStep <= 3 && <HeaderSection />}
       <div className="container mx-auto realtive">
         {/* Step content */}
         <div className="container mx-auto __gapTop">
-          {currentStep === 1 && <Step1 />}
-          {currentStep === 2 && <Step2 />}
-          {currentStep === 3 && <Step3 />}
+          {currentStep === 1 && <Step1 handleContinue={handleStepContinue} />}
+          {currentStep === 2 && <Step2 handleContinue={handleStepContinue} />}
+          {currentStep === 3 && <Step3 handleContinue={handleStepContinue} />}
           {currentStep === 4 && <Step4 />}
         </div>
 

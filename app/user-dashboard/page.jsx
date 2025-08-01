@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
+import HealthDashboard from "./HealthDashboard";
 
 import { Poppins } from "next/font/google";
 
@@ -432,42 +433,9 @@ const UserDashboard = () => {
   );
 
   const SmartHealthSection = () => (
-    <div className="md:px-22">
-      <div className="bg-white rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-800 mb-4">
-          Smart Health
-        </h3>
-        <p className="text-gray-600 mb-6">
-          View transactions and download receipts
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-            <Activity className="w-8 h-8 text-blue-600 mb-3" />
-            <h4 className="font-medium text-gray-800">Health Metrics</h4>
-            <p className="text-sm text-gray-600 mt-1">
-              Track your vital statistics
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
-            <Heart className="w-8 h-8 text-green-600 mb-3" />
-            <h4 className="font-medium text-gray-800">Wellness Score</h4>
-            <p className="text-sm text-gray-600 mt-1">
-              Monitor your overall health
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
-            <Calendar className="w-8 h-8 text-purple-600 mb-3" />
-            <h4 className="font-medium text-gray-800">Health Calendar</h4>
-            <p className="text-sm text-gray-600 mt-1">
-              Schedule regular checkups
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <>
+      <HealthDashboard />
+    </>
   );
 
   const tabs = [

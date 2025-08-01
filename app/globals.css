@@ -172,3 +172,7 @@ h6 {
   bottom: 0 !important;
   width: auto !important;
 }
+
+.cardShadow2 {
+  box-shadow: 4px 4px 6px 1px #cdcdcd;
+}
