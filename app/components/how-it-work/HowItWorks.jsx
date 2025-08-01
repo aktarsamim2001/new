@@ -77,23 +77,23 @@ export const HowItWorks = () => {
               key={index}
             >
               {(index === 0) && (
-                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-14'} -left-35 md:left-[-130px] w-full max-w-[381px] ${index=== 0 ? `opacity-80`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
+                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-18'} -left-28 md:left-[-130px] w-full max-w-[381px] ${index=== 0 ? `opacity-50`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
                     <div>
                       <Image
                         src={image}
                         alt="Decorative texture"
                         width={600}
-                        height={600}
-                        className="filter brightness-0 invert"
+                        height={800}
+                        className="filter h-[177px] w-[400px] brightness-0 invert"
                       />
                     </div>
-                    <div className="-mt-24">
+                    <div className="-mt-22">
                       <Image
                         src={image}
                         alt="Decorative texture"
                         width={600}
-                        height={600}
-                        className="filter brightness-0 invert"
+                        height={800}
+                        className="filter h-[177px] w-[400px] brightness-0 invert"
                       />
                     </div>
                   </div>
@@ -125,21 +125,21 @@ export const HowItWorks = () => {
                 <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">
                   {step.number}.
                 </h1>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[56px] xl:leading-14 font-bold text-gray-900 leading-tight mb-4">
+                <h2 className="text-[26px] sm:text-3xl lg:text-4xl xl:text-5xl 2xl:text-[56px] xl:leading-14 font-bold text-gray-900 leading-tight mb-4">
                   {step.title}
                 </h2>
-                <p className="text-sm md:text-[18px] text-gray-600 leading-relaxed md:max-w-lg">
+                <p className="text-[14px] leading-4 md:leading-6 md:text-[18px] text-[#000000] md:max-w-lg">
                   {step.description}
                 </p>
-                <p className="text-xs sm:text-[16px] text-gray-500   flex items-center gap-1.5">
+                <p className="text-xs sm:text-[16px] text-[#000000]  flex items-center gap-1.5">
                   <MoveRight size={15} />
                   {step.note1}
                 </p>
-                <p className="text-xs sm:text-[16px] text-gray-500  not-[]: flex items-center gap-1.5">
+                <p className="text-xs sm:text-[16px] text-[#000000]  not-[]: flex items-center gap-1.5">
                   <MoveRight size={15} />
                   {step.note2}
                 </p>
-                <p className="text-xs sm:text-[16px] text-gray-500   flex items-center gap-1.5">
+                <p className="text-xs sm:text-[16px] text-[#000000]   flex items-center gap-1.5">
                   <MoveRight size={15} />
                   {step.note3}
                 </p>
