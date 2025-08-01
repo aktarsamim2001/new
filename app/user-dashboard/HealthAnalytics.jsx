@@ -9,16 +9,19 @@ import {
   CheckCircle2,
   TriangleAlert,
 } from "lucide-react";
+// Chart.js imports for new chart section
 import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  ResponsiveContainer,
-  Area,
-  AreaChart,
-  CartesianGrid,
-} from "recharts";
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title as ChartTitle,
+  Tooltip,
+  Legend,
+  Filler,
+} from "chart.js";
+import { Line } from "react-chartjs-2";
 import icon from "../../public/user-dashboard/health-care-icon/smart-health-1 (1).png";
 import icon2 from "../../public/user-dashboard/health-care-icon/smart-health-1 (2).png";
 import icon3 from "../../public/user-dashboard/health-care-icon/smart-health-1 (3).png";
@@ -69,26 +72,25 @@ const HealthAnalytics = () => {
       {showRecentActivity && (
         <div className="max-w-6xl px-4 mx-auto">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-base md:text-lg font-semibold text-gray-800">
-              Recent Activity
-            </h2>
-            <button
-              className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"
-              aria-label="Close Recent Activity"
-              onClick={() => setShowRecentActivity(false)}
-            >
-              <svg
-                viewBox="0 0 20 20"
-                fill="currentColor"
-                className="w-4 h-4 text-gray-400"
+            <div className="flex items-center w-full gap-2">
+              <span className="text-lg font-semibold text-gray-800 whitespace-nowrap">Recent Activity</span>
+              <div className="flex-1 border-b border-gray-300 mx-3" />
+              <button
+                className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"
+                aria-label="Close Recent Activity"
+                onClick={() => setShowRecentActivity(false)}
               >
-                <path
-                  fillRule="evenodd"
-                  d="M10 8.586l4.95-4.95a1 1 0 111.414 1.414L11.414 10l4.95 4.95a1 1 0 01-1.414 1.414L10 11.414l-4.95 4.95a1 1 0 01-1.414-1.414L8.586 10l-4.95-4.95A1 1 0 115.05 3.636L10 8.586z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            </button>
+                <svg
+                  viewBox="0 0 20 20"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  className="w-4 h-4 text-gray-400"
+                >
+                  <path d="M6 10l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* High Parameters Card */}
@@ -211,36 +213,51 @@ const HealthAnalytics = () => {
 
       {/* Floating reopen button for Recent Activity */}
       {!showRecentActivity && (
-        <button
-          className="fixed bottom-8 right-8 z-50 bg-pink-500 hover:bg-pink-600 text-white rounded-full shadow-lg p-4 flex items-center justify-center transition"
-          aria-label="Open Recent Activity"
-          onClick={() => setShowRecentActivity(true)}
-        >
-          {/* Bell Icon */}
-          <svg viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-            <path d="M12 2C8.13 2 5 5.13 5 9v5c0 .55-.45 1-1 1H3c-.55 0-1 .45-1 1s.45 1 1 1h18c.55 0 1-.45 1-1s-.45-1-1-1h-1c-.55 0-1-.45-1-1V9c0-3.87-3.13-7-7-7zm0 18c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2z" />
-          </svg>
-        </button>
+        <div className="relative w-full">
+          <button
+            className="absolute top-0 right-0 z-50 bg-pink-500 hover:bg-pink-600 text-white rounded-full shadow-lg p-3 flex items-center justify-center transition"
+            aria-label="Open Recent Activity"
+            onClick={() => setShowRecentActivity(true)}
+          >
+          </button>
+        </div>
       )}
 
       {/* Health Score Banner Section */}
-      <div className="relative w-full overflow-hidden" style={{ minHeight: 220 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ minHeight: 220 }}
+      >
         <div className="bg-pink-600 flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-5">
           <div className="flex flex-col gap-1">
-            <h2 className="text-white text-xl font-bold leading-tight">Your Health Score</h2>
-            <p className="text-white text-sm opacity-90">One Glance, All Answers</p>
+            <h2 className="text-white text-xl font-bold leading-tight">
+              Your Health Score
+            </h2>
+            <p className="text-white text-sm opacity-90">
+              One Glance, All Answers
+            </p>
           </div>
-          <div className="flex flex-col items-end gap-2 mt-6 md:mt-0">
+          <div className="flex flex-col items-start gap-2 mt-6 md:mt-0">
             <div className="flex items-center gap-2">
               <span className="text-white text-3xl font-bold">--</span>
-              <span className="text-white text-lg font-semibold">– –</span>
             </div>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-white text-xs">Out of 100</span>
             </div>
             <div className="flex items-center gap-2 mt-1">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="#fff" strokeWidth="2"/><text x="12" y="16" textAnchor="middle" fontSize="14" fill="#fff">i</text></svg>
-              <span className="text-white text-xs">not enough data</span>
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="#fff" strokeWidth="2" />
+                <text
+                  x="12"
+                  y="16"
+                  textAnchor="middle"
+                  fontSize="18"
+                  fill="#fff"
+                >
+                  i
+                </text>
+              </svg>
+              <span className="text-white text-[18px]">not enough data</span>
             </div>
           </div>
         </div>
@@ -249,178 +266,289 @@ const HealthAnalytics = () => {
             src={image}
             alt="Healthcare professionals"
             fill
-            style={{ objectFit: 'cover', objectPosition: 'top' }}
+            style={{ objectFit: "cover", objectPosition: "top" }}
             className="w-full h-full"
             priority
           />
         </div>
       </div>
 
-      {/* Charts Section */}
-      <div className="rounded-2xl p-4 md:p-6">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-3">
-          <h2 className="text-2xl font-semibold text-gray-900">
-            Your Body’s Journey, Visualized Over Time
-          </h2>
-          <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition">
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="w-5 h-5 text-gray-400"
-            >
-              <path d="M19 13H5v-2h14v2z" />
-            </svg>
-          </button>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Chart Card Example - repeat for each metric */}
-          {[
-            {
-              title: "Calcium Total, Serum",
-              color: "text-pink-600",
-              data: calciumData,
-              latest: "7.0",
-              unit: "mg/dl",
-              date: "14 May, 2025",
-              min: 6.6,
-              max: 10.3,
-              value: 7.0,
+      {(() => {
+        ChartJS.register(
+          CategoryScale,
+          LinearScale,
+          PointElement,
+          LineElement,
+          ChartTitle,
+          Tooltip,
+          Legend,
+          Filler
+        );
+        const calciumData = [7.2, 6.8, 6.9, 7.1, 6.7, 7.3, 8.1, 7.8, 6.9, 7.0];
+        const hba1cData = [7.8, 7.5, 8.0, 7.9, 7.7, 7.8, 6.5, 6.2, 8.2, 7.8];
+        const vitaminB12Data = [
+          6.8, 6.9, 8.2, 6.8, 6.5, 7.0, 6.8, 6.9, 7.5, 6.8,
+        ];
+        const calcium2Data = [7.2, 6.8, 6.7, 6.9, 7.0, 6.8, 7.8, 8.1, 6.9, 7.0];
+
+        function ChartCard({
+          title,
+          data,
+          latest,
+          unit,
+          date,
+          minRange,
+          maxRange,
+          value,
+          normalMin,
+          normalMax,
+        }) {
+          const totalRange = maxRange - minRange;
+          const normalStart = ((normalMin - minRange) / totalRange) * 100;
+          const normalWidth = ((normalMax - normalMin) / totalRange) * 100;
+          const valuePosition = ((value - minRange) / totalRange) * 100;
+
+          const chartData = {
+            labels: ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
+            datasets: [
+              {
+                label: title,
+                data: data,
+                borderColor: "#ec4899",
+                backgroundColor: "transparent",
+                borderWidth: 2,
+                pointRadius: 0,
+                pointHoverRadius: 4,
+                tension: 0,
+              },
+              {
+                label: "Normal Range",
+                data: Array(10).fill(normalMax),
+                borderColor: "transparent",
+                backgroundColor: "rgba(187, 247, 208, 0.4)",
+                fill: "+1",
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+              },
+              {
+                label: "Normal Range Bottom",
+                data: Array(10).fill(normalMin),
+                borderColor: "transparent",
+                backgroundColor: "transparent",
+                pointRadius: 0,
+                pointHoverRadius: 0,
+                tension: 0,
+              },
+            ],
+          };
+
+          const options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                enabled: false,
+              },
             },
-            {
-              title: "Glycated Haemoglobin (HbA1C)",
-              color: "text-pink-600",
-              data: calciumData,
-              latest: "7.0",
-              unit: "mg/dl",
-              date: "14 May, 2025",
-              min: 6.6,
-              max: 10.3,
-              value: 7.0,
+            scales: {
+              x: {
+                grid: {
+                  display: false,
+                },
+                border: {
+                  display: true,
+                  color: "#000000",
+                  width: 1,
+                  skip: false,
+                },
+                ticks: {
+                  color: "#6b7280",
+                  font: {
+                    size: 10,
+                  },
+                  drawTicks: true,
+                  tickLength: 8,  
+                },
+              },
+              y: {
+                min: 0,
+                max: 9,
+                grid: {
+                  display: false, 
+                },
+                border: {
+                  display: true,
+                  color: "#000000",
+                  width: 1,
+                  skip: false,
+                },
+                ticks: {
+                  stepSize: 3,
+                  color: "#6b7280",
+                  font: {
+                    size: 10,
+                  },
+                  drawTicks: true,
+                  tickLength: 8,
+                },
+              },
             },
-            {
-              title: "Vitamin B12",
-              color: "text-pink-600",
-              data: calciumData,
-              latest: "7.0",
-              unit: "mg/dl",
-              date: "14 May, 2025",
-              min: 6.6,
-              max: 10.3,
-              value: 7.0,
+            interaction: {
+              intersect: false,
             },
-            {
-              title: "Calcium Total, Serum",
-              color: "text-pink-600",
-              data: calciumData,
-              latest: "7.0",
-              unit: "mg/dl",
-              date: "14 May, 2025",
-              min: 6.6,
-              max: 10.3,
-              value: 7.0,
+            elements: {
+              point: {
+                radius: 0,
+              },
             },
-          ].map((chart, idx) => (
-            <div
-              key={idx}
-              className="bg-white rounded-xl shadow p-6 flex flex-col"
-            >
-              <div className="h-32 mb-2">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart
-                    data={chart.data}
-                    margin={{ top: 10, right: 10, left: 10, bottom: 10 }}
-                  >
-                    {/* Highlight band for normal range */}
-                    <rect
-                      x="0"
-                      y="25"
-                      width="100%"
-                      height="30"
-                      fill="#d1fae5"
-                      rx="6"
-                    />
-                    <CartesianGrid stroke="#eee" strokeDasharray="5 5" />
-                    <XAxis
-                      dataKey="month"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 10 }}
-                    />
-                    <YAxis
-                      domain={[6, 9]}
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 10 }}
-                    />
-                    <Line
-                      type="linear"
-                      dataKey="value"
-                      stroke="#ec4899"
-                      strokeWidth={3}
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+          };
+
+          return (
+            <div className="bg-white rounded-lg p-4">
+              <div className="h-32 mb-3 relative">
+                <Line data={chartData} options={options} />
               </div>
-              <h3
-                className={`mt-2 mb-1 font-semibold text-base ${chart.color}`}
-              >
-                {chart.title}
+
+              {/* Title */}
+              <h3 className="text-base font-semibold text-pink-600 mb-2">
+                {title}
               </h3>
-              <div className="text-xs text-gray-600 mb-1">
-                Your Latest Result
-              </div>
-              <div className="font-bold text-lg text-gray-900 mb-1">
-                {chart.latest}{" "}
-                <span className="font-normal text-sm">{chart.unit}</span>
-              </div>
-              <div className="text-xs text-gray-400 mb-2">{chart.date}</div>
-              {/* Range Bar */}
-              <div className="flex items-center gap-2 mb-2">
-                <div className="flex-1 h-2 rounded-full bg-red-200 relative flex">
-                  <div
-                    className="absolute left-1/4 top-0 h-2 w-2 bg-pink-600 rounded-full"
-                    style={{
-                      left: `${
-                        ((chart.value - chart.min) / (chart.max - chart.min)) *
-                        100
-                      }%`,
-                    }}
-                  ></div>
-                  <div
-                    className="absolute left-0 top-0 h-2"
-                    style={{
-                      width: "25%",
-                      background: "#f87171",
-                      borderRadius: "9999px 0 0 9999px",
-                    }}
-                  ></div>
-                  <div
-                    className="absolute left-1/4 top-0 h-2"
-                    style={{ width: "50%", left: "25%", background: "#34d399" }}
-                  ></div>
-                  <div
-                    className="absolute right-0 top-0 h-2"
-                    style={{
-                      width: "25%",
-                      background: "#f87171",
-                      borderRadius: "0 9999px 9999px 0",
-                    }}
-                  ></div>
+
+              <div className="flex items-center gap-8 justify-between">
+                <div>
+                  <div className="text-xs text-gray-500 mb-1">
+                    Your Latest Result
+                  </div>
+                  <div className="text-lg font-bold text-gray-900 mb-1">
+                    {latest}{" "}
+                    <span className="text-sm font-normal text-gray-600">
+                      {unit}
+                    </span>
+                  </div>
+                  <div className="text-xs text-gray-400 mb-3">{date}</div>
                 </div>
-                <span className="text-xs text-gray-500">{chart.min}</span>
-                <span className="text-xs text-gray-500">{chart.max}</span>
+                <div className="flex items-center gap-3 w-full">
+                  <div className="flex-1 max-w-[400px] flex flex-col items-stretch">
+                    {/* Range bar on top */}
+                    <div className="h-2 bg-gray-200 rounded-full relative overflow-hidden">
+                      <div
+                        className="absolute left-0 top-0 h-full bg-red-400"
+                        style={{ width: `${normalStart}%` }}
+                      />
+                      <div
+                        className="absolute top-0 h-full bg-green-400"
+                        style={{
+                          left: `${normalStart}%`,
+                          width: `${normalWidth}%`,
+                        }}
+                      />
+                      <div
+                        className="absolute right-0 top-0 h-full bg-red-400"
+                        style={{ width: `${100 - normalStart - normalWidth}%` }}
+                      />
+                      <div
+                        className="absolute top-0 w-0.5 h-full bg-blue-500"
+                        style={{ left: `${valuePosition}%` }}
+                      />
+                    </div>
+                    {/* Min/Max labels below the bar */}
+                    <div className="flex justify-center gap-6 mt-1">
+                      <span className="text-xs text-gray-500">{minRange}</span>
+                      <span className="text-xs text-gray-500">{maxRange}</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
-        </div>
+          );
+        }
 
-        <div className="mt-8 flex justify-center">
-          <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-full text-base shadow transition">
-            Load More
-          </button>
-        </div>
-      </div>
+        const charts = [
+          {
+            title: "Calcium Total, Serum",
+            data: calciumData,
+            latest: "7.0",
+            unit: "mg/dl",
+            date: "14 May, 2025",
+            minRange: 6.6,
+            maxRange: 10.3,
+            value: 7.0,
+            normalMin: 8.5,
+            normalMax: 10.1,
+          },
+          {
+            title: "Glycated Haemoglobin (HbA1C)",
+            data: hba1cData,
+            latest: "7.0",
+            unit: "mg/dl",
+            date: "14 May, 2025",
+            minRange: 6.6,
+            maxRange: 10.3,
+            value: 7.0,
+            normalMin: 8.5,
+            normalMax: 10.1,
+          },
+          {
+            title: "Vitamin B12",
+            data: vitaminB12Data,
+            latest: "7.0",
+            unit: "mg/dl",
+            date: "14 May, 2025",
+            minRange: 6.6,
+            maxRange: 10.3,
+            value: 7.0,
+            normalMin: 8.5,
+            normalMax: 10.1,
+          },
+          {
+            title: "Calcium Total, Serum",
+            data: calcium2Data,
+            latest: "7.0",
+            unit: "mg/dl",
+            date: "14 May, 2025",
+            minRange: 6.6,
+            maxRange: 10.3,
+            value: 7.0,
+            normalMin: 8.5,
+            normalMax: 10.1,
+          },
+        ];
+
+        return (
+          <div className="bg-gray-50 rounded-2xl p-6">
+            <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-3">
+              <h2 className="text-2xl font-semibold text-gray-900">
+                Your Body's Journey, Visualized Over Time
+              </h2>
+              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  className="w-5 h-5 text-gray-400"
+                >
+                  <path d="M19 13H5v-2h14v2z" />
+                </svg>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {charts.map((chart, idx) => (
+                <ChartCard key={idx} {...chart} />
+              ))}
+            </div>
+
+            <div className="mt-8 flex justify-start">
+              <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-[10px] text-base shadow transition">
+                Load More
+              </button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Support/CTA Section */}
       <div className="my-10 flex flex-col md:flex-row items-center gap-6 md:gap-8 p-4 md:p-6 max-w-6xl mx-auto">
@@ -432,9 +560,19 @@ const HealthAnalytics = () => {
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
-          <h3 className="text-2xl font-extrabold text-gray-900 mb-2 leading-tight">Still Have Questions?<br />Let's Talk.</h3>
-          <p className="text-gray-600 mb-4 text-base">Our team is just a message away. Whether you're stuck with a booking, confused about a report, or need help navigating your dashboard—support is standing by.</p>
-          <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-5 py-2 rounded-lg text-base shadow transition">Contact Support</button>
+          <h3 className="text-2xl font-extrabold text-gray-900 mb-2 leading-tight">
+            Still Have Questions?
+            <br />
+            Let's Talk.
+          </h3>
+          <p className="text-gray-600 mb-4 text-base">
+            Our team is just a message away. Whether you're stuck with a
+            booking, confused about a report, or need help navigating your
+            dashboard—support is standing by.
+          </p>
+          <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-5 py-2 rounded-lg text-base shadow transition">
+            Contact Support
+          </button>
         </div>
       </div>
     </div>
