@@ -241,17 +241,6 @@ const TestBookingSystem = () => {
               </div>
             </div>
           </div>
-
-          {/* Right Section - Image */}
-          <div className="hidden lg:flex justify-end items-end w-[60%] z-[-1] absolute -right-10 -top-10 h-full">
-            <Image
-              src={image}
-              width={400}
-              height={400}
-              alt="Sukaii Logo"
-              className="object-cover rounded-lg"
-            />
-          </div>
         </div>
       </form>
     );
@@ -366,13 +355,53 @@ const TestBookingSystem = () => {
                     })}
                     type="date"
                     min={new Date().toISOString().split("T")[0]}
-                    className="custom-date w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    className="custom-date w-full px-4 py-4 pr-12 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                     style={{
                       WebkitTextFillColor: watch("date")
                         ? "black"
-                        : "transparent", // Chrome/Safari
+                        : "transparent",
+                      colorScheme: "light", // This helps with better calendar styling
                     }}
                   />
+
+                  {/* Custom Calendar Icon */}
+                  <div
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-pink-500 transition-colors duration-200"
+                    onClick={() => {
+                      const dateInput =
+                        document.querySelector('input[type="date"]');
+                      if (dateInput) {
+                        dateInput.focus();
+                        dateInput.showPicker && dateInput.showPicker();
+                      }
+                    }}
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="hover:scale-110 transition-transform duration-200"
+                    >
+                      <path
+                        d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z"
+                        stroke="currentColor"
+                        strokeWidth="1.5"
+                        strokeMiterlimit="10"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M15.6947 13.7002H15.7037M15.6947 16.7002H15.7037M11.9955 13.7002H12.0045M11.9955 16.7002H12.0045M8.29431 13.7002H8.30329M8.29431 16.7002H8.30329"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+
                   {errors.date && (
                     <p className="text-red-500 text-sm mt-1">
                       {errors.date.message}
@@ -380,6 +409,32 @@ const TestBookingSystem = () => {
                   )}
                 </div>
               </div>
+              <style jsx>{`
+                .custom-date::-webkit-calendar-picker-indicator {
+                  opacity: 0;
+                  position: absolute;
+                  right: 0;
+                  width: 100%;
+                  height: 100%;
+                  cursor: pointer;
+                }
+
+                .custom-date::-webkit-datetime-edit-text {
+                  color: transparent;
+                }
+
+                .custom-date::-webkit-datetime-edit-month-field {
+                  color: ${watch("date") ? "black" : "transparent"};
+                }
+
+                .custom-date::-webkit-datetime-edit-day-field {
+                  color: ${watch("date") ? "black" : "transparent"};
+                }
+
+                .custom-date::-webkit-datetime-edit-year-field {
+                  color: ${watch("date") ? "black" : "transparent"};
+                }
+              `}</style>
 
               <div className="lg:flex flex-row items-center gap-3">
                 <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
@@ -435,16 +490,6 @@ const TestBookingSystem = () => {
               </button>
             </div>
           </div>
-          {/* Right Section - Image flush right */}
-          <div className="flex justify-end items-end w-[60%] absolute right-0 top-[50%] h-full">
-            <Image
-              src={image}
-              width={400}
-              height={300}
-              alt="Sukaii Logo"
-              className="object-cover rounded-lg"
-            />
-          </div>
         </div>
       </form>
     );
@@ -470,40 +515,41 @@ const TestBookingSystem = () => {
     return (
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
-          <div className="space-y-6 lg:ml-16 md:w-[70%] w-full">
+          <div className="space-y-6 lg:ml-16 w-full">
             <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
               Review and Pay
             </h2>
 
             <div className="md:space-y-6">
-              {/* Booking Summary - Now properly aligned */}
+              {/* Booking Summary - Large textarea */}
               <div className="md:flex flex-row items-start gap-3">
-                <div className="md:w-[160px] w-full">
-                  <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                <div className="md:w-[230px] w-full">
+                  <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2">
                     Booking Summary
                   </label>
                 </div>
-                <textarea
-                  value={`Test: ${allFormData.selectedTest || "Not selected"}
-Type: ${allFormData.typeOfTest || "Not selected"}
-Date: ${allFormData.date || "Not selected"}
-Time: ${allFormData.timeSlot || "Not selected"}
-Name: ${allFormData.fullName || "Not provided"}
-Contact: ${allFormData.contact || "Not provided"}
-Address: ${allFormData.streetName || "Not provided"} - ${
-                    allFormData.pincode || "Not provided"
-                  }`}
-                  readOnly
-                  rows={7}
-                  className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                />
+                <div className="w-full">
+                  <textarea
+                    {...register("bookingSummary", {
+                      required: "Booking summary is required",
+                    })}
+                    rows={6}
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all resize-none"
+                    placeholder="Enter booking summary"
+                  />
+                  {errors.bookingSummary && (
+                    <p className="text-red-500 text-sm mt-2 block">
+                      {errors.bookingSummary.message}
+                    </p>
+                  )}
+                </div>
               </div>
 
               {/* Cost and Discount Code - Consistent with above */}
               <div className="md:grid grid-cols-2 gap-4">
                 <div className="md:flex flex-row items-start gap-3">
-                  <div className="w-[220px] pt-4">
-                    <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                  <div className="w-[300px] pt-4">
+                    <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2">
                       Total Cost
                     </label>
                   </div>
@@ -529,8 +575,8 @@ Address: ${allFormData.streetName || "Not provided"} - ${
                 </div>
 
                 <div className="md:flex flex-row items-start gap-3">
-                  <div className="w-[160px] md:ml-4 pt-4">
-                    <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                  <div className="w-[180px] md:ml-4 pt-4">
+                    <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2">
                       Apply Code
                     </label>
                   </div>
@@ -545,12 +591,12 @@ Address: ${allFormData.streetName || "Not provided"} - ${
 
               {/* Payment Mode - Consistent with above */}
               <div className="md:flex flex-row items-start gap-3">
-                <div className="md:w-[160px] pt-4">
-                  <label className="mb-2 md:mb-0 block text-[15px] font-medium text-gray-700">
+                <div className="md:w-[190px] pt-4">
+                  <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2">
                     Payment Mode
                   </label>
                 </div>
-                <div className="relative w-full">
+                <div className="relative w-full md:w-1/2">
                   <select
                     {...register("paymentMode", {
                       required: "Payment mode is required",
@@ -577,7 +623,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
 
               {/* Terms and Conditions - Consistent spacing */}
               <div className="mt-4 md:mt-0 flex flex-row items-start gap-3">
-                <div className="md:w-[130px]"></div>
+                <div className="md:w-[190px]"></div>
                 <div className="flex md:items-center items-start gap-2">
                   <input
                     {...register("agreeTerms", {
@@ -595,7 +641,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
               </div>
               {errors.agreeTerms && (
                 <div className="md:flex flex-row items-start gap-3">
-                  <div className="md:w-[130px]"></div>
+                  <div className="md:w-[190px]"></div>
                   <p className="text-red-500 text-sm">
                     {errors.agreeTerms.message}
                   </p>
@@ -603,27 +649,16 @@ Address: ${allFormData.streetName || "Not provided"} - ${
               )}
             </div>
 
-            {/* Continue Button */}
+            {/* Confirm & Pay Button */}
             <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
-              <div className="md:w-[140px]"></div>
+              <div className="md:w-[200px]"></div>
               <button
                 type="submit"
-                className="w-[200px] __secondary-bg text-white py-3 px-6 rounded-lg font-medium"
+                className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity"
               >
-                Continue
+                Confirm & Pay
               </button>
             </div>
-          </div>
-
-          {/* Right Section - Image */}
-          <div className="flex justify-end items-end w-[60%] absolute -right-30 top-[0%] h-full">
-            <Image
-              src={image}
-              width={400}
-              height={300}
-              alt="Sukaii Logo"
-              className="object-cover rounded-lg"
-            />
           </div>
         </div>
       </form>
@@ -631,91 +666,115 @@ Address: ${allFormData.streetName || "Not provided"} - ${
   };
 
   const Step4 = () => (
-    <div className="bg-white rounded-lg">
-      <div className="md:flex items-center justify-center gap-10">
+    <div className="">
+      <div className="md:flex items-center justify-center gap-28">
         <div className="md:rounded-lg flex items-center justify-center overflow-hidden">
           <Image
             src="/thank-you-page/thank-you.jpg"
             alt="thank you bg-image"
             width={460}
             height={100}
-            className="object-cover md:rounded-4xl h-[350] md:h-[680px] w-[full]"
+            className="object-cover md:rounded-4xl h-[350] md:h-[800px] w-[full]"
           />
         </div>
 
         <div className="p-6 md:p-0">
           <div className="flex items-center gap-2">
-            <h2 className="text-[38px] font-bold __secondary-text">
+            <h2 className="text-[30px] md:text-[50px] font-[600] __secondary-text">
               Congratulations!
             </h2>
           </div>
-          <h2 className="text-[28px] text-gray-700 mb-6">
+          <h2 className="text-[28px] md:text-[40px] font-[400] leading-[135%] tracking-[-2%] text-gray-700 mb-6">
             Your test is booked!
           </h2>
 
           <div className="space-y-4 text-[15px] w-full">
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Full Name</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Full Name
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.fullName || "John Doe"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Gender</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px min-w-[140px]">
+                Gender
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.gender || "Male"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Age</span>
-              <span className="font-medium">{allFormData.age || "36"}</span>
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Age
+              </span>
+              <span className="font-[600] text-[20px]">
+                {allFormData.age || "36"}
+              </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Contact</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Contact
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.contact || "+60 123 456 789"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Address</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Address
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.streetName || "3rd Street, Malaysia"} -{" "}
                 {allFormData.pincode || "19028"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Remarks</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Remarks
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.remarks || "Lorem ipsum dolor sit amet"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Selected Test</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Selected Test
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.selectedTest || "Complete Blood Count"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Type</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Type
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.typeOfTest || "Home Collection"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Date</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Date
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.date || "14/05/2025"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Time Slot</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Time Slot
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.timeSlot || "12:00 - 02:00 PM"}
               </span>
             </div>
             <div className="flex gap-4">
-              <span className="text-gray-600 min-w-[100px]">Total Paid</span>
-              <span className="font-medium">
+              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
+                Total Paid
+              </span>
+              <span className="font-[600] text-[20px]">
                 {allFormData.totalCost
                   ? `${allFormData.totalCost} RM (Including Tax)`
                   : "60 RM (Including Tax)"}
@@ -723,7 +782,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-3 mt-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mt-6">
             <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
               <Image
                 src={image2}
@@ -745,7 +804,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
                 className="object-cover"
               />
               <span className="text-sm leading-[16px]">
-                Upload Past Reports
+                Upload Past <br className="d-none md:block" /> Reports
               </span>
             </div>
             <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
@@ -757,7 +816,7 @@ Address: ${allFormData.streetName || "Not provided"} - ${
                 className="object-cover"
               />
               <span className="text-sm leading-[16px]">
-                View Health Summary
+                View Health <br className="d-none md:block" /> Summary
               </span>
             </div>
           </div>
@@ -775,26 +834,31 @@ Address: ${allFormData.streetName || "Not provided"} - ${
   return (
     <>
       {currentStep <= 3 && <HeaderSection />}
-      <div className="container mx-auto realtive">
+      <div className="">
         {/* Step content */}
-        <div className="container mx-auto __gapTop">
+        <div className="container mx-auto __gapTop relative">
           {currentStep === 1 && <Step1 handleContinue={handleStepContinue} />}
           {currentStep === 2 && <Step2 handleContinue={handleStepContinue} />}
           {currentStep === 3 && <Step3 handleContinue={handleStepContinue} />}
           {currentStep === 4 && <Step4 />}
+          {/* Right Section - Image with custom top per step */}
         </div>
-
-        {/* Navigation */}
-        {/* {currentStep > 1 && currentStep < 4 && (
-          <div className="flex justify-center">
-            <button
-              onClick={() => setCurrentStep(currentStep - 1)}
-              className="px-6 py-2 cursor-pointer __secondary-text font-medium"
-            >
-              ← Back
-            </button>
-          </div>
-        )} */}
+      </div>
+      <div
+        className={`hidden lg:flex justify-end items-end w-[70%] z-[-1] absolute right-0 h-full
+              ${currentStep === 1 ? "top-[85%] -translate-y-1/2" : ""}
+              ${currentStep === 2 ? "top-[80%]" : ""}
+              ${currentStep === 3 ? "top-[60%]" : ""}
+              ${currentStep === 4 ? "top-[45%]" : ""}
+            `}
+      >
+        <Image
+          src={image}
+          width={400}
+          height={400}
+          alt="Sukaii Logo"
+          className="object-cover rounded-lg"
+        />
       </div>
     </>
   );

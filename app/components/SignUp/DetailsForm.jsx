@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import image from "../../../public/sign-up-1 (1).jpg";
 
 export const DetailsForm = () => {
   const [fullName, setFullName] = useState('');
@@ -98,9 +99,9 @@ export const DetailsForm = () => {
       </div>
 
       {/* Right side - Image */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative hidden md:block">
         <img 
-          src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=600&h=800&fit=crop" 
+          src={image}
           alt="Healthcare consultation"
           className="w-full h-full object-cover"
         />
