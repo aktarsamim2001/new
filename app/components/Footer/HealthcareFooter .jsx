@@ -28,7 +28,7 @@ const HealthcareFooter = () => {
 
   return (
     <footer className="relative">
-      <div className="absolute left-[-5%] bottom-[-60px] z-[-1] w-full">
+      <div className="absolute left-[-5%] sm:-right-0 bottom-[-60px] z-[-1] w-full">
         <Image
           src={ovalSmall}
           alt="Decorative texture"

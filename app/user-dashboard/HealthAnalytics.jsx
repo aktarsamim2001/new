@@ -8,6 +8,7 @@ import {
   AlertCircle,
   CheckCircle2,
   TriangleAlert,
+  InfoIcon,
 } from "lucide-react";
 // Chart.js imports for new chart section
 import {
@@ -73,10 +74,12 @@ const HealthAnalytics = () => {
         <div className="max-w-6xl px-4 mx-auto">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center w-full gap-2">
-              <span className="text-lg font-semibold text-gray-800 whitespace-nowrap">Recent Activity</span>
-              <div className="flex-1 border-b border-gray-300 mx-3" />
+              <span className="text-base sm:text-lg font-semibold text-gray-800 whitespace-nowrap">
+                Recent Activity
+              </span>
+              <div className="flex-1 border-b border-gray-300 mx-2 sm:mx-3" />
               <button
-                className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition"
+                className="w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition flex-shrink-0"
                 aria-label="Close Recent Activity"
                 onClick={() => setShowRecentActivity(false)}
               >
@@ -87,123 +90,127 @@ const HealthAnalytics = () => {
                   strokeWidth="1.5"
                   className="w-4 h-4 text-gray-400"
                 >
-                  <path d="M6 10l4-4 4 4" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d="M6 10l4-4 4 4"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
               </button>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* High Parameters Card */}
-            <div className="bg-white border-[4px] border-[#D2020259] rounded-xl shadow-sm flex flex-col p-4 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-14 h-14 flex items-center justify-center">
+            <div className="bg-white border-[4px] border-[#D2020259] rounded-xl shadow-sm flex flex-col p-3 sm:p-4 relative">
+              <div className="flex items-start sm:items-center gap-2 mb-2">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0">
                   <Image
                     src={icon2}
                     alt="High Parameters Icon"
                     width={48}
                     height={48}
-                    className="w-12 h-12 object-contain"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                   />
                 </div>
-                <div>
-                  <h1 className="flex items-center gap-1">
-                    <span className="text-[18px] font-[900] bg-red-500 text-white px-8 py-1 rounded-full flex items-start">
+                <div className="flex-1 min-w-0">
+                  <h1 className="flex items-start sm:items-center gap-1 sm:gap-2 mb-2 sm:mb-0">
+                    <span className="text-sm sm:text-[18px] font-[900] bg-[#D20202] text-white px-4 sm:px-8 py-1 rounded-full">
                       High Parameters
                     </span>
-                    <span className="bg-red-500 p-2 rounded-full text-white">
-                      <TriangleAlert />
+                    <span className="bg-[#D20202] p-1.5 sm:p-2 rounded-full text-white">
+                      <TriangleAlert className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
                   </h1>
-                  <div className="text-[16px] text-gray-700 mt-3 mb-2">
+                  <div className="text-sm sm:text-[16px] text-gray-700 mt-1 sm:mt-3 mb-2">
                     LDL, TSH
                   </div>
                 </div>
               </div>
-              <button className="mt-auto self-end border font-medium px-4 py-1.5 rounded-[10px] text-xs ">
+              <button className="mt-auto self-end border font-medium px-3 sm:px-4 py-1.5 rounded-[10px] text-xs">
                 View More
               </button>
             </div>
             {/* Low Parameters Card */}
-            <div className="bg-white border-[4px] border-[#D2020259] rounded-xl shadow-sm flex flex-col p-4 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-14 h-14 flex items-center justify-center">
+            <div className="bg-white border-[4px] border-[#D2020259] rounded-xl shadow-sm flex flex-col p-3 sm:p-4 relative">
+              <div className="flex items-start sm:items-center gap-2 mb-2">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0">
                   <Image
                     src={icon}
                     alt="Low Parameters Icon"
                     width={48}
                     height={48}
-                    className="w-12 h-12 object-contain"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                   />
                 </div>
-                <div>
-                  <h1 className="flex items-center gap-1">
-                    <span className="text-[18px] font-[900] bg-red-500 text-white px-8 py-1 rounded-full flex items-center">
+                <div className="flex-1 min-w-0">
+                  <h1 className="flex items-start sm:items-center gap-1 sm:gap-2 mb-2 sm:mb-0">
+                    <span className="text-sm sm:text-[18px] font-[900] bg-[#D20202] text-white px-4 sm:px-8 py-1 rounded-full">
                       Low Parameters
                     </span>
-                    <span className="bg-red-500 p-2 rounded-full text-white">
-                      <TriangleAlert />
+                    <span className="bg-[#D20202] p-1.5 sm:p-2 rounded-full text-white">
+                      <TriangleAlert className="w-4 h-4 sm:w-5 sm:h-5" />
                     </span>
                   </h1>
-                  <div className="text-[16px] text-gray-700 mt-3 mb-2">
+                  <div className="text-sm sm:text-[16px] text-gray-700 mt-1 sm:mt-3 mb-2">
                     Vitamin D, B12
                   </div>
                 </div>
               </div>
-              <button className="mt-auto self-end bg-white border font-medium px-4 py-1.5 rounded-[10px] text-xs shadow">
+              <button className="mt-auto self-end bg-white border font-medium px-3 sm:px-4 py-1.5 rounded-[10px] text-xs shadow">
                 View More
               </button>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             {/* Last Test Taken Card */}
-            <div className="cardShadow2 rounded-xl flex flex-col p-4 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-14 h-14 flex items-center justify-center">
+            <div className="cardShadow2 rounded-xl flex flex-col p-3 sm:p-4 relative">
+              <div className="flex items-start sm:items-center gap-2 mb-2">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center flex-shrink-0">
                   <Image
                     src={icon3}
                     alt="Last Test Taken Icon"
                     width={48}
                     height={48}
-                    className="w-12 h-12 object-contain"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                   />
                 </div>
-                <span className="text-[18px] font-[900] text-pink-600">
-                  Last Test Taken
-                </span>
-                <div className="text-[16px] text-gray-700 mb-1">
-                  <p>Lipid Profile</p>
-                  <span className="text-gray-400">
-                    Last taken on 10/05/2025
-                  </span>
+                <div className="flex flex-col items-start flex-1 min-w-0">
+                  <h3 className="text-sm sm:text-[18px] font-[900] __secondary-text">
+                    Last Test Taken
+                  </h3>
+                  <p className="text-sm sm:text-base">
+                    Lipid Profile{" "}
+                    <span className="text-gray-400">10/05/2025</span>
+                  </p>
                 </div>
               </div>
-              <button className="mt-auto self-end bg-white border font-medium px-4 py-1.5 rounded-[10px] text-xs shadow">
+              <button className="__secondary-bg mt-auto self-end text-white border font-medium px-3 sm:px-4 py-1.5 rounded-[10px] text-xs shadow">
                 View More
               </button>
             </div>
 
-            <div className="cardShadow2 rounded-xl flex flex-col p-4 relative">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-14 h-14 flex items-center justify-center bg-gray-50">
+            <div className="cardShadow2 rounded-xl flex flex-col p-3 sm:p-4 relative">
+              <div className="flex items-start sm:items-center gap-2 mb-2">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center bg-gray-50 flex-shrink-0">
                   <Image
                     src={icon4}
                     alt="Suggested Follow-up Icon"
                     width={48}
                     height={48}
-                    className="w-12 h-12 object-contain"
+                    className="w-10 h-10 sm:w-12 sm:h-12 object-contain"
                   />
                 </div>
-                <div>
-                  <h1 className="text-[18px] font-[900] text-pink-600">
+                <div className="flex-1 min-w-0">
+                  <h1 className="text-sm sm:text-[18px] font-[900] __secondary-text">
                     Suggested Follow-up
                   </h1>
-                  <span className="text-[16px] text-gray-700 mb-1">
+                  <span className="text-sm sm:text-[16px] text-gray-700 mb-1 block">
                     Repeat Lipid Profile in 30 days
                   </span>
                 </div>
               </div>
 
-              <button className="mt-auto self-end bg-white border font-medium px-4 py-1.5 rounded-[10px] text-xs shadow">
+              <button className="__secondary-bg mt-auto self-end text-white border font-medium px-3 sm:px-4 py-1.5 rounded-[10px] text-xs shadow">
                 Book Now
               </button>
             </div>
@@ -215,10 +222,23 @@ const HealthAnalytics = () => {
       {!showRecentActivity && (
         <div className="relative w-full">
           <button
-            className="absolute top-0 right-0 z-50 bg-pink-500 hover:bg-pink-600 text-white rounded-full shadow-lg p-3 flex items-center justify-center transition"
+            className="absolute top-0 right-4 z-50 __secondary-bg text-white rounded-full shadow-lg p-3 flex items-center justify-center transition"
             aria-label="Open Recent Activity"
             onClick={() => setShowRecentActivity(true)}
           >
+            <svg
+              viewBox="0 0 20 20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="w-4 h-4 text-white"
+            >
+              <path
+                d="M14 10l-4 4-4-4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </button>
         </div>
       )}
@@ -226,42 +246,33 @@ const HealthAnalytics = () => {
       {/* Health Score Banner Section */}
       <div
         className="relative w-full overflow-hidden"
-        style={{ minHeight: 220 }}
+        style={{ minHeight: 200 }}
       >
-        <div className="bg-pink-600 flex flex-col md:flex-row justify-between items-start md:items-center px-6 py-5">
-          <div className="flex flex-col gap-1">
-            <h2 className="text-white text-xl font-bold leading-tight">
+        <div className="__secondary-bg flex flex-col md:flex-row justify-between items-start md:items-center px-4 sm:px-8 md:px-20 py-4 sm:py-5">
+          <div className="flex flex-col gap-1 mb-4 md:mb-10">
+            <h2 className="text-white text-xl sm:text-2xl md:text-[28px] font-[800] leading-tight">
               Your Health Score
             </h2>
-            <p className="text-white text-sm opacity-90">
+            <p className="text-white text-base sm:text-lg md:text-[20px] font-[400] opacity-90">
               One Glance, All Answers
             </p>
           </div>
-          <div className="flex flex-col items-start gap-2 mt-6 md:mt-0">
-            <div className="flex items-center gap-2">
-              <span className="text-white text-3xl font-bold">--</span>
+          <div className="flex items-start justify-start gap-2 mt-0 md:mt-10">
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-white text-2xl sm:text-3xl font-bold">
+                --
+              </span>
+              <span className="text-white text-2xl sm:text-3xl font-bold"><InfoIcon /></span>
             </div>
-            <div className="flex items-center gap-2 mt-1">
-              <span className="text-white text-xs">Out of 100</span>
-            </div>
-            <div className="flex items-center gap-2 mt-1">
-              <svg width="18" height="18" fill="none" viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="10" stroke="#fff" strokeWidth="2" />
-                <text
-                  x="12"
-                  y="16"
-                  textAnchor="middle"
-                  fontSize="18"
-                  fill="#fff"
-                >
-                  i
-                </text>
-              </svg>
-              <span className="text-white text-[18px]">not enough data</span>
+            <div className="flex flex-col items-end gap-2 mt-1">
+              <h1 className="text-white text-sm sm:text-[16px]">Out of 100</h1>
+              <h2 className="text-white text-base sm:text-[18px]">
+                not enough data
+              </h2>
             </div>
           </div>
         </div>
-        <div className="w-full h-[180px] md:h-[220px] relative">
+        <div className="w-full h-[120px] sm:h-[160px] md:h-[180px] lg:h-[220px] relative">
           <Image
             src={image}
             alt="Healthcare professionals"
@@ -368,17 +379,17 @@ const HealthAnalytics = () => {
                 ticks: {
                   color: "#6b7280",
                   font: {
-                    size: 10,
+                    size: window.innerWidth < 640 ? 8 : 10,
                   },
                   drawTicks: true,
-                  tickLength: 8,  
+                  tickLength: 6,
                 },
               },
               y: {
                 min: 0,
                 max: 9,
                 grid: {
-                  display: false, 
+                  display: false,
                 },
                 border: {
                   display: true,
@@ -390,10 +401,10 @@ const HealthAnalytics = () => {
                   stepSize: 3,
                   color: "#6b7280",
                   font: {
-                    size: 10,
+                    size: window.innerWidth < 640 ? 8 : 10,
                   },
                   drawTicks: true,
-                  tickLength: 8,
+                  tickLength: 6,
                 },
               },
             },
@@ -408,22 +419,22 @@ const HealthAnalytics = () => {
           };
 
           return (
-            <div className="bg-white rounded-lg p-4">
-              <div className="h-32 mb-3 relative">
+            <div className="bg-white rounded-lg p-3 sm:p-4">
+              <div className="h-24 sm:h-32 mb-3 relative">
                 <Line data={chartData} options={options} />
               </div>
 
               {/* Title */}
-              <h3 className="text-base font-semibold text-pink-600 mb-2">
+              <h3 className="text-sm sm:text-base font-semibold __secondary-text mb-2">
                 {title}
               </h3>
 
-              <div className="flex items-center gap-8 justify-between">
-                <div>
+              <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 justify-between">
+                <div className="w-full sm:w-auto">
                   <div className="text-xs text-gray-500 mb-1">
                     Your Latest Result
                   </div>
-                  <div className="text-lg font-bold text-gray-900 mb-1">
+                  <div className="text-base sm:text-lg font-bold text-gray-900 mb-1">
                     {latest}{" "}
                     <span className="text-sm font-normal text-gray-600">
                       {unit}
@@ -431,8 +442,8 @@ const HealthAnalytics = () => {
                   </div>
                   <div className="text-xs text-gray-400 mb-3">{date}</div>
                 </div>
-                <div className="flex items-center gap-3 w-full">
-                  <div className="flex-1 max-w-[400px] flex flex-col items-stretch">
+                <div className="flex items-center gap-3 w-full sm:w-auto">
+                  <div className="flex-1 sm:max-w-[200px] md:max-w-[400px] flex flex-col items-stretch">
                     {/* Range bar on top */}
                     <div className="h-2 bg-gray-200 rounded-full relative overflow-hidden">
                       <div
@@ -456,7 +467,7 @@ const HealthAnalytics = () => {
                       />
                     </div>
                     {/* Min/Max labels below the bar */}
-                    <div className="flex justify-center gap-6 mt-1">
+                    <div className="flex justify-center gap-4 sm:gap-6 mt-1">
                       <span className="text-xs text-gray-500">{minRange}</span>
                       <span className="text-xs text-gray-500">{maxRange}</span>
                     </div>
@@ -519,12 +530,12 @@ const HealthAnalytics = () => {
         ];
 
         return (
-          <div className="bg-gray-50 rounded-2xl p-6">
-            <div className="flex flex-col md:flex-row items-center justify-between mb-6 gap-3">
-              <h2 className="text-2xl font-semibold text-gray-900">
+          <div className="p-4 max-w-6xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-4 sm:mb-6 gap-3">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold text-gray-900 leading-tight">
                 Your Body's Journey, Visualized Over Time
               </h2>
-              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition">
+              <button className="w-8 h-8 flex items-center justify-center rounded-full bg-gray-100 hover:bg-gray-200 transition flex-shrink-0">
                 <svg
                   viewBox="0 0 24 24"
                   fill="currentColor"
@@ -535,14 +546,14 @@ const HealthAnalytics = () => {
               </button>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
               {charts.map((chart, idx) => (
                 <ChartCard key={idx} {...chart} />
               ))}
             </div>
 
-            <div className="mt-8 flex justify-start">
-              <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-[10px] text-base shadow transition">
+            <div className="mt-6 sm:mt-8 flex justify-start">
+              <button className="__secondary-bg text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] text-sm sm:text-base shadow transition">
                 Load More
               </button>
             </div>
@@ -551,26 +562,26 @@ const HealthAnalytics = () => {
       })()}
 
       {/* Support/CTA Section */}
-      <div className="my-10 flex flex-col md:flex-row items-center gap-6 md:gap-8 p-4 md:p-6 max-w-6xl mx-auto">
+      <div className="my-6 sm:my-8 md:my-10 flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 p-4 max-w-6xl mx-auto pb-8">
         <div className="w-full md:w-1/2 flex-shrink-0">
           <Image
             src={require("../../public/user-dashboard/health-care-icon/cta-banner.jpg")}
             alt="Support Lab"
-            className="rounded-xl object-cover object-top w-full h-40 md:h-[280px]"
+            className="rounded-xl object-cover object-top w-full h-32 sm:h-40 md:h-[280px]"
           />
         </div>
         <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
-          <h3 className="text-2xl font-extrabold text-gray-900 mb-2 leading-tight">
+          <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">
             Still Have Questions?
             <br />
             Let's Talk.
           </h3>
-          <p className="text-gray-600 mb-4 text-base">
+          <p className="text-gray-600 mb-4 text-sm sm:text-base leading-relaxed">
             Our team is just a message away. Whether you're stuck with a
             booking, confused about a report, or need help navigating your
             dashboard—support is standing by.
           </p>
-          <button className="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-5 py-2 rounded-lg text-base shadow transition">
+          <button className="__secondary-bg text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] text-sm sm:text-base shadow transition">
             Contact Support
           </button>
         </div>
