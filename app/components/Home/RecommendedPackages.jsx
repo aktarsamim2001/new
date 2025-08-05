@@ -3,7 +3,7 @@ import image from "../../assets/RecommendedImages/banner.jpg";
 import image2 from "../../assets/RecommendedImages/banner1.jpg";
 import image3 from "../../assets/RecommendedImages/banner2.jpg";
 import image4 from "../../assets/RecommendedImages/banner3.jpg";
-import image5 from "../../assets/home/your-health.png";
+import image5 from "../../assets/home/your-health.jpg";
 import Image from "next/image";
 import { ArrowUpRight, Check } from "lucide-react";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import Button from "../ui/Button";
 import shapeImage from "../../assets/home/shape2.png";
 import shapeImage2 from "../../assets/home/Shape.png";
 import { Poppins } from "next/font/google";
+import texture from "../../assets/woman/shape.png";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -63,14 +64,14 @@ const RecommendedPackages = () => {
   ];
 
   return (
-    <div className="container mx-auto lg:px-0 __gapTop">
+    <div className="relative lg:px-0 __gapTop">
       {/* Header */}
       <h1 className="text-[28px]  px-6 lg:px-0 md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] md:text-center mb-8 md:mb-12 __secondary-text">
         Recommended <br className="md:hidden" /> Packages
       </h1>
 
       {/* Package Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-6 lg:px-0">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-6 lg:px-0">
         {packages.map((pkg) => (
           <Link
             href={"/service-details"}
@@ -119,20 +120,6 @@ const RecommendedPackages = () => {
 
       {/* Smart Health Dashboard Section */}
       <div className="container mx-auto relative __gapTop px-0 sm:px-4 lg:px-16 ">
-        <div className="absolute left-0 bottom-[-67%] z-10 lg:left-auto right-[-15px] md:right-[-7.5%] hidden">
-          <Image
-            src={shapeImage}
-            alt="Effect"
-            width={400}
-            className="hidden lg:block"
-          />
-          <Image
-            src={shapeImage2}
-            alt="Effect"
-            width={400}
-            className="hidden"
-          />
-        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center">
           {/* Left Image Column */}
           <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
@@ -141,7 +128,7 @@ const RecommendedPackages = () => {
               alt="Woman talking on phone"
               // width={350}
               // height={300}
-              className="h-full w-full max-w-full"
+              className="h-full w-full max-w-full md:rounded-[30px] rounded-0"
               priority
             />
           </div>
@@ -176,7 +163,7 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] lg:px-14 __gapTop mx-auto">
+      <div className=" container min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] lg:px-14 __gapTop mx-auto">
         <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-6 lg:py-14 lg:px-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
@@ -204,6 +191,9 @@ const RecommendedPackages = () => {
           </div>
         </div>
       </div>
+      <div className="absolute bottom-2 right-0 z-50 hidden md:block">
+          <Image src={texture} alt=" " className="h-[400px] w-[400px]" />
+        </div>
     </div>
   );
 };

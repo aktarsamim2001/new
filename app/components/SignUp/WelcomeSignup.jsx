@@ -1,12 +1,13 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import image from "../../../app/assets/woman/shape.png";
+import WelcomeVideoModal from "./WelcomeVideoModal";
 
 // Review/avatars data array
 const slide = {
@@ -23,11 +24,20 @@ const slide = {
 };
 
 export default function WelcomeSignup() {
+  const [showModal, setShowModal] = useState(false); 
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
     username: "",
   });
+
+  // Show modal only on mobile screens
+  useEffect(() => {
+    const isMobile = window.innerWidth <= 768;
+    if (isMobile) {
+      setShowModal(true);
+    }
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -53,6 +63,10 @@ export default function WelcomeSignup() {
   };
 
   return (
+   <>
+    {/* Modal shown on mount */}
+      {showModal && <WelcomeVideoModal onClose={() => setShowModal(false)} />}
+
     <div className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-white relative overflow-hidden">
       {/* Mobile Texture Background */}
       <div className="absolute top-0 right-0 w-[300px] h-[280px] md:hidden pointer-events-none z-0">
@@ -229,5 +243,6 @@ export default function WelcomeSignup() {
         </div>
       </div>
     </div>
+   </>
   );
 }

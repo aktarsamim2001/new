@@ -266,7 +266,7 @@ export const testDemo = () => {
                 <img
                   src={step.image}
                   alt={step.alt}
-                  className="w-[586px] h-[454px] object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-[586px] object-top h-[454px] object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
                 />
 

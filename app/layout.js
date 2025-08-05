@@ -28,13 +28,6 @@ export default function RootLayout({ children }) {
   const hideHeaderFooter = hideHeaderFooterRoutes.includes(pathname);
   return (
     <html lang="en" className={`${rubik.variable} ${lato.variable}`}>
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-
       <body className="antialiased">
         <Provider store={store}>
           {!hideHeaderFooter && <Header />}

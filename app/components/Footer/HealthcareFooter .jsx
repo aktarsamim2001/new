@@ -4,6 +4,8 @@ import React from "react";
 import { IoLogoWhatsapp } from "react-icons/io";
 import ovalSmall from "./Oval.png";
 import ovalLarge from "./round.png";
+import mobileOval from "../../../public/footer-texture/Oval (1).png";
+import mobileOval2 from "../../../public/footer-texture/Oval.png";
 
 const HealthcareFooter = () => {
   const companyLinks = [
@@ -28,7 +30,7 @@ const HealthcareFooter = () => {
 
   return (
     <footer className="relative">
-      <div className="absolute left-[-5%] sm:-right-0 bottom-[-60px] z-[-1] w-full">
+      <div className="absolute left-[-5%] sm:-right-0 bottom-[-60px] z-[-1] w-full hidden md:block">
         <Image
           src={ovalSmall}
           alt="Decorative texture"
@@ -38,7 +40,7 @@ const HealthcareFooter = () => {
         />
       </div>
 
-      <div className="absolute left-[-130px] bottom-[-60px] z-[-1] w-full">
+      <div className="absolute left-[-130px] bottom-[-60px] z-[-1] w-full hidden md:block">
         <Image
           src={ovalLarge}
           alt="Decorative texture"
@@ -47,7 +49,26 @@ const HealthcareFooter = () => {
           className="w-[65%] h-[500px]"
         />
       </div>
-      <div className="container mx-auto px-4 __gapTop ">
+
+      {/* Mobile Texture 1 */}
+      <div className="absolute right-0 bottom-0 z-[-1] block md:hidden w-[100%]">
+        <Image
+          src={mobileOval}
+          alt="Decorative texture"
+          className="w-full h-auto object-contain"
+        />
+      </div>
+
+      {/* Mobile Texture 2 */}
+      <div className="absolute right-0 bottom-[-40px] z-[-1] block md:hidden w-[100%]">
+        <Image
+          src={mobileOval2}
+          alt="Decorative texture"
+          className="w-full h-auto object-contain"
+        />
+      </div>
+
+      <div className="container mx-auto px-4 __gapTop md:pb-6 pb-4">
         <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[60px] items-start">
           <div className="space-y-6">
             <div className="flex items-center space-x-2 justify-start">
@@ -69,13 +90,14 @@ const HealthcareFooter = () => {
               in your area. Made by doctors and professionals and aids ensure
               that you get the care you need and deserve.
             </p>
+            <p className="text-gray-500 text-sm py-5">© Sukali Health 2025</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-6 mt-4">
             {/* Logo and Description */}
 
             {/* Company Links */}
-            <div className="space-y-4">
+            <div className="space-y-4 mt-2.5">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 COMPANY
               </h3>
@@ -94,7 +116,7 @@ const HealthcareFooter = () => {
             </div>
 
             {/* Services Links */}
-            <div className="space-y-4">
+            <div className="space-y-4 mt-2.5">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 SERVICES
               </h3>
@@ -113,7 +135,7 @@ const HealthcareFooter = () => {
             </div>
 
             {/* Resources */}
-            <div className="space-y-4">
+            <div className="space-y-4 mt-2.5 col-span-2 lg:col-span-1">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 RESOURCES
               </h3>
@@ -132,7 +154,7 @@ const HealthcareFooter = () => {
             </div>
 
             {/* Contact Section */}
-            <div className="space-y-4 sm:col-span-2 lg:col-span-1 mb-2.5">
+            <div className="space-y-4 sm:col-span-2 lg:col-span-1 mt-2">
               <div className="text-gray-500 space-y-4">
                 <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
                   Drop Link message and take charge of your health now!
@@ -150,11 +172,11 @@ const HealthcareFooter = () => {
         </div>
 
         {/* Footer Bottom */}
-        <div className="mt-12 mb-6 pt-6">
+        {/* <div className="mt-12 mb-6 pt-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
             <p className="text-gray-500 text-sm">© Sukali Health 2025</p>
           </div>
-        </div>
+        </div> */}
       </div>
     </footer>
   );

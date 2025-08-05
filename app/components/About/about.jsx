@@ -8,6 +8,8 @@ import image4 from "../../assets/about/about-image.png";
 import image5 from "../../../public/about-image.png";
 import image6 from "../../assets/woman/woman-figure.png";
 import image7 from "../../../public/mobile-view-image.jpg";
+import image8 from "../../assets/about/about-image (2).png";
+
 import shape from "../../assets/woman/shape.png";
 import { Check } from "lucide-react";
 import Link from "next/link";
@@ -21,8 +23,7 @@ export const About = () => {
           <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7 mb- lg:mb-0">
             <h2 className="text-[26px] mb-5 md:text-[45px] font-[600] text-gray-900 leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%]">
               A Central Hub for Your
-              <br className="hidden sm:block" />
-              <span className="block sm:inline"> Wellbeing</span>
+              <span className="block"> Wellbeing</span>
             </h2>
             <p className="text-sm md:text-lg font-[400] text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
               Safely store and protected data as in one place and get the most
@@ -115,9 +116,9 @@ export const About = () => {
               <div className="w-full">
                 <div className="h-[220px] md:h-[465px] relative w-full">
                   <Image
-                    src={image5}
+                    src={image8}
                     alt="Person using mobile health app"
-                    className=" rounded-4xl shadow-lg w-full h-full"
+                    className="object-cover rounded-4xl shadow-lg w-full h-full"
                   />
                 </div>
               </div>
@@ -133,7 +134,7 @@ export const About = () => {
                 technology reads and interprets your existing reports, giving
                 you comprehensive health insights.
               </p>
-              <button className="__secondary-bg text-white md:px-6 md:py-3 py-1.5 rounded-lg font-semibold text-sm sm:text-base w-1/3">
+              <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base w-1/3">
                 <Link
                   href="/upload-documents"
                   className="flex items-center justify-center gap-2"
@@ -147,7 +148,7 @@ export const About = () => {
       </div>
 
       {/* Built Around Your Needs Section */}
-      <div className="__gapTop relative pb-10">
+      <div className="__gapTop relative pb:0 md:pb-10">
         <div className="absolute top-5 right-0 z-50 hidden md:block">
           <Image src={shape} alt=" " className="h-[400px] w-[400px]" />
         </div>
@@ -155,7 +156,6 @@ export const About = () => {
           {/* Mobile: image above text, Desktop: side by side */}
           {/* Mobile: image then text, Desktop: side by side */}
           <div className="w-full order-2 lg:order-1 md:order-1 flex-col md:flex-row flex items-start justify-start gap-3 sm:gap-4 text-center ml-0 md:ml-10 relative">
-            {/* Mobile image at the top, only on mobile */}
             <div className="block md:hidden w-screen relative left-1/2 right-1/2 -translate-x-1/2 mb-6 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
               <Image
                 src={image7}
@@ -179,7 +179,6 @@ export const About = () => {
                 <li>Mobile-friendly and accessible anywhere</li>
                 <li>Get reminders and health nudges based on past trends</li>
                 <li>Share reports securely with your doctor</li>
-                <li>24/7 health monitoring support</li>
               </ul>
             </div>
           </div>

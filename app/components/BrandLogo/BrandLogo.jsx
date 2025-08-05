@@ -21,12 +21,12 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto __gapTop">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
         slidesPerView={1}
-        className="custom-swiper mt-3"
+        className="custom-swiper"
         loop={true}
         autoplay={{
           delay: 2000,
@@ -41,12 +41,12 @@ function BrandLogo() {
       >
         {logo.map((logos) => (
           <SwiperSlide key={logos.id}>
-            <div className="lg:max-w-[200px] h-[150px] mx-auto flex items-center justify-center aspect-video lg:aspect-auto">
+            <div className="lg:max-w-[200px] h-[105px] mx-auto flex items-center justify-center aspect-video lg:aspect-auto">
               <Image
                 src={logos.icon}
                 alt="brand-logo"
                 width={150}
-                height={150}
+                height={105}
                 className="object-contain w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300"
               />
             </div>

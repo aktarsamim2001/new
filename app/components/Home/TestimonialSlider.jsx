@@ -45,7 +45,7 @@ const testimonials = [
 
 const TestimonialSlider = () => {
   return (
-    <div className="__primary-bg mt-[60px] p-6 pb-24 lg:py-[110px]">
+    <div className="__primary-bg mt-[40px] md:mt-[60px] lg:mt-[80px] p-6 pb-24 lg:py-[110px]">
       <div className="max-w-6xl mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
         <div className="flex justify-center items-center ">
@@ -78,7 +78,7 @@ const TestimonialSlider = () => {
         >
           {testimonials.map((testimonial) => (
             <SwiperSlide key={testimonial.id}>
-              <div className="relative grid grid-cols-1 lg:grid-cols-[362px_auto] items-center gap-6 sm:gap-10 justify-center">
+              <div className="relative grid grid-cols-1 lg:grid-cols-[362px_auto] items-center gap-6 sm:gap-8 justify-center">
                 {/* Image Section */}
                 <div className="w-full flex items-center justify-center order-1 lg:order-1">
                   <Image
