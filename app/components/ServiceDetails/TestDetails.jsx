@@ -52,7 +52,7 @@ function TestDetails() {
               </h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white p-6 rounded-xl __cardShadow">
+              <div className="bg-white p-6 rounded-xl cardShadow2">
                 <div className="w-14 h-14 flex items-center justify-center mb-2">
                   <Image
                     src="/event-details/icon (1).png"
@@ -65,7 +65,7 @@ function TestDetails() {
                   Track your daily nutrition with smart visual recognition
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl __cardShadow">
+              <div className="bg-white p-6 rounded-xl cardShadow2">
                 <div className="w-12 h-12 flex items-center justify-center mb-2">
                   <Image
                     src="/event-details/icon (2).png"
@@ -78,7 +78,7 @@ function TestDetails() {
                   Manage health data for your entire family in one place
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl __cardShadow">
+              <div className="bg-white p-6 rounded-xl cardShadow2">
                 <div className="w-12 h-12 flex items-center justify-center mb-2">
                   <Image
                     src="/event-details/icon (3).png"
@@ -91,7 +91,7 @@ function TestDetails() {
                   AI-powered insights from your medical reports
                 </p>
               </div>
-              <div className="bg-white p-6 rounded-xl __cardShadow">
+              <div className="bg-white p-6 rounded-xl cardShadow2">
                 <div className="w-12 h-12 flex items-center justify-center mb-2">
                   <Image
                     src="/event-details/icon (4).png"
@@ -111,8 +111,6 @@ function TestDetails() {
           <h1 className="text-2xl md:text-4xl text-center leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] md:text-left mb-8 md:mb-12 ">
             Why You Should Take It
           </h1>
-          {/* Package Grid */}
-          {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"> */}
           <div className="hidden md:block">
             <Swiper
               modules={[Autoplay, Pagination]}
@@ -161,26 +159,6 @@ function TestDetails() {
           </div>
           <div className="md:hidden">
             {packages.map((pkg) => (
-              // <div key={pkg.id} className="group cursor-pointer">
-              //   <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-4">
-              //     <Image
-              //       src={pkg.image || "/placeholder.svg"}
-              //       alt={pkg.title}
-              //       fill
-              //       className="object-cover rounded-4xl group-hover:scale-105 transition-transform duration-300"
-              //     />
-
-              //     {/* Package Label */}
-              //     <div className="absolute -bottom-7 left-7">
-              //       <div className="__primary-bg text-white px-4 py-6 rounded-[7px] flex items-center gap-2">
-              //         <span className="text-[18px] font-[500] leading-[100%] __text px-3.5 w-[8.5rem]">
-              //           {pkg.title}
-              //         </span>
-              //         <ArrowUpRight className="h-6 w-6 absolute bottom-0 right-0 m-1 rotate-90" />
-              //       </div>
-              //     </div>
-              //   </div>
-              // </div>
               <div key={pkg.id} className="group relative cursor-pointer pb-10">
                 <div className="overflow-hidden h-[188px] w-full mb-4">
                   <Image
@@ -206,7 +184,7 @@ function TestDetails() {
         {/* </div> */}
       </div>
       <div className="container mx-auto">
-        <div className="__primary-bg md:w-10/12 mx-auto mb-10 md:rounded-[42px] p-8 md:px-16 relative overflow-hidden mt-[80px]">
+        <div className="__primary-bg md:w-10/12 mx-auto md:rounded-[42px] p-8 md:px-16 relative overflow-hidden mt-[80px]">
           <div className=" absolute -right-5 bottom-5 md:-right-98 md:-top-40">
             <Image
               src={shapeImage}
