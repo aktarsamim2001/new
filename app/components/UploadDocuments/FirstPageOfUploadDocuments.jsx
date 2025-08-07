@@ -36,21 +36,21 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 bg-white/30 backdrop-blur-sm flex items-center justify-center z-50 p-4"
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-3xl md:max-w-[90%] mx-auto max-h-[90vh] overflow-hidden shadow-2xl"
+        className="bg-white rounded-3xl md:max-w-[90%] mx-auto max-h-[95vh] overflow-hidden shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="relative md:pb-8 z-10">
           <button
             onClick={onClose}
-            className="absolute bg-gray-200 cursor-pointer rounded-full p-1.5 top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors z-20"
+            className="absolute cursor-pointer rounded-full p-1.5 top-6 right-6 transition-colors z-20"
             style={{ zIndex: 20 }}
           >
-            <X size={24} className="hover:__secondary-text" />
+            <X size={24} className="__secondary-text" />
           </button>
         </div>
 

@@ -22,7 +22,7 @@ function SupportBanner() {
 
         {/* Text Section */}
         <div className="px-4 text-left">
-          <h1 className="text-[24px] md:text-[48px] font-[550]">
+          <h1 className="text-[24px] md:text-[48px] font-[550] leading-[1.1]">
             Need Assistance? Let’s Sort It Out Together.
           </h1>
           <p className="mt-4 text-lg text-gray-600">

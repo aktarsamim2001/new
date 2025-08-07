@@ -199,7 +199,7 @@ export default function WelcomeSignup() {
             alt="Sukaii Health"
             width={800}
             height={1200}
-            className="rounded-[40px] object-cover w-full h-[400px] lg:h-screen p-5"
+            className="rounded-[40px] object-cover w-full xl:w-[800px] h-[400px] lg:h-screen p-5"
             priority
           />
           <div className="absolute left-1/2 -translate-x-1/2 lg:-left-16 lg:translate-x-0 bottom-6 md:bottom-10 ml-3 px-6 flex flex-col items-center justify-center gap-2 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">

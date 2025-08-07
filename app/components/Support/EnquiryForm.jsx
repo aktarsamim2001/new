@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import image from "../../assets/woman/support-woman.jpg";
 import Button from "../ui/Button";
 import Link from "next/link";
+import BrandLogo from "../../components/BrandLogo/BrandLogo";
+import texture from "../../assets/woman/shape.png";
 
 export default function EnquiryForm() {
   const [formData, setFormData] = useState({
@@ -55,11 +57,11 @@ export default function EnquiryForm() {
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto px-4 md:px-4">
-        <div className="__gapTop md:px-24 ">
-          <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-8 lg:mb-15 md:mb-12">
+        <div className="mt-12 md:mt-16 md:px-24 ">
+          <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-5">
             Quick Help
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-3">
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
@@ -85,7 +87,7 @@ export default function EnquiryForm() {
       </div>
 
       {/* Main Content */}
-      <div className="__gapTop overflow-hidden">
+      <div className="mt-12 md:mt-18 overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:gap-5">
           {/* Image Section */}
 
@@ -101,7 +103,7 @@ export default function EnquiryForm() {
 
           {/* Form Section */}
           <div className="md:w-3/5 w-full md:px-8 mt-4 md:pt-0 p-[12px] lg:px-12">
-            <h2 className="text-3xl font-[550] text-gray-800 mb-10">
+            <h2 className="text-3xl font-[550] text-gray-800 mb-5">
               Submit Your Enquiry
             </h2>
 
@@ -115,7 +117,7 @@ export default function EnquiryForm() {
                   placeholder="Full Name"
                   value={formData.fullName}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                 />
               </div>
 
@@ -127,7 +129,7 @@ export default function EnquiryForm() {
                     name="gender"
                     value={formData.gender}
                     onChange={handleInputChange}
-                    className="px-4 py-4 bg-gray-50 border w-full border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all text-gray-700"
+                    className="px-4 py-4 bg-gray-50 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all text-gray-700"
                   >
                     <option value="">Gender</option>
                     <option value="male">Male</option>
@@ -144,7 +146,7 @@ export default function EnquiryForm() {
                     placeholder="Age"
                     value={formData.age}
                     onChange={handleInputChange}
-                    className="px-4 py-4 w-full bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                    className="px-4 py-4 w-full bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                   />{" "}
                 </div>
               </div>
@@ -158,7 +160,7 @@ export default function EnquiryForm() {
                   placeholder="Contact"
                   value={formData.contact}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
+                  className="w-full px-4 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                 />
               </div>
 
@@ -171,7 +173,7 @@ export default function EnquiryForm() {
                   value={formData.address}
                   onChange={handleInputChange}
                   rows="3"
-                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
                 />
               </div>
 
@@ -184,7 +186,7 @@ export default function EnquiryForm() {
                   value={formData.remarks}
                   onChange={handleInputChange}
                   rows="4"
-                  className="w-full px-4 py-4 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
+                  className="w-full px-4 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all resize-none"
                 />
               </div>
 
@@ -203,32 +205,38 @@ export default function EnquiryForm() {
           </div>
         </div>
 
-        <div className="md:px-20 px-[12px]">
-          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-14 md:pr-20 relative mt-[80px]">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 items-center relative z-10">
+        <div className="container mx-auto">
+          <div className="container mx-auto px-4 md:px-28">
+          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative mt-[80px]">
+            <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
                 <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">
-                  Smarter Health Starts Here
+                  Talk to a Correspondant
                 </h3>
                 <p className="text-white text-opacity-90 text-sm sm:text-[17px]">
-                  Discover how our Smart Health Dashboard helps you stay on top
-                  of
-                  <br /> your health effortlessly.
+                 Live Chat: Available Monday–Saturday, 9am–8pm MYT
                 </p>
               </div>
 
              <Link href="/our-services" passHref>
-               <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+               <div className="flex justify-start mt-4 md:mt-0 relative">
                 <Button
                   variant="outline"
                   className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
                 >
-                  Explore More!
+                  Call Now!
                 </Button>
               </div>
              </Link>
             </div>
           </div>
+        </div>
+         <div className="absolute bottom-2 right-0 z-50 hidden md:block">
+          <Image src={texture} alt=" " className="h-[400px] w-[400px]" />
+        </div>
+        <div className="px-4 md:px-10">
+            <BrandLogo />
+        </div>
         </div>
       </div>
     </div>
