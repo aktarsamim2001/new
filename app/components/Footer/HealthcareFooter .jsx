@@ -68,7 +68,7 @@ const HealthcareFooter = () => {
         />
       </div>
 
-      <div className="container mx-auto px-4 __gapTop md:pb-6 pb-4">
+      <div className="container mx-auto px-6 lg:px-14 __gapTop md:pb-6 pb-4">
         <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[60px] items-start">
           <div className="space-y-6">
             <div className="flex items-center space-x-2 justify-start">
@@ -101,7 +101,7 @@ const HealthcareFooter = () => {
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 COMPANY
               </h3>
-              <ul className="space-y-3 cursor-pointer">
+              <ul className="space-y-1.5 cursor-pointe md:mt-9">
                 {companyLinks.map((link, index) => (
                   <li key={index} className="cursor-pointer">
                     <Link
@@ -120,7 +120,7 @@ const HealthcareFooter = () => {
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 SERVICES
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-1.5 md:mt-9">
                 {serviceLinks.map((link, index) => (
                   <li key={index}>
                     <Link
@@ -139,7 +139,7 @@ const HealthcareFooter = () => {
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 RESOURCES
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-1.5 md:mt-9">
                 {resourceLinks.map((link, index) => (
                   <li key={index}>
                     <Link
@@ -162,7 +162,7 @@ const HealthcareFooter = () => {
                 <div className="flex items-center space-x-2">
                   <IoLogoWhatsapp className="w-[25px] h-[25px] text-[#EC098D]" />
 
-                  <span className="font-[600] relative top-[-2px] text-[16px] sm:text-[18px] leading-[100%]">
+                  <span className="font-[700] relative top-[-2px] text-[18px] sm:text-[18px] leading-[100%]">
                     954 733 3245
                   </span>
                 </div>

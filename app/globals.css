@@ -115,18 +115,18 @@ h6 {
 }
 
 .__gapTop {
-  padding-top: 40px;
+  padding-top: 15px;
 
   @media (min-width: 768px) {
-    padding-top: 60px;
+    padding-top: 20px;
   }
 
   @media (min-width: 1024px) {
-    padding-top: 80px;
+    padding-top: 25px;
   }
 
   @media (min-width: 1280px) {
-    padding-top: 100px;
+    padding-top: 25px;
   }
 }
 
@@ -174,7 +174,7 @@ h6 {
 }
 
 .cardShadow2 {
-  box-shadow: 4px 4px 6px 1px #cdcdcd;
+  box-shadow: 3px 4px 6px 1.5px #cdcdcd;
 }
 
 /* .custom-date::-webkit-datetime-edit {

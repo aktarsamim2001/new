@@ -17,7 +17,6 @@ import "swiper/css/pagination";
 // import { SwiperSlide } from "swiper/react";
 
 function TestDetails() {
-  // Add package data
   const packages = [
     {
       id: 1,
@@ -44,10 +43,10 @@ function TestDetails() {
   return (
     <>
       <div className="container mx-auto px-4 md:px-0">
-        <div className="__gapTop w-9/12 md:w-10/12 mx-auto">
+        <div className="mt-[65px] md:mt-[50px] px-8 md:px-0 mx-auto">
           <div className="">
             <div className="text-left">
-              <h2 className="text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-8 md:mb-12 ">
+              <h2 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
                 What This Test Measures
               </h2>
             </div>
@@ -107,8 +106,8 @@ function TestDetails() {
             </div>
           </div>
         </div>
-        <div className="__gapTop w-11/12 md:w-10/12 mx-auto">
-          <h1 className="text-2xl md:text-4xl text-center leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] md:text-left mb-8 md:mb-12 ">
+        <div className="mt-[65px] md:mt-[50px] px-2 md:px-0 mx-auto">
+          <h1 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
             Why You Should Take It
           </h1>
           <div className="hidden md:block">

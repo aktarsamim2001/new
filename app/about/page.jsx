@@ -9,7 +9,7 @@ function Page() {
     <div>
       <AboutBanner />
       <About />
-      <TestimonialSlider />
+        <TestimonialSlider />
       <HealthSection />
     </div>
   );

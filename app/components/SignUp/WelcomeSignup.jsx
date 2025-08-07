@@ -31,7 +31,6 @@ export default function WelcomeSignup() {
     username: "",
   });
 
-  // Show modal only on mobile screens
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {

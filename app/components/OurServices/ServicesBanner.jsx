@@ -4,7 +4,7 @@ import image from '../../assets/service/service-banner.jpg'
 
 function ServicesBanner() {
   return (
-    <div className='container mx-auto __gapTop md:px-4'>
+    <div className='container mx-auto mt-[14px] md:mt-[65px] md:px-4'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start'>
 
         {/* Image Section */}
@@ -22,9 +22,9 @@ function ServicesBanner() {
 
         {/* Text Section */}
         <div className="px-4 text-left max-w-lg">
-          <h1 className="text-[28px] md:text-4xl font-bold __secondary-text">
+          <h1 className="text-[26px] md:text-4xl font-bold leading-[1.1] md:leading-[1.3]">
             Find the Right 
-            <span className='block'>Test For You</span>
+            <span className='md:block'> Test For You</span>
           </h1>
           <p className="mt-4 text-[16px] text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae beatae fuga quas quidem quaerat.
