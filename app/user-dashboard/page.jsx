@@ -19,6 +19,7 @@ import {
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
 import SmartHealthFirstPreview from "./SmartHealthFirstPreview";
+import HealthDashboard from "./HealthDashboard";
 
 import { Poppins } from "next/font/google";
 
