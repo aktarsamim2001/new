@@ -90,7 +90,7 @@ export default function Navbar() {
 
         {/* Desktop Navigation Menu */}
         <div
-          className={`hidden md:flex items-center space-x-6 __nav-link ${poppins.className}`}
+          className={`hidden md:flex items-center space-x-10 gap-2 __nav-link ${poppins.className}`}
         >
           <Link
             href="/"
@@ -136,7 +136,7 @@ export default function Navbar() {
 
         {/* Right Side Actions (Desktop Only) */}
         <div
-          className={`hidden md:flex items-center space-x-2 ${poppins.className}`}
+          className={`hidden md:flex items-center space-x-2 gap-2 ${poppins.className}`}
         >
           <Link
             href="/sign-in"

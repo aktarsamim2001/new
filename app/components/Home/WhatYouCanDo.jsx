@@ -31,16 +31,16 @@ const WhatYouCanDo = () => {
   ];
 
   return (
-    <div className="container mx-auto mt-15 lg:mt-10 min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
-      <h2 className="__secondary-text text-2xl md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-5 md:mb-12">
+    <div className="container mx-auto mt-[34px] md:mt-[65px] min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
+      <h2 className="__secondary-text text-2xl md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-5 md:mb-8">
         What You Can Do
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:px-20">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:px-35">
         {features.map((feature) => (
           <div
             key={feature.id}
-            className="flex items-center justify-center gap-3 gap-x-5 p-4 bg-[#FFFFFF] WhatYouCanDo rounded-[22px]"
+            className="flex items-center justify-center gap-3 gap-x-5 p-4 bg-[#FFFFFF] cardShadow2 rounded-[22px]"
           >
             <div className="w-[100px] h-[105px] flex justify-center items-center">
               <Image
@@ -51,7 +51,7 @@ const WhatYouCanDo = () => {
                 className="block object-cover w-full h-full"
               />
             </div>
-            <p className="max-w-[150px] text-gray-800 leading-tight text-[14px]">
+            <p className="max-w-[150px] text-gray-800 font-[400] leading-tight text-[14px]">
               {feature.title}
             </p>
           </div>

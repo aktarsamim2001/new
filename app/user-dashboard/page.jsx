@@ -18,7 +18,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
-import HealthDashboard from "./HealthDashboard";
+import SmartHealthFirstPreview from "./SmartHealthFirstPreview";
 
 import { Poppins } from "next/font/google";
 
@@ -434,7 +434,7 @@ const UserDashboard = () => {
 
   const SmartHealthSection = () => (
     <>
-      <HealthDashboard />
+      <SmartHealthFirstPreview />
     </>
   );
 
@@ -535,7 +535,7 @@ const UserDashboard = () => {
           {activeTab === "profile" && <ProfileSection />}
           {activeTab === "tests" && <TestsSection />}
           {activeTab === "reports" && <ReportsSection />}
-          {activeTab === "health" && <SmartHealthSection />}
+          {activeTab === "health" && <SmartHealthFirstPreview />}
         </div>
       </div>
     </div>

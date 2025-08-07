@@ -21,7 +21,7 @@ const logo = [
 
 function BrandLogo() {
   return (
-    <div className="container mx-auto __gapTop">
+    <div className="container mx-auto mt-[34px] md:mt-[85px]">
       <Swiper
         modules={[Autoplay, Pagination]}
         spaceBetween={0}
@@ -47,7 +47,7 @@ function BrandLogo() {
                 alt="brand-logo"
                 width={150}
                 height={105}
-                className="object-contain w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300"
+                className="object-contain w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300 mb-6 md:mb-0"
               />
             </div>
           </SwiperSlide>

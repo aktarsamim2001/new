@@ -3,8 +3,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import shapeImage from "../../assets/home/Shape.png";
+import image from "../../../public/texture-bg.png";
 import { IoMdArrowUp } from "react-icons/io";
-
 import { motion, AnimatePresence } from "framer-motion";
 
 const HowProcessWorks = () => {
@@ -39,20 +39,6 @@ const HowProcessWorks = () => {
         "Monitor your test progress in real-time through our dashboard. Get notifications at every stage from sample collection to report generation.",
       icon: "📊",
     },
-    // {
-    //   id: 5,
-    //   title: "Access Reports Instantly",
-    //   description:
-    //     "Receive your reports digitally as soon as they're ready. Download, share, or consult with doctors directly through our platform.",
-    //   icon: "📲",
-    // },
-    // {
-    //   id: 6,
-    //   title: "Monitor Your Health Over Time",
-    //   description:
-    //     "Track trends, set health goals, and get personalized insights. Our AI-powered analytics help you understand your health journey better.",
-    //   icon: "🧠",
-    // },
   ];
 
   const toggleStep = (stepId) => {
@@ -60,7 +46,7 @@ const HowProcessWorks = () => {
   };
 
   return (
-    <div className="container __gapTop mx-auto lg:px-4 ">
+    <div className="container mt-[34px] md:mt-[65px] mx-auto lg:px-4 ">
       <div className="relative bg-[#EC098D2E] lg:rounded-3xl p-6 py-12 pb-16 lg:py-16 sm:p-12 lg:p-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>
@@ -86,17 +72,30 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
-                className="relative w-full max-w-md opacity-20"
+                className="relative w-full max-w-md "
               >
-                <Image
-                  src={shapeImage}
-                  alt="Decorative texture"
-                  className="w-[340px] h-[220px] absolute top-[-90px] lg:top-[-15px] left-[-65px] z-[-1]"
-                />
+                <div
+                  className="absolute w-[320px] h-[200px] md:h-[320px] md:left-[-90px] left-[-70px] top-[-20px] md:top-[-28px] pointer-events-none z-0"
+                >
+                  <Image
+                    src={image}
+                    alt="Decorative texture"
+                    width={320}
+                    height={120}
+                    className="absolute top-[-16] -left-10 filter brightness-0 invert opacity-50 select-none"
+                  />
+                  <Image
+                    src={image}
+                    alt="Decorative texture"
+                    width={320}
+                    height={120}
+                    className="absolute top-14 -left-10 filter brightness-0 invert opacity-50 select-none"
+                  />
+                </div>
               </motion.div>
             </div>
 
-            <div className="space-y-2 mt-[40px] lg:mt-[150px]">
+            <div className=" relative z-10 space-y-2 mt-[40px] lg:mt-[150px]">
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -131,28 +130,28 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 * step.id }}
                 viewport={{ once: true }}
-                className="cursor-pointer duration-300 overflow-hidden border-b"
+                className="cursor-pointer duration-300 overflow-hidden"
               >
                 {/* Step Header with icon and smooth hover effects */}
                 <button
                   onClick={() => toggleStep(step.id)}
-                  className={`w-full flex items-center justify-between p-5 !pt-0 !pb-3 lg:!pb-5 lg:p-6 text-left transition-all duration-300 ${
+                  className={`w-full flex items-center justify-between text-left transition-all duration-300 ${
                     expandedStep === step.id ? "" : ""
                   }`}
                 >
-                  <div className="flex items-center space-x-4">
+                  <div className="flex items-center justify-between space-x-4 border-b w-full pb-5">
                     <span className="text-[18px] lg:text-2xl font-extrabold text-gray-800">
                       {step.id}. {step.title}
                     </span>
-                  </div>
-                  <div
-                    className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
-                  >
-                    <IoMdArrowUp
-                      className={`transition-transform duration-300 ${
-                        expandedStep === step.id ? "rotate-180" : ""
-                      }`}
-                    />
+                    <div
+                      className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
+                    >
+                      <IoMdArrowUp
+                        className={`transition-transform duration-300 ${
+                          expandedStep === step.id ? "rotate-180" : ""
+                        }`}
+                      />
+                    </div>
                   </div>
                 </button>
 
@@ -165,8 +164,8 @@ const HowProcessWorks = () => {
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
-                      <div className="px-5 lg:px-6 pb-5 lg:py-4">
-                        <p className="text-gray-500 leading-relaxed text-[18px]">
+                      <div className="px-5 lg:px-6 md:pb-8 lg:py-4 ">
+                        <p className="text-gray-500 leading-relaxed text-[18px] mt-3 md:mt-0">
                           {step.description}
                         </p>
                       </div>

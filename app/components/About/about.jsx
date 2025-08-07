@@ -18,10 +18,10 @@ export const About = () => {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className=" __gapTop md:mt-16 relative container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col-reverse lg:grid lg:grid-cols-[55%_auto] items-center justify-center">
+      <div className=" mt-[46px] md:mt-[105px] relative container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center">
           <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7 mb- lg:mb-0">
-            <h2 className="text-[26px] mb-5 md:text-[45px] font-[600] text-gray-900 leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%]">
+            <h2 className="text-[26px] mt-4 md:mt-0 mb-5 md:text-[45px] font-[600] text-gray-900 leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%]">
               A Central Hub for Your
               <span className="block"> Wellbeing</span>
             </h2>
@@ -38,7 +38,7 @@ export const About = () => {
               width={600}
               height={300}
               alt="about image"
-              className="rounded-3xl h-[80%] w-[100%] shadow"
+              className="rounded-3xl h-[80%] w-[100%] cardShadow2"
             />
 
             <Image
@@ -46,21 +46,21 @@ export const About = () => {
               width={600}
               height={300}
               alt="about image"
-              className="absolute right-3 -top-[25px] md:right-10 md:top-[-60px] rounded-3xl h-[100%] w-[100%] shadow"
+              className="absolute right-3 -top-[25px] md:right-10 md:top-[-60px] rounded-3xl h-[100%] w-[100%] cardShadow2"
             />
           </div>
         </div>
       </div>
 
       {/* Reports Section */}
-      <section className="__gapTop">
+      <section className="mt-[34px] md:mt-[65px]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-left">
             <h2 className="text-[26px] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] md:text-[45px] font-[600] text-gray-900 leading-tight mb-4 lg:mb-10 md:mb-8">
               More Than Just Reports
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 px-5 lg:px-0 ">
             {[
               {
                 img: image,
@@ -109,7 +109,7 @@ export const About = () => {
       </section>
 
       {/* Import Reports Section */}
-      <div className="__gapTop">
+      <div className="mt-[40px] md:mt-[65px]">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
             <div className="flex items-start justify-start order-2 lg:order-1">
@@ -148,7 +148,7 @@ export const About = () => {
       </div>
 
       {/* Built Around Your Needs Section */}
-      <div className="__gapTop relative pb:0 md:pb-10">
+      <div className="mt-[14px] md:mt-[75px] relative pb:0 md:pb-10">
         <div className="absolute top-5 right-0 z-50 hidden md:block">
           <Image src={shape} alt=" " className="h-[400px] w-[400px]" />
         </div>
@@ -167,7 +167,7 @@ export const About = () => {
             </div>
             {/* Text block always visible below image on mobile, side by side on desktop */}
             <div className="flex flex-col items-start w-full">
-              <div className="flex flex-row items-center gap-3 mb-2 ml-0 sm:ml-2">
+              <div className="flex flex-row items-center gap-3 mb-2">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-teal-500 flex items-center justify-center">
                   <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>

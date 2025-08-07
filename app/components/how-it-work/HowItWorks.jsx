@@ -68,16 +68,16 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <div className=" __gapTop">
+    <div className="mt-[34px] md:mt-[55px]">
       <div className=" bg-[#FCD3EA] pt-16 md:pt-10 flex justify-end md:px-10">
         <div className="md:w-[95%]">
           {steps.map((step, index) => (
             <div
-              className={`grid grid-cols-1 lg:grid-cols-2 mb-4 md:mb-8 items-center md:container mx-auto relative ${poppins.className}`}
+              className={`grid grid-cols-1 lg:grid-cols-2 mt-4 md:mt-0 md:mb-8 items-center md:container mx-auto relative ${poppins.className}`}
               key={index}
             >
               {(index === 0) && (
-                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-18'} -left-28 md:left-[-130px] w-full max-w-[381px] ${index=== 0 ? `opacity-50`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
+                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-18'} -left-28 md:left-[-140px] w-full max-w-[381px] ${index=== 0 ? `opacity-50`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
                     <div>
                       <Image
                         src={image}
@@ -100,7 +100,30 @@ export const HowItWorks = () => {
                 )}
 
                 {(index ===2) && (
-                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-14'} -left-35 md:left-[-130px] hidden md:block w-full max-w-[381px] ${index=== 0 ? `opacity-80`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
+                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-14'} -left-35 md:left-[-140px] hidden md:block w-full max-w-[381px] ${index=== 0 ? `opacity-80`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
+                    <div>
+                      <Image
+                        src={image}
+                        alt="Decorative texture"
+                        width={600}
+                        height={600}
+                        className="filter brightness-0 invert"
+                      />
+                    </div>
+                    <div className="-mt-24">
+                      <Image
+                        src={image}
+                        alt="Decorative texture"
+                        width={600}
+                        height={600}
+                        className="filter brightness-0 invert"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {(index ===4) && (
+                  <div className={`absolute ${index === 2 ? '-top-20' : '-top-14'} -left-35 md:left-[-140px] hidden md:block w-full max-w-[381px] ${index=== 0 ? `opacity-80`:'opacity-50' } z-0 flex flex-col pointer-events-none`}>
                     <div>
                       <Image
                         src={image}

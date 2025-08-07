@@ -10,9 +10,8 @@ import { usePathname } from "next/navigation";
 
 const HealthSection = () => {
   const path = usePathname()
-  console.log("path name", path);
   return (
-    <div className="container mx-auto md:mt-[100px] mb-5 lg:mb-[100px]">
+    <div className="container mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
         {/* Content Section */}
         <div className="order-2 lg:order-1 px-4">
@@ -40,7 +39,7 @@ const HealthSection = () => {
 
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className="relative w-full md:pr-8 z-[-1] mt-[-100px] lg:mt-0">
+          <div className={`relative w-full md:pr-8 md:mt-26 ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
             <Image
               src={ path === "/" ? image : image2}
               alt="Handshake"

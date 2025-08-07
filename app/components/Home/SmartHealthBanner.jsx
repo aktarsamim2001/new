@@ -174,14 +174,14 @@ export const SmartHealthBanner2 = () => {
                 </div>
 
                 {/* CENTER SECTION - Desktop */}
-                <div className="relative w-full h-[400px] bg-gradient-to-t from-sky-200 to-sky-50 rounded-t-full flex items-center justify-center shadow-2xl border-t-2 border-blue-500">
+                <div className="relative w-full h-full bg-gradient-to-t from-sky-200 to-sky-50 rounded-t-full flex items-center justify-center shadow-2xl border-t-2 border-blue-500">
                   <div className="-top-18.5 absolute">
                     <Image
                       src={slide.centerImage}
                       alt="Person"
                       width={450}
                       height={800}
-                      className="w-full h-[505px] object-cover"
+                      className="w-full h-full object-cover"
                     />
                   </div>
                 </div>
@@ -379,7 +379,7 @@ const SmartHealthBanner = () => {
 
   return (
     <>
-      <div className="lg:mt-[20px]">
+      <div className="md:mt-[20px]">
         <Swiper
           modules={[Autoplay]}
           spaceBetween={0}
@@ -394,28 +394,37 @@ const SmartHealthBanner = () => {
           {slides.map((slide, ind) => (
             <SwiperSlide key={ind}>
               <div className="bg-white">
-                <div className="lg:flex justify-between lg:ml-[7%] h-auto relative z-0">
+                <div className="md:flex justify-between md:ml-[10%] lg:ml-[12%] h-auto relative z-0">
                   <div className="relative z-[100]">
                     {/* left content */}
-                    <div className="w-full mt-[80px] px-6 lg:px-0">
+                    <div className="w-full mt-[80px] px-6 md:px-0">
                       <div className="space-y-4">
-                        <h1 className="text-4xl lg:text-[55px] text-black font-[600] leading-[100%] __heading">
+                        <h1 className="text-4xl md:text-[55px] lg:text-[65px] text-black font-[600] leading-[100%] __heading">
                           {slide.heading}
                         </h1>
-                        <div className="relative w-[520px] h-[40px] left-[-50px]">
+                        <div className="relative w-[520px] h-[40px] left-[-50px] hidden md:block">
                           <Image
                             src={line}
                             alt="Effect"
-                            // width={700}
-                            // height={50}
                             fill
                             className="w-full h-[25px] block border absolute left-0 top-0 z-10"
                           />
                         </div>
+                        {/* Mobile Effect: on right side of heading */}
+                        <div className="lg:hidden absolute top-10 right-[-40px] w-[180px] h-[35px]">
+                          <Image
+                            src={line}
+                            alt="Effect"
+                            fill
+                            className="object-contain"
+                          />
+                        </div>
+
                         <p className="text-[18px] font-[400] __paragraph leading-[145%] __text pr-3 max-w-[450px]">
                           {slide.description}
                         </p>
                       </div>
+
                       <Button
                         variant="outline"
                         className="cursor-pointer __secondary-bg text-white font-[600] text-[16px] __text mt-4"
@@ -424,8 +433,8 @@ const SmartHealthBanner = () => {
                       </Button>
                     </div>
                     {/* ratings */}
-                    <div className="flex lg:block justify-end px-6 lg:px-0 mt-6">
-                      <div className="w-[195px] lg:w-[220px] lg:absolute bottom-[80px] right-[150px] md:bottom-[140px] md:left-[350px] z-50 flex flex-col gap-3 p-4 border-2 border-sky-500 rounded-[5px] bg-white shadow-2xl">
+                    <div className="flex md:block justify-end px-6 md:px-0 mt-6">
+                      <div className="w-[195px] md:w-[220px] md:absolute bottom-[80px] right-[150px] md:bottom-[140px] md:left-[350px] z-50 flex flex-col gap-3 p-4 border-2 border-sky-500 rounded-[5px] bg-white shadow-2xl">
                         <div className="flex -space-x-3">
                           {slide.reviewAvatars.map((avatar, i) => (
                             <div
@@ -469,11 +478,11 @@ const SmartHealthBanner = () => {
                   </div>
                   <div className="absolute w-full left-0 top-0 h-full carousel-overlay z-[-1]" />
                   {/* right image */}
-                  <div className="flex-1 h-[350px] overflow-hidden lg:h-full relative z-[-10] mt-[-10px] lg:mt-0">
+                  <div className="flex-1 h-[350px] overflow-hidden md:h-full relative z-[-10] mt-[-10px] md:mt-0">
                     <Image
                       src={slide.rightImage}
                       alt={`hero image ${ind}`}
-                      className="block w-full h-[300px] lg:h-[650px] mt-3 transform-[scale(1.4)] lg:transform-[scale(1.3)]"
+                      className="block w-full h-[300px] md:h-[650px] mt-3 transform-[scale(1.4)] md:transform-[scale(1.3)]"
                     />
                   </div>
                 </div>
@@ -481,11 +490,9 @@ const SmartHealthBanner = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="__primary-bg mt-[-20px] lg:mt-[-85px] px-4 sm:px-6 lg:px-16 py-6 sm:py-8 lg:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 container mx-auto">
+        <div className="__primary-bg mt-[-28px] md:mt-[-85px] px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 max-w-7xl mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white lg:items-start justify-center lg:justify-start">
-            <div
-              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
-            >
+            <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center ">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                 <Image
                   src={image}
@@ -495,13 +502,11 @@ const SmartHealthBanner = () => {
                   className="sm:w-[50px] sm:h-[50px]"
                 />
               </div>
-              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+              <div className="font-[500] max-w-[250px] leading-[1.1] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
                 MOH-Certified Medical Staff
               </div>
             </div>
-            <div
-              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
-            >
+            <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer md:justify-center ">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                 <Image
                   src={image2}
@@ -511,13 +516,11 @@ const SmartHealthBanner = () => {
                   className="sm:w-[50px] sm:h-[50px]"
                 />
               </div>
-              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+              <div className="font-[500] max-w-[250px] leading-[1.1] text-[#FFFFFF] text-lg sm:text-xl md:text-[24px] text-center sm:text-left ">
                 Accredited Malaysian Labs
               </div>
             </div>
-            <div
-              className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center "
-            >
+            <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer md:justify-center ">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                 <Image
                   src={image3}
@@ -527,7 +530,7 @@ const SmartHealthBanner = () => {
                   className="sm:w-[50px] sm:h-[50px]"
                 />
               </div>
-              <div className="font-[500] max-w-[250px] text-[#FFFFFF] text-lg sm:text-xl lg:text-[24px] text-center sm:text-left ">
+              <div className="font-[500] max-w-[250px] leading-[1.1] text-[#FFFFFF] text-lg sm:text-xl md:text-[24px] text-center sm:text-left ">
                 Secure & Private, Always
               </div>
             </div>
