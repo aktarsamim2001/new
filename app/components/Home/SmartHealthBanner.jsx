@@ -394,9 +394,8 @@ const SmartHealthBanner = () => {
           {slides.map((slide, ind) => (
             <SwiperSlide key={ind}>
               <div className="bg-white">
-                <div className="md:flex justify-between md:ml-[10%] lg:ml-[12%] h-auto relative z-0">
-                  <div className="relative z-[100]">
-                    {/* left content */}
+                <div className="md:flex justify-between md:ml-[8%] xl:ml-[12%] h-auto relative z-0">
+                  <div className="relative z-[100] pb-[100px] xl:pb-0">
                     <div className="w-full mt-[80px] px-6 md:px-0">
                       <div className="space-y-4">
                         <h1 className="text-4xl md:text-[55px] lg:text-[65px] text-black font-[600] leading-[100%] __heading">
@@ -410,7 +409,6 @@ const SmartHealthBanner = () => {
                             className="w-full h-[25px] block border absolute left-0 top-0 z-10"
                           />
                         </div>
-                        {/* Mobile Effect: on right side of heading */}
                         <div className="lg:hidden absolute top-10 right-[-40px] w-[180px] h-[35px]">
                           <Image
                             src={line}
@@ -432,9 +430,8 @@ const SmartHealthBanner = () => {
                         {slide.button}
                       </Button>
                     </div>
-                    {/* ratings */}
                     <div className="flex md:block justify-end px-6 md:px-0 mt-6">
-                      <div className="w-[195px] md:w-[220px] md:absolute bottom-[80px] right-[150px] md:bottom-[140px] md:left-[350px] z-50 flex flex-col gap-3 p-4 border-2 border-sky-500 rounded-[5px] bg-white shadow-2xl">
+                      <div className="w-[195px] md:w-[220px] md:absolute bottom-[80px] right-[-40px] lg:bottom-[50px] xl:bottom-[140px] xl:left-[350px] z-50 flex flex-col gap-3 p-4 border-2 border-sky-500 rounded-[5px] bg-white shadow-2xl">
                         <div className="flex -space-x-3">
                           {slide.reviewAvatars.map((avatar, i) => (
                             <div
@@ -476,13 +473,14 @@ const SmartHealthBanner = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className="absolute w-full left-0 top-0 h-full carousel-overlay z-[-1]" />
-                  {/* right image */}
-                  <div className="flex-1 h-[350px] overflow-hidden md:h-full relative z-[-10] mt-[-10px] md:mt-0">
+
+                  <div className="flex-1 h-[350px] overflow-hidden md:h-full absolute right-[-150px] xl:relative z-[-10] mt-[-10px] md:mt-0">
                     <Image
                       src={slide.rightImage}
                       alt={`hero image ${ind}`}
-                      className="block w-full h-[300px] md:h-[650px] mt-3 transform-[scale(1.4)] md:transform-[scale(1.3)]"
+                      className="block w-full h-[300px] md:h-[650px] xl:mt-3 transform-[scale(1)] xl:transform-[scale(1.3)]"
                     />
                   </div>
                 </div>
@@ -490,7 +488,7 @@ const SmartHealthBanner = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="__primary-bg mt-[-28px] md:mt-[-85px] px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 max-w-7xl mx-auto">
+        <div className="__primary-bg mt-[-28px] md:mt-[-30px] xl:mt-[-85px] px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 max-w-[90%] [max-width:1300px]:max-w-7xl mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white lg:items-start justify-center lg:justify-start">
             <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center ">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">

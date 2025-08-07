@@ -484,7 +484,7 @@ const HealthAnalytics = () => {
               className="rounded-xl object-cover object-top w-full h-32 sm:h-40 md:h-[280px]"
             />
           </div>
-          <div className="w-full md:w-1/2 flex flex-col items-start justify-center"> 
+          <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
             <h3 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-2 leading-tight">
               Still Have Questions?
               <br />
