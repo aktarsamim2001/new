@@ -7,11 +7,13 @@ import image2 from "../../public/user-dashboard/user-dashboard-video.png";
 import HealthSection from "../components/Home/HealthSection";
 import image8 from "../assets/about/about-image (2).png";
 import Link from "next/link";
+import image3 from "../assets/partner-image/handshake.png";
+import Button from "../components/ui/Button";
 
 function SmartHealthFirstPreview() {
   return (
     <div>
-      <div className="max-w-7xl mx-auto rounded-2xl cardShadow2 px-4 md:px-0">
+      <div className="max-w-7xl mx-auto rounded-2xl cardShadow2 px-4 md:px-0 mb-8">
         <div className="__primary-bg px-4 md:px-6 py-3 rounded-t-2xl">
           <h3 className="text-white font-semibold">Overview</h3>
         </div>
@@ -45,7 +47,7 @@ function SmartHealthFirstPreview() {
                 </h1>
               </div>
             </div>
-            <div className="hidden lg:flex justify-end items-end w-[80%] top-[50%] z-[-1] absolute right-[205px] h-full">
+            <div className="hidden lg:flex justify-end items-end w-[80%] top-[175px] z-[-1] absolute right-[205px] h-full">
               <Image
                 src={texture}
                 width={400}
@@ -55,7 +57,7 @@ function SmartHealthFirstPreview() {
               />
             </div>
             <div>
-              <p className="text-gray-600 font-normal text-sm sm:text-base md:text-[18px] leading-relaxed max-w-full md:max-w-2xl">
+              <p className="text-gray-600 font-normal text-sm sm:text-base md:text-[18px] leading-relaxed max-w-full md:max-w-3xl">
                 This isn’t just where you view reports—it’s where your health
                 makes sense. Track trends over time, spot what needs attention,
                 and take action early with simple, clear visuals. Want a quick
@@ -64,16 +66,14 @@ function SmartHealthFirstPreview() {
             </div>
           </div>
         </div>
-        <div>
-          <div className="relative w-full h-[200px] md:h-[400px] max-w-[771px] md:rounded-[0px_40px_40px_0px] overflow-hidden shadow-lg">
-            <Image
-              src={image2}
-              alt="Smart Health Dashboard Video"
-              width={800}
-              height={400}
-              className="w-full h-full object-cover object-center"
-            />
-          </div>
+        <div className="relative flex items-center justify-center max-w-4xl mx-auto h-[200px] md:h-[400px] md:rounded-2xl overflow-hidden shadow-lg">
+          <Image
+            src={image2}
+            alt="Smart Health Dashboard Video"
+            width={800}
+            height={400}
+            className="w-full h-full object-cover"
+          />
           <div className="absolute inset-0 flex items-center justify-center">
             <button className="bg-white p-3 rounded-full shadow-lg">
               <svg
@@ -87,10 +87,10 @@ function SmartHealthFirstPreview() {
             </button>
           </div>
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
+        <div className="mt-[36px] md:mt-[65px] max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
           <div className="flex items-start justify-start order-2 lg:order-1">
             <div className="w-full">
-              <div className="h-[220px] md:h-[465px] relative w-full">
+              <div className="h-[220px] md:h-[354px] relative w-full">
                 <Image
                   src={image8}
                   alt="Person using mobile health app"
@@ -110,7 +110,7 @@ function SmartHealthFirstPreview() {
               reads and interprets your existing reports, giving you
               comprehensive health insights.
             </p>
-            <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base w-1/3">
+            <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base ">
               <Link
                 href="/upload-documents"
                 className="flex items-center justify-center gap-2"
@@ -120,7 +120,32 @@ function SmartHealthFirstPreview() {
             </button>
           </div>
         </div>
-        <HealthSection />
+        <div className="my-6 sm:my-8 md:my-16 flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 px-4 md:px-32 container mx-auto pb-12">
+      <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
+        <h3 className="text-2xl sm:text-3xl lg:text-4xl font-[500] text-gray-900 mb-2 leading-[1.1]">
+          Ready to Take Charge of
+          <br />
+          Your Health?
+        </h3>
+        <p className="text-gray-600 mb-4 text-sm sm:text-base leading-relaxed">
+          Book tests, access reports, consult doctors, and manage your well-being — all in one place.
+        </p>
+        <button className="__secondary-bg text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] text-sm sm:text-base shadow transition">
+          <Link href="/book-test" passHref>
+            Book a Test Now!
+          </Link>
+        </button>
+      </div>
+      <div className="w-full md:w-1/2 flex-shrink-0">
+        <Image
+          src={image3}
+          width={400}
+          height={400}
+          alt="Support Lab"
+          className="rounded-xl object-cover object-top w-full h-32 sm:h-40 md:h-[310px]"
+        />
+      </div>
+    </div>
       </div>
     </div>
   );
