@@ -39,7 +39,7 @@ const HealthSection = () => {
 
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className={`relative w-full md:pr-8 md:mt-26 ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
+          <div className={`relative w-full md:mt-26 ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
             <Image
               src={ path === "/" ? image : image2}
               alt="Handshake"
