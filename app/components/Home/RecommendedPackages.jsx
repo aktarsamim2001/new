@@ -64,11 +64,11 @@ const RecommendedPackages = () => {
   ];
 
   return (
-    <div className="relative lg:px-0 mt-[34px] md:mt-[65px]">
+    <div className="relative lg:px-0 __gapTop">
       {/* Header */}
-      <h1 className="text-[28px] px-6 lg:px-0 md:text-5xl leading-[1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] md:text-center mb-5 md:mb-8 __secondary-text">
+      <h2 className="px-6 lg:px-0 section__heading md:text-center mb-5 md:mb-8 __secondary-text">
         Recommended <br className="md:hidden" /> Packages
-      </h1>
+      </h2>
 
       {/* Package Grid */}
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-10 lg:px-0">
@@ -120,7 +120,7 @@ const RecommendedPackages = () => {
 
       {/* Smart Health Dashboard Section */}
       <div className="container mx-auto relative px-0 sm:px-4 md:px-30">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center mt-[34px] md:mt-[85px]">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center __gapTop">
           {/* Left Image Column */}
           <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
             <Image
@@ -135,13 +135,13 @@ const RecommendedPackages = () => {
 
           {/* Right Content Column */}
           <div className=" lg:pl-10 mt-2 lg:mt-0 px-6 lg:px-0">
-            <div className="grid grid-cols-[70px_auto] gap-x- lg:block">
+            <div className="grid grid-cols-[60px_auto] lg:block">
               <div className="__primary-bg h-12 w-12 sm:h-[66px] sm:w-[66px] flex items-center justify-center rounded-full mb-5">
                 <Check className="h-6 w-6 sm:h-8 sm:w-9 text-white" />
               </div>
               <div className="space-y-4 sm:space-y-6 flex-1">
-                <h2 className="text-[26px] sm:text-4xl lg:text-[40px] font-bold __secondary-text leading-[97%]">
-                  Your Health in <br /> Your Hands
+                <h2 className="section__heading __secondary-text">
+                  Your Smart Health <br /> Dashboard, Simplified!
                 </h2>
 
                 <p className="font-medium text-sm sm:text-[18px]">
@@ -163,11 +163,11 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className=" container min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] md:px-30 mt-[34px] md:pt-[85px] mx-auto">
+      <div className="__gapTop container min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] md:px-30 mx-auto">
         <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-6 lg:py-14 lg:px-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
-              <h3 className="text-[26px] sm:text-2xl lg:text-[44px] font-bold text-white mb-2 sm:mb-5 leading-[100%]">
+              <h3 className="section__heading text-white mb-2 sm:mb-5">
                 Smarter Health <br className="lg:hidden" /> Starts Here
               </h3>
               <p className="text-white text-opacity-90 text-sm sm:text-[20px] font-[700]">

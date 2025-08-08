@@ -39,7 +39,7 @@ function SuccessModal({ open, onClose }) {
         <h3 className="text-xl font-bold mt-4 mb-2 text-center">
           OTP Verified!
         </h3>
-        <p className="text-gray-600 mb-6 text-center">
+        <p className="text-gray-600 mb-6 text-center banner__description">
           Signup Complete. You can now log in.
         </p>
         <button
@@ -153,7 +153,7 @@ export default function LoginComponent() {
                 <span className="block">Verify Your</span>
                 Identity
               </h1>
-              <p className="block text-[16px] font-[400] text-gray-700 mb-3">
+              <p className="block banner__description text-gray-700 mb-3">
                 Enter OTP sent to your Mobile Number
               </p>
             </div>
@@ -262,7 +262,7 @@ export default function LoginComponent() {
               <span className="block">Welcome to</span>
               Better Health
             </h1>
-            <p className="text-gray-600">
+            <p className="text-gray-600 banner__description">
               Create your Sukaii Health account to book tests, view your
               reports, manage prescriptions, and access your smart health
               dashboard — all in one place.

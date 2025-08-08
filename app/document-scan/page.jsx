@@ -42,6 +42,12 @@ const UploadReport = () => {
   const [isEditing, setIsEditing] = useState({});
   const [reportAdded, setReportAdded] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
+  const [showCamera, setShowCamera] = useState(false);
+  const [cameraStream, setCameraStream] = useState(null);
+  const [toast, setToast] = useState("");
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
+  const [capturedImage, setCapturedImage] = useState(null);
 
   const slide = {
     reviewAvatars: [
@@ -80,8 +86,58 @@ const UploadReport = () => {
     }
   };
 
-  const handleCameraScanClick = () => {
-    console.log("Camera scan clicked");
+  const handleCameraScanClick = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      setCameraStream(stream);
+      setShowCamera(true);
+      // Attach stream to video element after modal is open
+      setTimeout(() => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      }, 100);
+    } catch (err) {
+      setToast("Could not access camera. Please allow camera permissions.");
+      setTimeout(() => setToast(""), 3000);
+    }
+  };
+
+  const handleCloseCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach((track) => track.stop());
+    }
+    setShowCamera(false);
+    setCameraStream(null);
+    setCapturedImage(null);
+  };
+
+  const handleCapture = () => {
+    if (!videoRef.current) return;
+    const video = videoRef.current;
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+    const dataUrl = canvas.toDataURL('image/png');
+    setCapturedImage(dataUrl);
+
+    // Simulate upload progress and review using the captured image
+    setShowCamera(false);
+    setShowProgress(true);
+    setReview(false);
+    setProgress(0);
+    let prog = 0;
+    const interval = setInterval(() => {
+      prog += 10;
+      setProgress(prog);
+      if (prog >= 100) {
+        clearInterval(interval);
+        setShowProgress(false);
+        setReview(true);
+      }
+    }, 200);
   };
 
   const handleEdit = (field) => {
@@ -100,12 +156,18 @@ const UploadReport = () => {
 
   return (
     <div className={`relative ${poppins.className}`}>
+      {/* Toast Notification */}
+      {toast && (
+        <div className="fixed top-6 left-1/2 -translate-x-1/2 bg-pink-500 text-white px-6 py-3 rounded-lg shadow-lg z-[9999] text-lg animate-fade-in">
+          {toast}
+        </div>
+      )}
       <Image
         src={shapeImage}
         alt="People Consulting"
         width={400}
         height={150}
-        className="h-[250px absolute top-0 right-[0%]"
+        className="h-[250px] absolute top-90 right-[0%]"
       />
       <div className="container mx-auto pt-[0] md:pt-[60px] md:px-10">
         {/* Banner and Title always on top */}
@@ -129,9 +191,9 @@ const UploadReport = () => {
         {/* Conditional Sections Below */}
         {/* Upload Method Section */}
 
-        {!showProgress && !review && (
+  {!showProgress && !review && (
           <div className="max-w-7xl mx-auto md:pt-[60px] px-4 md:px-0">
-            <h2 className="text-[30px] font-semibold __secondary-text mb-2">
+            <h2 className="section__heading __secondary-text mb-2">
               Choose Upload Method
             </h2>
             <p className="text-[18px] text-gray-600 mb-5">
@@ -170,13 +232,39 @@ const UploadReport = () => {
                   Use the camera to scan
                 </span>
               </button>
+        {/* Camera Modal */}
+        {showCamera && (
+          <div className="fixed inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl p-4 shadow-2xl relative flex flex-col items-center w-[100vw] max-w-3xl">
+              {/* <button
+                onClick={handleCloseCamera}
+                className="absolute top-3 right-3 bg-gray-200 rounded-full p-2 text-gray-600 hover:text-pink-500"
+                aria-label="Close camera"
+              >
+                <X size={24} />
+              </button> */}
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                className="w-[800px] h-[400px] rounded-lg object-cover border-2 border-pink-400"
+              />
+              <button
+                onClick={handleCapture}
+                className="mt-6 px-6 py-2 bg-pink-500 text-white rounded-lg font-semibold shadow hover:bg-pink-600 transition-colors"
+              >
+                Capture
+              </button>
+            </div>
+          </div>
+        )}
             </div>
           </div>
         )}
         {/* Progress Bar Section */}
         {showProgress && (
           <div className="max-w-7xl mx-auto __gapTop px-4">
-            <h2 className="text-[30px] font-semibold __secondary-text mb-2 text-left">
+            <h2 className="section__heading __secondary-text mb-2 text-left">
               Uploading Your Report
             </h2>
             <p className="text-[18px] text-gray-600 mb-5 text-left">
@@ -205,9 +293,9 @@ const UploadReport = () => {
               {/* Header */}
 
               <div className="mb-8">
-                <h1 className="text-[25px]  md:text-3xl font-[550] text-[#EC098D] mb-4">
+                <h2 className="section__heading text-[#EC098D] mb-4">
                   Review & Confirm Your Report
-                </h1>
+                </h2>
                 <p className="text-gray-600">
                   Here's what we found from your uploaded report. Please review
                   and make corrections if needed before saving.
@@ -225,10 +313,18 @@ const UploadReport = () => {
                     </h2>
                   </div>
                   <div className="bg-white ____shadow-card w-full rounded-xl p-8 text-center text-[16px] font-[550] cursor-pointer flex-1">
-                    <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
-                      <MdOutlineZoomOutMap className="w-5 h-5" />
-                      View Uploaded File
-                    </button>
+                    {capturedImage ? (
+                      <img
+                        src={capturedImage}
+                        alt="Captured Preview"
+                        className="mx-auto rounded-lg max-h-60 object-contain border"
+                      />
+                    ) : (
+                      <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
+                        <MdOutlineZoomOutMap className="w-5 h-5" />
+                        View Uploaded File
+                      </button>
+                    )}
                   </div>
                 </div>
 

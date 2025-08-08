@@ -10,6 +10,7 @@
   --font-body: var(--font-lato);
   /* --font-body: var(--font-poppins); */
 }
+
 .__poppins-font,
 .__poppins-font h1,
 .__poppins-font h2,
@@ -115,20 +116,37 @@ h6 {
 }
 
 .__gapTop {
-  padding-top: 15px;
+  padding-top: 40px;
 
   @media (min-width: 768px) {
     padding-top: 20px;
   }
 
   @media (min-width: 1024px) {
-    padding-top: 25px;
+    padding-top: 60px;
   }
 
   @media (min-width: 1280px) {
-    padding-top: 25px;
+    padding-top: 80px;
   }
 }
+
+.__gapTop2 {
+  margin-top: 15px;
+
+  @media (min-width: 768px) {
+    margin-top: 20px;
+  }
+
+  @media (min-width: 1024px) {
+    margin-top: 25px;
+  }
+
+  @media (min-width: 1280px) {
+    margin-top: 25px;
+  }
+}
+
 
 .__cardShadow {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
@@ -144,6 +162,7 @@ h6 {
   0% {
     transform: translateX(100%);
   }
+
   100% {
     transform: translateX(-100%);
   }
@@ -158,17 +177,17 @@ h6 {
 
 .test {
   background-color: rgba(0, 0, 0, 0.184);
-  backdrop-filter: blur(2px); 
+  backdrop-filter: blur(2px);
 }
 
-@media (width >= 96rem) {
+@media (width >=96rem) {
   .container {
     max-width: 90rem;
   }
 }
 
-.test-details-swiper .swiper-pagination{
-  left:0 !important;
+.test-details-swiper .swiper-pagination {
+  left: 0 !important;
   bottom: 0 !important;
   width: auto !important;
 }
@@ -182,4 +201,48 @@ h6 {
 } */
 .custom-date:focus::-webkit-datetime-edit {
   color: black;
+}
+
+h1 {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 30px;
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 50px;
+    font-weight: 600;
+    line-height: 100%;
+  }
+}
+
+.section__heading {
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 100%;
+  letter-spacing: -2%;
+}
+
+@media (min-width: 1024px) {
+  .section__heading {
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -2%;
+  }
+}
+
+.banner__description {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21px;
+}
+
+@media (min-width: 1024px) {
+  .banner__description {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 25px;
+  }
 }

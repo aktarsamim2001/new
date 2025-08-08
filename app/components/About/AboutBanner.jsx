@@ -57,7 +57,7 @@ function AboutBanner() {
   return (
     <div>
       {" "}
-      <div className=" mx-auto mt-[14px] md:mt-[65px]">
+      <div className=" mx-auto __gapTop">
         {/* Image Section */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-start">
           {/* Image Section */}
@@ -77,7 +77,7 @@ function AboutBanner() {
             <h1 className="text-[26px] md:text-[50px] md:text-4xl font-bold __secondary-text">
               Your Health, Smarter.
             </h1>
-            <p className="mt-3 mb-3 text-lg text-gray-600 line-clamp-3 md:line-clamp-3">
+            <p className="mt-3 mb-3 banner__description text-gray-600 line-clamp-3 md:line-clamp-3">
               All your medical records, test results, and health insights—neatly
               organized in one secure dashboard.
             </p>

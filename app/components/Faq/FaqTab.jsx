@@ -268,7 +268,7 @@ export default function FAQTabs() {
           {/* Right Content - FAQ */}
           <div className="lg:w-3/4 p-6 lg:p-8">
             <div className="space-y-4">
-              <span className="__secondary-text font-[600] text-[26px] leading-[26px]">
+              <span className="__secondary-text  font-[600] text-[26px] leading-[26px]">
                 Search Result!
               </span>
               <div className="flex items-center bg-gray-100 rounded-[10px] p-1 mt-4 w-full max-w-xl">

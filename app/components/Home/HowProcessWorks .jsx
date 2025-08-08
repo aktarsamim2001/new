@@ -46,7 +46,7 @@ const HowProcessWorks = () => {
   };
 
   return (
-    <div className="container mt-[34px] md:mt-[65px] mx-auto lg:px-4 ">
+    <div className="container __gapTop mx-auto lg:px-4 ">
       <div className="relative bg-[#EC098D2E] lg:rounded-3xl p-6 py-12 pb-16 lg:py-16 sm:p-12 lg:p-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>
@@ -101,7 +101,7 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.3 }}
                 viewport={{ once: true }}
-                className="text-3xl sm:text-4xl lg:text-[56px] font-semibold text-[#222222] leading-tight"
+                className="section__heading text-[#222222]"
               >
                 How it Works
               </motion.h2>
@@ -111,7 +111,7 @@ const HowProcessWorks = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 viewport={{ once: true }}
-                className="text-gray-500 text-lg leading-relaxed font-[400]"
+                className="text-[#222222] text-lg leading-[25px] font-[400]"
               >
                 Explore our diverse services designed to nurture your mental
                 health. From online counseling to self-care tools, we offer a

@@ -25,7 +25,7 @@ function FaqBanner() {
           <h1 className="text-4xl font-bold __secondary-text">
             Find the Right Test For You
           </h1>
-          <p className="mt-4 text-lg text-gray-600">
+          <p className="mt-4 banner__description text-gray-600">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor vitae
             beatae fuga quas quidem quaerat.
           </p>

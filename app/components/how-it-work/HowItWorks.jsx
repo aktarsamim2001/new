@@ -68,7 +68,7 @@ export const HowItWorks = () => {
   ];
 
   return (
-    <div className="mt-[34px] md:mt-[55px]">
+    <div className="__gapTop">
       <div className=" bg-[#FCD3EA] pt-16 md:pt-10 flex justify-end md:px-10">
         <div className="md:w-[95%]">
           {steps.map((step, index) => (

@@ -31,8 +31,8 @@ const WhatYouCanDo = () => {
   ];
 
   return (
-    <div className="container mx-auto mt-[34px] md:mt-[65px] min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
-      <h2 className="__secondary-text text-2xl md:text-5xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-center mb-5 md:mb-8">
+    <div className="container mx-auto __gapTop min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
+      <h2 className="__secondary-text section__heading text-center mb-5 md:mb-8">
         What You Can Do
       </h2>
 

@@ -57,8 +57,8 @@ export default function EnquiryForm() {
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto px-4 md:px-4">
-        <div className="mt-12 md:mt-16 md:px-24 ">
-          <h2 className="text-gray-900 text-2xl md:text-4xl leading-tight lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] mb-5">
+        <div className="__gapTop md:px-24 ">
+          <h2 className="text-gray-900 section__heading mb-5">
             Quick Help
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-3">
@@ -87,7 +87,7 @@ export default function EnquiryForm() {
       </div>
 
       {/* Main Content */}
-      <div className="mt-12 md:mt-18 overflow-hidden">
+      <div className="__gapTop overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:gap-5">
           {/* Image Section */}
 
@@ -103,7 +103,7 @@ export default function EnquiryForm() {
 
           {/* Form Section */}
           <div className="md:w-3/5 w-full md:px-8 mt-4 md:pt-0 p-[12px] lg:px-12">
-            <h2 className="text-3xl font-[550] text-gray-800 mb-5">
+            <h2 className="section__heading text-gray-800 mb-5">
               Submit Your Enquiry
             </h2>
 
@@ -207,10 +207,10 @@ export default function EnquiryForm() {
 
         <div className="container mx-auto">
           <div className="container mx-auto px-4 md:px-28">
-          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative mt-[80px]">
+          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative __gapTop">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
-                <h3 className="text-xl sm:text-2xl lg:text-[40px] font-bold text-white mb-2 sm:mb-3 leading-tight">
+                <h3 className="section__heading text-white mb-2 sm:mb-3">
                   Talk to a Correspondant
                 </h3>
                 <p className="text-white text-opacity-90 text-sm sm:text-[17px]">

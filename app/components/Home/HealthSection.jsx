@@ -15,11 +15,11 @@ const HealthSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
         {/* Content Section */}
         <div className="order-2 lg:order-1 px-4">
-          <h1 className="text-[26px] leading-[31px] md:text-5xl lg:text-[3.5rem] font-[500] lg:leading-[62px] bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
+          <h2 className="section__heading bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
-          </h1>
+          </h2>
 
-          <p className="text-gray-500 text-base sm:text-lg md:text-xl font-normal leading-[30px] max-w-2xl mt-5">
+          <p className="text-gray-500 banner__description max-w-2xl mt-5">
             Book tests, access reports, consult doctors, and manage your well-
             <br className="hidden lg:block" />
             being — all in one place.
@@ -39,7 +39,7 @@ const HealthSection = () => {
 
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className={`relative w-full md:mt-26 ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
+          <div className={`relative w-full md:mt-[60px] ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
             <Image
               src={ path === "/" ? image : image2}
               alt="Handshake"

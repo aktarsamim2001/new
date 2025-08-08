@@ -21,7 +21,7 @@ export const About = () => {
       <div className=" mt-[46px] md:mt-[105px] relative container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center">
           <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7 mb- lg:mb-0">
-            <h2 className="text-[26px] mt-4 md:mt-0 mb-5 md:text-[45px] font-[600] text-gray-900 leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%]">
+            <h2 className="section__heading mt-4 md:mt-0 mb-5 text-gray-900 ">
               A Central Hub for Your
               <span className="block"> Wellbeing</span>
             </h2>
@@ -53,10 +53,10 @@ export const About = () => {
       </div>
 
       {/* Reports Section */}
-      <section className="mt-[34px] md:mt-[65px]">
+      <section className="__gapTop">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-left">
-            <h2 className="text-[26px] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] md:text-[45px] font-[600] text-gray-900 leading-tight mb-4 lg:mb-10 md:mb-8">
+            <h2 className="section__heading text-gray-900 mb-4 lg:mb-10 md:mb-8">
               More Than Just Reports
             </h2>
           </div>
@@ -124,7 +124,7 @@ export const About = () => {
               </div>
             </div>
             <div className="space-y-4 sm:space-y-6 text-left order-2 lg:order-1">
-              <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-pink-500 md:text-gray-900 leading-tight">
+              <h2 className="section__heading text-pink-500 md:text-gray-900">
                 Have Reports from
                 <br className="hidden sm:block" />
                 <span className="block sm:inline"> Other Labs?</span>
@@ -148,30 +148,18 @@ export const About = () => {
       </div>
 
       {/* Built Around Your Needs Section */}
-      <div className="mt-[14px] md:mt-[75px] relative pb:0 md:pb-10">
-        <div className="absolute top-5 right-0 z-50 hidden md:block">
-          <Image src={shape} alt=" " className="h-[400px] w-[400px]" />
+      <div className="__gapTop relative pb:0 md:pb-10">
+        <div className="absolute top-14 md:top-5 right-0 z-50">
+          <Image src={shape} alt=" " className="h-[150px] w-[150px] md:h-[400px] md:w-[400px]" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mobile: image above text, Desktop: side by side */}
-          {/* Mobile: image then text, Desktop: side by side */}
           <div className="w-full order-2 lg:order-1 md:order-1 flex-col md:flex-row flex items-start justify-start gap-3 sm:gap-4 text-center ml-0 md:ml-10 relative">
-            <div className="block md:hidden w-screen relative left-1/2 right-1/2 -translate-x-1/2 mb-6 h-64 sm:h-80 lg:h-96 xl:h-[427px]">
-              <Image
-                src={image7}
-                alt="Mobile view of health app"
-                fill
-                className="object-cover object-bottom"
-                style={{ borderRadius: 0 }}
-              />
-            </div>
-            {/* Text block always visible below image on mobile, side by side on desktop */}
             <div className="flex flex-col items-start w-full">
               <div className="flex flex-row items-center gap-3 mb-2">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-teal-500 flex items-center justify-center">
                   <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                 </div>
-                <h3 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-pink-500 mb-0 text-left">
+                <h3 className="section__heading text-pink-500 mb-0 text-left">
                   Built Around Your Needs
                 </h3>
               </div>
@@ -184,7 +172,7 @@ export const About = () => {
           </div>
 
           <div className="relative order-1 lg:order-2 md:order-2">
-            <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-xl mx-auto hidden md:block">
+            <div className="relative w-full lg:max-w-xl mx-auto">
               <div className="bg-pink-500 rounded-2xl sm:rounded-3xl w-full h-28 sm:h-36 lg:h-40 xl:h-42 absolute bottom-0 left-0 z-0"></div>
 
               {/* Woman image - responsive */}

@@ -25,7 +25,7 @@ const services = [
 
 function ServicesList() {
   return (
-    <div className="container mx-auto md:mt-[80px] mt-10 px-4">
+    <div className="container mx-auto __gapTop px-4">
       {/* Mobile grid view */}
       <div className="block md:hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-5 lg:px-0">
@@ -56,7 +56,7 @@ function ServicesList() {
             </Link>
           ))}
         </div>
-        <div className="text-center mt-2">
+        <div className="text-center mt-2 mb-8 md:mb-14">
           <Button
             variant="outline"
             className="cursor-pointer __secondary-bg __text text-white !font-[700] text-base sm:text-lg w-full max-w-[187px] !py-3 !rounded-[10px]"
