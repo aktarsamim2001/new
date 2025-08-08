@@ -101,7 +101,7 @@ export default function WelcomeSignup() {
               <span className="block">Welcome to</span>
               Better Health
             </h1>
-            <p className="text-gray-600 hidden md:block">
+            <p className="text-gray-600 banner__description hidden md:block">
               Create your Sukaii Health account to book tests, view your
               reports, manage prescriptions, and access your smart health
               dashboard — all in one place.

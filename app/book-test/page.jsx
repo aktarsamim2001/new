@@ -67,7 +67,7 @@ const TestBookingSystem = () => {
         <div className="rounded-lg px-4 flex items-center justify-between relative">
           {/* Left Section */}
           <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
-            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+            <h2 className="section__heading mb-8 hidden md:block">
               Fill in the Details
             </h2>
 
@@ -268,7 +268,7 @@ const TestBookingSystem = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative lg:pt-[60px]">
           <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
-            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+            <h2 className="section__heading mb-8 hidden md:block">
               Contact Details
             </h2>
 
@@ -516,7 +516,7 @@ const TestBookingSystem = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
           <div className="space-y-6 lg:ml-16 w-full">
-            <h2 className="text-[30px] font-[600] mb-8 hidden md:block">
+            <h2 className="section__heading mb-8 hidden md:block">
               Review and Pay
             </h2>
 

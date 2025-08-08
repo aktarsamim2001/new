@@ -6,7 +6,7 @@ function Banner() {
   return (
     <div>
       {" "}
-      <div className=" mx-auto mt-[14px] md:mt-[65px]">
+      <div className=" mx-auto __gapTop">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start">
           {/* Image Section */}
           <div className="flex justify-center items-center">
@@ -27,7 +27,7 @@ function Banner() {
               Everything you need.
               <span className="block"> All in one place.</span>
             </h1>
-            <p className="mt-4 text-[16px] text-gray-600">
+            <p className="mt-4 banner__description text-gray-600">
               At Sukaii Health, we’re making healthcare simple, smart, and
               accessible. From booking tests online to tracking your results on
               a personalized dashboard—here’s how it all comes together.

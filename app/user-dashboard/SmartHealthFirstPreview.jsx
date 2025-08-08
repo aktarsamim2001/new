@@ -42,9 +42,9 @@ function SmartHealthFirstPreview() {
                 />
               </div>
               <div>
-                <h1 className="text-2xl sm:text-3xl md:text-[45px] leading-tight md:leading-[135%] font-bold __secondary-text">
+                <h2 className="section__heading __secondary-text">
                   Welcome to your Smart Health Dashboard!
-                </h1>
+                </h2>
               </div>
             </div>
             <div className="hidden lg:flex justify-end items-end w-[80%] top-[175px] z-[-1] absolute right-[205px] h-full">
@@ -66,19 +66,24 @@ function SmartHealthFirstPreview() {
             </div>
           </div>
         </div>
-        <div className="relative flex items-center justify-center max-w-4xl mx-auto h-[200px] md:h-[400px] md:rounded-2xl overflow-hidden shadow-lg">
-          <Image
-            src={image2}
-            alt="Smart Health Dashboard Video"
-            width={800}
-            height={400}
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 flex items-center justify-center">
-            <button className="bg-white p-3 rounded-full shadow-lg">
+        <div className="relative flex items-center justify-center max-w-4xl mx-auto h-[200px] md:h-[400px] md:rounded-2xl overflow-hidden shadow-lg group">
+          <div className="relative w-full h-full">
+            <Image
+              src={image2}
+              alt="Smart Health Dashboard Video"
+              width={800}
+              height={400}
+              className="w-full h-full object-cover"
+            />
+            {/* Overlay only on image, not button */}
+            <div className="absolute inset-0 bg-white/40 transition-opacity duration-300 pointer-events-none group-hover:opacity-0" />
+          </div>
+          {/* Play button always visible and centered */}
+          <div className="absolute inset-0 flex items-center justify-center z-10">
+            <button className="border-2 border-gray-500 hover:border-none p-3 rounded-full shadow-lg hover:bg-white/70 flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-6 h-6 text-gray-500"
+                className="w-12 h-12 text-gray-500"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
