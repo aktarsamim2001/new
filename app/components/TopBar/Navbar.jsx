@@ -71,7 +71,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`container mx-auto pt-4 md:pt-6 px-4 `}>
+    <nav className={`container mx-auto px-2 md:px-0 pt-4 md:pt-6`}>
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">

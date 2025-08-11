@@ -169,7 +169,7 @@ const UploadReport = () => {
         height={150}
         className="h-[250px] absolute top-90 right-[0%]"
       />
-      <div className="container mx-auto pt-[0] md:pt-[60px] md:px-10">
+      <div className="container mx-auto __gapTop">
         {/* Banner and Title always on top */}
         <div className="flex flex-col item-center justify-center relative">
           <div className="h-full w-full rounded-2xl">
@@ -192,7 +192,7 @@ const UploadReport = () => {
         {/* Upload Method Section */}
 
   {!showProgress && !review && (
-          <div className="max-w-7xl mx-auto md:pt-[60px] px-4 md:px-0">
+          <div className="container mx-auto __gapTop">
             <h2 className="section__heading __secondary-text mb-2">
               Choose Upload Method
             </h2>
@@ -202,7 +202,7 @@ const UploadReport = () => {
             <div className="flex flex-col md:flex-row gap-6 md:gap-10 md:px-14 pt-6 md:pt-10">
               <button
                 onClick={handleFileUploadClick}
-                className="flex-1 p-5 bg-white rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
+                className="flex-1 p-6 bg-white rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
               >
                 <div>
                   <BiCloudUpload size={40} className=" __secondary-text" />
@@ -223,7 +223,7 @@ const UploadReport = () => {
               />
               <button
                 onClick={handleCameraScanClick}
-                className="flex-1 p-5 bg-white  rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
+                className="flex-1 p-6 bg-white  rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
               >
                 <MdOutlinePhotoCamera size={40} className="__secondary-text" />
                 <span
@@ -263,7 +263,7 @@ const UploadReport = () => {
         )}
         {/* Progress Bar Section */}
         {showProgress && (
-          <div className="max-w-7xl mx-auto __gapTop px-4">
+          <div className="container mx-auto __gapTop">
             <h2 className="section__heading __secondary-text mb-2 text-left">
               Uploading Your Report
             </h2>
@@ -288,8 +288,8 @@ const UploadReport = () => {
         {/* Review Message Section */}
 
         {review && (
-          <div className="px-4">
-            <div className="max-w-7xl mx-auto pt-0 md:pt-[60]">
+          <>
+            <div className="container mx-auto __gapTop">
               {/* Header */}
 
               <div className="mb-8">
@@ -302,7 +302,7 @@ const UploadReport = () => {
                 </p>
               </div>
 
-              <div className="space-y-6 md:px-14 md:pt-10">
+              <div className="space-y-6 __gapTop">
                 {/* Section 01: File Preview */}
 
                 <div className="flex flex-col md:flex-row items-start justify-between gap-5 md:gap-16 w-full md:w-[90%] mb-8">
@@ -312,12 +312,12 @@ const UploadReport = () => {
                       Uploaded File Preview
                     </h2>
                   </div>
-                  <div className="bg-white ____shadow-card w-full rounded-xl p-8 text-center text-[16px] font-[550] cursor-pointer flex-1">
+                  <div className="bg-white ____shadow-card w-full rounded-xl p-4 text-center text-[16px] font-[550] cursor-pointer flex-1">
                     {capturedImage ? (
                       <img
                         src={capturedImage}
                         alt="Captured Preview"
-                        className="mx-auto rounded-lg max-h-60 object-contain border"
+                        className="w-full h-[600px] object-center rounded-lg object-cover"
                       />
                     ) : (
                       <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
@@ -436,7 +436,7 @@ const UploadReport = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </>
         )}
         {/* Success Modal Section */}
         {reportAdded && (

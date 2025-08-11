@@ -14,7 +14,7 @@ const HealthSection = () => {
     <div className="container mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
         {/* Content Section */}
-        <div className="order-2 lg:order-1 px-4">
+        <div className="order-2 lg:order-1">
           <h2 className="section__heading bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
           </h2>

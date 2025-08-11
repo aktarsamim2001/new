@@ -31,12 +31,12 @@ const WhatYouCanDo = () => {
   ];
 
   return (
-    <div className="container mx-auto __gapTop min-[319px]:max-w-[280px] min-[374px]:max-w-[290px] sm:max-w-[100%] lg:px-0">
+    <div className="container mx-auto __gapTop">
       <h2 className="__secondary-text section__heading text-center mb-5 md:mb-8">
         What You Can Do
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:px-35">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
         {features.map((feature) => (
           <div
             key={feature.id}

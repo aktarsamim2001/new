@@ -12,8 +12,8 @@ import Button from "../components/ui/Button";
 
 function SmartHealthFirstPreview() {
   return (
-    <div>
-      <div className="max-w-7xl mx-auto rounded-2xl cardShadow2 px-4 md:px-0 mb-8">
+    <>
+      <div className="max-w-7xl mx-auto rounded-2xl cardShadow2 px-4 md:px-0">
         <div className="__primary-bg px-4 md:px-6 py-3 rounded-t-2xl">
           <h3 className="text-white font-semibold">Overview</h3>
         </div>
@@ -29,7 +29,7 @@ function SmartHealthFirstPreview() {
           />
         </div>
 
-        <div className="px-4 sm:px-6 md:px-12 py-4 sm:py-6 md:py-8">
+        <div className="px-4 sm:px-6 md:px-12 __gapTop">
           <div className="flex flex-col items-start gap-4 mb-6">
             <div className="relative flex flex-row items-start sm:items-center gap-3 mb-4 sm:mb-6">
               <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-25 md:h-25 flex items-center justify-center cardShadow2 rounded-full flex-shrink-0">
@@ -66,20 +66,20 @@ function SmartHealthFirstPreview() {
             </div>
           </div>
         </div>
-        <div className="relative flex items-center justify-center max-w-4xl mx-auto h-[200px] md:h-[400px] md:rounded-2xl overflow-hidden shadow-lg group">
-          <div className="relative w-full h-full">
+        <div className="relative flex items-center justify-center h-[200px] md:h-[400px] md:rounded-2xl overflow-hidden group">
+          <div className="relative px-4 sm:px-6 md:px-12 w-full h-full">
             <Image
               src={image2}
               alt="Smart Health Dashboard Video"
               width={800}
               height={400}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover cardShadow2 md:rounded-2xl"
             />
             {/* Overlay only on image, not button */}
-            <div className="absolute inset-0 bg-white/40 transition-opacity duration-300 pointer-events-none group-hover:opacity-0" />
+            <div className="absolute inset-0 bg-white/40 px-4 sm:px-6 md:px-12 w-full transition-opacity duration-300 pointer-events-none group-hover:opacity-0" />
           </div>
           {/* Play button always visible and centered */}
-          <div className="absolute inset-0 flex items-center justify-center z-10">
+          <div className="absolute inset-0 flex items-center  justify-center z-10">
             <button className="border-2 border-gray-500 hover:border-none p-3 rounded-full shadow-lg hover:bg-white/70 flex items-center justify-center">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +92,7 @@ function SmartHealthFirstPreview() {
             </button>
           </div>
         </div>
-        <div className="mt-[36px] md:mt-[65px] max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
+        <div className="__gapTop px-4 sm:px-6 md:px-12 grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
           <div className="flex items-start justify-start order-2 lg:order-1">
             <div className="w-full">
               <div className="h-[220px] md:h-[354px] relative w-full">
@@ -125,7 +125,7 @@ function SmartHealthFirstPreview() {
             </button>
           </div>
         </div>
-        <div className="my-6 sm:my-8 md:my-16 flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 px-4 md:px-32 container mx-auto pb-12">
+        <div className="__gapTop flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 px-4 sm:px-6 md:px-12 container mx-auto pb-18">
       <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
         <h3 className="text-2xl sm:text-3xl lg:text-4xl font-[500] text-gray-900 mb-2 leading-[1.1]">
           Ready to Take Charge of
@@ -152,7 +152,7 @@ function SmartHealthFirstPreview() {
       </div>
     </div>
       </div>
-    </div>
+    </>
   );
 }
 

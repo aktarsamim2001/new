@@ -46,7 +46,7 @@ const HowProcessWorks = () => {
   };
 
   return (
-    <div className="container __gapTop mx-auto lg:px-4 ">
+    <div className="container __gapTop mx-auto ">
       <div className="relative bg-[#EC098D2E] lg:rounded-3xl p-6 py-12 pb-16 lg:py-16 sm:p-12 lg:p-16 overflow-hidden">
         <div className="absolute top-0 right-0 w-32 h-32 bg-pink-200 rounded-full filter blur-3xl opacity-20 -mr-16 -mt-16"></div>
         <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-200 rounded-full filter blur-3xl opacity-20 -ml-24 -mb-24"></div>

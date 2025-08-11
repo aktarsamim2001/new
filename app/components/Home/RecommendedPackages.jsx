@@ -71,7 +71,7 @@ const RecommendedPackages = () => {
       </h2>
 
       {/* Package Grid */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-10 lg:px-0">
+      <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem]">
         {packages.map((pkg) => (
           <Link
             href={"/service-details"}
@@ -119,7 +119,7 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Smart Health Dashboard Section */}
-      <div className="container mx-auto relative px-0 sm:px-4 md:px-30">
+      <div className="container mx-auto relative">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center __gapTop">
           {/* Left Image Column */}
           <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
@@ -163,7 +163,7 @@ const RecommendedPackages = () => {
       </div>
 
       {/* Bottom Call-to-Action Section */}
-      <div className="__gapTop container min-[319px]:max-w-[280px] min-[374px]:max-w-[350px] sm:max-w-[100%] md:px-30 mx-auto">
+      <div className="__gapTop container mx-auto">
         <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-6 lg:py-14 lg:px-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">

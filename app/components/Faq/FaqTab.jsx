@@ -195,7 +195,7 @@ export default function FAQTabs() {
       <div className="overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           {/* Desktop Categories Sidebar - Hidden on mobile */}
-          <div className="hidden lg:block lg:w-1/4 p-6">
+          <div className="hidden lg:block lg:w-1/4">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-[#EC098D] inline-block w-full">
               Categories
             </h3>

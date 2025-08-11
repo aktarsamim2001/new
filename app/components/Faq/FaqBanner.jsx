@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function FaqBanner() {
   return (
-    <div className="container mx-auto __gapTop md:px-4">
+    <div className="container mx-auto __gapTop">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start">
         {/* Image Section */}
         <div className="flex justify-center items-center">

@@ -56,12 +56,12 @@ export default function EnquiryForm() {
 
   return (
     <div className="min-h-screen ">
-      <div className="container mx-auto px-4 md:px-4">
-        <div className="__gapTop md:px-24 ">
+      <div className="container mx-auto">
+        <div className="__gapTop">
           <h2 className="text-gray-900 section__heading mb-5">
             Quick Help
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
@@ -205,8 +205,7 @@ export default function EnquiryForm() {
           </div>
         </div>
 
-        <div className="container mx-auto">
-          <div className="container mx-auto px-4 md:px-28">
+          <div className="container mx-auto __gapTop">
           <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative __gapTop">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
@@ -229,7 +228,6 @@ export default function EnquiryForm() {
               </div>
              </Link>
             </div>
-          </div>
         </div>
          <div className="absolute bottom-2 right-0 z-50 hidden md:block">
           <Image src={texture} alt=" " className="h-[400px] w-[400px]" />

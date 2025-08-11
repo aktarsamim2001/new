@@ -18,9 +18,9 @@ export const About = () => {
   return (
     <div className="">
       {/* Hero Section */}
-      <div className=" mt-[46px] md:mt-[105px] relative container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className=" mt-[46px] md:mt-[125px] relative container mx-auto">
         <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center">
-          <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7 mb- lg:mb-0">
+          <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7">
             <h2 className="section__heading mt-4 md:mt-0 mb-5 text-gray-900 ">
               A Central Hub for Your
               <span className="block"> Wellbeing</span>
@@ -54,13 +54,13 @@ export const About = () => {
 
       {/* Reports Section */}
       <section className="__gapTop">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="container mx-auto">
           <div className="text-left">
             <h2 className="section__heading text-gray-900 mb-4 lg:mb-10 md:mb-8">
               More Than Just Reports
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 px-5 lg:px-0 ">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
             {[
               {
                 img: image,
@@ -109,8 +109,8 @@ export const About = () => {
       </section>
 
       {/* Import Reports Section */}
-      <div className="mt-[40px] md:mt-[65px]">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="__gapTop">
+        <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
             <div className="flex items-start justify-start order-2 lg:order-1">
               <div className="w-full">
@@ -152,7 +152,7 @@ export const About = () => {
         <div className="absolute top-14 md:top-5 right-0 z-50">
           <Image src={shape} alt=" " className="h-[150px] w-[150px] md:h-[400px] md:w-[400px]" />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto">
           <div className="w-full order-2 lg:order-1 md:order-1 flex-col md:flex-row flex items-start justify-start gap-3 sm:gap-4 text-center ml-0 md:ml-10 relative">
             <div className="flex flex-col items-start w-full">
               <div className="flex flex-row items-center gap-3 mb-2">
