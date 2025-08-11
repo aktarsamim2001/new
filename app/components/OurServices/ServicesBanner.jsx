@@ -21,7 +21,7 @@ function ServicesBanner() {
         </div>
 
         {/* Text Section */}
-        <div className="px-4 text-left max-w-lg">
+        <div className="px-4 text-left max-w-lg ">
           <h1 className="text-[26px] md:text-4xl font-bold leading-[1.1] md:leading-[1.3]">
             Find the Right 
             <span className='md:block'> Test For You</span>

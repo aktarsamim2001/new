@@ -19,7 +19,7 @@ export const About = () => {
     <div className="">
       {/* Hero Section */}
       <div className=" mt-[46px] md:mt-[125px] relative container mx-auto">
-        <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center">
+        <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center px-4 md:px-0">
           <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7">
             <h2 className="section__heading mt-4 md:mt-0 mb-5 text-gray-900 ">
               A Central Hub for Your
@@ -54,7 +54,7 @@ export const About = () => {
 
       {/* Reports Section */}
       <section className="__gapTop">
-        <div className="container mx-auto">
+        <div className="container mx-auto px-4 md:px-0">
           <div className="text-left">
             <h2 className="section__heading text-gray-900 mb-4 lg:mb-10 md:mb-8">
               More Than Just Reports
@@ -111,7 +111,7 @@ export const About = () => {
       {/* Import Reports Section */}
       <div className="__gapTop">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12 px-4 md:px-0">
             <div className="flex items-start justify-start order-2 lg:order-1">
               <div className="w-full">
                 <div className="h-[220px] md:h-[465px] relative w-full">
@@ -154,7 +154,7 @@ export const About = () => {
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto">
           <div className="w-full order-2 lg:order-1 md:order-1 flex-col md:flex-row flex items-start justify-start gap-3 sm:gap-4 text-center ml-0 md:ml-10 relative">
-            <div className="flex flex-col items-start w-full">
+            <div className="flex flex-col items-start w-full px-4 md:px-0">
               <div className="flex flex-row items-center gap-3 mb-2">
                 <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-teal-500 flex items-center justify-center">
                   <Check className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
@@ -173,7 +173,7 @@ export const About = () => {
 
           <div className="relative order-1 lg:order-2 md:order-2">
             <div className="relative w-full lg:max-w-xl mx-auto">
-              <div className="bg-pink-500 rounded-2xl sm:rounded-3xl w-full h-28 sm:h-36 lg:h-40 xl:h-42 absolute bottom-0 left-0 z-0"></div>
+              <div className="bg-pink-500 md:rounded-2xl w-full h-28 sm:h-36 lg:h-40 xl:h-42 absolute bottom-0 left-0 z-0"></div>
 
               {/* Woman image - responsive */}
               <div className="relative z-10 h-64 sm:h-80 lg:h-96 xl:h-[427px]">

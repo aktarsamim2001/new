@@ -7,7 +7,7 @@ import Button from "../ui/Button";
 
 const LetsTalk = () => {
   return (
-    <div className="__gapTop flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 container mx-auto">
+    <div className="__gapTop flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 container mx-auto px-4 md:px-0">
       <div className="w-full md:w-1/2 flex flex-col items-start justify-center">
         <h3 className="section__heading text-gray-900 mb-2">
           Still Have Questions?

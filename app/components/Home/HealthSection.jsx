@@ -11,10 +11,10 @@ import { usePathname } from "next/navigation";
 const HealthSection = () => {
   const path = usePathname()
   return (
-    <div className="container mx-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
+    <div className="container mx-auto __gapTop">
+      <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center mt-[60px] md:mt-0">
         {/* Content Section */}
-        <div className="order-2 lg:order-1">
+        <div className="order-2 lg:order-1 px-4 md:px-0">
           <h2 className="section__heading bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
             Ready to Take Charge of Your Health?
           </h2>

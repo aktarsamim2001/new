@@ -57,7 +57,7 @@ export default function EnquiryForm() {
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto">
-        <div className="__gapTop">
+        <div className="__gapTop px-4 md:px-0">
           <h2 className="text-gray-900 section__heading mb-5">
             Quick Help
           </h2>
@@ -205,7 +205,7 @@ export default function EnquiryForm() {
           </div>
         </div>
 
-          <div className="container mx-auto __gapTop">
+          <div className="container mx-auto __gapTop px-4 md:px-0">
           <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative __gapTop">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
