@@ -84,7 +84,7 @@ const TestBookingSystem = () => {
                     })}
                     type="text"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    // placeholder="Enter your full name"
+                    placeholder="Enter your full name"
                   />
                   {errors.fullName && (
                     <p className="text-red-500 text-sm mt-1">
@@ -112,7 +112,7 @@ const TestBookingSystem = () => {
                         })}
                         className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                       >
-                        <option value=""></option>
+                        <option className="" value="Select">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -143,7 +143,7 @@ const TestBookingSystem = () => {
                         })}
                         type="number"
                         className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                        // placeholder="Enter age"
+                        placeholder="Enter age"
                       />
                     </div>
                   </div>
@@ -176,7 +176,7 @@ const TestBookingSystem = () => {
                     })}
                     className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >
-                    <option value=""></option>
+                    <option value="selected test">Selected Test</option>
                     <option value="complete-blood-count">
                       Complete Blood Count
                     </option>
@@ -211,7 +211,7 @@ const TestBookingSystem = () => {
                     })}
                     className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >
-                    <option value=""></option>
+                    <option value="service type">Service Type</option>
                     <option value="home-collection">Home Collection</option>
                     <option value="lab-visit">Lab Visit</option>
                     <option value="express">Express Service</option>
@@ -288,7 +288,7 @@ const TestBookingSystem = () => {
                     })}
                     type="tel"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    // placeholder="Enter phone number"
+                    placeholder="Enter phone number"
                   />
                   {errors.contact && (
                     <p className="text-red-500 text-sm mt-1">
@@ -309,7 +309,7 @@ const TestBookingSystem = () => {
                     })}
                     type="text"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    // placeholder="Enter street address"
+                    placeholder="Enter street address"
                   />
                   {errors.streetName && (
                     <p className="text-red-500 text-sm mt-1">
@@ -334,7 +334,7 @@ const TestBookingSystem = () => {
                     })}
                     type="text"
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    // placeholder="Enter pincode"
+                    placeholder="Enter pincode"
                   />
                   {errors.pincode && (
                     <p className="text-red-500 text-sm mt-1">
@@ -446,8 +446,9 @@ const TestBookingSystem = () => {
                       required: "Time slot is required",
                     })}
                     className="appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    placeholder="Select Time Slot"
                   >
-                    <option value=""></option>
+                    <option value="">Select Time Slot</option>
                     <option value="09:00-10:00">09:00 - 10:00 AM</option>
                     <option value="10:00-11:00">10:00 - 11:00 AM</option>
                     <option value="11:00-12:00">11:00 - 12:00 PM</option>
@@ -474,7 +475,7 @@ const TestBookingSystem = () => {
                     {...register("remarks")}
                     rows={3}
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    // placeholder="Any special instructions or remarks"
+                    placeholder="Any special instructions or remarks"
                   />
                 </div>
               </div>

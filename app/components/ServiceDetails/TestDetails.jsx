@@ -42,8 +42,8 @@ function TestDetails() {
 
   return (
     <>
-      <div className="container mx-auto px-4 md:px-0">
-        <div className="mt-[65px] md:mt-[50px] px-8 md:px-0 mx-auto">
+      <div className="container mx-auto">
+        <div className="mt-[65px] md:mt-[50px] mx-auto">
           <div className="">
             <div className="text-left">
               <h2 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
@@ -106,7 +106,7 @@ function TestDetails() {
             </div>
           </div>
         </div>
-        <div className="mt-[65px] md:mt-[50px] px-2 md:px-0 mx-auto">
+        <div className="mt-[65px] md:mt-[50px] mx-auto">
           <h1 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
             Why You Should Take It
           </h1>
@@ -132,9 +132,9 @@ function TestDetails() {
                 <SwiperSlide key={pkg.id}>
                   <div
                     key={pkg.id}
-                    className="group  relative cursor-pointer pb-10"
+                    className="group relative cursor-pointer pb-10"
                   >
-                    <div className="overflow-hidden h-[188px] w-full mb-4">
+                    <div className="overflow-hidden rounded-[13px] h-[188px] w-full mb-4">
                       <Image
                         src={pkg.image || "/placeholder.svg"}
                         alt={pkg.title}
@@ -183,7 +183,7 @@ function TestDetails() {
         {/* </div> */}
       </div>
       <div className="container mx-auto">
-        <div className="__primary-bg md:w-10/12 mx-auto md:rounded-[42px] p-8 md:px-16 relative overflow-hidden mt-[80px]">
+        <div className="__primary-bg md:rounded-[42px] p-8 md:px-16 relative overflow-hidden mt-[80px]">
           <div className=" absolute -right-5 bottom-5 md:-right-98 md:-top-40">
             <Image
               src={shapeImage}
@@ -196,7 +196,7 @@ function TestDetails() {
               alt="shape image"
             />
           </div>
-          <div className="flex flex-col px-6 md:px-0 md:flex-row md:justify-between relative">
+          <div className="flex flex-col md:flex-row md:justify-between relative">
             <div className="md:w-8/12 md:pl-10">
               <h3 className="text-2xl md:text-[44px] font-bold text-white mb-3">
                 Stay Ahead of Your Health with a CBC Test

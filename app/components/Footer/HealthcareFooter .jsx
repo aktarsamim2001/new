@@ -68,7 +68,7 @@ const HealthcareFooter = () => {
         />
       </div>
 
-      <div className="container mx-auto px-6 lg:px-14 __gapTop md:pb-6 pb-4">
+      <div className="container mx-auto __gapTop px-4 md:px-0 md:pb-6 pb-4">
         <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[60px] items-start">
           <div className="space-y-6">
             <div className="flex items-center space-x-2 justify-start">

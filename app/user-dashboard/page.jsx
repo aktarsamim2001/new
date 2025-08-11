@@ -467,10 +467,10 @@ const UserDashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen md:p-x4 __gapTop __poppins-font">
+    <div className="min-h-screen __gapTop __poppins-font">
       <div className="container mx-auto">
         {/* Header */}
-        <div className=" rounded-lg px-6">
+        <div className=" rounded-lg px-3 md:px-2">
           <div className="md:flex flex-row items-center">
             <div className="flex items-center justify-start md:justify-center mr-4">
               <Image
@@ -493,7 +493,7 @@ const UserDashboard = () => {
           </div>
 
           {/* Tab Navigation */}
-          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-8 gap-4 md:px-17 __gapTop __poppins-font">
+          <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 md:gap-8 gap-4 max-w-7xl mx-auto px-2 __gapTop __poppins-font">
             {tabs.map((tab) => {
               const IconComponent = tab.icon;
               return (

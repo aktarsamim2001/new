@@ -25,10 +25,10 @@ const services = [
 
 function ServicesList() {
   return (
-    <div className="container mx-auto __gapTop px-4">
+    <div className="container mx-auto __gapTop">
       {/* Mobile grid view */}
       <div className="block md:hidden">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-5 lg:px-0">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem]">
           {services.map((pkg) => (
             <Link
               href={"/service-details"}

@@ -116,7 +116,7 @@ export default function AddReportManually() {
   };
 
   return (
-    <div className="container mx-auto md:p-4 pt-[25px] md:pt-[60px]">
+    <div className="container mx-auto __gapTop">
       {/* Banner and Title always on top */}
       <div className="flex gap-4 md:flex-row flex-col item-center justify-start md:items-center md:gap-20">
         <Image
@@ -301,7 +301,7 @@ export default function AddReportManually() {
       )}
       {/* Main Form Section */}
       {!reportAdded && (
-        <div className="max-w-7xl mx-auto pt-8 md:pt-[60px] md:p-0 p-4">
+        <div className="max-w-7xl mx-auto __gapTop">
           {/* Header */}
           <div className="mb-8">
             <h1 className="text-[24px] md:text-3xl font-bold text-pink-600 md:mb-2 mb-1">
@@ -315,14 +315,14 @@ export default function AddReportManually() {
 
           <div className="rounded-lg flex items-center justify-between">
             {/* Left Section - Increased width and margin */}
-            <div className="space-y-6 md:w-[50%]">
+            <div className="space-y-6 md:w-[80%]">
               <h2 className="text-[30px] font-[600] mb-6">
                 Basic Report Details
               </h2>
 
               <div className="space-y-4 md:mb-10">
                 <div className="md:flex items-center">
-                  <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
+                  <label className="md:min-w-[110px] block text-[18px] font-medium text-gray-700 mb-2">
                     Test Name
                   </label>
                   <input
@@ -338,7 +338,7 @@ export default function AddReportManually() {
                 </div>
                 <div className="grid gap-4">
                   <div className="md:flex items-center">
-                    <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
+                    <label className="md:min-w-[110px] block text-[18px] font-medium text-gray-700 mb-2">
                       Date of Report
                     </label>
                     <div className="relative w-full">
@@ -362,7 +362,7 @@ export default function AddReportManually() {
                   </div>
                 </div>
                 <div className="md:flex items-center w-full">
-                  <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
+                  <label className="md:min-w-[110px] block text-[18px] font-medium text-gray-700 mb-2">
                     Lab Name
                   </label>
                   <div className="relative w-full">
@@ -506,7 +506,7 @@ export default function AddReportManually() {
 
               {/* Remarks */}
               <div className="mb-10 md:flex items-start w-full">
-                <label className="md:min-w-[110px] block text-sm font-medium text-gray-700 mb-2">
+                <label className="md:min-w-[110px] block text-[18px] font-medium text-gray-700 mb-2">
                   Remarks
                 </label>
                 <div className="flex flex-col w-full gap-8">

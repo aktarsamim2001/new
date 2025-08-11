@@ -488,7 +488,7 @@ const SmartHealthBanner = () => {
             </SwiperSlide>
           ))}
         </Swiper>
-        <div className="__primary-bg mt-[-28px] md:mt-[-30px] xl:mt-[-85px] px-4 sm:px-6 md:px-12 py-6 sm:py-8 md:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 w-full lg:max-w-[80%] [max-width:1300px]:max-w-7xl mx-auto">
+        <div className="__primary-bg mt-[-28px] md:mt-[-30px] xl:mt-[-85px] py-6 sm:py-8 md:py-14 md:rounded-2xl lg:rounded-3xl overflow-hidden relative z-20 container mx-auto">
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 lg:gap-0 text-white lg:items-start justify-center lg:justify-start">
             <div className="flex items-center gap-3 sm:gap-4 group cursor-pointer lg:justify-center ">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
