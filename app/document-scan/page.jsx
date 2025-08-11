@@ -181,7 +181,7 @@ const UploadReport = () => {
               className="md:rounded-4xl h-[250px] object-cover"
             />
           </div>
-          <div className="mt- flex items-center justify-center md:absolute bottom-14  left-4/9 p-4">
+          <div className="mt- flex items-center justify-center md:absolute bottom-14  md:left-4/9 py-5 md:p-4">
             <h1 className="text-[30px] md:text-[45px] font-[600] md:leading-[1.5] leading-[1.2]">
               Scan or Upload <span className="md:block">Your Report</span>
             </h1>
@@ -192,7 +192,7 @@ const UploadReport = () => {
         {/* Upload Method Section */}
 
   {!showProgress && !review && (
-          <div className="container mx-auto __gapTop">
+          <div className="container mx-auto __gapTop px-4 md:px-0">
             <h2 className="section__heading __secondary-text mb-2">
               Choose Upload Method
             </h2>
@@ -263,7 +263,7 @@ const UploadReport = () => {
         )}
         {/* Progress Bar Section */}
         {showProgress && (
-          <div className="container mx-auto __gapTop">
+          <div className="container mx-auto __gapTop px-4 md:px-0">
             <h2 className="section__heading __secondary-text mb-2 text-left">
               Uploading Your Report
             </h2>

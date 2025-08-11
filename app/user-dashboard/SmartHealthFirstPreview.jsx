@@ -13,8 +13,8 @@ import Button from "../components/ui/Button";
 function SmartHealthFirstPreview() {
   return (
     <>
-      <div className="max-w-7xl mx-auto rounded-2xl cardShadow2 px-4 md:px-0">
-        <div className="__primary-bg px-4 md:px-6 py-3 rounded-t-2xl">
+      <div className="max-w-7xl mx-4 md:mx-auto rounded-2xl cardShadow2 md:px-0">
+        <div className="__primary-bg md:px-6 py-3 rounded-t-2xl">
           <h3 className="text-white font-semibold">Overview</h3>
         </div>
 
@@ -118,7 +118,7 @@ function SmartHealthFirstPreview() {
             <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base ">
               <Link
                 href="/upload-documents"
-                className="flex items-center justify-center gap-2"
+                className="flex items-center justify-center gap-2 px-5 md:px-0"
               >
                 Scan Report
               </Link>

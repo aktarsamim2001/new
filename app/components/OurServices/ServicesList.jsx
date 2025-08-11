@@ -50,14 +50,14 @@ export default function ServicesList() {
   return (
     <div className="container mx-auto grid grid-cols-1 lg:grid-cols-[35%_65%] gap-12 overflow-hidden __gapTop">
       {/* FILTER HEADER */}
-      <div className="py-5">
+      <div className="py-5 px-4 md:px-0">
         <div className="mb-6">
           <h2 className="text-xl font-bold text-gray-900 pb-2 border-b-[3px] border-[#EC098D]">
             Filter
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-0 md:mb-8">
           {/* ===== DESKTOP CATEGORIES ===== */}
           <div className="hidden lg:block">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2">
@@ -82,10 +82,10 @@ export default function ServicesList() {
 
           {/* ===== MOBILE CATEGORIES ===== */}
           <div className="lg:hidden">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-300">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Categories
             </h3>
-            <div className="relative mb-6">
+            <div className="relative">
               <button
                 onClick={() =>
                   setIsCategoriesDropdownOpen(!isCategoriesDropdownOpen)
@@ -149,10 +149,10 @@ export default function ServicesList() {
 
           {/* ===== MOBILE AVAILABILITY ===== */}
           <div className="lg:hidden">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-300">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
               Availability
             </h3>
-            <div className="relative mb-6">
+            <div className="relative">
               <button
                 onClick={() =>
                   setIsAvailabilityDropdownOpen(!isAvailabilityDropdownOpen)
@@ -195,7 +195,7 @@ export default function ServicesList() {
       </div>
 
       <div>
-        <div className="block md:hidden">
+        <div className="block md:hidden px-4 md:px-0">
           <div className="grid grid-cols-2 gap-4 mb-6">
             {services.map((pkg) => (
               <Link
@@ -204,25 +204,27 @@ export default function ServicesList() {
                 key={pkg.id}
                 className="cursor-pointer relative"
               >
-                <div className="bg-[#00BFD6] rounded-lg p-4 h-[110px] flex flex-col justify-between shadow-md">
-                  <div className="w-10 h-10 mx-auto">
+                <div className="rounded-lg bg-gray-100 h-[160px] flex flex-col justify-between shadow-md">
+                  <div className="w-16 h-14 mx-auto mt-5">
                     <Image
                       src={pkg.image}
                       alt={pkg.title}
-                      width={40}
-                      height={40}
+                      width={80}
+                      height={80}
                     />
                   </div>
-                  <span className="text-white text-sm font-semibold text-center mt-2">
-                    {pkg.title}
-                  </span>
-                  <ArrowUpRight className="w-4 h-4 text-white absolute top-2 right-2" />
+                  <div className="bg-[#00BFD6] p-4 rounded-lg">
+                    <span className="text-white text-sm font-semibold text-center mt-2">
+                      {pkg.title}
+                    </span>
+                    <ArrowUpRight className="w-4 h-4 text-white absolute bottom-8 right-2" />
+                  </div>
                 </div>
               </Link>
             ))}
           </div>
 
-          <div className="text-center mt-4 mb-8">
+          <div className="text-center mt-5">
             <Button
               variant="outline"
               className="cursor-pointer __secondary-bg text-white font-bold text-base w-full max-w-[187px] py-3 rounded-[10px]"
@@ -257,7 +259,9 @@ export default function ServicesList() {
                 <h3 className="text-[20px] leading-[100%] font-semibold text-white">
                   {service.title}
                 </h3>
-                <p className="text-[15px] leading-[110%] text-white">Report in 3 days <span className="block">Test for XYZ</span></p>
+                <p className="text-[15px] leading-[110%] text-white">
+                  Report in 3 days <span className="block">Test for XYZ</span>
+                </p>
               </div>
 
               {/* Arrow Icon */}
@@ -267,7 +271,7 @@ export default function ServicesList() {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center mt-8">
+        <div className="md:flex justify-center mt-8 hidden">
           <nav className="flex items-center space-x-2">
             <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
               <CircleArrowLeft />
