@@ -11,7 +11,7 @@ import { usePathname } from "next/navigation";
 const HealthSection = () => {
   const path = usePathname()
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto __gapTop">
       <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center">
         {/* Content Section */}
         <div className="order-2 lg:order-1">

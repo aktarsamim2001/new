@@ -1,122 +1,289 @@
+"use client";
+
+import { useState } from "react";
+import {
+  ChevronDown,
+  ChevronUp,
+  CircleArrowLeft,
+  CircleArrowRight,
+  ArrowUpRight,
+} from "lucide-react";
+import image1 from "../../assets/service/Cardiology.png";
 import Image from "next/image";
-import React from "react";
-import image1 from "../../assets/RecommendedImages/banner.jpg";
-import image2 from "../../assets/RecommendedImages/banner1.jpg";
-import image3 from "../../assets/RecommendedImages/banner2.jpg";
-import image4 from "../../assets/RecommendedImages/banner3.jpg";
-import image5 from "../../assets/RecommendedImages/banner2.jpg";
-import image6 from "../../assets/RecommendedImages/banner.jpg";
 import Link from "next/link";
 import Button from "../ui/Button";
-import { ArrowUpRight, CircleArrowLeft, CircleArrowRight } from "lucide-react";
+
+const categories = [
+  "Full Body Checkup",
+  "Blood Tests",
+  "Hormonal Health",
+  "Organ Function",
+  "Women's Health",
+  "Senior Citizen Packages",
+];
+
+const availability = [
+  "Home Sample Collection",
+  "Lab Visit Required",
+  "Same - Day Results",
+];
 
 const services = [
   { id: 1, title: "Service One", image: image1 },
-  { id: 2, title: "Service Two", image: image2 },
-  {
-    id: 3,
-    title: "Service Three",
-    image: image3,
-  },
-  { id: 4, title: "Service Four", image: image4 },
-  { id: 5, title: "Service Five", image: image5 },
-  { id: 6, title: "Service Six", image: image6 },
+  { id: 2, title: "Service Two", image: image1 },
+  { id: 3, title: "Service Three", image: image1 },
+  { id: 4, title: "Service Four", image: image1 },
+  { id: 5, title: "Service Five", image: image1 },
+  { id: 6, title: "Service Six", image: image1 },
+  { id: 7, title: "Service Seven", image: image1 },
+  { id: 8, title: "Service Eight", image: image1 },
 ];
 
-function ServicesList() {
+export default function ServicesList() {
+  const [activeCategory, setActiveCategory] = useState("");
+  const [activeAvailability, setActiveAvailability] = useState("");
+  const [isCategoriesDropdownOpen, setIsCategoriesDropdownOpen] =
+    useState(false);
+  const [isAvailabilityDropdownOpen, setIsAvailabilityDropdownOpen] =
+    useState(false);
+
   return (
-    <div className="container mx-auto __gapTop">
-      {/* Mobile grid view */}
-      <div className="block md:hidden">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem]">
-          {services.map((pkg) => (
-            <Link
-              href={"/service-details"}
-              target="_blank"
-              key={pkg.id}
-              className="cursor-pointer"
-            >
-              <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4 transition-transform duration-300 transform hover:scale-102 hover:shadow-2xs h-[135px] lg:h-auto w-full">
-                <Image
-                  src={pkg.image || "/placeholder.svg"}
-                  alt={pkg.title}
-                  fill
-                  className="object-cover rounded-[13px]"
-                />
-                {/* Package Label - Responsive positioning */}
-                <div className="absolute -bottom-7 left-3 sm:left-7 right-3 sm:right-auto w-[154px]">
-                  <div className="__primary-bg p-4 rounded-[7px] flex items-center justify-between text-[#FFFFFF] sm:justify-start gap-2 shadow-lg relative">
-                    <span className="text-sm lg:text-[18px] font-[500] lg:leading-[21px] flex-1">
-                      {pkg.title}
-                    </span>
-                    <ArrowUpRight className="h-[20px] w-[20px] flex-shrink-0 absolute top-[13px] right-[13px]" />
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+    <div className="container mx-auto grid grid-cols-1 lg:grid-cols-[35%_65%] gap-12 overflow-hidden __gapTop">
+      {/* FILTER HEADER */}
+      <div className="py-5">
+        <div className="mb-6">
+          <h2 className="text-xl font-bold text-gray-900 pb-2 border-b-[3px] border-[#EC098D]">
+            Filter
+          </h2>
         </div>
-        <div className="text-center mt-2 mb-8 md:mb-14">
-          <Button
-            variant="outline"
-            className="cursor-pointer __secondary-bg __text text-white !font-[700] text-base sm:text-lg w-full max-w-[187px] !py-3 !rounded-[10px]"
-          >
-            <Link
-              href={"/our-services"}
-              className="flex items-center justify-center gap-2 text-base leading-[145%]"
-            >
-              Explore
-            </Link>
-          </Button>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-8">
+          {/* ===== DESKTOP CATEGORIES ===== */}
+          <div className="hidden lg:block">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2">
+              Categories
+            </h3>
+            <div className="space-y-3">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`grid grid-cols-1 w-[200px] text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
+                    activeCategory === cat
+                      ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
+                      : "border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ===== MOBILE CATEGORIES ===== */}
+          <div className="lg:hidden">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-300">
+              Categories
+            </h3>
+            <div className="relative mb-6">
+              <button
+                onClick={() =>
+                  setIsCategoriesDropdownOpen(!isCategoriesDropdownOpen)
+                }
+                className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-[#EC098D] font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-sm">
+                  {activeCategory || "Select Category"}
+                </span>
+                {isCategoriesDropdownOpen ? (
+                  <ChevronUp className="h-5 w-5 text-[#EC098D]" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 text-[#EC098D]" />
+                )}
+              </button>
+
+              {isCategoriesDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+                  {categories.map((cat) => (
+                    <button
+                      key={cat}
+                      onClick={() => {
+                        setActiveCategory(cat);
+                        setIsCategoriesDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-colors duration-200 ${
+                        activeCategory === cat
+                          ? "bg-[#EC098D] text-white font-semibold"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
+                    >
+                      {cat}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ===== DESKTOP AVAILABILITY ===== */}
+          <div className="hidden lg:block">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2">
+              Availability
+            </h3>
+            <div className="space-y-3">
+              {availability.map((av) => (
+                <button
+                  key={av}
+                  onClick={() => setActiveAvailability(av)}
+                  className={`grid grid-cols-1 w-[200px] text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
+                    activeAvailability === av
+                      ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
+                      : "border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
+                  }`}
+                >
+                  {av}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* ===== MOBILE AVAILABILITY ===== */}
+          <div className="lg:hidden">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b border-gray-300">
+              Availability
+            </h3>
+            <div className="relative mb-6">
+              <button
+                onClick={() =>
+                  setIsAvailabilityDropdownOpen(!isAvailabilityDropdownOpen)
+                }
+                className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-[#EC098D] font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
+              >
+                <span className="text-sm">
+                  {activeAvailability || "Select Availability"}
+                </span>
+                {isAvailabilityDropdownOpen ? (
+                  <ChevronUp className="h-5 w-5 text-[#EC098D]" />
+                ) : (
+                  <ChevronDown className="h-5 w-5 text-[#EC098D]" />
+                )}
+              </button>
+
+              {isAvailabilityDropdownOpen && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
+                  {availability.map((av) => (
+                    <button
+                      key={av}
+                      onClick={() => {
+                        setActiveAvailability(av);
+                        setIsAvailabilityDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-3 text-sm transition-colors duration-200 ${
+                        activeAvailability === av
+                          ? "bg-[#EC098D] text-white font-semibold"
+                          : "text-gray-600 hover:bg-gray-50"
+                      }`}
+                    >
+                      {av}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Desktop/tablet view (md+) */}
-      <div className="hidden md:block">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div>
+        <div className="block md:hidden">
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            {services.map((pkg) => (
+              <Link
+                href="/service-details"
+                target="_blank"
+                key={pkg.id}
+                className="cursor-pointer relative"
+              >
+                <div className="bg-[#00BFD6] rounded-lg p-4 h-[110px] flex flex-col justify-between shadow-md">
+                  <div className="w-10 h-10 mx-auto">
+                    <Image
+                      src={pkg.image}
+                      alt={pkg.title}
+                      width={40}
+                      height={40}
+                    />
+                  </div>
+                  <span className="text-white text-sm font-semibold text-center mt-2">
+                    {pkg.title}
+                  </span>
+                  <ArrowUpRight className="w-4 h-4 text-white absolute top-2 right-2" />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-4 mb-8">
+            <Button
+              variant="outline"
+              className="cursor-pointer __secondary-bg text-white font-bold text-base w-full max-w-[187px] py-3 rounded-[10px]"
+            >
+              <Link href="/our-services">View More</Link>
+            </Button>
+          </div>
+        </div>
+
+        {/* Desktop View */}
+        <div className="hidden md:grid grid-cols-2 gap-12 p-12">
           {services.map((service) => (
-            <div key={service.id} className="h-[200px] md:h-[300px] relative">
-              <Link href={"/service-details"} target="_blank">
+            <Link
+              href="/service-details"
+              target="_blank"
+              key={service.id}
+              className="relative flex items-center justify-start gap-4 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-br from-white from-12% via-[#00b8c1]/90 to-[#00b8c1] p-6"
+            >
+              {/* Icon Left */}
+              <div className="flex-shrink-0 w-[100px] h-full">
                 <Image
                   src={service.image}
                   alt={service.title}
-                  className="object-cover rounded-br-[40px] rounded-t-[40px] md:mb-4 h-[200px] md:h-[300px] rounded-es-[7px]"
-                  width={700}
-                  height={475}
+                  width={80}
+                  height={80}
+                  className="object-cover rounded-full mx-auto"
                 />
-                <div>
-                  <div className="absolute p-4 bottom-0 text-xl font-[500] __primary-bg text-white rounded-[7px] flex gap-2.5">
-                    <h2> {service.title}</h2>
-                    <ArrowUpRight className="h-5 w-5 -mt-3 -mr-2" />
-                  </div>
-                </div>
-              </Link>
-            </div>
+              </div>
+
+              {/* Text Right */}
+              <div className="flex-1 flex flex-col justify-center gap-2.5">
+                <h3 className="text-[20px] leading-[100%] font-semibold text-white">
+                  {service.title}
+                </h3>
+                <p className="text-[15px] leading-[110%] text-white">Report in 3 days <span className="block">Test for XYZ</span></p>
+              </div>
+
+              {/* Arrow Icon */}
+              <ArrowUpRight className="w-5 h-5 absolute top-4 right-4 text-white" />
+            </Link>
           ))}
         </div>
-        <div className="flex justify-center mt-12 mb-10">
+
+        {/* Pagination */}
+        <div className="flex justify-center mt-8">
           <nav className="flex items-center space-x-2">
-            {/* Left Arrow */}
             <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
               <CircleArrowLeft />
             </button>
-            {/* Page Numbers */}
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              01
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              02
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center border-b-2 border-blue-600 text-blue-600 cursor-pointer">
-              03
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              04
-            </button>
-            <button className="w-8 h-8 flex items-center justify-center text-gray-700 hover:text-blue-600 cursor-pointer">
-              05
-            </button>
-            {/* Right Arrow */}
+            {[1, 2, 3, 4, 5].map((num) => (
+              <button
+                key={num}
+                className={`w-8 h-8 flex items-center justify-center cursor-pointer ${
+                  num === 3
+                    ? "border-b-2 border-blue-600 text-blue-600"
+                    : "text-gray-700 hover:text-blue-600"
+                }`}
+              >
+                {String(num).padStart(2, "0")}
+              </button>
+            ))}
             <button className="w-8 h-8 flex items-center justify-center cursor-pointer">
               <CircleArrowRight />
             </button>
@@ -126,5 +293,3 @@ function ServicesList() {
     </div>
   );
 }
-
-export default ServicesList;
