@@ -2,7 +2,8 @@ import Image from "next/image";
 import React from "react";
 import image from "../../assets/how-it-work/how-it-work-banner.jpg";
 
-function Banner() {
+function Banner({data}) {
+  console.log("kjsdsajhjk",data);
   return (
     <div>
       {" "}
@@ -23,14 +24,10 @@ function Banner() {
 
           {/* Text Section */}
           <div className="p-4 text-left max-w-lg">
-            <h1 className="text-[28px] md:text-[43px] leading-[1.1] md:leading-[1.3] font-bold __secondary-text">
-              Everything you need.
-              <span className="block"> All in one place.</span>
+            <h1 dangerouslySetInnerHTML={{ __html: data?.title }} className="text-[28px] md:text-[43px] leading-[1.1] md:leading-[1.3] font-bold __secondary-text">
             </h1>
             <p className="mt-4 banner__description text-gray-600">
-              At Sukaii Health, we’re making healthcare simple, smart, and
-              accessible. From booking tests online to tracking your results on
-              a personalized dashboard—here’s how it all comes together.
+              {data?.description}
             </p>
           </div>
         </div>

@@ -198,34 +198,6 @@ const TestBookingSystem = () => {
                   )}
                 </div>
               </div>
-
-              {/* Type of Test */}
-              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
-                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
-                  Service Type
-                </label>
-                <div className="lg:w-[70%] relative">
-                  <select
-                    {...register("typeOfTest", {
-                      required: "Type of test is required",
-                    })}
-                    className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                  >
-                    <option value="service type">Service Type</option>
-                    <option value="home-collection">Home Collection</option>
-                    <option value="lab-visit">Lab Visit</option>
-                    <option value="express">Express Service</option>
-                  </select>
-                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <ChevronDown />
-                  </div>
-                  {errors.typeOfTest && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.typeOfTest.message}
-                    </p>
-                  )}
-                </div>
-              </div>
             </div>
 
             {/* Submit Button */}
@@ -745,14 +717,6 @@ const TestBookingSystem = () => {
               </span>
               <span className="font-[600] text-[20px]">
                 {allFormData.selectedTest || "Complete Blood Count"}
-              </span>
-            </div>
-            <div className="flex gap-4">
-              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
-                Type
-              </span>
-              <span className="font-[600] text-[20px]">
-                {allFormData.typeOfTest || "Home Collection"}
               </span>
             </div>
             <div className="flex gap-4">

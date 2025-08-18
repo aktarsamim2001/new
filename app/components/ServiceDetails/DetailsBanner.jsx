@@ -5,7 +5,7 @@ import React from "react";
 import image from "../../assets/how-it-work/how-it-work-banner.jpg";
 import Link from "next/link";
 
-function DetailsBanner() {
+function DetailsBanner({ bannerDetailsPage }) {
   return (
     <div>
       {" "}
@@ -15,7 +15,7 @@ function DetailsBanner() {
           {/* <div className="flex justify-start items-center"> */}
           <div className="relative w-full h-[200px] md:h-[400px] max-w-[771px] md:rounded-[0px_40px_40px_0px] overflow-hidden shadow-lg">
             <Image
-              src={image}
+              src={bannerDetailsPage?.image || ""}
               alt="Services Banner"
               fill
               className="object-cover"
@@ -26,17 +26,12 @@ function DetailsBanner() {
 
           {/* Text Section */}
           <div className="px-4 md:px-0 text-left">
-            <h1 className="lg:text-5xl text-2xl font-bold __secondary-text">
-              Complete Blood Count <br /> Test (CBC)
+            <h1 dangerouslySetInnerHTML={{ __html: bannerDetailsPage?.name || "" }} className="lg:text-5xl text-2xl font-bold __secondary-text">
             </h1>
             <p className="mt-4 text-sm leading-5  md:text-lg text-[#222222] md:leading-6">
-              The Complete Blood Count (CBC) test is a common and essential
-              blood test that gives insights into your overall health by
-              measuring key components like red blood cells, white blood cells,
-              and platelets. It's often the first step in detecting infections,
-              anemia, immune system issues, and more.
+             {bannerDetailsPage?.description || ""}
             </p>
-            <p className="mt-4 text-[#222222]">Cost: 60 RM (including tax)</p>
+            {/* <p className="mt-4 text-[#222222]">Cost: 60 RM (including tax)</p> */}
             <Link href="/book-test">
               <button className="mt-4 __secondary-bg text-white px-10 py-4 rounded-lg font-semibold">
                 Book Now

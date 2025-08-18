@@ -16,29 +16,8 @@ import "swiper/css";
 import "swiper/css/pagination";
 // import { SwiperSlide } from "swiper/react";
 
-function TestDetails() {
-  const packages = [
-    {
-      id: 1,
-      title: "Feeling unusually tired or weak",
-      image: image,
-    },
-    {
-      id: 2,
-      title: "Suspected infection or inflammation",
-      image: image1,
-    },
-    {
-      id: 3,
-      title: "Monitoring a chronic condition",
-      image: image2,
-    },
-    {
-      id: 4,
-      title: "Routine annual health screening",
-      image: image3,
-    },
-  ];
+function TestDetails({ dataItem, serviceDetails }) {
+  const whyYouShouldTakeIt = dataItem?.why_you_should_take_it || [];
 
   return (
     <>
@@ -51,58 +30,24 @@ function TestDetails() {
               </h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="bg-white p-6 rounded-xl cardShadow2">
-                <div className="w-14 h-14 flex items-center justify-center mb-2">
-                  <Image
-                    src="/event-details/icon (1).png"
-                    width={30}
-                    height={40}
-                    alt="icon"
-                  />
+              {serviceDetails?.test_measures?.map((measure) => (
+                <div
+                  key={measure?.title}
+                  className="bg-white p-6 rounded-xl cardShadow2"
+                >
+                  <div className="w-14 h-14 flex items-center justify-center mb-2">
+                    <Image
+                      src={measure?.icon || "/event-details/default-icon.png"}
+                      width={30}
+                      height={40}
+                      alt={measure?.title || `measure-${measure?.title}`}
+                    />
+                  </div>
+                  <p className="text-gray-600 text-sm">
+                    {measure?.description || "No description available"}
+                  </p>
                 </div>
-                <p className="text-gray-600 text-sm">
-                  Track your daily nutrition with smart visual recognition
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl cardShadow2">
-                <div className="w-12 h-12 flex items-center justify-center mb-2">
-                  <Image
-                    src="/event-details/icon (2).png"
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Manage health data for your entire family in one place
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl cardShadow2">
-                <div className="w-12 h-12 flex items-center justify-center mb-2">
-                  <Image
-                    src="/event-details/icon (3).png"
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <p className="text-gray-600 text-sm">
-                  AI-powered insights from your medical reports
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-xl cardShadow2">
-                <div className="w-12 h-12 flex items-center justify-center mb-2">
-                  <Image
-                    src="/event-details/icon (4).png"
-                    width={30}
-                    height={30}
-                    alt="icon"
-                  />
-                </div>
-                <p className="text-gray-600 text-sm">
-                  Bank-level security for all your health information
-                </p>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -128,24 +73,19 @@ function TestDetails() {
                 1024: { slidesPerView: 3.25, spaceBetween: 20 },
               }}
             >
-              {packages.map((pkg) => (
-                <SwiperSlide key={pkg.id}>
-                  <div
-                    key={pkg.id}
-                    className="group relative cursor-pointer pb-10"
-                  >
+              {whyYouShouldTakeIt.map((item, idx) => (
+                <SwiperSlide key={idx}>
+                  <div className="group relative cursor-pointer pb-10">
                     <div className="overflow-hidden rounded-[13px] h-[188px] w-full mb-4">
                       <Image
-                        src={pkg.image || "/placeholder.svg"}
-                        alt={pkg.title}
+                        src={item.image || "/placeholder.svg"}
+                        alt={item.button_text}
                         className="object-cover w-full h-[188px] rounded-[13px] group-hover:scale-105 transition-transform duration-300"
                       />
-
-                      {/* Package Label */}
                       <div className="absolute w-[187px] top-[150px] left-7">
                         <div className="__primary-bg h-[59px] text-white flex items-center rounded-[7px] px-3 pr-4.5">
                           <div className="text-[15px] font-[500] leading-[100%] __text ">
-                            {pkg.title}
+                            {item.button_text}
                           </div>
                           <ArrowUpRight className="h-6 w-6 absolute bottom-0 right-0 m-1 rotate-90" />
                         </div>
@@ -157,20 +97,18 @@ function TestDetails() {
             </Swiper>
           </div>
           <div className="md:hidden">
-            {packages.map((pkg) => (
-              <div key={pkg.id} className="group relative cursor-pointer pb-10">
+            {whyYouShouldTakeIt.map((item, idx) => (
+              <div key={idx} className="group relative cursor-pointer pb-10">
                 <div className="overflow-hidden h-[188px] w-full mb-4">
                   <Image
-                    src={pkg.image || "/placeholder.svg"}
-                    alt={pkg.title}
+                    src={item.image || "/placeholder.svg"}
+                    alt={item.button_text}
                     className="object-cover w-full h-[188px] rounded-[13px] group-hover:scale-105 transition-transform duration-300"
                   />
-
-                  {/* Package Label */}
                   <div className="absolute w-[187px] top-[150px] left-7">
                     <div className="__primary-bg h-[59px] text-white flex items-center rounded-[7px] px-3 pr-4.5">
                       <div className="text-[15px] font-[500] leading-[100%] __text ">
-                        {pkg.title}
+                        {item.button_text}
                       </div>
                       <ArrowUpRight className="h-6 w-6 absolute bottom-0 right-0 m-1 rotate-90" />
                     </div>
@@ -199,11 +137,10 @@ function TestDetails() {
           <div className="flex flex-col md:flex-row md:justify-between relative">
             <div className="md:w-8/12 md:pl-10">
               <h3 className="text-2xl md:text-[44px] font-bold text-white mb-3">
-                Stay Ahead of Your Health with a CBC Test
+                {dataItem?.title || ""}
               </h3>
               <p className="text-white text-sm font-bold md:text-[20px] text-opacity-90">
-                Get a complete picture of your body’s internal health — book
-                your test today from the comfort of your home.
+                {dataItem?.description || ""}
               </p>
             </div>
             <div className="md:flex md:items-end">
@@ -213,7 +150,7 @@ function TestDetails() {
                     variant="outline"
                     className="__secondary-bg hover:bg-pink-600 text-white !py-3 p md:!text-[16px] !text-[14px] !font-[600] text-sm sm:text-base"
                   >
-                    Book Now!
+                    {dataItem?.button_name}
                   </Button>
                 </div>
               </Link>
@@ -221,7 +158,7 @@ function TestDetails() {
           </div>
         </div>
       </div>
-          </>
+    </>
   );
 }
 

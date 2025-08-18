@@ -19,49 +19,51 @@ const poppins = Poppins({
   display: "swap",
 });
 
-const RecommendedPackages = () => {
-  const packages = [
-    {
-      id: 1,
-      title: (
-        <>
-          Complete <br /> Blood Count
-        </>
-      ),
-      image: image,
-      alt: "Blood test procedure",
-    },
-    {
-      id: 2,
-      title: (
-        <>
-          Kidney <br /> Function
-        </>
-      ),
-      image: image4,
-      alt: "Kidney function test",
-    },
-    {
-      id: 3,
-      title: (
-        <>
-          Cancer <br /> Markers
-        </>
-      ),
-      image: image3,
-      alt: "Medical scan results",
-    },
-    {
-      id: 4,
-      title: (
-        <>
-          Lipid <br /> Profile
-        </>
-      ),
-      image: image2,
-      alt: "Laboratory testing",
-    },
-  ];
+const RecommendedPackages = ({dataItem}) => {
+  // const packages = [
+  //   {
+  //     id: 1,
+  //     title: (
+  //       <>
+  //         Complete <br /> Blood Count
+  //       </>
+  //     ),
+  //     image: image,
+  //     alt: "Blood test procedure",
+  //   },
+  //   {
+  //     id: 2,
+  //     title: (
+  //       <>
+  //         Kidney <br /> Function
+  //       </>
+  //     ),
+  //     image: image4,
+  //     alt: "Kidney function test",
+  //   },
+  //   {
+  //     id: 3,
+  //     title: (
+  //       <>
+  //         Cancer <br /> Markers
+  //       </>
+  //     ),
+  //     image: image3,
+  //     alt: "Medical scan results",
+  //   },
+  //   {
+  //     id: 4,
+  //     title: (
+  //       <>
+  //         Lipid <br /> Profile
+  //       </>
+  //     ),
+  //     image: image2,
+  //     alt: "Laboratory testing",
+  //   },
+  // ];
+
+  const packages = dataItem?.content?.selected_packages_details;
 
   return (
     <div className="relative lg:px-0 __gapTop">
@@ -80,21 +82,21 @@ const RecommendedPackages = () => {
             className=" cursor-pointer"
           >
             <div className="relative rounded-[13px] bg-gray-100 aspect-[4/3] mb-6 sm:mb-4 transition-transform duration-300 transform hover:scale-102 hover:shadow-2xs h-[135px] lg:h-auto w-full">
-              <Image
-                src={pkg.image || "/placeholder.svg"}
-                alt={pkg.title}
-                fill
-                className="object-cover rounded-[13px]"
-              />
+                {pkg.image ? (
+                  <Image
+                    src={pkg.image}
+                    alt={pkg.name}
+                    fill
+                    className="object-cover rounded-[13px]"
+                  />
+                ) : null}
 
               {/* Package Label - Responsive positioning */}
               <div
                 className={`absolute -bottom-7 left-3 sm:left-7 right-3 sm:right-auto ${poppins.className} w-[154px]`}
               >
                 <div className="__primary-bg p-4 rounded-[7px] flex items-center justify-between text-[#FFFFFF] sm:justify-start gap-2 shadow-lg relative">
-                  <span className="text-sm lg:text-[18px] font-[500] lg:leading-[21px] flex-1">
-                    {pkg.title}
-                  </span>
+                  <span dangerouslySetInnerHTML={{ __html: pkg.name }} className="text-sm lg:text-[18px] font-[500] lg:leading-[21px] flex-1" />
                   <ArrowUpRight className="h-[20px] w-[20px] flex-shrink-0 absolute top-[13px] right-[13px]" />
                 </div>
               </div>
@@ -123,14 +125,16 @@ const RecommendedPackages = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-6 items-center justify-center __gapTop">
           {/* Left Image Column */}
           <div className="h-[300px] sm:h-[400px] lg:h-[400px]">
-            <Image
-              src={image5}
-              alt="Woman talking on phone"
-              // width={350}
-              // height={300}
-              className="h-full w-full max-w-full md:rounded-[30px] rounded-0"
-              priority
-            />
+            {dataItem?.content?.home_page?.image ? (
+              <Image
+                src={dataItem.content.home_page.image}
+                alt="Woman talking on phone"
+                width={350}
+                height={300}
+                className="h-full w-full max-w-full md:rounded-[30px] rounded-0"
+                priority
+              />
+            ) : null}
           </div>
 
           {/* Right Content Column */}
@@ -140,22 +144,15 @@ const RecommendedPackages = () => {
                 <Check className="h-6 w-6 sm:h-8 sm:w-9 text-white" />
               </div>
               <div className="space-y-4 sm:space-y-6 flex-1">
-                <h2 className="section__heading __secondary-text">
-                  Your Smart Health <br /> Dashboard, Simplified!
+                <h2 dangerouslySetInnerHTML={{ __html: dataItem?.content?.home_page?.title }} className="section__heading __secondary-text">
+                  
                 </h2>
-
-                <p className="font-medium text-sm sm:text-[18px]">
-                  The Sukaii Smart Health Dashboard puts you in control of your
-                  health.  With all your records in one secure, easy-to-
-                  <br className="hidden lg:block" />
-                  understand platform, you can finally make sense of your test
-                  <br className="hidden lg:block" /> results, a window into your
-                  health. 
+                <p dangerouslySetInnerHTML={{ __html: dataItem?.content?.home_page?.description }} className="font-medium text-sm sm:text-[18px]">
                 </p>
 
-                <p className="font-medium text-sm sm:text-[18px] mt-4">
+                {/* <p className="font-medium text-sm sm:text-[18px] mt-4">
                   No more paperwork, no more guesswork.
-                </p>
+                </p> */}
               </div>
             </div>
           </div>
@@ -167,27 +164,21 @@ const RecommendedPackages = () => {
         <div className="bg-gradient-to-r from-[#00b8c1] via-[#00b8c1] to-[#09aab2af] rounded-2xl sm:rounded-3xl p-6 lg:py-14 lg:px-20 relative">
           <div className="grid grid-cols-1 md:grid-cols-[auto_280px] gap-4 sm:gap-6 items-center relative z-10">
             <div className="text-left">
-              <h3 className="section__heading text-white mb-2 sm:mb-5">
-                Smarter Health <br className="lg:hidden" /> Starts Here
+              <h3 dangerouslySetInnerHTML={{ __html: dataItem?.content?.home_page?.title_two }} className="section__heading text-white mb-2 sm:mb-5">
               </h3>
               <p className="text-white text-opacity-90 text-sm sm:text-[20px] font-[700]">
-                Start today by uploading existing test results easily and track
-                them on the Sukaii Smart Health Dashboard.  Maintain all records
-                from tests, either booked on Sukaii or elsewhere, in one easy
-                secure place.
+                {dataItem?.content?.home_page?.description_two}
               </p>
             </div>
 
-            <Link href="/our-services">
-              <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+              <Link href={dataItem?.content?.home_page?.button_url}>
                 <Button
                   variant="outline"
                   className="__secondary-bg hover:bg-pink-600 text-white !py-3 !text-[14px] lg:!text-[20px] !font-[700] text-sm sm:text-base"
                 >
-                  Explore More!
+                  {dataItem?.content?.home_page?.button_name}
                 </Button>
-              </div>
-            </Link>
+              </Link>
           </div>
         </div>
       </div>

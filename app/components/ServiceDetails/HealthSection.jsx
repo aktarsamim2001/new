@@ -18,18 +18,18 @@ const HealthSection = ({dataItem}) => {
         {/* Content Section */}
         <div className="order-2 lg:order-1 px-4 md:px-0">
           <h2 className="section__heading bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
-            {dataItem?.content?.home_page?.title_four}
+            {dataItem?.slide_title}
           </h2>
           <p className="text-gray-500 banner__description max-w-2xl mt-5">
-            {dataItem?.content?.home_page?.description_four}
+            {dataItem?.slide_description}
           </p>
           <div>
-            <Link href={dataItem?.content?.home_page?.button_url_four || "/book-test"} passHref>
+            <Link href="/book-test" passHref>
               <Button
                 variant="outline"
                 className="text-white rounded-[5px] text-base sm:text-[16px] mt-3 font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]"
               >
-                {dataItem?.content?.home_page?.button_name_four}
+                {dataItem?.button_name_three}
               </Button>
             </Link>
           </div>
@@ -37,10 +37,10 @@ const HealthSection = ({dataItem}) => {
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
           <div className={`relative w-full md:mt-[60px] ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
-            {dataItem?.content?.home_page?.image_four ? (
+            {dataItem?.image ? (
               <Image
-                src={dataItem.content.home_page.image_four}
-                alt={dataItem?.content?.home_page?.title_four}
+                src={dataItem.image}
+                alt={dataItem?.slide_title}
                 width={500}
                 height={500}
                 className="object-cover h-[417px] md:rounded-2xl w-full md:w-[100%]"

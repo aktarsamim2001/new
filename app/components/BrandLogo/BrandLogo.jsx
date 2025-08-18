@@ -7,19 +7,21 @@ import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 
-import image from "../../assets/brand-logo/logo1.png";
-import image1 from "../../assets/brand-logo/logo2.png";
-import image2 from "../../assets/brand-logo/logo3.png";
-import image3 from "../../assets/brand-logo/logo4.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchBrandData } from "@/features/store/brandSlice";
 
-const logo = [
-  { id: 1, icon: image },
-  { id: 2, icon: image1 },
-  { id: 3, icon: image2 },
-  { id: 4, icon: image3 },
-];
 
 function BrandLogo() {
+  const dispatch = useDispatch();
+  const partners = useSelector(
+    (state) => state.brand?.data?.content?.our_partner?.partners || []
+  );
+
+  useEffect(() => {
+    dispatch(fetchBrandData({ slug: "our-partner" }));
+  }, [dispatch]);
+
   return (
     <div className="container mx-auto mt-[34px] md:mt-[85px]">
       <Swiper
@@ -39,12 +41,12 @@ function BrandLogo() {
           1024: { slidesPerView: 4 },
         }}
       >
-        {logo.map((logos) => (
-          <SwiperSlide key={logos.id}>
+        {partners.map((partner, idx) => (
+          <SwiperSlide key={idx}>
             <div className="lg:max-w-[200px] h-[105px] mx-auto flex items-center justify-center aspect-video lg:aspect-auto">
               <Image
-                src={logos.icon}
-                alt="brand-logo"
+                src={partner.image}
+                alt={partner.name}
                 width={150}
                 height={105}
                 className="object-contain w-full h-full cursor-pointer hover:scale-105 transition-transform duration-300 mb-6 md:mb-0"

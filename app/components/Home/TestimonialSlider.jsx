@@ -7,43 +7,25 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 // import { CircleArrowLeft, CircleArrowRight } from "lucide-react";
-import image from "../../assets/testimonials-image/testimonials.png";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { FaArrowLeftLong, FaArrowRightLong } from "react-icons/fa6";
+import { fetchTestimonialData } from "@/features/store/testimonialSlice";
+
 import Image from "next/image";
-import { FaArrowLeftLong } from "react-icons/fa6";
-import { FaArrowRightLong } from "react-icons/fa6";
 import image2 from "../../assets/testimonials-image/Vector.png";
 
-const testimonials = [
-  {
-    id: 1,
-    quote:
-      "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy.",
-    author: "Mr. Williams",
-    role: "Diabetics Patient",
-    rating: 5,
-    image: image,
-  },
-  {
-    id: 2,
-    quote:
-      "The professional care and attention I received was exceptional. The staff made me feel comfortable throughout my entire treatment journey",
-    author: "Mrs. Johnson",
-    role: "Heart Patient",
-    rating: 5,
-    image: image,
-  },
-  {
-    id: 3,
-    quote:
-      "Outstanding service and genuine care from every team member. They truly understand what patient-centered care means",
-    author: "Dr. Martinez",
-    role: "Referring Physician",
-    rating: 5,
-    image: image,
-  },
-];
 
 const TestimonialSlider = () => {
+  const dispatch = useDispatch();
+  const reviews = useSelector(
+    (state) => state.testimonial?.data?.content?.review_testimonial?.reviews || []
+  );
+
+  useEffect(() => {
+    dispatch(fetchTestimonialData({ slug: "testimonials" }));
+  }, [dispatch]);
+
   return (
     <div className="__primary-bg mt-[60px] p-6 pb-24 lg:py-[110px]">
       <div className="max-w-6xl mx-auto relative">
@@ -76,15 +58,17 @@ const TestimonialSlider = () => {
           }}
           className="max-w-4xl mx-auto"
         >
-          {testimonials.map((testimonial) => (
-            <SwiperSlide key={testimonial.id}>
+          {reviews.map((testimonial, idx) => (
+            <SwiperSlide key={idx}>
               <div className="relative grid grid-cols-1 lg:grid-cols-[362px_auto] items-center gap-6 sm:gap-8 justify-center">
                 {/* Image Section */}
                 <div className="w-full flex items-center justify-center order-1 lg:order-1">
                   <Image
                     src={testimonial.image}
-                    alt={testimonial.author}
+                    alt={testimonial.reviewer_name}
                     className="object-cover rounded-2xl w-full lg:w-[362px] h-64 sm:h-[345px] lg:h-[345px] "
+                    width={362}
+                    height={345}
                   />
                 </div>
 
@@ -103,7 +87,7 @@ const TestimonialSlider = () => {
 
                   {/* Star Rating */}
                   <div className="flex space-x-1">
-                    {[...Array(testimonial.rating)].map((_, i) => (
+                    {[...Array(Number(testimonial.rating))].map((_, i) => (
                       <svg
                         key={i}
                         className="w-4 h-4 sm:w-8 sm:h-8 text-yellow-400 fill-current"
@@ -116,16 +100,16 @@ const TestimonialSlider = () => {
 
                   {/* Quote Text */}
                   <p className="text-lg sm:text-xl lg:text-[32px] font-semibold leading-tight">
-                    "{testimonial.quote}"
+                    "{testimonial.review}"
                   </p>
 
                   {/* Author Info */}
                   <div className="pt-2 sm:pt-4">
                     <div className="font-[500] text-lg sm:text-xl">
-                      {testimonial.author}
+                      {testimonial.reviewer_name}
                     </div>
                     <div className="text-teal-100 text-sm sm:text-base">
-                      {testimonial.role}
+                      {testimonial.reviewer_designation}
                     </div>
                   </div>
                 </div>
@@ -136,7 +120,7 @@ const TestimonialSlider = () => {
 
         {/* Mobile Navigation Dots (Optional) */}
         <div className="hidden justify-center space-x-2 pb-4">
-          {testimonials.map((_, index) => (
+          {reviews.map((_, index) => (
             <div
               key={index}
               className="w-2 h-2 bg-white bg-opacity-50 rounded-full"

@@ -9,7 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const HowProcessWorks = ({dataItem}) => {
   const [expandedStep, setExpandedStep] = useState(1);
-  const steps = dataItem?.content?.home_page?.how_it_works_content_items || [];
+  const steps = dataItem?.how_it_works_content_items || [];
   console.log("Steps Data:", steps);
 
   const toggleStep = (stepId) => {
