@@ -9,6 +9,7 @@ import { usePathname } from "next/navigation";
 import { hideHeaderFooterRoutes } from "./utils/hideHeaderFooterRoutes";
 import { Provider } from "react-redux";
 import store from "@/features/store";
+import { Toaster } from "react-hot-toast";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -30,6 +31,17 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${rubik.variable} ${lato.variable}`}>
       <body className="antialiased">
         <Provider store={store}>
+          <Toaster
+            position="top-center"
+            toastOptions={{
+              style: {
+                top: 20,
+                left: "50%",
+                transform: "translateX(-50%)",
+                zIndex: 9999,
+              },
+            }}
+          />
           {!hideHeaderFooter && <Header />}
           {!hideHeaderFooter && <Navbar />}
           {children}

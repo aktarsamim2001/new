@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
 import { service } from "../shared/_services/api_service";
+import toast from "react-hot-toast";
 
 const initialState = {
   loadingStatus: false,
@@ -18,8 +19,8 @@ const initialState = {
 export const authSlice = createSlice({
   name: "auth",
   initialState,
-
   reducers: {
+
     setLoadingStatus: (state, action) => {
       state.loadingStatus = action.payload;
     },
@@ -29,12 +30,11 @@ export const authSlice = createSlice({
       state.token = token;
       state.isAuthenticated = true;
       state.profileData = profileData;
-
       Cookies.set("token", token, { expires: 7 });
       localStorage.setItem("accessToken", token);
       localStorage.setItem("profileData", JSON.stringify(profileData));
     },
-
+    
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -55,25 +55,57 @@ export const { setLoadingStatus, setUser, setError, logoutUser } =
 
 export default authSlice.reducer;
 
-export function login(payload) {
+export function getOTP(payload, callback) {
   return async function loginThunk(dispatch) {
     try {
       dispatch(setLoadingStatus(true));
+      dispatch(setError(null));
 
       const response = await service.signin(payload);
 
-      if (response?.token && response?.profileData) {
+      if (response) {
+        toast.success(response.data.message);
+        callback(true, response.data.message);
+      }
+    } catch (error) {
+      const errorMsg =
+        error?.response?.data?.message || error.message || "An error occurred";
+      dispatch(setError(errorMsg));
+      toast.error(errorMsg);
+      callback(false, errorMsg);
+    } finally {
+      dispatch(setLoadingStatus(false));
+    }
+  };
+}
+
+export function verifyOTP(payload, callback) {
+  return async function loginThunk(dispatch) {
+    try {
+      dispatch(setLoadingStatus(true));
+      dispatch(setError(null));
+
+      const response = await service.verifyOTP(payload);
+
+      if (response) {
         dispatch(
           setUser({
-            token: response.token,
-            profileData: response.profileData,
+            token: response.data.token,
+            profileData: response.data.data,
           }),
         );
+
+        callback(true, response.data.message);
+
+        toast.success("OTP verified successfully!");
       }
-      dispatch(setLoadingStatus(false));
     } catch (error) {
+      const errorMsg =
+        error?.response?.data?.message || error.message || "An error occurred";
+      dispatch(setError(errorMsg));
+      toast.error(errorMsg);
+    } finally {
       dispatch(setLoadingStatus(false));
-      dispatch(setError(error.message || "Login failed"));
     }
   };
 }
