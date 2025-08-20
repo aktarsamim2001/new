@@ -14,7 +14,6 @@ import WhatYouCanDo from "../components/Home/WhatYouCanDo";
 function Home() {
   const dispatch = useDispatch();
   const homeData = useSelector((state) => state?.home?.data);
-  console.log("Home Data:", homeData);
   useEffect(() => {
     dispatch(fetchHomeData({ slug: "home" }));
   }, [dispatch]);

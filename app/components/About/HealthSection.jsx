@@ -19,7 +19,7 @@ const HealthSection = ({dataItem}) => {
             {dataItem?.content?.about_page?.title_four}
           </h2>
           <p className="text-gray-500 banner__description max-w-2xl mt-5">
-            {dataItem?.content?.about_page?.description_four}
+            {dataItem?.content?.about_page?.description_five}
           </p>
           <div>
             <Link href={dataItem?.content?.about_page?.button_url_four || "/book-test"} passHref>
@@ -27,7 +27,7 @@ const HealthSection = ({dataItem}) => {
                 variant="outline"
                 className="text-white rounded-[5px] text-base sm:text-[16px] mt-3 font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]"
               >
-                {dataItem?.content?.about_page?.button_name_four}
+                {dataItem?.content?.about_page?.button_name_five}
               </Button>
             </Link>
           </div>
