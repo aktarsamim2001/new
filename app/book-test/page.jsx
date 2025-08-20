@@ -22,7 +22,6 @@ import { fetchAddressList } from "../../features/store/addressListSlice";
 
 const TestBookingSystem = () => {
   const dispatch = useDispatch();
-  // get user profile state from redux
   const {
     data: userProfile,
     status,
@@ -33,29 +32,20 @@ const TestBookingSystem = () => {
   );
   const servicesListData = useSelector((state) => state?.servicesList?.data);
   const addressList = useSelector((state) => state.addressList.data);
-  console.log("User Profile Data:", userProfile);
-  console.log("Service Details Page Data:", serviceDetailsPageData);
-  console.log("Address List from Redux:", addressList);
   const [currentStep, setCurrentStep] = useState(1);
   const [allFormData, setAllFormData] = useState({});
 
   useEffect(() => {
-    // call API once when component loads
     dispatch(fetchServicesList());
     dispatch(fetchUserProfile({ userId: 1 }));
     dispatch(fetchServiceDetailsPageData({ package_id: "3" }));
     dispatch(fetchAddressList());
   }, [dispatch]);
 
-  // Reference to setValue for react-hook-form
-  // We'll pass setValue to Step1 and use it in useEffect
-
-  // Store setValue in a ref so it can be accessed in useEffect
   const setValueRef = useRef(null);
 
   useEffect(() => {
     if (userProfile && userProfile.name) {
-      // Normalize gender to lowercase for select
       const normalizedGender = (userProfile.gender || "Select").toLowerCase();
       setAllFormData((prev) => ({
         ...prev,
@@ -67,7 +57,6 @@ const TestBookingSystem = () => {
         contact: userProfile.mobile,
       }));
 
-      // Set form values using react-hook-form's setValue if available
       if (setValueRef.current) {
         setValueRef.current("fullName", userProfile.name);
         setValueRef.current("gender", normalizedGender);
@@ -78,14 +67,9 @@ const TestBookingSystem = () => {
             : ""
         );
         setValueRef.current("contact", userProfile.mobile);
-        console.log("Setting gender value in form:", normalizedGender);
       }
     }
   }, [userProfile]);
-
-  // Debug: log userProfile and allFormData
-  console.log("userProfile from redux:", userProfile);
-  console.log("allFormData state:", allFormData);
 
   const handleStepContinue = (stepData) => {
     setAllFormData((prev) => ({ ...prev, ...stepData }));

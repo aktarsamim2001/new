@@ -1,23 +1,30 @@
-import AboutClient from './AboutClient'
-import { service } from '../../features/shared/_services/api_service'
+"use client"
 
-export async function generateMetadata({params}) {
-  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug
-  const res = await service.homepage({ slug })
-  const seo = res?.meta || {}
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAboutData } from "../../features/store/aboutSlice";
+import { About } from "../components/About/about";
+import AboutBanner from "../components/About/AboutBanner";
+import TestimonialSlider from "../components/Home/TestimonialSlider";
+import HealthSection from "../components/About/HealthSection";
 
-  return {
-    title: seo?.meta_title || 'Untitled',
-    description: seo?.meta_description || '',
-    openGraph: {
-      images: seo?.feature_image ? [seo.feature_image] : [],
-    },
-    twitter: {
-      images: seo?.feature_image ? [seo.feature_image] : [],
-    },
-  }
+
+function Page() {
+  const dispatch = useDispatch();
+  const aboutData = useSelector((state) => state.about.data);
+
+  useEffect(() => {
+    dispatch(fetchAboutData({ slug: "about" }));
+  }, [dispatch]);
+
+  return (
+    <div>
+      <AboutBanner data={aboutData} />
+      <About data={aboutData} />
+      <TestimonialSlider />
+      <HealthSection dataItem={aboutData} />
+    </div>
+  );
 }
 
-export default function Page() {
-  return <AboutClient />
-}
+export default Page;
