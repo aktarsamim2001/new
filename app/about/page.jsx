@@ -1,11 +1,10 @@
 import AboutClient from './AboutClient'
 import { service } from '../../features/shared/_services/api_service'
 
-export async function generateMetadata() {
-  const res = await service.homepage({ slug: "about" })
+export async function generateMetadata({params}) {
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug
+  const res = await service.homepage({ slug })
   const seo = res?.meta || {}
-
-  console.log("SEO Data:", seo)
 
   return {
     title: seo?.meta_title || 'Untitled',
