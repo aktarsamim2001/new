@@ -2,15 +2,10 @@
 import React,{useEffect} from "react";
 import { useSelector,useDispatch } from "react-redux";
 import FAQTabs from "../components/Faq/FaqTab";
-import HealthSection from "../components/Home/HealthSection";
+import HealthSection from "../components/Faq/HealthSection";
 import FaqBanner from "../components/Faq/FaqBanner";
 import ProtectedRoute from "@/features/Routes/ProtectedRoute";
 import { fetchFaqData } from "../../features/store/faqSlice";
-
-
-const defaultFaqData = { content: { faq_page: { categories: [], image: '', title: '', description: '', button_name: '' } } };
-const defaultHealthData = { content: { home_page: { title_four: '', description_four: '', button_url_four: '', button_name_four: '', image_four: '' } } };
-
 
 function Page() {
   const dispatch = useDispatch();
@@ -24,7 +19,7 @@ function Page() {
     <div>
       <FaqBanner data={faqData} />
       <FAQTabs data={faqData} />
-      <HealthSection dataItem={defaultHealthData} />
+      <HealthSection data={faqData} />
     </div>
     // </ProtectedRoute>
   );
