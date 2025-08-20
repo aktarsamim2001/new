@@ -89,6 +89,9 @@ export default function LoginComponent() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+      // Clear the other field when one is being filled
+      ...(name === "phoneNumber" && value.length > 0 ? { email: "" } : {}),
+      ...(name === "email" && value.length > 0 ? { phoneNumber: "" } : {}),
     }));
     if (error) setError("");
   };
@@ -316,6 +319,7 @@ export default function LoginComponent() {
                   className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
                   placeholder="Enter your 10-digit phone number"
                   maxLength={10}
+                  disabled={!!formData.email}
                 />
               </div>
 
@@ -337,6 +341,7 @@ export default function LoginComponent() {
                   onChange={handleInputChange}
                   className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
                   placeholder="Enter your email address"
+                  disabled={!!formData.phoneNumber}
                 />
               </div>
 
