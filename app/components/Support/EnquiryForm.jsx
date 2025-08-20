@@ -2,15 +2,21 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setEnquiryFormData,
+  clearEnquiryFormData,
+} from "../../../features/store/enquiryFormSlice";
+import toast from "react-hot-toast"; // ✅ toast import
 import image from "../../assets/woman/support-woman.jpg";
 import Button from "../ui/Button";
 import Link from "next/link";
 import BrandLogo from "../../components/BrandLogo/BrandLogo";
 import texture from "../../assets/woman/shape.png";
 
-export default function EnquiryForm() {
+export default function EnquiryForm({data}) {
   const [formData, setFormData] = useState({
-    fullName: "",
+    full_name: "",
     gender: "",
     age: "",
     contact: "",
@@ -18,6 +24,9 @@ export default function EnquiryForm() {
     remarks: "",
   });
 
+  const dispatch = useDispatch();
+  const enquiryState = useSelector((state) => state.enquiryForm);
+  console.log("Enquiry Form State:", data?.content?.contact_us_page?.quick_help);
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -28,49 +37,52 @@ export default function EnquiryForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+    const payload = {
+      ...formData,
+      age: formData.age ? parseInt(formData.age, 10) : "",
+    };
+
+    dispatch(
+      setEnquiryFormData({
+        status: "success",
+        message: "Form submitted successfully ",
+        data: payload,
+      })
+    );
+
+    // 🔔 Show toast message
+    toast.success("Form submitted successfully!");
+
+    // optional: reset form
+    setFormData({
+      full_name: "",
+      gender: "",
+      age: "",
+      contact: "",
+      address: "",
+      remarks: "",
+    });
   };
 
-  const quickHelpItems = [
-    {
-      icon: "/support-icon/icon.png",
-      title: "Make or Change Appointment",
-      bgColor: "bg-[#FFFFFF]",
-    },
-    {
-      icon: "/support-icon/icon (2).png",
-      title: "Book or Access Reports",
-      bgColor: "bg-[#FFFFFF]",
-    },
-    {
-      icon: "/support-icon/icon (3).png",
-      title: "Reschedule or Request Refund",
-      bgColor: "bg-[#FFFFFF]",
-    },
-    {
-      icon: "/support-icon/icon (4).png",
-      title: "Understand or Use Your Dashboard",
-      bgColor: "bg-[#FFFFFF]",
-    },
-  ];
+  // Use dynamic quick help items from data
+  const quickHelpItems = data?.content?.contact_us_page?.quick_help || [];
 
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto">
         <div className="__gapTop px-4 md:px-0">
-          <h2 className="text-gray-900 section__heading mb-5">
-            Quick Help
-          </h2>
+          <h2 className="text-gray-900 section__heading mb-5">Quick Help</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
-                className={`${item.bgColor} rounded-[22px] p-8 __cardShadow cursor-pointer`}
+                className={`bg-[#FFFFFF] rounded-[22px] p-8 __cardShadow cursor-pointer`}
               >
                 <div className="flex flex-col items-start space-y-3">
                   <div className="">
                     <Image
-                      src={item.icon}
+                      src={"/support-icon/icon.png"}
                       alt={item.title}
                       width={24}
                       height={30}
@@ -90,7 +102,6 @@ export default function EnquiryForm() {
       <div className="__gapTop overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:gap-5">
           {/* Image Section */}
-
           <div className="h-full">
             <Image
               src={image}
@@ -107,15 +118,15 @@ export default function EnquiryForm() {
               Submit Your Enquiry
             </h2>
 
-            <div className="space-y-6">
+            <form className="space-y-6" onSubmit={handleSubmit}>
               {/* Full Name */}
               <div className="md:flex items-center ">
                 <p className="md:min-w-[100px] pb-2 md:pb-0">Full Name</p>
                 <input
                   type="text"
-                  name="fullName"
+                  name="full_name"
                   placeholder="Full Name"
-                  value={formData.fullName}
+                  value={formData.full_name}
                   onChange={handleInputChange}
                   className="w-full px-4 py-4 bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
                 />
@@ -132,9 +143,9 @@ export default function EnquiryForm() {
                     className="px-4 py-4 bg-gray-50 w-full rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all text-gray-700"
                   >
                     <option value="">Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
 
@@ -147,7 +158,7 @@ export default function EnquiryForm() {
                     value={formData.age}
                     onChange={handleInputChange}
                     className="px-4 py-4 w-full bg-gray-50 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all"
-                  />{" "}
+                  />
                 </div>
               </div>
 
@@ -191,7 +202,6 @@ export default function EnquiryForm() {
               </div>
 
               {/* Submit Button */}
-
               <div className="md:flex items-center w-full mt-10">
                 <p className="md:min-w-[100px]"> </p>
                 <button
@@ -201,11 +211,12 @@ export default function EnquiryForm() {
                   Submit
                 </button>
               </div>
-            </div>
+            </form>
           </div>
         </div>
 
-          <div className="container mx-auto __gapTop px-4 md:px-0">
+        {/* Bottom Section */}
+        <div className="container mx-auto __gapTop px-4 md:px-0">
           <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative __gapTop">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
@@ -213,28 +224,28 @@ export default function EnquiryForm() {
                   Talk to a Correspondant
                 </h3>
                 <p className="text-white text-opacity-90 text-sm sm:text-[17px]">
-                 Live Chat: Available Monday–Saturday, 9am–8pm MYT
+                  Live Chat: Available Monday–Saturday, 9am–8pm MYT
                 </p>
               </div>
 
-             <Link href="/our-services" passHref>
-               <div className="flex justify-start mt-4 md:mt-0 relative">
-                <Button
-                  variant="outline"
-                  className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
-                >
-                  Call Now!
-                </Button>
-              </div>
-             </Link>
+              <Link href="/our-services" passHref>
+                <div className="flex justify-start mt-4 md:mt-0 relative">
+                  <Button
+                    variant="outline"
+                    className="__secondary-bg hover:bg-pink-600 text-white !py-3 p !text-[16px] !font-[600] text-sm sm:text-base"
+                  >
+                    Call Now!
+                  </Button>
+                </div>
+              </Link>
             </div>
-        </div>
-         <div className="absolute bottom-2 right-0 z-50 hidden md:block">
-          <Image src={texture} alt=" " className="h-[400px] w-[400px]" />
-        </div>
-        <div className="px-4 md:px-10">
+          </div>
+          <div className="absolute bottom-2 right-0 z-50 hidden md:block">
+            <Image src={texture} alt=" " className="h-[400px] w-[400px]" />
+          </div>
+          <div className="px-4 md:px-10">
             <BrandLogo />
-        </div>
+          </div>
         </div>
       </div>
     </div>

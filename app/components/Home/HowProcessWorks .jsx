@@ -7,39 +7,10 @@ import image from "../../../public/texture-bg.png";
 import { IoMdArrowUp } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 
-const HowProcessWorks = () => {
+const HowProcessWorks = ({dataItem}) => {
   const [expandedStep, setExpandedStep] = useState(1);
-
-  const steps = [
-    {
-      id: 1,
-      title: "Sign Up",
-      description:
-        "Create your Sukaii Health account in just a few clicks.  Your information is encrypted and stored securely.  All your health data stays private and protected - accessible only by you.",
-      icon: "🔐",
-    },
-    {
-      id: 2,
-      title: "Book a Test in Seconds",
-      description:
-        "Browse our comprehensive test catalog and book your preferred tests instantly. Choose from hundreds of diagnostic options with transparent pricing.",
-      icon: "⏱️",
-    },
-    {
-      id: 3,
-      title: "Get Tested",
-      description:
-        "Visit our partner labs or schedule home collection. Our certified professionals ensure accurate sample collection with minimal discomfort.",
-      icon: "🏥",
-    },
-    {
-      id: 4,
-      title: "Track Your Test Status",
-      description:
-        "Monitor your test progress in real-time through our dashboard. Get notifications at every stage from sample collection to report generation.",
-      icon: "📊",
-    },
-  ];
+  const steps = dataItem?.content?.home_page?.how_it_works_content_items || [];
+  console.log("Steps Data:", steps);
 
   const toggleStep = (stepId) => {
     setExpandedStep(expandedStep === stepId ? null : stepId);
@@ -123,32 +94,32 @@ const HowProcessWorks = () => {
 
           {/* Right Side - Premium Steps with enhanced interactions */}
           <div className="space-y-2">
-            {steps.map((step) => (
+            {steps?.map((step,index) => (
               <motion.div
-                key={step.id}
+                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 * step.id }}
+                transition={{ duration: 0.5, delay: 0.1 * index }}
                 viewport={{ once: true }}
                 className="cursor-pointer duration-300 overflow-hidden"
               >
                 {/* Step Header with icon and smooth hover effects */}
                 <button
-                  onClick={() => toggleStep(step.id)}
+                  onClick={() => toggleStep(index)}
                   className={`w-full flex items-center justify-between text-left transition-all duration-300 ${
-                    expandedStep === step.id ? "" : ""
+                    expandedStep === index ? "" : ""
                   }`}
                 >
                   <div className="flex items-center justify-between space-x-4 border-b w-full pb-5">
                     <span className="text-[18px] lg:text-2xl font-extrabold text-gray-800">
-                      {step.id}. {step.title}
+                      {index + 1}. {step.title}
                     </span>
                     <div
                       className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
                     >
                       <IoMdArrowUp
                         className={`transition-transform duration-300 ${
-                          expandedStep === step.id ? "rotate-180" : ""
+                          expandedStep === index ? "rotate-180" : ""
                         }`}
                       />
                     </div>
@@ -157,7 +128,7 @@ const HowProcessWorks = () => {
 
                 {/* Animated content with smooth reveal */}
                 <AnimatePresence>
-                  {expandedStep === step.id && (
+                  {expandedStep === index && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}

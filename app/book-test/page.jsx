@@ -1,7 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { CheckCircle, FileText, BarChart3, Activity } from "lucide-react";
+import React, { useState, useRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUserProfile } from "../../features/store/userProfileSlice";
+import { CheckCircle, FileText, BarChart3, Activity, Calendar, Clock, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import image from "../assets/woman/shape.png";
 import image1 from "../assets/book-test/heart.png";
@@ -14,10 +16,76 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./custom-datepicker.css";
 import { useForm } from "react-hook-form";
 import { ChevronDown } from "lucide-react";
+import { fetchServiceDetailsPageData } from "../../features/store/serviceDetailsPageSlice";
+import { fetchServicesList } from "../../features/store/servicesListSlice";
+import { fetchAddressList } from "../../features/store/addressListSlice";
 
 const TestBookingSystem = () => {
+  const dispatch = useDispatch();
+  // get user profile state from redux
+  const {
+    data: userProfile,
+    status,
+    error,
+  } = useSelector((state) => state.userProfile || {});
+  const serviceDetailsPageData = useSelector(
+    (state) => state?.serviceDetailsPage?.data
+  );
+  const servicesListData = useSelector((state) => state?.servicesList?.data);
+  const addressList = useSelector((state) => state.addressList.data);
+  console.log("User Profile Data:", userProfile);
+  console.log("Service Details Page Data:", serviceDetailsPageData);
+  console.log("Address List from Redux:", addressList);
   const [currentStep, setCurrentStep] = useState(1);
   const [allFormData, setAllFormData] = useState({});
+
+  useEffect(() => {
+    // call API once when component loads
+    dispatch(fetchServicesList());
+    dispatch(fetchUserProfile({ userId: 1 }));
+    dispatch(fetchServiceDetailsPageData({ package_id: "3" }));
+    dispatch(fetchAddressList());
+  }, [dispatch]);
+
+  // Reference to setValue for react-hook-form
+  // We'll pass setValue to Step1 and use it in useEffect
+
+  // Store setValue in a ref so it can be accessed in useEffect
+  const setValueRef = useRef(null);
+
+  useEffect(() => {
+    if (userProfile && userProfile.name) {
+      // Normalize gender to lowercase for select
+      const normalizedGender = (userProfile.gender || "Select").toLowerCase();
+      setAllFormData((prev) => ({
+        ...prev,
+        fullName: userProfile.name,
+        gender: normalizedGender,
+        age: userProfile.dob
+          ? new Date().getFullYear() - new Date(userProfile.dob).getFullYear()
+          : "",
+        contact: userProfile.mobile,
+      }));
+
+      // Set form values using react-hook-form's setValue if available
+      if (setValueRef.current) {
+        setValueRef.current("fullName", userProfile.name);
+        setValueRef.current("gender", normalizedGender);
+        setValueRef.current(
+          "age",
+          userProfile.dob
+            ? new Date().getFullYear() - new Date(userProfile.dob).getFullYear()
+            : ""
+        );
+        setValueRef.current("contact", userProfile.mobile);
+        console.log("Setting gender value in form:", normalizedGender);
+      }
+    }
+  }, [userProfile]);
+
+  // Debug: log userProfile and allFormData
+  console.log("userProfile from redux:", userProfile);
+  console.log("allFormData state:", allFormData);
 
   const handleStepContinue = (stepData) => {
     setAllFormData((prev) => ({ ...prev, ...stepData }));
@@ -52,18 +120,58 @@ const TestBookingSystem = () => {
     const {
       register,
       handleSubmit,
+      watch,
+      setValue,
       formState: { errors },
     } = useForm({
       defaultValues: allFormData,
     });
 
+    // Store setValue in ref for use in parent useEffect
+    useEffect(() => {
+      setValueRef.current = setValue;
+      return () => {
+        setValueRef.current = null;
+      };
+    }, [setValue]);
+
+    // Get test packages from servicesListData (API data)
+    const testPackages = Array.isArray(servicesListData?.packages)
+      ? servicesListData.packages
+      : [];
+
+    // Auto-select a test package by id if not already set
+    useEffect(() => {
+      // Set your default package id here, or get it from userProfile/serviceDetailsPageData
+      const defaultTestId =
+        serviceDetailsPageData?.id || (testPackages[0] && testPackages[0].id);
+      if (testPackages.length > 0 && !watch("selectedTest") && defaultTestId) {
+        setValue("selectedTest", String(defaultTestId));
+        setAllFormData((prev) => ({
+          ...prev,
+          selectedTest: String(defaultTestId),
+        }));
+      }
+    }, [testPackages, serviceDetailsPageData, setValue]);
+
+    // Watch selected test id
+    const selectedTestId = watch("selectedTest");
+    // Find selected test object
+    const selectedTest = testPackages.find(
+      (t) => String(t.id) === String(selectedTestId)
+    );
+
+    // Helper to strip <br/> from name
+    const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
+
     const onSubmit = (data) => {
       console.log("Step 1 Form Data:", data);
       handleContinue(data);
     };
+    const isDisabled = !selectedTestId;
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div onSubmit={handleSubmit(onSubmit)}>
         <div className="rounded-lg px-4 flex items-center justify-between relative">
           {/* Left Section */}
           <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
@@ -83,7 +191,13 @@ const TestBookingSystem = () => {
                       required: "Full Name is required",
                     })}
                     type="text"
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                    disabled={isDisabled}
+                    className={`w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all 
+    ${
+      isDisabled
+        ? "opacity-50 cursor-not-allowed"
+        : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
+    }`}
                     placeholder="Enter your full name"
                   />
                   {errors.fullName && (
@@ -95,7 +209,6 @@ const TestBookingSystem = () => {
               </div>
 
               {/* Gender and Age Row */}
-
               <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
                 <div className="lg:text-right">
                   <label className="block text-[20px] font-medium text-gray-700 mb-2 lg:mb-0">
@@ -104,15 +217,23 @@ const TestBookingSystem = () => {
                 </div>
                 <div className="lg:w-[70%] flex flex-row items-center gap-6">
                   {/* Gender */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-1">
                     <div className="relative w-[140px]">
                       <select
                         {...register("gender", {
                           required: "Gender is required",
+                          validate: (value) =>
+                            value !== "Select" || "Gender is required",
                         })}
-                        className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                        disabled={isDisabled}
+                        className={`w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all 
+    ${
+      isDisabled
+        ? "opacity-50 cursor-not-allowed"
+        : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
+    }`}
                       >
-                        <option className="" value="Select">Select Gender</option>
+                        <option value="Select">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -121,46 +242,50 @@ const TestBookingSystem = () => {
                         <ChevronDown />
                       </div>
                     </div>
+                    {errors.gender && (
+                      <p className="text-red-500 text-sm">
+                        {errors.gender.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Age */}
-                  <div className="lg:flex lg:flex-row lg:items-center flex flex-col -mt-10 md:mt-0 gap-3">
-                    <label className="text-[20px] font-medium block text-gray-600 whitespace-nowrap">
-                      Age
-                    </label>
-                    <div className="w-[full]">
-                      <input
-                        {...register("age", {
-                          required: "Age is required",
-                          min: {
-                            value: 1,
-                            message: "Age must be greater than 0",
-                          },
-                          max: {
-                            value: 120,
-                            message: "Age must be less than 120",
-                          },
-                        })}
-                        type="number"
-                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                        placeholder="Enter age"
-                      />
+                  <div className="flex flex-col gap-1">
+                    <div className="lg:flex lg:flex-row lg:items-center flex flex-col gap-3">
+                      <label className="text-[20px] font-medium block text-gray-600 whitespace-nowrap">
+                        Age
+                      </label>
+                      <div className="w-full">
+                        <input
+                          {...register("age", {
+                            required: "Age is required",
+                            min: {
+                              value: 1,
+                              message: "Age must be greater than 0",
+                            },
+                            max: {
+                              value: 120,
+                              message: "Age must be less than 120",
+                            },
+                          })}
+                          type="number"
+                          disabled={isDisabled}
+                          className={`w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all 
+    ${
+      isDisabled
+        ? "opacity-50 cursor-not-allowed"
+        : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
+    }`}
+                          placeholder="Enter age"
+                        />
+                      </div>
                     </div>
+                    {errors.age && (
+                      <p className="text-red-500 text-sm">
+                        {errors.age.message}
+                      </p>
+                    )}
                   </div>
-                </div>
-
-                {/* Error Messages */}
-                <div className="lg:hidden">
-                  {errors.gender && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.gender.message}
-                    </p>
-                  )}
-                  {errors.age && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.age.message}
-                    </p>
-                  )}
                 </div>
               </div>
 
@@ -173,20 +298,17 @@ const TestBookingSystem = () => {
                   <select
                     {...register("selectedTest", {
                       required: "Test selection is required",
+                      validate: (value) =>
+                        value !== "" || "Please select a valid test",
                     })}
                     className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >
-                    <option value="selected test">Selected Test</option>
-                    <option value="complete-blood-count">
-                      Complete Blood Count
-                    </option>
-                    <option value="lipid-profile">Lipid Profile</option>
-                    <option value="diabetes-screening">
-                      Diabetes Screening
-                    </option>
-                    <option value="thyroid-function">
-                      Thyroid Function Test
-                    </option>
+                    <option value="">Select Test</option>
+                    {testPackages.map((test) => (
+                      <option key={test.id} value={test.id}>
+                        {stripBr(test.name)}
+                      </option>
+                    ))}
                   </select>
                   <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
                     <ChevronDown />
@@ -198,34 +320,6 @@ const TestBookingSystem = () => {
                   )}
                 </div>
               </div>
-
-              {/* Type of Test */}
-              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
-                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
-                  Service Type
-                </label>
-                <div className="lg:w-[70%] relative">
-                  <select
-                    {...register("typeOfTest", {
-                      required: "Type of test is required",
-                    })}
-                    className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                  >
-                    <option value="service type">Service Type</option>
-                    <option value="home-collection">Home Collection</option>
-                    <option value="lab-visit">Lab Visit</option>
-                    <option value="express">Express Service</option>
-                  </select>
-                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <ChevronDown />
-                  </div>
-                  {errors.typeOfTest && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.typeOfTest.message}
-                    </p>
-                  )}
-                </div>
-              </div>
             </div>
 
             {/* Submit Button */}
@@ -233,7 +327,8 @@ const TestBookingSystem = () => {
               <div className="hidden lg:block lg:w-[30%]"></div>
               <div className="lg:w-[70%]">
                 <button
-                  type="submit"
+                  type="button"
+                  onClick={handleSubmit(onSubmit)}
                   className="w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity"
                 >
                   Continue
@@ -242,9 +337,282 @@ const TestBookingSystem = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     );
   };
+
+  // Professional Date Time Picker Component
+  const ProfessionalDateTimePicker = ({ onDateTimeChange, initialDate = '', initialTime = '' }) => {
+    const [showDatePicker, setShowDatePicker] = useState(false);
+    const [showTimePicker, setShowTimePicker] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(initialDate);
+    const [selectedTime, setSelectedTime] = useState(initialTime);
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [errors, setErrors] = useState({});
+    
+    const datePickerRef = useRef(null);
+    const timePickerRef = useRef(null);
+
+    // Close dropdowns when clicking outside
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+          setShowDatePicker(false);
+        }
+        if (timePickerRef.current && !timePickerRef.current.contains(event.target)) {
+          setShowTimePicker(false);
+        }
+      };
+
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const timeSlots = [
+      { value: "09:00-10:00", label: "09:00 - 10:00 AM", available: true },
+      { value: "10:00-11:00", label: "10:00 - 11:00 AM", available: true },
+      { value: "11:00-12:00", label: "11:00 - 12:00 PM", available: false },
+      { value: "12:00-13:00", label: "12:00 - 01:00 PM", available: true },
+      { value: "14:00-15:00", label: "02:00 - 03:00 PM", available: true },
+      { value: "15:00-16:00", label: "03:00 - 04:00 PM", available: true },
+      { value: "16:00-17:00", label: "04:00 - 05:00 PM", available: false },
+      { value: "17:00-18:00", label: "05:00 - 06:00 PM", available: true }
+    ];
+
+    const formatDate = (date) => {
+      return date.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    };
+
+    const getDaysInMonth = (date) => {
+      const year = date.getFullYear();
+      const month = date.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const daysInMonth = lastDay.getDate();
+      const startingDayOfWeek = firstDay.getDay();
+      
+      const days = [];
+      
+      // Add empty cells for days before the first day of the month
+      for (let i = 0; i < startingDayOfWeek; i++) {
+        days.push(null);
+      }
+      
+      // Add all days of the month
+      for (let day = 1; day <= daysInMonth; day++) {
+        const currentDate = new Date(year, month, day);
+        const today = new Date();
+        const isToday = currentDate.toDateString() === today.toDateString();
+        const isPast = currentDate < today.setHours(0, 0, 0, 0);
+        const isSelected = selectedDate === currentDate.toISOString().split('T')[0];
+        
+        days.push({
+          day,
+          date: currentDate,
+          isToday,
+          isPast,
+          isSelected,
+          disabled: isPast
+        });
+      }
+      
+      return days;
+    };
+
+    const handleDateSelect = (date) => {
+      const dateString = date.toISOString().split('T')[0];
+      setSelectedDate(dateString);
+      setShowDatePicker(false);
+      setErrors(prev => ({ ...prev, date: '' }));
+      onDateTimeChange && onDateTimeChange({ date: dateString, timeSlot: selectedTime });
+    };
+
+    const handleTimeSelect = (timeSlot) => {
+      if (timeSlot.available) {
+        setSelectedTime(timeSlot.value);
+        setShowTimePicker(false);
+        setErrors(prev => ({ ...prev, timeSlot: '' }));
+        onDateTimeChange && onDateTimeChange({ date: selectedDate, timeSlot: timeSlot.value });
+      }
+    };
+
+    const navigateMonth = (direction) => {
+      setCurrentMonth(prev => {
+        const newMonth = new Date(prev);
+        newMonth.setMonth(prev.getMonth() + direction);
+        return newMonth;
+      });
+    };
+
+    const days = getDaysInMonth(currentMonth);
+    const monthYear = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    const selectedTimeSlot = timeSlots.find(slot => slot.value === selectedTime);
+
+    return (
+      <div className="space-y-6">
+        {/* Date Picker */}
+        <div className="lg:flex flex-row items-center gap-3">
+          <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
+            Date Schedule
+          </label>
+          <div className="relative lg:w-[60%] w-full" ref={datePickerRef}>
+            <div
+              onClick={() => setShowDatePicker(!showDatePicker)}
+              className={`w-full px-6 py-4 bg-gradient-to-r from-gray-50 to-pink-50 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                showDatePicker 
+                  ? 'border-pink-400 shadow-lg bg-white' 
+                  : 'border-gray-200 '
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Calendar className={`w-6 h-6 transition-colors ${showDatePicker ? 'text-pink-500' : 'text-gray-400'}`} />
+                  <span className={`text-lg ${selectedDate ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+                    {selectedDate ? formatDate(new Date(selectedDate)) : 'Choose your preferred date'}
+                  </span>
+                </div>
+                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showDatePicker ? 'rotate-180' : ''}`} />
+              </div>
+            </div>
+            
+            {showDatePicker && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
+                {/* Calendar Header */}
+                <div className="bg-gradient-to-r from-pink-500 to-pink-600 px-6 py-4">
+                  <div className="flex items-center justify-between">
+                    <button
+                      type="button"
+                      onClick={() => navigateMonth(-1)}
+                      className="p-2 hover:bg-pink-400 rounded-xl transition-colors"
+                    >
+                      <ChevronLeft className="w-5 h-5 text-white" />
+                    </button>
+                    <h3 className="text-xl font-semibold text-white">{monthYear}</h3>
+                    <button
+                      type="button"
+                      onClick={() => navigateMonth(1)}
+                      className="p-2 hover:bg-pink-400 rounded-xl transition-colors"
+                    >
+                      <ChevronRight className="w-5 h-5 text-white" />
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Calendar Grid */}
+                <div className="p-4">
+                  <div className="grid grid-cols-7 gap-1 mb-2">
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                      <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-7 gap-1">
+                    {days.map((dayObj, index) => (
+                      <div key={index} className="aspect-square">
+                        {dayObj && (
+                          <button
+                            type="button"
+                            onClick={() => !dayObj.disabled && handleDateSelect(dayObj.date)}
+                            disabled={dayObj.disabled}
+                            className={`w-full h-full rounded-xl text-sm font-medium transition-all duration-200 ${
+                              dayObj.isSelected
+                                ? 'bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg scale-105'
+                                : dayObj.isToday
+                                ? 'bg-pink-100 text-pink-600 border-2 border-pink-300'
+                                : dayObj.disabled
+                                ? 'text-gray-300 cursor-not-allowed'
+                                : 'text-gray-700 hover:bg-pink-100 hover:text-pink-600 hover:scale-105'
+                            }`}
+                          >
+                            {dayObj.day}
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            {errors.date && (
+              <p className="text-pink-500 text-sm mt-2 ml-2">{errors.date}</p>
+            )}
+          </div>
+        </div>
+
+        {/* Time Picker */}
+        <div className="lg:flex flex-row items-center gap-3">
+          <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
+            Select Time Slot
+          </label>
+          <div className="relative md:w-[60%] w-full" ref={timePickerRef}>
+            <div
+              onClick={() => setShowTimePicker(!showTimePicker)}
+              className={`w-full px-6 py-4 bg-gradient-to-r from-gray-50 to-pink-50 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
+                showTimePicker 
+                  ? 'border-pink-400 shadow-lg bg-white' 
+                  : 'border-gray-200 hover:border-pink-300'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Clock className={`w-6 h-6 transition-colors ${showTimePicker ? 'text-pink-500' : 'text-gray-400'}`} />
+                  <span className={`text-lg ${selectedTime ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
+                    {selectedTimeSlot ? selectedTimeSlot.label : 'Choose your preferred time'}
+                  </span>
+                </div>
+                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showTimePicker ? 'rotate-180' : ''}`} />
+              </div>
+            </div>
+            
+            {showTimePicker && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-40 overflow-hidden max-h-80 overflow-y-auto">
+                <div className="py-2">
+                  {timeSlots.map((slot) => (
+                    <button
+                      key={slot.value}
+                      type="button"
+                      onClick={() => handleTimeSelect(slot)}
+                      disabled={!slot.available}
+                      className={`w-full px-6 py-4 text-left transition-all duration-200 flex items-center justify-between ${
+                        selectedTime === slot.value
+                          ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white'
+                          : slot.available
+                          ? 'hover:bg-pink-50 text-gray-700'
+                          : 'text-gray-400 cursor-not-allowed bg-gray-50'
+                      }`}
+                    >
+                      <span className="font-medium">{slot.label}</span>
+                      <span className={`text-sm px-3 py-1 rounded-full ${
+                        slot.available 
+                          ? selectedTime === slot.value 
+                            ? 'bg-white bg-opacity-20 text-white' 
+                            : 'bg-green-100 text-green-600'
+                          : 'bg-red-100 text-red-600'
+                      }`}>
+                        {slot.available ? 'Available' : 'Booked'}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            {errors.timeSlot && (
+              <p className="text-pink-500 text-sm mt-2 ml-2">{errors.timeSlot}</p>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const Step2 = ({ handleContinue }) => {
     const {
       register,
@@ -257,15 +625,53 @@ const TestBookingSystem = () => {
       defaultValues: allFormData,
     });
 
-    const watchDate = watch("date");
+    const [dateTimeData, setDateTimeData] = useState({
+      date: allFormData.date || '',
+      timeSlot: allFormData.timeSlot || ''
+    });
+
+    const [validationErrors, setValidationErrors] = useState({});
+
+    const handleDateTimeChange = (data) => {
+      setDateTimeData(data);
+      setValue('date', data.date);
+      setValue('timeSlot', data.timeSlot);
+      
+      // Clear validation errors when data is selected
+      if (data.date) {
+        setValidationErrors(prev => ({ ...prev, date: '' }));
+      }
+      if (data.timeSlot) {
+        setValidationErrors(prev => ({ ...prev, timeSlot: '' }));
+      }
+    };
 
     const onSubmit = (data) => {
-      console.log("Step 2 Form Data:", data);
-      handleContinue(data);
+      const newErrors = {};
+      
+      if (!dateTimeData.date) {
+        newErrors.date = 'Date is required';
+      }
+      
+      if (!dateTimeData.timeSlot) {
+        newErrors.timeSlot = 'Time slot is required';
+      }
+      
+      setValidationErrors(newErrors);
+      
+      if (Object.keys(newErrors).length === 0) {
+        const finalData = {
+          ...data,
+          date: dateTimeData.date,
+          timeSlot: dateTimeData.timeSlot
+        };
+        console.log("Step 2 Form Data:", finalData);
+        handleContinue(finalData);
+      }
     };
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
         <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative lg:pt-[60px]">
           <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
             <h2 className="section__heading mb-8 hidden md:block">
@@ -344,147 +750,33 @@ const TestBookingSystem = () => {
                 </div>
               </div>
 
-              <div className="lg:flex flex-row items-center gap-3">
-                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
-                  Date
-                </label>
-                <div className="relative lg:w-[60%] w-full">
-                  <input
-                    {...register("date", {
-                      required: "Date is required",
-                    })}
-                    type="date"
-                    min={new Date().toISOString().split("T")[0]}
-                    className="custom-date w-full px-4 py-4 pr-12 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    style={{
-                      WebkitTextFillColor: watch("date")
-                        ? "black"
-                        : "transparent",
-                      colorScheme: "light", // This helps with better calendar styling
-                    }}
-                  />
-
-                  {/* Custom Calendar Icon */}
-                  <div
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 hover:text-pink-500 transition-colors duration-200"
-                    onClick={() => {
-                      const dateInput =
-                        document.querySelector('input[type="date"]');
-                      if (dateInput) {
-                        dateInput.focus();
-                        dateInput.showPicker && dateInput.showPicker();
-                      }
-                    }}
-                  >
-                    <svg
-                      width="20"
-                      height="20"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="hover:scale-110 transition-transform duration-200"
-                    >
-                      <path
-                        d="M8 2V5M16 2V5M3.5 9.09H20.5M21 8.5V17C21 20 19.5 22 16 22H8C4.5 22 3 20 3 17V8.5C3 5.5 4.5 3.5 8 3.5H16C19.5 3.5 21 5.5 21 8.5Z"
-                        stroke="currentColor"
-                        strokeWidth="1.5"
-                        strokeMiterlimit="10"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M15.6947 13.7002H15.7037M15.6947 16.7002H15.7037M11.9955 13.7002H12.0045M11.9955 16.7002H12.0045M8.29431 13.7002H8.30329M8.29431 16.7002H8.30329"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
-
-                  {errors.date && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.date.message}
-                    </p>
-                  )}
+              {/* Professional Date Time Picker */}
+              <ProfessionalDateTimePicker 
+                onDateTimeChange={handleDateTimeChange}
+                initialDate={allFormData.date || ''}
+                initialTime={allFormData.timeSlot || ''}
+              />
+              
+              {/* Display validation errors */}
+              {validationErrors.date && (
+                <div className="lg:flex flex-row items-center gap-3">
+                  <div className="w-[160px]"></div>
+                  <p className="text-red-500 text-sm">{validationErrors.date}</p>
                 </div>
-              </div>
-              <style jsx>{`
-                .custom-date::-webkit-calendar-picker-indicator {
-                  opacity: 0;
-                  position: absolute;
-                  right: 0;
-                  width: 100%;
-                  height: 100%;
-                  cursor: pointer;
-                }
-
-                .custom-date::-webkit-datetime-edit-text {
-                  color: transparent;
-                }
-
-                .custom-date::-webkit-datetime-edit-month-field {
-                  color: ${watch("date") ? "black" : "transparent"};
-                }
-
-                .custom-date::-webkit-datetime-edit-day-field {
-                  color: ${watch("date") ? "black" : "transparent"};
-                }
-
-                .custom-date::-webkit-datetime-edit-year-field {
-                  color: ${watch("date") ? "black" : "transparent"};
-                }
-              `}</style>
-
-              <div className="lg:flex flex-row items-center gap-3">
-                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
-                  Select Time Slot
-                </label>
-                <div className="relative md:w-[60%] w-full">
-                  <select
-                    {...register("timeSlot", {
-                      required: "Time slot is required",
-                    })}
-                    className="appearance-none w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Select Time Slot"
-                  >
-                    <option value="">Select Time Slot</option>
-                    <option value="09:00-10:00">09:00 - 10:00 AM</option>
-                    <option value="10:00-11:00">10:00 - 11:00 AM</option>
-                    <option value="11:00-12:00">11:00 - 12:00 PM</option>
-                    <option value="12:00-13:00">12:00 - 01:00 PM</option>
-                    <option value="14:00-15:00">02:00 - 03:00 PM</option>
-                  </select>
-                  <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                    <ChevronDown />
-                  </div>
-                  {errors.timeSlot && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.timeSlot.message}
-                    </p>
-                  )}
+              )}
+              {validationErrors.timeSlot && (
+                <div className="lg:flex flex-row items-center gap-3">
+                  <div className="w-[160px]"></div>
+                  <p className="text-red-500 text-sm">{validationErrors.timeSlot}</p>
                 </div>
-              </div>
-
-              <div className="lg:flex flex-row items-start gap-3">
-                <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
-                  Remarks
-                </label>
-                <div className="lg:w-[105%] w-full relative lg:left-11">
-                  <textarea
-                    {...register("remarks")}
-                    rows={3}
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                    placeholder="Any special instructions or remarks"
-                  />
-                </div>
-              </div>
+              )}
             </div>
 
             <div className="flex items-center lg:justify-start mt-6 lg:pl-[8px] cursor-pointer">
               <label className="hidden lg:block lg:w-[160px]"></label>
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit(onSubmit)}
                 className="w-[166px] __secondary-bg text-white text-[20px] lg:ml-2 font-bold py-3 px-6 rounded-lg"
               >
                 Continue
@@ -492,7 +784,7 @@ const TestBookingSystem = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     );
   };
 
@@ -514,7 +806,7 @@ const TestBookingSystem = () => {
     };
 
     return (
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
         <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
           <div className="space-y-6 lg:ml-16 w-full">
             <h2 className="section__heading mb-8 hidden md:block">
@@ -654,7 +946,8 @@ const TestBookingSystem = () => {
             <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
               <div className="md:w-[200px]"></div>
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit(onSubmit)}
                 className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity"
               >
                 Confirm & Pay
@@ -662,7 +955,7 @@ const TestBookingSystem = () => {
             </div>
           </div>
         </div>
-      </form>
+      </div>
     );
   };
 
@@ -745,14 +1038,6 @@ const TestBookingSystem = () => {
               </span>
               <span className="font-[600] text-[20px]">
                 {allFormData.selectedTest || "Complete Blood Count"}
-              </span>
-            </div>
-            <div className="flex gap-4">
-              <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
-                Type
-              </span>
-              <span className="font-[600] text-[20px]">
-                {allFormData.typeOfTest || "Home Collection"}
               </span>
             </div>
             <div className="flex gap-4">

@@ -27,12 +27,14 @@ export default function PrivacyPolicy() {
           <li>You can access, update, or delete your personal information at any time.</li>
           <li>You can opt out of marketing communications.</li>
         </ul>
-        <p className="text-gray-700 mb-4">
+        <div>
+          <p className="text-gray-700 mb-4">
           We do not share your personal information with third parties except as required by law or to provide our services.
         </p>
         <p className="text-gray-700 mb-4">
           For any questions about our privacy practices, please contact us at <span className="__secondary-text">support@sukaii.com</span>.
         </p>
+        </div>
       </div>
     </div>
   );

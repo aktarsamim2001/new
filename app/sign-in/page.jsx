@@ -1,16 +1,16 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
-import image from "../../public/login-banner/login-banner.jpg";
+import React, { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import image2 from "../../app/assets/woman/shape.png";
 import OtpInput from "../components/SignUp/OtpInput";
+import { useDispatch, useSelector } from "react-redux";
+import { getOTP, verifyOTP } from "@/features/store/authSlice";
+import toast from "react-hot-toast";
 
-// Review/avatars data array
 const slide = {
   reviewAvatars: [
     { name: "AB", bg: "bg-pink-500" },
@@ -24,8 +24,7 @@ const slide = {
   reviews: "(1.2k reviews)",
 };
 
-// Modal component
-function SuccessModal({ open, onClose }) {
+function SuccessModal({ open, onClose, message }) {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
@@ -36,11 +35,9 @@ function SuccessModal({ open, onClose }) {
           width={80}
           height={30}
         />
-        <h3 className="text-xl font-bold mt-4 mb-2 text-center">
-          OTP Verified!
-        </h3>
+        <h3 className="text-xl font-bold mt-4 mb-2 text-center">Success!</h3>
         <p className="text-gray-600 mb-6 text-center banner__description">
-          Signup Complete. You can now log in.
+          {message}
         </p>
         <button
           onClick={onClose}
@@ -54,29 +51,54 @@ function SuccessModal({ open, onClose }) {
 }
 
 export default function LoginComponent() {
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState("login"); // 'login' or 'otp'
+  const {
+    loadingStatus,
+    isAuthenticated,
+    error: authError,
+  } = useSelector((state) => state.auth);
+
+  const [otpField, setOtpField] = useState(false);
   const [formData, setFormData] = useState({
     phoneNumber: "",
-    username: "",
+    email: "",
     otp: "",
   });
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      setModalOpen(true);
+      setTimeout(() => {
+        router.push("/user-dashboard");
+      }, 2000);
+    }
+  }, [isAuthenticated, router]);
+
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+      toast.error(authError);
+    }
+  }, [authError]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
+      // Clear the other field when one is being filled
+      ...(name === "phoneNumber" && value.length > 0 ? { email: "" } : {}),
+      ...(name === "email" && value.length > 0 ? { phoneNumber: "" } : {}),
     }));
+    if (error) setError("");
   };
 
   const handleOtpChange = (e) => {
     const value = e.target.value;
-    // Only allow numbers and limit to 6 digits
-    const numericValue = value.replace(/\D/g, "").slice(0, 6);
+    const numericValue = value.replace(/\D/g, "").slice(0, 4);
     setFormData((prev) => ({
       ...prev,
       otp: numericValue,
@@ -84,54 +106,71 @@ export default function LoginComponent() {
     if (error) setError("");
   };
 
-  const handleNext = () => {
-    if (formData.phoneNumber && formData.username) {
-      setCurrentStep("otp");
-    }
-  };
-
-  const handleVerifyOtp = (e) => {
+  const handleNext = async (e) => {
     e.preventDefault();
-    if (formData.otp.length !== 6) {
-      setError("Please enter a 6-digit OTP");
+    if (!formData.phoneNumber && !formData.email) {
+      setError("Please enter either phone number or email");
       return;
     }
-    setError("");
-    setModalOpen(true);
-    setShouldRedirect(true);
+
+    if (formData.phoneNumber && !/^\d{10}$/.test(formData.phoneNumber)) {
+      setError("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    const payload = {
+      login_type: formData.phoneNumber ? "mobile" : "email",
+      [formData.phoneNumber ? "mobile" : "email"]:
+        formData.phoneNumber || formData.email,
+      name: "",
+      social_login_id: "",
+    };
+
+    dispatch(
+      getOTP(payload, (success, message) => {
+        if (success) {
+          setOtpField(true);
+        }
+      }),
+    );
+  };
+
+  const handleVerifyOtp = async (e) => {
+    e.preventDefault();
+    if (formData.otp.length !== 4) {
+      setError("Please enter a 4-digit OTP");
+      return;
+    }
+
+    const payload = {
+      login_type: formData.phoneNumber ? "mobile" : "email",
+      [formData.phoneNumber ? "mobile" : "email"]:
+        formData.phoneNumber || formData.email,
+      otp: formData.otp,
+    };
+
+    dispatch(
+      verifyOTP(payload, (success, message) => {
+        if (success) {
+          setModalOpen(true);
+          setTimeout(() => setModalOpen(false), 2000);
+        }
+      }),
+    );
   };
 
   const handleSocialLogin = (provider) => {
     console.log(`Login with ${provider}`);
-    // Handle social login logic here
   };
 
-  if (currentStep === "otp") {
+  if (otpField) {
     return (
       <div className="flex items-center justify-center min-h-screen relative overflow-hidden">
-        {/* Mobile Texture Background for OTP */}
-        <div className="absolute top-0 right-0 w-[300px] h-[280px] md:hidden pointer-events-none z-0">
-          <Image
-            src={image2}
-            alt="Texture"
-            fill
-            style={{ objectFit: 'contain', objectPosition: 'top right' }}
-            className="opacity-70"
-            priority
-          />
-        </div>
-        <SuccessModal
-          open={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
-            if (shouldRedirect) {
-              router.push("/user-dashboard");
-              setShouldRedirect(false);
-            } else {
-              setCurrentStep("login");
-            }
-          }}
-        />
         {/* Left Side - Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
           <div className="w-full max-w-md">
@@ -154,89 +193,84 @@ export default function LoginComponent() {
                 Identity
               </h1>
               <p className="block banner__description text-gray-700 mb-3">
-                Enter OTP sent to your Mobile Number
+                Enter OTP sent to {formData.phoneNumber || formData.email}
               </p>
             </div>
 
             {/* OTP Input */}
             <form onSubmit={handleVerifyOtp} className="mb-8 space-y-4">
-              <OtpInput value={formData.otp} onChange={handleOtpChange} error={error} />
+              <OtpInput
+                value={formData.otp}
+                onChange={handleOtpChange}
+                error={error}
+              />
               <button
                 className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl mb-4 mt-2"
+                disabled={loadingStatus}
               >
-                Confirm
+                {loadingStatus ? "Verifying..." : "Confirm"}
               </button>
             </form>
           </div>
         </div>
 
         {/* Right Side - Image */}
-       <div className="hidden lg:flex flex-1 items-center justify-center relative min-h-[400px] lg:min-h-screen py-8 lg:py-0">
-        <div className="w-full max-w-3xl flex flex-col items-center justify-center relative">
-          <Image
-            src="/login-banner/login-banner.jpg"
-            alt="Sukaii Health"
-            width={800}
-            height={1200}
-            className="rounded-[40px] object-cover w-full h-[400px] lg:h-screen p-5"
-            priority
-          />
-          <div className="absolute left-1/2 -translate-x-1/2 lg:-left-16 lg:translate-x-0 bottom-6 md:bottom-10 ml-3 px-6 flex flex-col items-center justify-center gap-2 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
-            <div className="flex -space-x-3">
-              {slide.reviewAvatars.map((avatar, i) => (
-                <div
-                  key={i}
-                  className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
-                >
-                  {avatar.image ? (
-                    <Image
-                      src={avatar.image}
-                      alt={`Avatar`}
-                      width={32}
-                      height={32}
-                      className="w-full h-full object-cover rounded-full"
-                    />
-                  ) : (
-                    avatar.name
-                  )}
+        <div className="hidden lg:flex flex-1 items-center justify-center relative min-h-[400px] lg:min-h-screen py-8 lg:py-0">
+          <div className="w-full max-w-3xl flex flex-col items-center justify-center relative">
+            <Image
+              src="/login-banner/login-banner.jpg"
+              alt="Sukaii Health"
+              width={800}
+              height={1200}
+              className="rounded-[40px] object-cover w-full h-[400px] lg:h-screen p-5"
+              priority
+            />
+            <div className="absolute left-1/2 -translate-x-1/2 lg:-left-16 lg:translate-x-0 bottom-6 md:bottom-10 ml-3 px-6 flex flex-col items-center justify-center gap-2 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+              <div className="flex -space-x-3">
+                {slide.reviewAvatars.map((avatar, i) => (
+                  <div
+                    key={i}
+                    className={`w-8 h-8 rounded-full border-2 border-white ${avatar.bg} flex items-center justify-center text-white font-semibold text-xs shadow-sm`}
+                  >
+                    {avatar.image ? (
+                      <Image
+                        src={avatar.image}
+                        alt={`Avatar`}
+                        width={32}
+                        height={32}
+                        className="w-full h-full object-cover rounded-full"
+                      />
+                    ) : (
+                      avatar.name
+                    )}
+                  </div>
+                ))}
+                <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
+                  {slide.extra}
                 </div>
-              ))}
-              <div className="w-8 h-8 rounded-full bg-teal-500 border-2 border-white flex items-center justify-center text-white font-semibold text-xs shadow-sm ml-0.5">
-                {slide.extra}
               </div>
-            </div>
-            <div className="flex flex-col items-start">
-              <div className="font-[600] text-gray-900 text-[18px] md:text-[20px]">
-                {slide.patients}
-              </div>
-              <div className="flex items-center gap-1">
-                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                <span className="text-sm font-medium text-gray-900">
-                  {slide.rating}
-                </span>
-                <span className="text-xs text-gray-500">{slide.reviews}</span>
+              <div className="flex flex-col items-start">
+                <div className="font-[600] text-gray-900 text-[18px] md:text-[20px]">
+                  {slide.patients}
+                </div>
+                <div className="flex items-center gap-1">
+                  <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                  <span className="text-sm font-medium text-gray-900">
+                    {slide.rating}
+                  </span>
+                  <span className="text-xs text-gray-500">{slide.reviews}</span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        <SuccessModal open={modalOpen} onClose={() => setModalOpen(false)} />
       </div>
     );
   }
 
   return (
     <div className="bg-gray-50 flex flex-col md:flex-row items-center justify-center min-h-screen relative overflow-hidden">
-      {/* Mobile Texture Background */}
-      <div className="absolute top-0 right-0 w-[300px] h-[280px] md:hidden pointer-events-none z-0">
-        <Image
-          src={image2}
-          alt="Texture"
-          fill
-          style={{ objectFit: 'contain', objectPosition: 'top right' }}
-          className="opacity-70"
-          priority
-        />
-      </div>
       {/* Left Side - Form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
         <div className="w-full max-w-md">
@@ -271,47 +305,54 @@ export default function LoginComponent() {
 
           {/* Form */}
           <div className="space-y-3">
-            {/* Phone Number */}
-            <div>
-              <label className="block text-[16px] font-[400] text-gray-700 mb-3">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleInputChange}
-                className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
-              />
-            </div>
+            <form onSubmit={handleNext}>
+              {/* Phone Number */}
+              <div>
+                <label className="block text-[16px] font-[400] text-gray-700 mb-3">
+                  Phone Number
+                </label>
+                <input
+                  type="tel"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleInputChange}
+                  className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
+                  placeholder="Enter your 10-digit phone number"
+                  maxLength={10}
+                  disabled={!!formData.email}
+                />
+              </div>
 
-            <div className="flex items-center pt-1.5">
-              <div className="flex-1 border-t border-gray-300"></div>
-              <span className="px-4 text-sm text-gray-500">OR</span>
-              <div className="flex-1 border-t border-gray-300"></div>
-            </div>
+              <div className="flex items-center pt-1.5">
+                <div className="flex-1 border-t border-gray-300"></div>
+                <span className="px-4 text-sm text-gray-500">OR</span>
+                <div className="flex-1 border-t border-gray-300"></div>
+              </div>
 
-            {/* Username */}
-            <div>
-              <label className="block text-[16px] font-[400] text-gray-700 mb-3">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={formData.username}
-                onChange={handleInputChange}
-                className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
-              />
-            </div>
+              {/* Email */}
+              <div>
+                <label className="block text-[16px] font-[400] text-gray-700 mb-3">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
+                  placeholder="Enter your email address"
+                  disabled={!!formData.phoneNumber}
+                />
+              </div>
 
-            {/* Next Button */}
-            <button
-              onClick={handleNext}
-              className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl mb-4 mt-2"
-            >
-              Next
-            </button>
+              <button
+                type="submit"
+                disabled={loadingStatus}
+                className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl mb-4 mt-2"
+              >
+                {loadingStatus ? "Sending OTP..." : "Next"}
+              </button>
+            </form>
 
             {/* Terms and Conditions Checkbox */}
             <div className="flex items-center mb-2">
@@ -322,9 +363,15 @@ export default function LoginComponent() {
                 required
               />
               <label htmlFor="terms" className="ml-2 text-xs text-gray-600">
-                By signing up, you agree to our{' '}
-                <a href="#" className="underline hover:text-pink-600">Terms &amp; Conditions</a> and{' '}
-                <a href="#" className="underline hover:text-pink-600">Privacy Policy</a>.
+                By signing up, you agree to our{" "}
+                <a href="#" className="underline hover:text-pink-600">
+                  Terms &amp; Conditions
+                </a>{" "}
+                and{" "}
+                <a href="#" className="underline hover:text-pink-600">
+                  Privacy Policy
+                </a>
+                .
               </label>
             </div>
 

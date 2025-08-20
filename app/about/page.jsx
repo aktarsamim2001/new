@@ -1,18 +1,24 @@
-import React from "react";
-import { About } from "../components/About/about";
-import AboutBanner from "../components/About/AboutBanner";
-import TestimonialSlider from "../components/Home/TestimonialSlider";
-import HealthSection from "../components/Home/HealthSection";
+import AboutClient from './AboutClient'
+import { service } from '../../features/shared/_services/api_service'
 
-function Page() {
-  return (
-    <div>
-      <AboutBanner />
-      <About />
-        <TestimonialSlider />
-      <HealthSection />
-    </div>
-  );
+export async function generateMetadata() {
+  const res = await service.homepage({ slug: "about" })
+  const seo = res?.meta || {}
+
+  console.log("SEO Data:", seo)
+
+  return {
+    title: seo?.meta_title || 'Untitled',
+    description: seo?.meta_description || '',
+    openGraph: {
+      images: seo?.feature_image ? [seo.feature_image] : [],
+    },
+    twitter: {
+      images: seo?.feature_image ? [seo.feature_image] : [],
+    },
+  }
 }
 
-export default Page;
+export default function Page() {
+  return <AboutClient />
+}
