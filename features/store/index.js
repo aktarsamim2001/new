@@ -12,7 +12,12 @@ import aboutReducer from "./aboutSlice";
 import faqReducer from "./faqSlice"
 import enquiryReducer from "./enquirySlice"
 import dynamicPageReducer from "./dynamicSlice";
-import enquiryFormReducer from "./enquiryFormSlice";
+
+import enquiryFormReducer from "./enquiryFormSlice.jsx";
+import userProfileReducer from "./userProfileSlice";
+
+import bookingReducer from "./bookingSlice";
+import addressListReducer from "./addressListSlice";
 
 const store = configureStore({
   reducer: {
@@ -29,7 +34,10 @@ const store = configureStore({
     faq: faqReducer,
     enquiry: enquiryReducer,
     dynamicPage: dynamicPageReducer,
-    enquiryForm: enquiryFormReducer,
+  enquiryForm: enquiryFormReducer,
+  userProfile: userProfileReducer,
+  booking: bookingReducer,
+  addressList: addressListReducer,
   },
 });
 

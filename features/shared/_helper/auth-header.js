@@ -1,7 +1,7 @@
 import { localService } from "../_session/local";
 
 export async function authHeader(type) {
-  const token = localService.get("gsnUserToken");
+  const token = localService.get("accessToken");
 
   if (token) {
     if (type === "FormData") {

@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 import { service } from '../shared/_services/api_service';
 
 const initialState = {
@@ -44,15 +44,16 @@ export const { setUserProfile, setUserProfileLoading, setUserProfileError } = us
 export default userProfileSlice.reducer;
 
 // Thunk for fetching user profile
-export const fetchUserProfile = (payload) => async (dispatch) => {
+export const fetchUserProfile = () => async (dispatch) => {
 	dispatch(setUserProfileLoading(null));
 	try {
-		// You need to implement the actual API call in api_service.js, e.g. service.userProfile(payload)
-		const response = await service.userProfile(payload);
-		if (response && response.data) {
+		const response = await service.userProfile();
+		console.log("API response from service.userProfile:", response);
+		if (response) {
 			dispatch(setUserProfile(response.data));
 		}
 	} catch (error) {
+		console.log("fetchUserProfile error:", error);
 		dispatch(setUserProfileError(error.message || 'Something went wrong'));
 	}
 };

@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const token = request.cookies.get("token")?.value;
 
-  const protectedRoutes = ["/profile", "/cart", "/buy", "/faq"];
+  const protectedRoutes = ["/profile", "/book-test", "/buy", "/faq"];
   const path = request.nextUrl.pathname;
 
   const isProtected = protectedRoutes.some(
@@ -19,7 +19,7 @@ export function middleware(request) {
 
 export const config = {
   matcher: [
-    "/(profile|cart|faq|buy)(.*)?", // covers both base and nested routes
+    "/(profile|cart|faq|buy|book-test)(.*)?", // covers both base and nested routes, now includes book-test
     "/products/:path*",
   ],
 };
