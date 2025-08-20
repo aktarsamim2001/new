@@ -95,7 +95,6 @@ const TestBookingSystem = () => {
               </div>
 
               {/* Gender and Age Row */}
-
               <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
                 <div className="lg:text-right">
                   <label className="block text-[20px] font-medium text-gray-700 mb-2 lg:mb-0">
@@ -104,15 +103,18 @@ const TestBookingSystem = () => {
                 </div>
                 <div className="lg:w-[70%] flex flex-row items-center gap-6">
                   {/* Gender */}
-                  <div className="flex items-center gap-3">
+                  <div className="flex flex-col gap-1">
                     <div className="relative w-[140px]">
                       <select
                         {...register("gender", {
                           required: "Gender is required",
+                          validate: (value) =>
+                            value !== "Select" ||
+                            "Gender is required",
                         })}
                         className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                       >
-                        <option className="" value="Select">Select Gender</option>
+                        <option value="Select">Select Gender</option>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
@@ -121,46 +123,44 @@ const TestBookingSystem = () => {
                         <ChevronDown />
                       </div>
                     </div>
+                    {errors.gender && (
+                      <p className="text-red-500 text-sm">
+                        {errors.gender.message}
+                      </p>
+                    )}
                   </div>
 
                   {/* Age */}
-                  <div className="lg:flex lg:flex-row lg:items-center flex flex-col -mt-10 md:mt-0 gap-3">
-                    <label className="text-[20px] font-medium block text-gray-600 whitespace-nowrap">
-                      Age
-                    </label>
-                    <div className="w-[full]">
-                      <input
-                        {...register("age", {
-                          required: "Age is required",
-                          min: {
-                            value: 1,
-                            message: "Age must be greater than 0",
-                          },
-                          max: {
-                            value: 120,
-                            message: "Age must be less than 120",
-                          },
-                        })}
-                        type="number"
-                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                        placeholder="Enter age"
-                      />
+                  <div className="flex flex-col gap-1">
+                    <div className="lg:flex lg:flex-row lg:items-center flex flex-col gap-3">
+                      <label className="text-[20px] font-medium block text-gray-600 whitespace-nowrap">
+                        Age
+                      </label>
+                      <div className="w-full">
+                        <input
+                          {...register("age", {
+                            required: "Age is required",
+                            min: {
+                              value: 1,
+                              message: "Age must be greater than 0",
+                            },
+                            max: {
+                              value: 120,
+                              message: "Age must be less than 120",
+                            },
+                          })}
+                          type="number"
+                          className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
+                          placeholder="Enter age"
+                        />
+                      </div>
                     </div>
+                    {errors.age && (
+                      <p className="text-red-500 text-sm">
+                        {errors.age.message}
+                      </p>
+                    )}
                   </div>
-                </div>
-
-                {/* Error Messages */}
-                <div className="lg:hidden">
-                  {errors.gender && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.gender.message}
-                    </p>
-                  )}
-                  {errors.age && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {errors.age.message}
-                    </p>
-                  )}
                 </div>
               </div>
 
@@ -173,6 +173,9 @@ const TestBookingSystem = () => {
                   <select
                     {...register("selectedTest", {
                       required: "Test selection is required",
+                      validate: (value) =>
+                        value !== "selected test" ||
+                        "Please select a valid test",
                     })}
                     className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >

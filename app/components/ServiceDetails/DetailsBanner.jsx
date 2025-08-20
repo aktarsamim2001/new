@@ -14,13 +14,15 @@ function DetailsBanner({ bannerDetailsPage }) {
           {/* Image Section */}
           {/* <div className="flex justify-start items-center"> */}
           <div className="relative w-full h-[200px] md:h-[400px] max-w-[771px] md:rounded-[0px_40px_40px_0px] overflow-hidden shadow-lg">
-            <Image
-              src={bannerDetailsPage?.image || ""}
-              alt="Services Banner"
-              fill
-              className="object-cover"
-              priority
-            />
+            {bannerDetailsPage?.image && bannerDetailsPage.image !== "" && (
+              <Image
+                src={bannerDetailsPage.image}
+                alt="Services Banner"
+                fill
+                className="object-cover"
+                priority
+              />
+            )}
           </div>
           {/* </div> */}
 

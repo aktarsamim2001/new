@@ -27,10 +27,17 @@ async function serviceDetails(payload) {
   });
 }
 
+async function enquiryForm(payload) {
+  return axios.post(rootUrl + "/api/web/enquiry/submit", payload, {
+    headers: await authHeader(),
+  });
+}
+
 export const service = {
   signin,
   verifyOTP,
   homepage,
   serviceList,
   serviceDetails,
+  enquiryForm
 };

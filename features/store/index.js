@@ -9,6 +9,10 @@ import servicesListReducer from "./servicesListSlice";
 import serviceDetailsReducer from "./serviceDetailsSlice";
 import serviceDetailsPageReducer from "./serviceDetailsPageSlice";
 import aboutReducer from "./aboutSlice";
+import faqReducer from "./faqSlice"
+import enquiryReducer from "./enquirySlice"
+import dynamicPageReducer from "./dynamicSlice";
+import enquiryFormReducer from "./enquiryFormSlice";
 
 const store = configureStore({
   reducer: {
@@ -21,7 +25,11 @@ const store = configureStore({
     servicesList: servicesListReducer,
     serviceDetails: serviceDetailsReducer,
     serviceDetailsPage: serviceDetailsPageReducer,
-    about: aboutReducer
+    about: aboutReducer,
+    faq: faqReducer,
+    enquiry: enquiryReducer,
+    dynamicPage: dynamicPageReducer,
+    enquiryForm: enquiryFormReducer,
   },
 });
 

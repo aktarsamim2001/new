@@ -1,6 +1,6 @@
+"use client";
 import React, { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
 import { Poppins } from "next/font/google";
 
 const poppins = Poppins({
@@ -9,8 +9,12 @@ const poppins = Poppins({
   display: "swap",
 });
 
-export default function FAQTabs() {
-  const [activeTab, setActiveTab] = useState("bookings");
+export default function FAQTabs({ data }) {
+  const categories = data?.content?.faq_page?.categories || [];
+
+  const [activeTab, setActiveTab] = useState(
+    categories?.[0]?.category_name || ""
+  );
   const [expandedItems, setExpandedItems] = useState({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
@@ -21,180 +25,36 @@ export default function FAQTabs() {
     }));
   };
 
-  const handleTabSelect = (tabId) => {
-    setActiveTab(tabId);
+  const handleTabSelect = (tabName) => {
+    setActiveTab(tabName);
     setIsDropdownOpen(false);
   };
 
-  const faqData = {
-    bookings: {
-      title: "Bookings & Appointments",
-      questions: [
-        {
-          id: "b1",
-          question: "How do I book a test on Sukuk Health?",
-          answer:
-            "You can book a test through our mobile app or website by selecting your preferred test, choosing a convenient time slot, and completing the booking process.",
-        },
-        {
-          id: "b2",
-          question: "Can I change or cancel my booking after confirming?",
-          answer:
-            "Yes, you can change or cancel your booking up to 2 hours before your scheduled appointment through the app or by calling our customer service.",
-        },
-        {
-          id: "b3",
-          question: "What should I expect during a home sample collection?",
-          answer:
-            "Our trained phlebotomist will arrive at your scheduled time, verify your identity, collect the required samples using sterile equipment, and provide you with collection confirmation.",
-        },
-        {
-          id: "b4",
-          question: "How do I know if my appointment is confirmed?",
-          answer:
-            "You will receive a confirmation SMS and email immediately after booking, along with appointment details and preparation instructions if required.",
-        },
-      ],
-    },
-    health: {
-      title: "Test Info & Health Education",
-      questions: [
-        {
-          id: "h1",
-          question: "What is a CBC test and why do I need it?",
-          answer:
-            "Complete Blood Count (CBC) is a comprehensive blood test that evaluates your overall health and detects various disorders including anemia, infection, and leukemia.",
-        },
-        {
-          id: "h2",
-          question: "How do I interpret my blood test results?",
-          answer:
-            "Your test results will include reference ranges. Values outside these ranges will be highlighted. We recommend consulting with a healthcare provider for proper interpretation.",
-        },
-        {
-          id: "h3",
-          question: "What tests should I take annually to monitor my health?",
-          answer:
-            "Annual health screenings typically include CBC, lipid profile, blood glucose, liver function tests, kidney function tests, and vitamin levels based on your age and risk factors.",
-        },
-        {
-          id: "h4",
-          question: "How long does it take to get my test results?",
-          answer:
-            "Most routine tests are available within 24-48 hours. Specialized tests may take 3-7 days. You'll receive notifications once results are ready.",
-        },
-      ],
-    },
-    dashboard: {
-      title: "Sukuk Health Dashboard Tips",
-      questions: [
-        {
-          id: "d1",
-          question: "How do I access my Sukuk Health dashboard?",
-          answer:
-            "Log into your account on our website or mobile app using your registered email and password. Your dashboard will display all your health information.",
-        },
-        {
-          id: "d2",
-          question:
-            "Can I view and track previous test results on the dashboard?",
-          answer:
-            "Yes, all your historical test results are stored securely and can be accessed anytime through your dashboard with trend analysis and comparison features.",
-        },
-        {
-          id: "d3",
-          question: "How do I upload my past medical history?",
-          answer:
-            "Use the 'Medical History' section in your dashboard to upload documents, enter previous test results, and maintain a comprehensive health record.",
-        },
-        {
-          id: "d4",
-          question: "How can I add family members to my Sukuk Health account?",
-          answer:
-            "Go to 'Family Members' section in your dashboard, click 'Add Member', and fill in their details. You can manage bookings and view results for all family members.",
-        },
-      ],
-    },
-    payments: {
-      title: "Payments & Packages",
-      questions: [
-        {
-          id: "p1",
-          question: "What payment methods does Sukuk Health accept?",
-          answer:
-            "We accept all major credit/debit cards, UPI payments, net banking, digital wallets, and cash payments for home collection services.",
-        },
-        {
-          id: "p2",
-          question: "Can I use a promo code when booking a test?",
-          answer:
-            "Yes, enter your promo code during checkout. The discount will be applied automatically if the code is valid and applicable to your selected tests.",
-        },
-        {
-          id: "p3",
-          question: "What's included in the health test packages?",
-          answer:
-            "Our packages include multiple related tests at discounted rates, free home collection, digital reports, and consultation with healthcare experts.",
-        },
-        {
-          id: "p4",
-          question: "How do I apply for a refund if I cancel my test?",
-          answer:
-            "Refunds are processed automatically for cancellations made 2+ hours before appointment. For other cases, contact customer service for assistance.",
-        },
-      ],
-    },
-    privacy: {
-      title: "Privacy, Certification & Safety",
-      questions: [
-        {
-          id: "pr1",
-          question:
-            "Are Sukuk Health's labs and healthcare providers certified?",
-          answer:
-            "Yes, all our partner laboratories are NABL accredited and ISO certified. Our healthcare providers are licensed professionals with verified credentials.",
-        },
-        {
-          id: "pr2",
-          question: "How is my personal health information protected?",
-          answer:
-            "We use advanced encryption, secure servers, and strict access controls. Your data is protected according to HIPAA guidelines and local privacy regulations.",
-        },
-        {
-          id: "pr3",
-          question:
-            "Are the sample and staff certified for home sample collection?",
-          answer:
-            "All our phlebotomists are certified professionals who undergo regular training. We use sterile, single-use collection kits following strict safety protocols.",
-        },
-        {
-          id: "pr4",
-          question:
-            "What safety measures are in place during sample collection?",
-          answer:
-            "Our staff follows strict hygiene protocols including sanitization, use of PPE, contactless procedures where possible, and safe disposal of medical waste.",
-        },
-      ],
-    },
-  };
+  // Transform API data for easier rendering
+  const faqData = {};
+  const tabs = [];
 
-  const tabs = [
-    { id: "bookings", label: "Bookings & Appointments" },
-    { id: "health", label: "Test Info & Health Education" },
-    { id: "dashboard", label: "Sukuk Health Dashboard Tips" },
-    { id: "payments", label: "Payments & Packages" },
-    { id: "privacy", label: "Privacy, Certification & Safety" },
-  ];
+  categories.forEach((category, catIndex) => {
+    const tabId = `tab-${catIndex}`;
+    tabs.push({ id: category.category_name, label: category.category_name });
+    faqData[category.category_name] = {
+      title: category.category_name,
+      questions: category.items.map((item, index) => ({
+        id: `${tabId}-q${index}`,
+        question: item.title,
+        answer: item.description,
+      })),
+    };
+  });
 
   const activeTabLabel =
-    tabs.find((tab) => tab.id === activeTab)?.label ||
-    "Bookings & Appointments";
+    tabs.find((tab) => tab.id === activeTab)?.label || tabs?.[0]?.label;
 
   return (
     <div className={`container mx-auto __gapTop relative ${poppins.className}`}>
       <div className="overflow-hidden">
         <div className="flex flex-col lg:flex-row">
-          {/* Desktop Categories Sidebar - Hidden on mobile */}
+          {/* Desktop Categories Sidebar */}
           <div className="hidden lg:block lg:w-1/4">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-[#EC098D] inline-block w-full">
               Categories
@@ -207,7 +67,7 @@ export default function FAQTabs() {
                   className={`w-full text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
                     activeTab === tab.id
                       ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
-                      : "border-2  border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
+                      : "border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
                   }`}
                 >
                   {tab.label}
@@ -216,14 +76,13 @@ export default function FAQTabs() {
             </div>
           </div>
 
-          {/* Mobile Categories Dropdown - Visible only on mobile */}
+          {/* Mobile Categories Dropdown */}
           <div className="lg:hidden w-full p-6 pb-0">
             <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2 border-b-2 border-[#EC098D] inline-block">
               Categories
             </h3>
 
             <div className="relative w-full mb-6">
-              {/* Dropdown Button */}
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-[#EC098D] font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
@@ -236,7 +95,6 @@ export default function FAQTabs() {
                 )}
               </button>
 
-              {/* Dropdown Menu */}
               {isDropdownOpen && (
                 <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
                   {tabs.map((tab) => (
@@ -255,7 +113,6 @@ export default function FAQTabs() {
                 </div>
               )}
 
-              {/* Backdrop to close dropdown */}
               {isDropdownOpen && (
                 <div
                   className="fixed inset-0 z-40 bg-transparent"
@@ -268,7 +125,7 @@ export default function FAQTabs() {
           {/* Right Content - FAQ */}
           <div className="lg:w-3/4 p-6 lg:p-8">
             <div className="space-y-4">
-              <span className="__secondary-text  font-[600] text-[26px] leading-[26px]">
+              <span className="__secondary-text font-[600] text-[26px] leading-[26px]">
                 Search Result!
               </span>
               <div className="flex items-center bg-gray-100 rounded-[10px] p-1 mt-4 w-full max-w-xl">
@@ -297,12 +154,12 @@ export default function FAQTabs() {
               </div>
 
               <h2 className="text-2xl font-bold text-pink-500 mt-6">
-                {faqData[activeTab].title}
+                {faqData[activeTab]?.title}
               </h2>
             </div>
 
             <div className="space-y-4 mt-2.5">
-              {faqData[activeTab].questions.map((item, index) => (
+              {faqData[activeTab]?.questions.map((item, index) => (
                 <div
                   key={item.id}
                   className="border border-gray-200 rounded-lg overflow-hidden"
