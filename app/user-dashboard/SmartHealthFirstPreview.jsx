@@ -117,7 +117,7 @@ function SmartHealthFirstPreview() {
             </p>
             <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base ">
               <Link
-                href="/upload-documents"
+                href="/final-dashboard"
                 className="flex items-center justify-center gap-2 px-5 md:px-0"
               >
                 Scan Report

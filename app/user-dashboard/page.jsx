@@ -537,6 +537,7 @@ const UserDashboard = () => {
           {activeTab === "tests" && <TestsSection />}
           {activeTab === "reports" && <ReportsSection />}
           {activeTab === "health" && <SmartHealthFirstPreview />}
+          {activeTab === "health" && <HealthDashboard />}
         </div>
       </div>
     </div>

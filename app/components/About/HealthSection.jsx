@@ -13,12 +13,12 @@ const HealthSection = ({ dataItem }) => {
   const aboutPage = dataItem?.content?.about_page;
 
   // Fallbacks
-  const title = aboutPage?.title_four || "";
+  const title = aboutPage?.title_five || "";
   const description = aboutPage?.description_five || "";
   const buttonUrl = aboutPage?.button_url_four || "/book-test";
   const buttonName = aboutPage?.button_name_five || "Get Started";
-  const imageSrc = aboutPage?.image_four || null;
-  const imageAlt = aboutPage?.title_four || "Health Section";
+  const imageSrc = aboutPage?.image_five || null;
+  const imageAlt = aboutPage?.title_five || "Health Section";
 
   // If aboutPage is missing, render nothing or a fallback UI
   if (!aboutPage) {

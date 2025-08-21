@@ -33,11 +33,12 @@ async function serviceDetails(payload) {
   });
 }
 
-async function enquiryForm(payload) {
-  return axios.post(rootUrl + "/api/web/enquiry/submit", payload, {
-    headers: await authHeader(),
-  });
-}
+
+  async function enquiryForm(payload) {
+    return axios.post(rootUrl + "/api/web/enquiry/submit", payload, {
+      headers: await authHeader(),
+    });
+  }
 
 async function bookingForm(payload) {
   return axios.post(rootUrl + "/api/web/bookings/create", payload, {

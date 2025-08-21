@@ -8,7 +8,6 @@ import AboutBanner from "../components/About/AboutBanner";
 import TestimonialSlider from "../components/Home/TestimonialSlider";
 import HealthSection from "../components/About/HealthSection";
 
-
 function AboutClient() {
   const dispatch = useDispatch();
   const aboutData = useSelector((state) => state.about.data);

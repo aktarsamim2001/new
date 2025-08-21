@@ -3,7 +3,16 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../../features/store/userProfileSlice";
-import { CheckCircle, FileText, BarChart3, Activity, Calendar, Clock, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  CheckCircle,
+  FileText,
+  BarChart3,
+  Activity,
+  Calendar,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 import Image from "next/image";
 import image from "../assets/woman/shape.png";
 import image1 from "../assets/book-test/heart.png";
@@ -19,7 +28,7 @@ import { ChevronDown } from "lucide-react";
 import { fetchServiceDetailsPageData } from "../../features/store/serviceDetailsPageSlice";
 import { fetchServicesList } from "../../features/store/servicesListSlice";
 import { fetchAddressList } from "../../features/store/addressListSlice";
-
+import ProtectedRoute from "@/features/Routes/ProtectedRoute";
 const TestBookingSystem = () => {
   const dispatch = useDispatch();
   const {
@@ -326,30 +335,41 @@ const TestBookingSystem = () => {
   };
 
   // Professional Date Time Picker Component
-  const ProfessionalDateTimePicker = ({ onDateTimeChange, initialDate = '', initialTime = '' }) => {
+  const ProfessionalDateTimePicker = ({
+    onDateTimeChange,
+    initialDate = "",
+    initialTime = "",
+  }) => {
     const [showDatePicker, setShowDatePicker] = useState(false);
     const [showTimePicker, setShowTimePicker] = useState(false);
     const [selectedDate, setSelectedDate] = useState(initialDate);
     const [selectedTime, setSelectedTime] = useState(initialTime);
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [errors, setErrors] = useState({});
-    
+
     const datePickerRef = useRef(null);
     const timePickerRef = useRef(null);
 
     // Close dropdowns when clicking outside
     useEffect(() => {
       const handleClickOutside = (event) => {
-        if (datePickerRef.current && !datePickerRef.current.contains(event.target)) {
+        if (
+          datePickerRef.current &&
+          !datePickerRef.current.contains(event.target)
+        ) {
           setShowDatePicker(false);
         }
-        if (timePickerRef.current && !timePickerRef.current.contains(event.target)) {
+        if (
+          timePickerRef.current &&
+          !timePickerRef.current.contains(event.target)
+        ) {
           setShowTimePicker(false);
         }
       };
 
-      document.addEventListener('mousedown', handleClickOutside);
-      return () => document.removeEventListener('mousedown', handleClickOutside);
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
     }, []);
 
     const timeSlots = [
@@ -360,15 +380,15 @@ const TestBookingSystem = () => {
       { value: "14:00-15:00", label: "02:00 - 03:00 PM", available: true },
       { value: "15:00-16:00", label: "03:00 - 04:00 PM", available: true },
       { value: "16:00-17:00", label: "04:00 - 05:00 PM", available: false },
-      { value: "17:00-18:00", label: "05:00 - 06:00 PM", available: true }
+      { value: "17:00-18:00", label: "05:00 - 06:00 PM", available: true },
     ];
 
     const formatDate = (date) => {
-      return date.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      return date.toLocaleDateString("en-US", {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
       });
     };
 
@@ -379,54 +399,57 @@ const TestBookingSystem = () => {
       const lastDay = new Date(year, month + 1, 0);
       const daysInMonth = lastDay.getDate();
       const startingDayOfWeek = firstDay.getDay();
-      
+
       const days = [];
-      
+
       // Add empty cells for days before the first day of the month
       for (let i = 0; i < startingDayOfWeek; i++) {
         days.push(null);
       }
-      
+
       // Add all days of the month
       for (let day = 1; day <= daysInMonth; day++) {
         const currentDate = new Date(year, month, day);
         const today = new Date();
         const isToday = currentDate.toDateString() === today.toDateString();
         const isPast = currentDate < today.setHours(0, 0, 0, 0);
-        const isSelected = selectedDate === currentDate.toISOString().split('T')[0];
-        
+        const isSelected =
+          selectedDate === currentDate.toISOString().split("T")[0];
+
         days.push({
           day,
           date: currentDate,
           isToday,
           isPast,
           isSelected,
-          disabled: isPast
+          disabled: isPast,
         });
       }
-      
+
       return days;
     };
 
     const handleDateSelect = (date) => {
-      const dateString = date.toISOString().split('T')[0];
+      const dateString = date.toISOString().split("T")[0];
       setSelectedDate(dateString);
       setShowDatePicker(false);
-      setErrors(prev => ({ ...prev, date: '' }));
-      onDateTimeChange && onDateTimeChange({ date: dateString, timeSlot: selectedTime });
+      setErrors((prev) => ({ ...prev, date: "" }));
+      onDateTimeChange &&
+        onDateTimeChange({ date: dateString, timeSlot: selectedTime });
     };
 
     const handleTimeSelect = (timeSlot) => {
       if (timeSlot.available) {
         setSelectedTime(timeSlot.value);
         setShowTimePicker(false);
-        setErrors(prev => ({ ...prev, timeSlot: '' }));
-        onDateTimeChange && onDateTimeChange({ date: selectedDate, timeSlot: timeSlot.value });
+        setErrors((prev) => ({ ...prev, timeSlot: "" }));
+        onDateTimeChange &&
+          onDateTimeChange({ date: selectedDate, timeSlot: timeSlot.value });
       }
     };
 
     const navigateMonth = (direction) => {
-      setCurrentMonth(prev => {
+      setCurrentMonth((prev) => {
         const newMonth = new Date(prev);
         newMonth.setMonth(prev.getMonth() + direction);
         return newMonth;
@@ -434,8 +457,13 @@ const TestBookingSystem = () => {
     };
 
     const days = getDaysInMonth(currentMonth);
-    const monthYear = currentMonth.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-    const selectedTimeSlot = timeSlots.find(slot => slot.value === selectedTime);
+    const monthYear = currentMonth.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric",
+    });
+    const selectedTimeSlot = timeSlots.find(
+      (slot) => slot.value === selectedTime
+    );
 
     return (
       <div className="space-y-6">
@@ -447,23 +475,37 @@ const TestBookingSystem = () => {
           <div className="relative lg:w-[60%] w-full" ref={datePickerRef}>
             <div
               onClick={() => setShowDatePicker(!showDatePicker)}
-              className={`w-full px-6 py-4 bg-gradient-to-r from-gray-50 to-pink-50 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                showDatePicker 
-                  ? 'border-pink-400 shadow-lg bg-white' 
-                  : 'border-gray-200 '
+              className={`w-full custom-outline-input cursor-pointer ${
+                showDatePicker ? "bg-white" : ""
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Calendar className={`w-6 h-6 transition-colors ${showDatePicker ? 'text-pink-500' : 'text-gray-400'}`} />
-                  <span className={`text-lg ${selectedDate ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
-                    {selectedDate ? formatDate(new Date(selectedDate)) : 'Choose your preferred date'}
+                  <Calendar
+                    className={`w-6 h-6 transition-colors ${
+                      showDatePicker ? "text-pink-500" : "text-gray-400"
+                    }`}
+                  />
+                  <span
+                    className={`text-lg ${
+                      selectedDate
+                        ? "text-gray-800 font-medium"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {selectedDate
+                      ? formatDate(new Date(selectedDate))
+                      : "Choose your preferred date"}
                   </span>
                 </div>
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showDatePicker ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-400 transition-transform ${
+                    showDatePicker ? "rotate-180" : ""
+                  }`}
+                />
               </div>
             </div>
-            
+
             {showDatePicker && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
                 {/* Calendar Header */}
@@ -476,7 +518,9 @@ const TestBookingSystem = () => {
                     >
                       <ChevronLeft className="w-5 h-5 text-white" />
                     </button>
-                    <h3 className="text-xl font-semibold text-white">{monthYear}</h3>
+                    <h3 className="text-xl font-semibold text-white">
+                      {monthYear}
+                    </h3>
                     <button
                       type="button"
                       onClick={() => navigateMonth(1)}
@@ -486,15 +530,20 @@ const TestBookingSystem = () => {
                     </button>
                   </div>
                 </div>
-                
+
                 {/* Calendar Grid */}
                 <div className="p-4">
                   <div className="grid grid-cols-7 gap-1 mb-2">
-                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                      <div key={day} className="p-2 text-center text-sm font-medium text-gray-500">
-                        {day}
-                      </div>
-                    ))}
+                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
+                      (day) => (
+                        <div
+                          key={day}
+                          className="p-2 text-center text-sm font-medium text-gray-500"
+                        >
+                          {day}
+                        </div>
+                      )
+                    )}
                   </div>
                   <div className="grid grid-cols-7 gap-1">
                     {days.map((dayObj, index) => (
@@ -502,16 +551,18 @@ const TestBookingSystem = () => {
                         {dayObj && (
                           <button
                             type="button"
-                            onClick={() => !dayObj.disabled && handleDateSelect(dayObj.date)}
+                            onClick={() =>
+                              !dayObj.disabled && handleDateSelect(dayObj.date)
+                            }
                             disabled={dayObj.disabled}
                             className={`w-full h-full rounded-xl text-sm font-medium transition-all duration-200 ${
                               dayObj.isSelected
-                                ? 'bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg scale-105'
+                                ? "bg-gradient-to-br from-pink-500 to-pink-600 text-white shadow-lg scale-105"
                                 : dayObj.isToday
-                                ? 'bg-pink-100 text-pink-600 border-2 border-pink-300'
+                                ? "bg-pink-100 text-pink-600 border-2 border-pink-300"
                                 : dayObj.disabled
-                                ? 'text-gray-300 cursor-not-allowed'
-                                : 'text-gray-700 hover:bg-pink-100 hover:text-pink-600 hover:scale-105'
+                                ? "text-gray-300 cursor-not-allowed"
+                                : "text-gray-700 hover:bg-pink-100 hover:text-pink-600 hover:scale-105"
                             }`}
                           >
                             {dayObj.day}
@@ -523,9 +574,12 @@ const TestBookingSystem = () => {
                 </div>
               </div>
             )}
-            
-            {errors.date && (
-              <p className="text-pink-500 text-sm mt-2 ml-2">{errors.date}</p>
+            {/* Display validation errors */}
+            {validationErrors.date && (
+              <div className="lg:flex flex-row items-center gap-3">
+                <div className="w-[160px]"></div>
+                <p className="text-red-500 text-sm">{validationErrors.date}</p>
+              </div>
             )}
           </div>
         </div>
@@ -538,23 +592,37 @@ const TestBookingSystem = () => {
           <div className="relative md:w-[60%] w-full" ref={timePickerRef}>
             <div
               onClick={() => setShowTimePicker(!showTimePicker)}
-              className={`w-full px-6 py-4 bg-gradient-to-r from-gray-50 to-pink-50 border-2 rounded-2xl cursor-pointer transition-all duration-300 hover:shadow-lg ${
-                showTimePicker 
-                  ? 'border-pink-400 shadow-lg bg-white' 
-                  : 'border-gray-200 hover:border-pink-300'
+              className={`w-full custom-outline-input cursor-pointer ${
+                showTimePicker ? "bg-white" : ""
               }`}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
-                  <Clock className={`w-6 h-6 transition-colors ${showTimePicker ? 'text-pink-500' : 'text-gray-400'}`} />
-                  <span className={`text-lg ${selectedTime ? 'text-gray-800 font-medium' : 'text-gray-400'}`}>
-                    {selectedTimeSlot ? selectedTimeSlot.label : 'Choose your preferred time'}
+                  <Clock
+                    className={`w-6 h-6 transition-colors ${
+                      showTimePicker ? "text-pink-500" : "text-gray-400"
+                    }`}
+                  />
+                  <span
+                    className={`text-lg ${
+                      selectedTime
+                        ? "text-gray-800 font-medium"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {selectedTimeSlot
+                      ? selectedTimeSlot.label
+                      : "Choose your preferred time"}
                   </span>
                 </div>
-                <ChevronDown className={`w-5 h-5 text-gray-400 transition-transform ${showTimePicker ? 'rotate-180' : ''}`} />
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-400 transition-transform ${
+                    showTimePicker ? "rotate-180" : ""
+                  }`}
+                />
               </div>
             </div>
-            
+
             {showTimePicker && (
               <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-40 overflow-hidden max-h-80 overflow-y-auto">
                 <div className="py-2">
@@ -566,30 +634,36 @@ const TestBookingSystem = () => {
                       disabled={!slot.available}
                       className={`w-full px-6 py-4 text-left transition-all duration-200 flex items-center justify-between ${
                         selectedTime === slot.value
-                          ? 'bg-gradient-to-r from-pink-500 to-pink-600 text-white'
+                          ? "bg-gradient-to-r from-pink-500 to-pink-600 text-white"
                           : slot.available
-                          ? 'hover:bg-pink-50 text-gray-700'
-                          : 'text-gray-400 cursor-not-allowed bg-gray-50'
+                          ? "hover:bg-pink-50 text-gray-700"
+                          : "text-gray-400 cursor-not-allowed bg-gray-50"
                       }`}
                     >
                       <span className="font-medium">{slot.label}</span>
-                      <span className={`text-sm px-3 py-1 rounded-full ${
-                        slot.available 
-                          ? selectedTime === slot.value 
-                            ? 'bg-white bg-opacity-20 text-white' 
-                            : 'bg-green-100 text-green-600'
-                          : 'bg-red-100 text-red-600'
-                      }`}>
-                        {slot.available ? 'Available' : 'Booked'}
+                      <span
+                        className={`text-sm px-3 py-1 rounded-full ${
+                          slot.available
+                            ? selectedTime === slot.value
+                              ? "bg-white bg-opacity-20 text-white"
+                              : "bg-green-100 text-green-600"
+                            : "bg-red-100 text-red-600"
+                        }`}
+                      >
+                        {slot.available ? "Available" : "Booked"}
                       </span>
                     </button>
                   ))}
                 </div>
               </div>
             )}
-            
-            {errors.timeSlot && (
-              <p className="text-pink-500 text-sm mt-2 ml-2">{errors.timeSlot}</p>
+            {validationErrors.timeSlot && (
+              <div className="lg:flex flex-row items-center gap-3">
+                <div className="w-[160px]"></div>
+                <p className="text-red-500 text-sm">
+                  {validationErrors.timeSlot}
+                </p>
+              </div>
             )}
           </div>
         </div>
@@ -610,46 +684,45 @@ const TestBookingSystem = () => {
     });
 
     const [dateTimeData, setDateTimeData] = useState({
-      date: allFormData.date || '',
-      timeSlot: allFormData.timeSlot || ''
+      date: allFormData.date || "",
+      timeSlot: allFormData.timeSlot || "",
     });
 
     const [validationErrors, setValidationErrors] = useState({});
 
     const handleDateTimeChange = (data) => {
       setDateTimeData(data);
-      setValue('date', data.date);
-      setValue('timeSlot', data.timeSlot);
-      
+      setValue("date", data.date);
+      setValue("timeSlot", data.timeSlot);
+
       // Clear validation errors when data is selected
       if (data.date) {
-        setValidationErrors(prev => ({ ...prev, date: '' }));
+        setValidationErrors((prev) => ({ ...prev, date: "" }));
       }
       if (data.timeSlot) {
-        setValidationErrors(prev => ({ ...prev, timeSlot: '' }));
+        setValidationErrors((prev) => ({ ...prev, timeSlot: "" }));
       }
     };
 
     const onSubmit = (data) => {
       const newErrors = {};
-      
+
       if (!dateTimeData.date) {
-        newErrors.date = 'Date is required';
+        newErrors.date = "Date is required";
       }
-      
+
       if (!dateTimeData.timeSlot) {
-        newErrors.timeSlot = 'Time slot is required';
+        newErrors.timeSlot = "Time slot is required";
       }
-      
+
       setValidationErrors(newErrors);
-      
+
       if (Object.keys(newErrors).length === 0) {
         const finalData = {
           ...data,
           date: dateTimeData.date,
-          timeSlot: dateTimeData.timeSlot
+          timeSlot: dateTimeData.timeSlot,
         };
-        console.log("Step 2 Form Data:", finalData);
         handleContinue(finalData);
       }
     };
@@ -735,25 +808,29 @@ const TestBookingSystem = () => {
               </div>
 
               {/* Professional Date Time Picker */}
-              <ProfessionalDateTimePicker 
+              <ProfessionalDateTimePicker
                 onDateTimeChange={handleDateTimeChange}
-                initialDate={allFormData.date || ''}
-                initialTime={allFormData.timeSlot || ''}
+                initialDate={allFormData.date || ""}
+                initialTime={allFormData.timeSlot || ""}
               />
-              
+
               {/* Display validation errors */}
-              {validationErrors.date && (
+              {/* {validationErrors.date && (
                 <div className="lg:flex flex-row items-center gap-3">
                   <div className="w-[160px]"></div>
-                  <p className="text-red-500 text-sm">{validationErrors.date}</p>
+                  <p className="text-red-500 text-sm">
+                    {validationErrors.date}
+                  </p>
                 </div>
-              )}
-              {validationErrors.timeSlot && (
+              )} */}
+              {/* {validationErrors.timeSlot && (
                 <div className="lg:flex flex-row items-center gap-3">
                   <div className="w-[160px]"></div>
-                  <p className="text-red-500 text-sm">{validationErrors.timeSlot}</p>
+                  <p className="text-red-500 text-sm">
+                    {validationErrors.timeSlot}
+                  </p>
                 </div>
-              )}
+              )} */}
             </div>
 
             <div className="flex items-center lg:justify-start mt-6 lg:pl-[8px] cursor-pointer">
@@ -1103,33 +1180,35 @@ const TestBookingSystem = () => {
 
   return (
     <>
-      {currentStep <= 3 && <HeaderSection />}
-      <div className="">
-        {/* Step content */}
-        <div className="container mx-auto __gapTop relative">
-          {currentStep === 1 && <Step1 handleContinue={handleStepContinue} />}
-          {currentStep === 2 && <Step2 handleContinue={handleStepContinue} />}
-          {currentStep === 3 && <Step3 handleContinue={handleStepContinue} />}
-          {currentStep === 4 && <Step4 />}
-          {/* Right Section - Image with custom top per step */}
+      <ProtectedRoute>
+        {currentStep <= 3 && <HeaderSection />}
+        <div className="">
+          {/* Step content */}
+          <div className="container mx-auto __gapTop relative">
+            {currentStep === 1 && <Step1 handleContinue={handleStepContinue} />}
+            {currentStep === 2 && <Step2 handleContinue={handleStepContinue} />}
+            {currentStep === 3 && <Step3 handleContinue={handleStepContinue} />}
+            {currentStep === 4 && <Step4 />}
+            {/* Right Section - Image with custom top per step */}
+          </div>
         </div>
-      </div>
-      <div
-        className={`hidden lg:flex justify-end items-end w-[70%] z-[-1] absolute right-0 h-full
+        <div
+          className={`hidden lg:flex justify-end items-end w-[70%] z-[-1] absolute right-0 h-full
               ${currentStep === 1 ? "top-[85%] -translate-y-1/2" : ""}
               ${currentStep === 2 ? "top-[80%]" : ""}
               ${currentStep === 3 ? "top-[60%]" : ""}
               ${currentStep === 4 ? "top-[45%]" : ""}
             `}
-      >
-        <Image
-          src={image}
-          width={400}
-          height={400}
-          alt="Sukaii Logo"
-          className="object-cover rounded-lg"
-        />
-      </div>
+        >
+          <Image
+            src={image}
+            width={400}
+            height={400}
+            alt="Sukaii Logo"
+            className="object-cover rounded-lg"
+          />
+        </div>
+      </ProtectedRoute>
     </>
   );
 };

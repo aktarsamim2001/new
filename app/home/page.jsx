@@ -1,33 +1,33 @@
-"use client";
 
-import BrandLogo from "../components/BrandLogo/BrandLogo";
-import { useEffect } from "react";
-import { useDispatch,useSelector } from "react-redux";
-import { fetchHomeData } from "../../features/store/homeSlice";
-import HealthSection from "../components/Home/HealthSection";
-import HowProcessWorks from "../components/Home/HowProcessWorks ";
-import RecommendedPackages from "../components/Home/RecommendedPackages";
-import SmartHealthBanner from "../components/Home/SmartHealthBanner";
-import TestimonialSlider from "../components/Home/TestimonialSlider";
-import WhatYouCanDo from "../components/Home/WhatYouCanDo";
 
-function Home() {
-  const dispatch = useDispatch();
-  const homeData = useSelector((state) => state?.home?.data);
-  useEffect(() => {
-    dispatch(fetchHomeData({ slug: "home" }));
-  }, [dispatch]);
-  return (
-    <>
-      <SmartHealthBanner dataItem={homeData}/>
-      <RecommendedPackages dataItem={homeData}/>
-      <WhatYouCanDo dataItem={homeData}/>
-      <HowProcessWorks dataItem={homeData}/>
-      <BrandLogo dataItem={homeData}/>
-      <TestimonialSlider dataItem={homeData}/>
-      <HealthSection dataItem={homeData}/>
-    </>
-  );
+import HomeClient from "./HomeClient";
+import { service } from "../../features/shared/_services/api_service";
+
+export async function generateMetadata() {
+  const res = await service.homepage({ slug: "home" });
+  const seo = res || {};
+  // This log will only show in server logs, not browser
+  console.log("SEO Data:", res);
+  return {
+    title: seo?.meta_title || "Home | Sukaii",
+    description: seo?.meta_description || "Welcome to Sukaii Home Page.",
+    keywords: seo?.meta_keywords || "health, analytics, sukaii",
+    authors: seo?.meta_author ? [{ name: seo.meta_author }] : [],
+    openGraph: {
+      images: seo?.feature_image ? [seo.feature_image] : [],
+      title: seo?.meta_title || "Home | Sukaii",
+      description: seo?.meta_description || "Welcome to Sukaii Home Page.",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: seo?.meta_title || "Home | Sukaii",
+      description: seo?.meta_description || "Welcome to Sukaii Home Page.",
+      images: seo?.feature_image ? [seo.feature_image] : [],
+    },
+  };
 }
 
-export default Home;
+// No 'use client' here, so this is a server component
+export default function HomePage() {
+  return <HomeClient />;
+}

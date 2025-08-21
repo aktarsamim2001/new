@@ -13,7 +13,7 @@ import faqReducer from "./faqSlice"
 import enquiryReducer from "./enquirySlice"
 import dynamicPageReducer from "./dynamicSlice";
 
-import enquiryFormReducer from "./enquiryFormSlice.jsx";
+import enquiryFormReducer from "./enquiryFormSlice";
 import userProfileReducer from "./userProfileSlice";
 
 import bookingReducer from "./bookingSlice";
