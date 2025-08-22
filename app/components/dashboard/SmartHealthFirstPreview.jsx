@@ -2,13 +2,13 @@ import React from "react";
 import Image from "next/image";
 const image = "/user-dashboard/health-care-icon/banner.jpg";
 const icons2 = "/user-dashboard/health-care-icon/health-care.png";
-import texture from "../assets/woman/shape.png";
-import image2 from "../../public/user-dashboard/user-dashboard-video.png";
-import HealthSection from "../components/Home/HealthSection";
-import image8 from "../assets/about/about-image (2).png";
+import texture from "../../assets/woman/shape.png";
+import image2 from "../../../public/user-dashboard/user-dashboard-video.png";
+import HealthSection from "../../components/Home/HealthSection";
+import image8 from "../../assets/about/about-image (2).png";
 import Link from "next/link";
-import image3 from "../assets/partner-image/handshake.png";
-import Button from "../components/ui/Button";
+import image3 from "../../assets/partner-image/handshake.png";
+import Button from "../../components/ui/Button";
 
 function SmartHealthFirstPreview() {
   return (

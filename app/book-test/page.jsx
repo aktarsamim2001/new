@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchUserProfile } from "../../features/store/userProfileSlice";
+import { createBooking } from "../../features/store/bookingSlice";
 import {
   CheckCircle,
   FileText,
@@ -407,12 +408,18 @@ const TestBookingSystem = () => {
         days.push(null);
       }
 
+      // Get today's date at midnight
+      const todayMidnight = new Date();
+      todayMidnight.setHours(0, 0, 0, 0);
+
       // Add all days of the month
       for (let day = 1; day <= daysInMonth; day++) {
         const currentDate = new Date(year, month, day);
-        const today = new Date();
-        const isToday = currentDate.toDateString() === today.toDateString();
-        const isPast = currentDate < today.setHours(0, 0, 0, 0);
+        const currentDateMidnight = new Date(currentDate);
+        currentDateMidnight.setHours(0, 0, 0, 0);
+        const isToday = currentDateMidnight.getTime() === todayMidnight.getTime();
+        // Only disable dates strictly before today
+        const isPast = currentDateMidnight.getTime() < todayMidnight.getTime();
         const isSelected =
           selectedDate === currentDate.toISOString().split("T")[0];
 
@@ -430,12 +437,16 @@ const TestBookingSystem = () => {
     };
 
     const handleDateSelect = (date) => {
-      const dateString = date.toISOString().split("T")[0];
-      setSelectedDate(dateString);
+      // Use local date string to avoid timezone issues
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const localDateString = `${year}-${month}-${day}`;
+      setSelectedDate(localDateString);
       setShowDatePicker(false);
       setErrors((prev) => ({ ...prev, date: "" }));
       onDateTimeChange &&
-        onDateTimeChange({ date: dateString, timeSlot: selectedTime });
+        onDateTimeChange({ date: localDateString, timeSlot: selectedTime });
     };
 
     const handleTimeSelect = (timeSlot) => {
@@ -575,10 +586,10 @@ const TestBookingSystem = () => {
               </div>
             )}
             {/* Display validation errors */}
-            {validationErrors.date && (
+            {errors.date && (
               <div className="lg:flex flex-row items-center gap-3">
                 <div className="w-[160px]"></div>
-                <p className="text-red-500 text-sm">{validationErrors.date}</p>
+                <p className="text-red-500 text-sm">{errors.date}</p>
               </div>
             )}
           </div>
@@ -657,11 +668,11 @@ const TestBookingSystem = () => {
                 </div>
               </div>
             )}
-            {validationErrors.timeSlot && (
+            {errors.timeSlot && (
               <div className="lg:flex flex-row items-center gap-3">
                 <div className="w-[160px]"></div>
                 <p className="text-red-500 text-sm">
-                  {validationErrors.timeSlot}
+                  {errors.timeSlot}
                 </p>
               </div>
             )}
@@ -709,6 +720,14 @@ const TestBookingSystem = () => {
 
       if (!dateTimeData.date) {
         newErrors.date = "Date is required";
+      } else {
+        // Validate not in past
+        const selected = new Date(dateTimeData.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selected < today) {
+          newErrors.date = "Schedule date cannot be in the past";
+        }
       }
 
       if (!dateTimeData.timeSlot) {
@@ -850,20 +869,65 @@ const TestBookingSystem = () => {
   };
 
   const Step3 = ({ handleContinue }) => {
+    const testPackages = Array.isArray(servicesListData?.packages)
+      ? servicesListData.packages
+      : [];
+    const selectedTestObj = testPackages.find(
+      (t) => String(t.id) === String(allFormData.selectedTest)
+    );
+    const bookingData = useSelector((state) => state.booking?.data || {});
+    const getBookingSummary = () => {
+      return `Your booking for ${selectedTestObj ? selectedTestObj.name.replace(/<br\s*\/?>(\s*)?/gi, " ") : "the selected package"} is scheduled on ${allFormData.date || "[Select Date]"}.`;
+    };
+
     const {
       register,
+      setValue,
       handleSubmit,
       formState: { errors },
     } = useForm({
       defaultValues: {
         ...allFormData,
-        totalCost: allFormData.totalCost || "60",
+        totalCost: allFormData.totalCost || bookingData.totalCost || "60",
+        bookingSummary: getBookingSummary(),
       },
     });
 
+    useEffect(() => {
+      setValue("bookingSummary", getBookingSummary());
+    }, [allFormData.selectedTest, allFormData.date, servicesListData]);
+    const dispatch = useDispatch();
+    const address_id = useSelector((state) => state.addressList?.data?.[0]?.id || null);
+
+    const [dateError, setDateError] = useState("");
     const onSubmit = (data) => {
-      console.log("Step 3 Form Data:", data);
-      handleContinue(data);
+      setDateError("");
+      // Validate not in past
+      if (data.date) {
+        const selected = new Date(data.date);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (selected < today) {
+          setDateError("Schedule date cannot be in the past");
+          return;
+        }
+      }
+      let schedule_time = "";
+      if (data.timeSlot) {
+        const start = data.timeSlot.split("-")[0];
+        schedule_time = /^\d{2}:\d{2}$/.test(start) ? `${start}:00` : start;
+      }
+      const payload = {
+        address_id,
+        package_ids: [parseInt(data.selectedTest, 10)].filter(Number.isInteger),
+        schedule_date: data.date,
+        schedule_time,
+        payment_method: data.paymentMode,
+        terms_condition: data.agreeTerms,
+        coupon_code: data.applyCode || "",
+      };
+      dispatch(createBooking(payload));
+      handleContinue({ ...data, totalCost: bookingData.totalCost });
     };
 
     return (
@@ -873,6 +937,10 @@ const TestBookingSystem = () => {
             <h2 className="section__heading mb-8 hidden md:block">
               Review and Pay
             </h2>
+
+            {dateError && (
+              <div className="text-red-500 text-sm mb-2">{dateError}</div>
+            )}
 
             <div className="md:space-y-6">
               {/* Booking Summary - Large textarea */}
@@ -887,7 +955,7 @@ const TestBookingSystem = () => {
                     {...register("bookingSummary", {
                       required: "Booking summary is required",
                     })}
-                    rows={6}
+                    rows={5}
                     className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all resize-none"
                     placeholder="Enter booking summary"
                   />
@@ -958,10 +1026,10 @@ const TestBookingSystem = () => {
                     className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   >
                     <option value="">Select Payment Method</option>
-                    <option value="credit-card">Credit Card</option>
-                    <option value="debit-card">Debit Card</option>
-                    <option value="online-banking">Online Banking</option>
-                    <option value="cash-on-delivery">Cash on Delivery</option>
+                    <option value="credit_card">Credit Card</option>
+                    <option value="debit_card">Debit Card</option>
+                    <option value="online_banking">Online Banking</option>
+                    <option value="cash_on_delivery">Cash on Delivery</option>
                   </select>
 
                   <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
@@ -1085,20 +1153,32 @@ const TestBookingSystem = () => {
                 {allFormData.pincode || "19028"}
               </span>
             </div>
-            <div className="flex gap-4">
+            {/* <div className="flex gap-4">
               <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
                 Remarks
               </span>
               <span className="font-[600] text-[20px]">
                 {allFormData.remarks || "Lorem ipsum dolor sit amet"}
               </span>
-            </div>
+            </div> */}
             <div className="flex gap-4">
               <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
                 Selected Test
               </span>
               <span className="font-[600] text-[20px]">
-                {allFormData.selectedTest || "Complete Blood Count"}
+                {
+                  (() => {
+                    const testPackages = Array.isArray(servicesListData?.packages)
+                      ? servicesListData.packages
+                      : [];
+                    const selectedTestObj = testPackages.find(
+                      (t) => String(t.id) === String(allFormData.selectedTest)
+                    );
+                    return selectedTestObj
+                      ? selectedTestObj.name.replace(/<br\s*\/?>/gi, " ")
+                      : "Complete Blood Count";
+                  })()
+                }
               </span>
             </div>
             <div className="flex gap-4">
@@ -1124,6 +1204,8 @@ const TestBookingSystem = () => {
               <span className="font-[600] text-[20px]">
                 {allFormData.totalCost
                   ? `${allFormData.totalCost} RM (Including Tax)`
+                  : bookingData.totalCost
+                  ? `${bookingData.totalCost} RM (Including Tax)`
                   : "60 RM (Including Tax)"}
               </span>
             </div>

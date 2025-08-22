@@ -11,7 +11,7 @@ const icons7 = "/user-dashboard/health-care-icon/organs-6.png";
 const icons8 = "/user-dashboard/health-care-icon/organs-7.png";
 const icons9 = "/user-dashboard/health-care-icon/organs-8.png";
 import HealthAnalytics from "./HealthAnalytics";
-import texture from "../assets/woman/shape.png";
+import texture from "../../assets/woman/shape.png";
 
 const HealthDashboard = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
