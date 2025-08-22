@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Eye, X, Star, BadgePlus } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
-  MdOutlinePhotoCamera,
   MdOutlineEdit,
   MdAddCircle,
 } from "react-icons/md";
@@ -42,12 +41,48 @@ const UploadReport = () => {
   const [isEditing, setIsEditing] = useState({});
   const [reportAdded, setReportAdded] = useState(false);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [showCamera, setShowCamera] = useState(false);
-  const [cameraStream, setCameraStream] = useState(null);
   const [toast, setToast] = useState("");
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
-  const [capturedImage, setCapturedImage] = useState(null);
+  
+  const [hasUploadedDocument, setHasUploadedDocument] = useState(false);
+  
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check URL parameters or localStorage for uploaded document info
+    const fromUpload = searchParams.get('from_upload');
+    const fromModal = searchParams.get('upload_documents');
+    const uploadedDoc = localStorage.getItem('uploadedDocument');
+    
+    if (fromUpload === 'true' && uploadedDoc) {
+      setHasUploadedDocument(true);
+      setReview(true); // Directly show the review section
+      
+      try {
+        const docData = JSON.parse(uploadedDoc);
+        setReportData(docData);
+      } catch (error) {
+        console.error('Error parsing uploaded document data:', error);
+      }
+    }
+    else if (fromModal === 'true') {
+      setHasUploadedDocument(false);
+      setReview(false);
+      setShowProgress(false);
+      localStorage.removeItem('uploadedDocument');
+    }
+    else if (uploadedDoc) {
+      setHasUploadedDocument(true);
+      setReview(true);
+      
+      try {
+        const docData = JSON.parse(uploadedDoc);
+        setReportData(docData);
+      } catch (error) {
+        console.error('Error parsing uploaded document data:', error);
+      }
+    }
+  }, [searchParams]);
 
   const slide = {
     reviewAvatars: [
@@ -81,63 +116,10 @@ const UploadReport = () => {
           clearInterval(interval);
           setShowProgress(false);
           setReview(true);
+          setHasUploadedDocument(true);
         }
       }, 200);
     }
-  };
-
-  const handleCameraScanClick = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      setCameraStream(stream);
-      setShowCamera(true);
-      // Attach stream to video element after modal is open
-      setTimeout(() => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      }, 100);
-    } catch (err) {
-      setToast("Could not access camera. Please allow camera permissions.");
-      setTimeout(() => setToast(""), 3000);
-    }
-  };
-
-  const handleCloseCamera = () => {
-    if (cameraStream) {
-      cameraStream.getTracks().forEach((track) => track.stop());
-    }
-    setShowCamera(false);
-    setCameraStream(null);
-    setCapturedImage(null);
-  };
-
-  const handleCapture = () => {
-    if (!videoRef.current) return;
-    const video = videoRef.current;
-    const canvas = document.createElement('canvas');
-    canvas.width = video.videoWidth;
-    canvas.height = video.videoHeight;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    const dataUrl = canvas.toDataURL('image/png');
-    setCapturedImage(dataUrl);
-
-    // Simulate upload progress and review using the captured image
-    setShowCamera(false);
-    setShowProgress(true);
-    setReview(false);
-    setProgress(0);
-    let prog = 0;
-    const interval = setInterval(() => {
-      prog += 10;
-      setProgress(prog);
-      if (prog >= 100) {
-        clearInterval(interval);
-        setShowProgress(false);
-        setReview(true);
-      }
-    }, 200);
   };
 
   const handleEdit = (field) => {
@@ -152,6 +134,15 @@ const UploadReport = () => {
 
   const handleConfirm = () => {
     setReportAdded(true);
+    localStorage.removeItem('uploadedDocument');
+  };
+
+  const handleBackToUpload = () => {
+    setHasUploadedDocument(false);
+    setReview(false);
+    setShowProgress(false);
+    localStorage.removeItem('uploadedDocument');
+    window.history.replaceState({}, '', '/document-scan');
   };
 
   return (
@@ -183,32 +174,32 @@ const UploadReport = () => {
           </div>
           <div className="mt- flex items-center justify-center md:absolute bottom-14  md:left-4/9 py-5 md:p-4">
             <h1 className="text-[30px] md:text-[45px] font-[600] md:leading-[1.5] leading-[1.2]">
-              Scan or Upload <span className="md:block">Your Report</span>
+              Upload <span className="md:block">Your Report</span>
             </h1>
           </div>
         </div>
 
         {/* Conditional Sections Below */}
-        {/* Upload Method Section */}
-
-  {!showProgress && !review && (
+        
+        {/* Upload Method Section - Only show if no document uploaded */}
+        {!hasUploadedDocument && !showProgress && !review && (
           <div className="container mx-auto __gapTop px-4 md:px-0">
             <h2 className="section__heading __secondary-text mb-2">
-              Choose Upload Method
+              Upload Your Report
             </h2>
             <p className="text-[18px] text-gray-600 mb-5">
               Ensure the report is clear and well-lit.
             </p>
-            <div className="flex flex-col md:flex-row gap-6 md:gap-10 md:px-14 pt-6 md:pt-10">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10 md:px-14 pt-6 md:pt-10 justify-center">
               <button
                 onClick={handleFileUploadClick}
-                className="flex-1 p-6 bg-white rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
+                className="max-w-md p-6 bg-white rounded-[20px] ____shadow-card flex flex-col items-center justify-center gap-4 hover:shadow-lg transition-shadow"
               >
                 <div>
-                  <BiCloudUpload size={40} className=" __secondary-text" />
+                  <BiCloudUpload size={60} className="__secondary-text" />
                 </div>
                 <div
-                  className={`text-[16px] font-[500] cursor-pointer ${poppins.className}`}
+                  className={`text-[18px] font-[500] cursor-pointer text-center ${poppins.className}`}
                 >
                   Upload a PDF/Image file
                 </div>
@@ -221,46 +212,10 @@ const UploadReport = () => {
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <button
-                onClick={handleCameraScanClick}
-                className="flex-1 p-6 bg-white  rounded-[20px] ____shadow-card flex flex-col items-start justify-center gap-2"
-              >
-                <MdOutlinePhotoCamera size={40} className="__secondary-text" />
-                <span
-                  className={`text-[16px] font-[500] cursor-pointer ${poppins.className}`}
-                >
-                  Use the camera to scan
-                </span>
-              </button>
-        {/* Camera Modal */}
-        {showCamera && (
-          <div className="fixed inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white rounded-2xl p-4 shadow-2xl relative flex flex-col items-center w-[100vw] max-w-3xl">
-              {/* <button
-                onClick={handleCloseCamera}
-                className="absolute top-3 right-3 bg-gray-200 rounded-full p-2 text-gray-600 hover:text-pink-500"
-                aria-label="Close camera"
-              >
-                <X size={24} />
-              </button> */}
-              <video
-                ref={videoRef}
-                autoPlay
-                playsInline
-                className="w-[800px] h-[400px] rounded-lg object-cover border-2 border-pink-400"
-              />
-              <button
-                onClick={handleCapture}
-                className="mt-6 px-6 py-2 bg-pink-500 text-white rounded-lg font-semibold shadow hover:bg-pink-600 transition-colors"
-              >
-                Capture
-              </button>
             </div>
           </div>
         )}
-            </div>
-          </div>
-        )}
+        
         {/* Progress Bar Section */}
         {showProgress && (
           <div className="container mx-auto __gapTop px-4 md:px-0">
@@ -285,26 +240,37 @@ const UploadReport = () => {
             </div>
           </div>
         )}
+        
         {/* Review Message Section */}
-
         {review && (
           <>
             <div className="container mx-auto __gapTop">
-              {/* Header */}
-
+              {/* Header with Back Button (show based on source) */}
               <div className="mb-8">
-                <h2 className="section__heading text-[#EC098D] mb-4">
-                  Review & Confirm Your Report
-                </h2>
-                <p className="text-gray-600">
-                  Here's what we found from your uploaded report. Please review
-                  and make corrections if needed before saving.
-                </p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h2 className="section__heading text-[#EC098D] mb-4">
+                      Review & Confirm Your Report
+                    </h2>
+                    <p className="text-gray-600">
+                      Here's what we found from your uploaded report. Please review
+                      and make corrections if needed before saving.
+                    </p>
+                  </div>
+                  {/* Show back button only if came from external upload (not from modal) */}
+                  {searchParams.get('from_upload') === 'true' && (
+                    <button
+                      onClick={handleBackToUpload}
+                      className="text-gray-500 hover:text-gray-700 underline text-sm"
+                    >
+                      Upload Different Document
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="space-y-6 __gapTop">
                 {/* Section 01: File Preview */}
-
                 <div className="flex flex-col md:flex-row items-start justify-between gap-5 md:gap-16 w-full md:w-[90%] mb-8">
                   <div className="flex items-center gap-3 min-w-fit">
                     <div className="text-black font-[550] text-[20px]">01</div>
@@ -313,23 +279,14 @@ const UploadReport = () => {
                     </h2>
                   </div>
                   <div className="bg-white ____shadow-card w-full rounded-xl p-4 text-center text-[16px] font-[550] cursor-pointer flex-1">
-                    {capturedImage ? (
-                      <img
-                        src={capturedImage}
-                        alt="Captured Preview"
-                        className="w-full h-[600px] object-center rounded-lg object-cover"
-                      />
-                    ) : (
-                      <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
-                        <MdOutlineZoomOutMap className="w-5 h-5" />
-                        View Uploaded File
-                      </button>
-                    )}
+                    <button className="flex items-center gap-2 font-[500px] leading-[135%] cursor-pointe text-[18px] mx-auto px-4 py-6 text-gray-600 hover:__secondary-text transition-colors">
+                      <MdOutlineZoomOutMap className="w-5 h-5" />
+                      View Uploaded File
+                    </button>
                   </div>
                 </div>
 
                 {/* Section 02: Auto-Extracted Info */}
-
                 <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-20 md:w-[90%] mb-8">
                   <div className="flex items-center gap-3 min-w-fit">
                     <div className="text-black font-[550] text-[20px]">02</div>
@@ -438,6 +395,7 @@ const UploadReport = () => {
             </div>
           </>
         )}
+        
         {/* Success Modal Section */}
         {reportAdded && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -470,7 +428,7 @@ const UploadReport = () => {
                     Your report has been added successfully!
                   </h2>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {/* Scan or Upload Report Option */}
+                    {/* View in Dashboard Option */}
                   <Link href="/user-dashboard" passHref>
                     <div
                       className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
@@ -509,7 +467,7 @@ const UploadReport = () => {
                       </div>
                     </div>
                   </Link>
-                    {/* Manual Entry Option */}
+                    {/* Upload Another Report Option */}
                     <Link href="/upload-documents" passHref>
                     <div
                       className={`relative p-3 rounded-2xl cursor-pointer transition-all duration-200 ${
@@ -549,14 +507,6 @@ const UploadReport = () => {
                     </div>
                     </Link>
                   </div>
-                  {/* <div className="flex justify-center mt-4">
-                    <button
-                      onClick={() => setReportAdded(false)}
-                      className="bg-pink-500 hover:bg-pink-600 text-white font-semibold py-3 px-8 rounded-xl shadow-md transition-colors"
-                    >
-                      Close
-                    </button>
-                  </div> */}
                 </div>
                 <div className="w-full relative h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px]">
                   <div className="absolute inset-0 h-full">

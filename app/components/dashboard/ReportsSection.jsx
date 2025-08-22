@@ -20,9 +20,6 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-// import icon from "../../../public/user-dashboard/icon2 (3).png";
-// import SmartHealthFirstPreview from "./SmartHealthFirstPreview";
-// import HealthDashboard from "./HealthDashboard";
 
 const reports = [
   {
@@ -70,8 +67,27 @@ const ReportsSection = () => {
         setIsUploading(false);
         setUploadStatus("success");
         
+        // Store document data in localStorage (you can modify this data as needed)
+        const documentData = {
+          testName: "Complete Blood Count (CBC)", // You can extract this from file name or use AI
+          dateOfReport: new Date().toLocaleDateString('en-GB', { 
+            day: '2-digit', 
+            month: 'short', 
+            year: 'numeric' 
+          }),
+          labName: "External Lab", // Default or extract from document
+          parameters: [
+            { name: "WBC", value: "7.2", unit: "x10³/μL" },
+            { name: "RBC", value: "4.8", unit: "x10⁶/μL" },
+            { name: "Hemoglobin", value: "14.5", unit: "g/dL" },
+          ],
+          fileName: file.name
+        };
+        
+        localStorage.setItem('uploadedDocument', JSON.stringify(documentData));
+        
         setTimeout(() => {
-          router.push("/document-scan");
+          router.push("/document-scan?from_upload=true");
         }, 1000);
       }, 1000);
     }
@@ -184,7 +200,7 @@ const ReportsSection = () => {
               disabled={isUploading}
               className={`cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-opacity ${
                 isUploading ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
-              }`}
+              } max-w-[220px] w-full`}
             >
               <Upload className="w-4 h-4" />
               {isUploading ? 'Uploading...' : 'Upload External Report'}
@@ -203,15 +219,6 @@ const ReportsSection = () => {
             {uploadStatus && (
               <div className="bg-gray-50 rounded-lg p-3">
                 {getUploadStatusContent()}
-              </div>
-            )}
-
-            {/* Upload Instructions */}
-            {!uploadStatus && (
-              <div className="text-xs text-gray-500">
-                <p>• Only PDF files are accepted</p>
-                <p>• Maximum file size: 10MB</p>
-                <p>• After upload, you'll be redirected to the analysis page</p>
               </div>
             )}
           </div>
