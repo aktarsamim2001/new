@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   FileText,
   Activity,
@@ -15,40 +15,101 @@ import {
   FolderOpen,
   CircleX,
   SquareUser,
+  CheckCircle,
+  Loader2,
 } from "lucide-react";
 import Image from "next/image";
-import icon from "../../../public/user-dashboard/icon2 (3).png";
-import SmartHealthFirstPreview from "./SmartHealthFirstPreview";
-import HealthDashboard from "./HealthDashboard";
+import { useRouter } from "next/navigation";
+// import icon from "../../../public/user-dashboard/icon2 (3).png";
+// import SmartHealthFirstPreview from "./SmartHealthFirstPreview";
+// import HealthDashboard from "./HealthDashboard";
 
-  const reports = [
-    {
-      testName: "Complete Blood Count (CBC)",
-      dateTaken: "15 May 2025",
-      status: "Ready",
-      id: 1,
-    },
-    {
-      testName: "Thyroid Function Test",
-      dateTaken: "10 May 2025",
-      status: "Processing",
-      id: 2,
-    },
-    {
-      testName: "Lipid Profile",
-      dateTaken: "14 Apr 2025",
-      status: "Ready",
-      id: 3,
-    },
-    {
-      testName: "Vitamin D Test",
-      dateTaken: "12 Apr 2025",
-      status: "Ready",
-      id: 4,
-    },
-  ];
+const reports = [
+  {
+    testName: "Complete Blood Count (CBC)",
+    dateTaken: "15 May 2025",
+    status: "Ready",
+    id: 1,
+  },
+  {
+    testName: "Thyroid Function Test",
+    dateTaken: "10 May 2025",
+    status: "Processing",
+    id: 2,
+  },
+  {
+    testName: "Lipid Profile",
+    dateTaken: "14 Apr 2025",
+    status: "Ready",
+    id: 3,
+  },
+  {
+    testName: "Vitamin D Test",
+    dateTaken: "12 Apr 2025",
+    status: "Ready",
+    id: 4,
+  },
+];
 
-const ReportsSection = () => (
+const ReportsSection = () => {
+  const [uploadStatus, setUploadStatus] = useState("");
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
+  const router = useRouter();
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setUploadedFile(file);
+      setIsUploading(true);
+      setUploadStatus("uploading");
+
+      // Simulate upload process
+      setTimeout(() => {
+        setIsUploading(false);
+        setUploadStatus("success");
+        
+        setTimeout(() => {
+          router.push("/document-scan");
+        }, 1000);
+      }, 1000);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
+  const getUploadStatusContent = () => {
+    switch (uploadStatus) {
+      case "uploading":
+        return (
+          <div className="flex items-center gap-2 text-blue-600">
+            <Loader2 className="w-4 h-4 animate-spin" />
+            <span className="text-sm">Uploading {uploadedFile?.name}...</span>
+          </div>
+        );
+      case "success":
+        return (
+          <div className="flex items-center gap-2 text-green-600">
+            <CheckCircle className="w-4 h-4" />
+            <span className="text-sm">Upload successful! Redirecting...</span>
+          </div>
+        );
+      case "error":
+        return (
+          <div className="flex items-center gap-2 text-red-600">
+            <CircleX className="w-4 h-4" />
+            <span className="text-sm">Please upload PDF files only</span>
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
+
+  return (
     <div className="px-4 md:px-22 container mx-auto">
       <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
         <div className="__primary-bg text-white px-4 md:px-6 py-3">
@@ -113,14 +174,51 @@ const ReportsSection = () => (
             </tbody>
           </table>
         </div>
-        <div className="px-6 py-3">
-          <button className="cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 ">
-            <Upload className="w-4 h-4" />
-            Upload External Report
-          </button>
+        
+        {/* Upload Section */}
+        <div className="px-6 py-4 border-t border-gray-100">
+          <div className="flex flex-col gap-3">
+            {/* Upload Button */}
+            <button 
+              onClick={triggerFileInput}
+              disabled={isUploading}
+              className={`cursor-pointer __secondary-bg text-white px-4 py-2 rounded-lg text-sm flex items-center justify-center gap-2 transition-opacity ${
+                isUploading ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
+              }`}
+            >
+              <Upload className="w-4 h-4" />
+              {isUploading ? 'Uploading...' : 'Upload External Report'}
+            </button>
+
+            {/* Hidden File Input */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".pdf"
+              onChange={handleFileUpload}
+              className="hidden"
+            />
+
+            {/* Upload Status */}
+            {uploadStatus && (
+              <div className="bg-gray-50 rounded-lg p-3">
+                {getUploadStatusContent()}
+              </div>
+            )}
+
+            {/* Upload Instructions */}
+            {!uploadStatus && (
+              <div className="text-xs text-gray-500">
+                <p>• Only PDF files are accepted</p>
+                <p>• Maximum file size: 10MB</p>
+                <p>• After upload, you'll be redirected to the analysis page</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
   );
+};
 
-  export default ReportsSection;
+export default ReportsSection;
