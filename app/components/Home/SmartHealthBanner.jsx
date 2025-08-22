@@ -25,7 +25,6 @@ const SmartHealthBanner = ({ dataItem }) => {
 
   // Ensure slide is always an array
   const data = dataItem.content ? dataItem.content : [];
-  console.log("Slide:", data);
 
   return (
     <>

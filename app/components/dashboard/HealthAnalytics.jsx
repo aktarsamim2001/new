@@ -16,11 +16,11 @@ import {
 import { Line } from "react-chartjs-2";
 import { motion, AnimatePresence } from "framer-motion";
 
-import icon from "../../public/user-dashboard/health-care-icon/smart-health-1 (1).png";
-import icon2 from "../../public/user-dashboard/health-care-icon/smart-health-1 (2).png";
-import icon3 from "../../public/user-dashboard/health-care-icon/smart-health-1 (3).png";
-import icon4 from "../../public/user-dashboard/health-care-icon/smart-health-1 (4).png";
-import bannerImage from "../../public/user-dashboard/health-care-icon/cta-banner.jpg";
+import icon from "../../../public/user-dashboard/health-care-icon/smart-health-1 (1).png";
+import icon2 from "../../../public/user-dashboard/health-care-icon/smart-health-1 (2).png";
+import icon3 from "../../../public/user-dashboard/health-care-icon/smart-health-1 (3).png";
+import icon4 from "../../../public/user-dashboard/health-care-icon/smart-health-1 (4).png";
+import bannerImage from "../../../public/user-dashboard/health-care-icon/cta-banner.jpg";
 
 const HealthAnalytics = () => {
   const [showRecentActivity, setShowRecentActivity] = React.useState(true);
@@ -479,7 +479,7 @@ const HealthAnalytics = () => {
         <div className="my-6 sm:my-8 md:my-10 flex flex-col md:flex-row items-center gap-4 sm:gap-6 md:gap-8 p-4 max-w-6xl mx-auto pb-8">
           <div className="w-full md:w-1/2 flex-shrink-0">
             <Image
-              src={require("../../public/user-dashboard/health-care-icon/cta-banner.jpg")}
+              src={require("../../../public/user-dashboard/health-care-icon/health-care.png")}
               alt="Support Lab"
               className="rounded-xl object-cover object-top w-full h-32 sm:h-40 md:h-[280px]"
             />

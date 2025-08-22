@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { Poppins } from "next/font/google";
 
@@ -12,11 +12,17 @@ const poppins = Poppins({
 export default function FAQTabs({ data }) {
   const categories = data?.content?.faq_page?.categories || [];
 
-  const [activeTab, setActiveTab] = useState(
-    categories?.[0]?.category_name || ""
-  );
+  // start with no active tab
+  const [activeTab, setActiveTab] = useState("");
   const [expandedItems, setExpandedItems] = useState({});
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  // when categories load, select the first one automatically
+  useEffect(() => {
+    if (categories.length > 0 && !activeTab) {
+      setActiveTab(categories[0].category_name);
+    }
+  }, [categories, activeTab]);
 
   const toggleExpanded = (id) => {
     setExpandedItems((prev) => ({
@@ -35,12 +41,12 @@ export default function FAQTabs({ data }) {
   const tabs = [];
 
   categories.forEach((category, catIndex) => {
-    const tabId = `tab-${catIndex}`;
-    tabs.push({ id: category.category_name, label: category.category_name });
-    faqData[category.category_name] = {
+    const tabId = category.category_name; // use real name as id
+    tabs.push({ id: tabId, label: category.category_name });
+    faqData[tabId] = {
       title: category.category_name,
       questions: category.items.map((item, index) => ({
-        id: `${tabId}-q${index}`,
+        id: `${catIndex}-q${index}`,
         question: item.title,
         answer: item.description,
       })),

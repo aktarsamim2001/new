@@ -24,7 +24,7 @@ function SupportBanner({ data }) {
         {/* Text Section */}
         <div className="px-4 text-left">
           <h1 className="text-[24px] md:text-[48px] font-[550] leading-[1.1]">
-            {bannerData.title}.
+            {bannerData.title}
           </h1>
           <p className="mt-4 banner__description text-gray-600">
             {bannerData.description}

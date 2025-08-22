@@ -15,7 +15,7 @@ function Page() {
   const dispatch = useDispatch();
   const serviceDetailsData = useSelector((state) => state?.serviceDetails?.data);
   const serviceDetailsPageData = useSelector((state) => state?.serviceDetailsPage?.data);
-  console.log('serviceDetailsData', serviceDetailsPageData);
+  
   useEffect(() => {
     dispatch(fetchServiceDetailsData({ slug: 'service-details' }));
       dispatch(fetchServiceDetailsPageData({ package_id: "3" }));

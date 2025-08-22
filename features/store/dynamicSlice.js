@@ -27,10 +27,10 @@ const dynamicPageSlice = createSlice({
 export const { setPageData, setPageLoading, clearPageData } = dynamicPageSlice.actions
 export default dynamicPageSlice.reducer
 
-export const fetchPageData = (payload) => async (dispatch) => {
+export const fetchPageData = ({slug}) => async (dispatch) => {
   dispatch(setPageLoading(true))
   try {
-    const response = await service.homepage(payload)
+    const response = await service.homepage({slug})
     if (response) {
         console.log('Response:', response.data)
       dispatch(setPageData(response.data.data))
