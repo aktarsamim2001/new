@@ -226,7 +226,7 @@ const Step3 = ({
       <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
         <div className="space-y-6 lg:ml-16 w-full">
           <h2 className="section__heading mb-8 hidden md:block">
-            Review and Pay
+            03. Review and Pay
           </h2>
 
           {dateError && (
@@ -534,7 +534,7 @@ const Step3 = ({
           </div>
 
           {/* Confirm & Pay Button */}
-          <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
+          {/* <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
             <div className="md:w-[200px]"></div>
             <button
               type="button"
@@ -544,6 +544,31 @@ const Step3 = ({
             >
               {paymentState.loading ? "Processing..." : "Confirm & Pay"}
             </button>
+          </div> */}
+          <div className="flex items-center justify-end mt-10">
+            <div className="lg:w-[81%] flex justify-start">
+              <div className="lg:w-[20%] flex justify-between">
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.history.length > 1) {
+                    window.history.back();
+                  }
+                }}
+                className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
+              >
+                Back
+              </button>
+            </div>
+            <button
+              type="button"
+              onClick={handleSubmit(onSubmit)}
+              disabled={paymentState.loading}
+              className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
+            >
+              {paymentState.loading ? "Processing..." : "Confirm & Pay"}
+            </button>
+          </div>
           </div>
         </div>
       </div>

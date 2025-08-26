@@ -112,7 +112,7 @@ const Step1 = ({
       <div className="rounded-lg px-4 flex items-center justify-between relative">
         <div className="space-y-6 lg:ml-[100px] lg:w-[40%] w-full">
           <h2 className="section__heading mb-8 hidden md:block">
-            Fill in the Details
+            01. Fill in the Details
           </h2>
 
           <div className="space-y-6">
@@ -322,9 +322,21 @@ const Step1 = ({
             </div>
           </div>
 
-          <div className="flex items-center justify-between mt-10">
-            <div className="hidden lg:block lg:w-[30%]"></div>
-            <div className="lg:w-[70%]">
+          <div className="flex items-center justify-end mt-10">
+            <div className="lg:w-[70%] flex justify-end">
+              <div className="lg:w-[60%] flex justify-between">
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.history.length > 1) {
+                    window.history.back();
+                  }
+                }}
+                className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
+              >
+                Back
+              </button>
+            </div>
               <button
                 type="button"
                 onClick={handleSubmit(onSubmit)}

@@ -9,8 +9,8 @@ import servicesListReducer from "./servicesListSlice";
 import serviceDetailsReducer from "./serviceDetailsSlice";
 import serviceDetailsPageReducer from "./serviceDetailsPageSlice";
 import aboutReducer from "./aboutSlice";
-import faqReducer from "./faqSlice"
-import enquiryReducer from "./enquirySlice"
+import faqReducer from "./faqSlice";
+import enquiryReducer from "./enquirySlice";
 import dynamicPageReducer from "./dynamicSlice";
 
 import enquiryFormReducer from "./enquiryFormSlice";
@@ -23,6 +23,8 @@ import termsConditionReducer from "./termsConditionSlice";
 import bookingsReducer from "./BookingList"
 import cmsReducer from "./dynamicSlice";
 import paymentReducer from "./reviewSlice";
+
+import reportReducer from "./reportSlice";
 
 const store = configureStore({
   reducer: {
@@ -47,7 +49,8 @@ const store = configureStore({
   termsCondition: termsConditionReducer,
   bookings: bookingsReducer,
   cms: cmsReducer,
-  payment: paymentReducer
+  payment: paymentReducer,
+  report: reportReducer,
   },
 });
 

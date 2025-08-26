@@ -22,10 +22,18 @@ const Step2 = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors,isValid },
   } = useForm({
     defaultValues: allFormData,
+    mode: "onChange",
   });
+
+  const isDisabled =
+  !isValid ||
+  !dateTimeData.date ||
+  !dateTimeData.timeSlot ||
+  Object.keys(validationErrors).length > 0;
+
 
   const onSubmit = (data) => {
     const newErrors = {};
@@ -62,7 +70,7 @@ const Step2 = ({
       <div className="rounded-lg px-4 md:p-6 flex items-center justify-between relative lg:pt-[60px]">
         <div className="space-y-4 lg:ml-16 lg:w-[40%] w-full">
           <h2 className="section__heading mb-8 hidden md:block">
-            Contact Details
+            02. Contact Details
           </h2>
 
           <div className="space-y-4">
@@ -184,15 +192,31 @@ const Step2 = ({
                 </div>
               </div>
 
-          <div className="flex items-center lg:justify-start mt-6 lg:pl-[8px] cursor-pointer">
-            <label className="hidden lg:block lg:w-[160px]"></label>
-            <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
-              className="w-[166px] __secondary-bg text-white text-[20px] lg:ml-2 font-bold py-3 px-6 rounded-lg"
-            >
-              Continue
-            </button>
+           <div className="flex items-center justify-end mt-10">
+            <div className="lg:w-[70%] flex justify-end">
+              <div className="lg:w-[60%] flex justify-between">
+              <button
+                type="button"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.history.length > 1) {
+                    window.history.back();
+                  }
+                }}
+                className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
+              >
+                Back
+              </button>
+            </div>
+              <button
+                type="button"
+                onClick={handleSubmit(onSubmit)}
+                disabled={isDisabled}
+                className={`w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity
+                  ${isDisabled ? "opacity-50 cursor-not-allowed" : "hover:opacity-90"}`}
+              >
+                Continue
+              </button>
+            </div>
           </div>
         </div>
       </div>

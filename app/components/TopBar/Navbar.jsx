@@ -1,12 +1,14 @@
 "use client";
 
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, LogOut, User, BarChart3 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 
 import { Poppins } from "next/font/google";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "@/features/store/authSlice";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,16 +20,38 @@ export default function Navbar() {
   const [expanded, setExpanded] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [desktopSearchOpen, setDesktopSearchOpen] = useState(false);
+  const [profileDropdown, setProfileDropdown] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
   const inputRef = useRef(null);
+  const profileRef = useRef(null);
   const pathname = usePathname();
   const [searchQuery, setSearchQuery] = useState("");
+  const { isAuthenticated, profileData } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
 
-  // const toggleSearch = () => {
-  //   setExpanded((prev) => !prev);
-  //   setTimeout(() => {
-  //     if (!expanded) inputRef.current?.focus();
-  //   }, 100);
-  // };
+  // Set isMounted to true after component mounts
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setProfileDropdown(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    setProfileDropdown(false);
+  };
 
   const handleDesktopSearch = () => {
     setDesktopSearchOpen((prev) => !prev);
@@ -75,7 +99,7 @@ export default function Navbar() {
       <div className="flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center cursor-pointer">
-          <Link href="/">
+          <Link href="/home">
             <span className="block w-30 md:w-38">
               <Image
                 src="/sukaii-logo.png"
@@ -93,42 +117,26 @@ export default function Navbar() {
           className={`hidden md:flex items-center space-x-10 gap-2 __nav-link ${poppins.className}`}
         >
           <Link
-            href="/"
-            className={
-              pathname === "/"
-                ? "text-[#00B8C1] font-[500]"
-                : " text-[#BBBBBB] hover:text-gray-400"
-            }
+            href="/home"
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname === "/home" ? " text-[#00B8C1] font-[500]" : ""}`}
           >
             Home
           </Link>
           <Link
-            href="/our-services"
-            className={
-              pathname.startsWith("/our-services")
-                ? "text-[#00B8C1] font-[500]"
-                : "text-[#BBBBBB] hover:text-gray-400"
-            }
+            href="/services"
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/services") ? " text-[#00B8C1] font-[500]" : ""}`}
           >
             Our Services
           </Link>
           <Link
-            href="/how-it-works"
-            className={
-              pathname.startsWith("/how-it-works")
-                ? "text-[#00B8C1] font-[500]"
-                : "text-[#BBBBBB] hover:text-gray-400"
-            }
+            href="/how-its-work"
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/how-its-work") ? " text-[#00B8C1] font-[500]" : ""}`}
           >
             How It Works
           </Link>
           <Link
             href="/about"
-            className={
-              pathname.startsWith("/about")
-                ? "text-[#00B8C1] font-[500]"
-                : "text-[#BBBBBB] hover:text-gray-400"
-            }
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/about") ? " text-[#00B8C1] font-[500]" : ""}`}
           >
             About
           </Link>
@@ -138,29 +146,109 @@ export default function Navbar() {
         <div
           className={`hidden md:flex items-center space-x-2 gap-2 ${poppins.className}`}
         >
-          <Link
-            href="/sign-in"
-            className={`__nav-link cursor-pointer ${
-              pathname === "/sign-in"
-                ? "text-[#00B8C1] font-medium"
-                : "text-[#BBBBBB] hover:text-gray-400"
-            }`}
-          >
-            Log In
-          </Link>
+          {/* Only render auth-dependent content after component mounts */}
+          {isMounted && isAuthenticated ? (
+            // Show user info when authenticated with dropdown
+            <div
+              className="flex items-center gap-3 relative"
+              ref={profileRef}
+              onMouseEnter={() => setProfileDropdown(true)}
+              onMouseLeave={() => setProfileDropdown(false)}
+            >
+              <div className="flex flex-col items-end">
+                <span className="text-sm font-medium text-gray-800">
+                  {profileData.name || "User"}
+                </span>
+                <span className="text-xs text-gray-500">
+                  {profileData.email}
+                </span>
+              </div>
+              <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#00B8C1] cursor-pointer">
+                {profileData.profile_photo_path ? (
+                  <Image
+                    src={
+                      profileData.profile_photo_path.startsWith('/') || profileData.profile_photo_path.startsWith('http')
+                        ? profileData.profile_photo_path
+                        : '/' + profileData.profile_photo_path
+                    }
+                    alt="Profile"
+                    width={40}
+                    height={40}
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#00B8C1] flex items-center justify-center text-white font-medium">
+                    {profileData.name
+                      ? profileData.name.charAt(0).toUpperCase()
+                      : "U"}
+                  </div>
+                )}
+              </div>
 
-          <span className="text-gray-400">|</span>
+              {/* Profile Dropdown */}
+              {profileDropdown && (
+                <div className="absolute top-full right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                  <Link
+                    href="/user-dashboard"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setProfileDropdown(false)}
+                  >
+                    <User className="h-4 w-4 mr-2" />
+                    Dashboard
+                  </Link>
+                  <Link
+                    href="/reports"
+                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    onClick={() => setProfileDropdown(false)}
+                  >
+                    <BarChart3 className="h-4 w-4 mr-2" />
+                    Reports
+                  </Link>
+                  <div className="border-t border-gray-100 my-1"></div>
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : isMounted ? (
+            // Show login/signup when not authenticated (only after mount)
+            <>
+              <Link
+                href="/sign-in"
+                className={`__nav-link cursor-pointer ${
+                  pathname === "/sign-in"
+                    ? "text-[#00B8C1] font-medium"
+                    : "text-[#BBBBBB] hover:text-gray-400"
+                }`}
+              >
+                Log In
+              </Link>
 
-          <Link
-            href="/sign-up"
-            className={`__nav-link cursor-pointer ${
-              pathname?.startsWith("/sign-up")
-                ? "text-[#00B8C1] font-medium"
-                : "text-[#BBBBBB] hover:text-gray-400"
-            }`}
-          >
-            Sign Up
-          </Link>
+              <span className="text-gray-400">|</span>
+
+              <Link
+                href="/sign-up"
+                className={`__nav-link cursor-pointer ${
+                  pathname?.startsWith("/sign-up")
+                    ? "text-[#00B8C1] font-medium"
+                    : "text-[#BBBBBB] hover:text-gray-400"
+                }`}
+              >
+                Sign Up
+              </Link>
+            </>
+          ) : (
+            // Show a placeholder while mounting to avoid hydration mismatch
+            <div className="flex items-center gap-2">
+              <div className="w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
+              <div className="w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
+            </div>
+          )}
 
           {/* Desktop Search Icon/Button */}
           <div
@@ -247,10 +335,10 @@ export default function Navbar() {
             </div>
             <div className="__nav-link">
               <Link
-                href="/"
+                href="/home"
                 onClick={() => setMobileMenu(false)}
                 className={
-                  pathname === "/"
+                  pathname === "/home"
                     ? "text-[#00B8C1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
@@ -258,10 +346,10 @@ export default function Navbar() {
                 Home
               </Link>
               <Link
-                href="/our-services"
+                href="/services"
                 onClick={() => setMobileMenu(false)}
                 className={
-                  pathname.startsWith("/our-services")
+                  pathname.startsWith("/services")
                     ? "text-[#00B8C1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
@@ -269,10 +357,10 @@ export default function Navbar() {
                 Our Services
               </Link>
               <Link
-                href="/how-it-works"
+                href="/how-its-work"
                 onClick={() => setMobileMenu(false)}
                 className={
-                  pathname.startsWith("/how-it-works")
+                  pathname.startsWith("/how-its-work")
                     ? "text-[#00B8C1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
@@ -291,20 +379,84 @@ export default function Navbar() {
                 About
               </Link>
               <div className="mt-4 border-t pt-4">
-                <Link
-                  href="/sign-in"
-                  onClick={() => setMobileMenu(false)}
-                  className="block py-2 text-gray-700"
-                >
-                  Log In
-                </Link>
-                <Link
-                  href="/sign-up"
-                  onClick={() => setMobileMenu(false)}
-                  className="block py-2 text-gray-700"
-                >
-                  Sign Up
-                </Link>
+                {isMounted && isAuthenticated ? (
+                  <>
+                    <div className="flex items-center gap-3 py-2">
+                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#00B8C1]">
+                        {profileData.profile_photo_path ? (
+                          <Image
+                            src={
+                              profileData.profile_photo_path.startsWith('/') || profileData.profile_photo_path.startsWith('http')
+                                ? profileData.profile_photo_path
+                                : '/' + profileData.profile_photo_path
+                            }
+                            alt="Profile"
+                            width={32}
+                            height={32}
+                            className="object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full bg-[#00B8C1] flex items-center justify-center text-white text-sm font-medium">
+                            {profileData.name
+                              ? profileData.name.charAt(0).toUpperCase()
+                              : "U"}
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium text-gray-800">
+                          {profileData.name || "User"}
+                        </span>
+                        <span className="text-xs text-gray-500">
+                          {profileData.email}
+                        </span>
+                      </div>
+                    </div>
+                    <Link
+                      href="/dashboard"
+                      onClick={() => setMobileMenu(false)}
+                      className="flex items-center py-2 text-gray-700"
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Dashboard
+                    </Link>
+                    <Link
+                      href="/reports"
+                      onClick={() => setMobileMenu(false)}
+                      className="flex items-center py-2 text-gray-700"
+                    >
+                      <BarChart3 className="h-4 w-4 mr-2" />
+                      Reports
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setMobileMenu(false);
+                      }}
+                      className="flex items-center w-full text-left py-2 text-gray-700"
+                    >
+                      <LogOut className="h-4 w-4 mr-2" />
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      href="/sign-in"
+                      onClick={() => setMobileMenu(false)}
+                      className="block py-2 text-gray-700"
+                    >
+                      Log In
+                    </Link>
+                    <Link
+                      href="/sign-up"
+                      onClick={() => setMobileMenu(false)}
+                      className="block py-2 text-gray-700"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

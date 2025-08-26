@@ -77,30 +77,7 @@ const TestsSection = () => {
     dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
     dispatch(fetchPastBookings({ page: 1, limit: 10 }));
   };
-
-  if (error) {
-    return (
-      <div className="px-4 md:px-22 space-y-6 __poppins-font">
-        <div className="bg-white rounded-[20px] __cardShadow p-8">
-          <div className="flex items-center justify-center text-red-600">
-            <AlertCircle className="w-8 h-8" />
-            <span className="ml-2">
-              Error loading bookings: {error}
-            </span>
-          </div>
-          <div className="mt-4 text-center">
-            <button
-              onClick={handleRefresh}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-            >
-              Retry
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  
   return (
     <div className="px-4 md:px-22 space-y-6 __poppins-font">
       {/* Upcoming Bookings */}
