@@ -19,7 +19,7 @@ import {
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
 import { useState } from "react";
-import HealthDashboard from "../user-dashboard/HealthDashboard";
+import HealthDashboard from "../user-dashboard/page";
 
 function page() {
       const [activeTab, setActiveTab] = useState("health");

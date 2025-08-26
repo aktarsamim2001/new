@@ -10,7 +10,7 @@ function SupportBanner({ data }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-center justify-start">
         {/* Image Section */}
         <div className="flex justify-end items-center">
-          <div className="relative w-[100%] h-[200px] md:h-[350px] md:rounded-[30px] overflow-hidden">
+          <div className="relative w-[100%] h-[200px] md:h-[370px] md:rounded-[30px] overflow-hidden">
             <Image
               src={image}
               alt="Services Banner"
@@ -23,8 +23,7 @@ function SupportBanner({ data }) {
 
         {/* Text Section */}
         <div className="px-4 text-left">
-          <h1 className="text-[24px] md:text-[48px] font-[550] leading-[1.1]">
-            {bannerData.title}
+          <h1 dangerouslySetInnerHTML={{ __html: bannerData.title }} className="text-[24px] md:text-[48px] font-[550] leading-[1.1]">
           </h1>
           <p className="mt-4 banner__description text-gray-600">
             {bannerData.description}

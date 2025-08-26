@@ -1,14 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { service } from '../shared/_services/api_service'
-
+// store/slice/cmsSlice.js
+import { createSlice } from "@reduxjs/toolkit";
+import { service } from "../../features/shared/_services/api_service";
 
 const initialState = {
   data: null,
   isLoading: false,
 };
 
-const dynamicPageSlice = createSlice({
-  name: 'dynamicPage',
+const cmsSlice = createSlice({
+  name: "cms",
   initialState,
   reducers: {
     setPageData(state, action) {
@@ -24,24 +24,19 @@ const dynamicPageSlice = createSlice({
   },
 });
 
-export const { setPageData, setPageLoading, clearPageData } = dynamicPageSlice.actions
-export default dynamicPageSlice.reducer
+export const { setPageData, setPageLoading, clearPageData } = cmsSlice.actions;
+export default cmsSlice.reducer;
 
-export const fetchPageData = ({slug}) => async (dispatch) => {
-  dispatch(setPageLoading(true))
+export const fetchPageDataThunk = ({ slug }) => async (dispatch) => {
+  dispatch(setPageLoading(true));
   try {
-    const response = await service.homepage({slug})
-    if (response) {
-        console.log('Response:', response.data)
-      dispatch(setPageData(response.data.data))
+    const response = await service.homepage({ slug });
+    if (response?.data?.data) {
+      dispatch(setPageData(response.data.data));
     }
   } catch (error) {
-    if (error instanceof Error) {
-      console.log(error.message)
-    } else {
-      console.log('Something went wrong')
-    }
+    console.error(error.message || "Something went wrong");
   } finally {
-    dispatch(setPageLoading(false))
+    dispatch(setPageLoading(false));
   }
-}
+};

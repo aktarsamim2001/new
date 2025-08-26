@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import image from "../../../app/assets/woman/shape.png";
 import WelcomeVideoModal from "./WelcomeVideoModal";
+import Button from "../ui/Button";
 
 // Review/avatars data array
 const slide = {
@@ -30,6 +31,8 @@ export default function WelcomeSignup() {
     name: "",
     username: "",
   });
+  // Add state for terms checkbox
+  const [termsChecked, setTermsChecked] = useState(false);
 
   useEffect(() => {
     const isMobile = window.innerWidth <= 768;
@@ -47,6 +50,10 @@ export default function WelcomeSignup() {
   };
 
   const handleNext = () => {
+    if (!termsChecked) {
+      alert("You must agree to Terms & Conditions to continue.");
+      return;
+    }
     if (formData.name && formData.username) {
       router.push(
         `/complete-profile?name=${encodeURIComponent(
@@ -140,12 +147,13 @@ export default function WelcomeSignup() {
 
             {/* Next Button */}
 
-            <button
+            <Button
               onClick={handleNext}
               className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl mb-4 mt-2"
+              disabled={!termsChecked}
             >
               Continue
-            </button>
+            </Button>
 
             {/* Terms and Conditions Checkbox */}
             <div className="flex items-center mb-2">
@@ -154,11 +162,19 @@ export default function WelcomeSignup() {
                 type="checkbox"
                 className="form-checkbox h-4 w-4 text-pink-600 rounded focus:ring-pink-500 border-gray-300"
                 required
+                checked={termsChecked}
+                onChange={e => setTermsChecked(e.target.checked)}
               />
               <label htmlFor="terms" className="ml-2 text-xs text-gray-600">
-                By signing up, you agree to our{' '}
-                <a href="#" className="underline hover:text-pink-600">Terms &amp; Conditions</a> and{' '}
-                <a href="#" className="underline hover:text-pink-600">Privacy Policy</a>.
+                By signing up, you agree to our{" "}
+                <a href="#" className="underline hover:text-pink-600">
+                  Terms &amp; Conditions
+                </a>{" "}
+                and{" "}
+                <a href="#" className="underline hover:text-pink-600">
+                  Privacy Policy
+                </a>
+                .
               </label>
             </div>
 

@@ -6,27 +6,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Star } from "lucide-react";
 import image from "../.././app/assets/woman/shape.png";
 
-
-// Modal component
-function SuccessModal({ open, onClose }) {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full flex flex-col items-center">
-        <Image src="/sukaii-logo.png" alt="Sukaii Logo" width={80} height={30} />
-        <h3 className="text-xl font-bold mt-4 mb-2 text-center">OTP Verified!</h3>
-        <p className="text-gray-600 mb-6 text-center">Signup Complete. You will be redirected to sign in.</p>
-        <button
-          onClick={onClose}
-          className="px-6 py-2 bg-pink-500 text-white rounded-lg font-semibold shadow hover:bg-pink-600 transition"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
-}
-
 const slide = {
   reviewAvatars: [
     { name: "AB", bg: "bg-pink-500" },
@@ -69,7 +48,6 @@ function OtpVerificationContent() {
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row items-stretch justify-center bg-white">
-      <SuccessModal open={modalOpen} onClose={() => { setModalOpen(false); router.push("/sign-in"); }} />
       {/* Form section */}
       <div className="absolute top-0 right-0 w-[300px] h-[280px] md:hidden pointer-events-none z-0">
         <Image

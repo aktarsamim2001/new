@@ -2,40 +2,44 @@ import Image from "next/image";
 import React from "react";
 import image from "../../assets/about/aboutBanner.jpg";
 import Link from "next/link";
+import Button from "../ui/Button";
 
 function FaqBanner({ data }) {
-  console.log("banner", data.content.faq_page);
   const banner = data?.content?.faq_page;
   return (
-    <div className="container mx-auto __gapTop">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start">
-        {/* Image Section */}
-        <div className="flex justify-center items-center">
-          <div className="relative w-full h-[200px] md:h-[287px] md:rounded-[30px] overflow-hidden shadow-lg">
-            {banner?.image ? (
-              <Image
-                src={banner.image}
-                alt={banner.title || "Banner"}
-                fill
-                className="object-cover"
-              />
-            ) : null}
+    <div>
+      <div className="mx-auto __gapTop">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-start">
+          {/* Image Section */}
+          <div className="flex justify-center items-center">
+            <div className="relative w-full h-[200px] md:h-[370px] md:rounded-r-[30px] overflow-hidden shadow-lg">
+              {banner?.image ? (
+                <Image
+                  src={banner.image}
+                  alt={banner.title || "Banner"}
+                  fill
+                  className="object-cover"
+                  priority
+                />
+              ) : null}
+            </div>
           </div>
-        </div>
 
-        {/* Text Section */}
-        <div className="p-4 text-left max-w-lg">
-          <h1 className="text-4xl font-bold __secondary-text">
-            {banner?.title}
-          </h1>
-          <p className="mt-4 banner__description text-gray-600">
-            {banner?.description}
-          </p>
-          <button className="mt-4 cursor-pointer __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
-            <Link href="/sign-up" className="text-white">
-              {banner?.button_name}
-            </Link>
-          </button>
+          <div className="text-left px-4 md:px-0 max-w-xl">
+            <h1 className="text-[26px] md:text-[50px] md:text-4xl font-bold __secondary-text">
+              {banner.title || "Your Health, Smarter."}
+            </h1>
+            <p className="mt-3 mb-3 banner__description text-gray-600 line-clamp-3 md:line-clamp-3">
+              {banner.description || "All your medical records, test results, and health insights—neatly organized in one secure dashboard."}
+            </p>
+            {banner.button_name && (
+              <Button className="mt-4 cursor-pointer __secondary-bg">
+                <Link href="/sign-up" className="text-white">
+                  {banner.button_name}
+                </Link>
+              </Button>
+            )}
+          </div>
         </div>
       </div>
     </div>

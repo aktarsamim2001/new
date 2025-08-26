@@ -11,26 +11,20 @@ import HealthSection from '../components/how-it-work/HealthSection';
 import BrandLogo from '../components/BrandLogo/BrandLogo';
 
 
-function Page() {
-  const dispatch = useDispatch();
-  const howItWorkData = useSelector(
-    (state) => state.howItWork?.data?.content?.how_it_works || {}
-  );
+function HowItWorkPage({content}) {
 
-  console.log(howItWorkData);
-  useEffect(() => {
-    dispatch(fetchHowItWorkData({ slug: 'how-its-work' }));
-  }, [dispatch]);
-
+  // Pass only the how_it_works object to children that expect it
+  const howItWorksData = content || {};
+  console.log("HowItWorkPage data:", howItWorksData);
   return (
     <div>
-      <Banner data={howItWorkData} />
-      <HowItWorks data={howItWorkData} />
+      <Banner data={howItWorksData} />
+      <HowItWorks data={howItWorksData} />
       <BrandLogo />
       <TestimonialSlider />
-      <HealthSection dataItem={howItWorkData} />
+      <HealthSection dataItem={howItWorksData} />
     </div>
   );
 }
 
-export default Page
+export default HowItWorkPage

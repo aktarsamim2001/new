@@ -7,20 +7,15 @@ import LetsTalk from "../components/Support/LetsTalk";
 import { useDispatch, useSelector } from "react-redux";
 import { submitEnquiry } from "../../features/store/enquirySlice";
 
-function page() {
-  const dispatch = useDispatch();
-  const enquiryData = useSelector((state) => state.enquiry.data);
 
-  useEffect(() => {
-    dispatch(submitEnquiry({ slug: "contact-us" }));
-  }, [dispatch]);
+function EnquiryFormPage({content}) {
   return (
     <div className="__poppins-font">
-      <SupportBanner data={enquiryData} />
-      <EnquiryForm data={enquiryData}/>
+      <SupportBanner data={content} />
+      <EnquiryForm data={content}/>
       <LetsTalk />
     </div>
   );
 }
 
-export default page;
+export default EnquiryFormPage;

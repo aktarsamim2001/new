@@ -29,12 +29,10 @@ export default function EnquiryForm({ data }) {
   const dispatch = useDispatch();
   const enquiryState = useSelector((state) => state.enquiryForm);
 
-  // Show toast messages based on API response
   useEffect(() => {
     if (enquiryState.status === 1) {
       toast.success(enquiryState.message || "Form submitted successfully!");
       
-      // Clear form on successful submission
       setFormData({
         full_name: "",
         gender: "",
@@ -57,7 +55,6 @@ export default function EnquiryForm({ data }) {
     }));
   };
 
-  // ✅ validation function
   const validate = () => {
     let tempErrors = {};
 
@@ -115,24 +112,21 @@ export default function EnquiryForm({ data }) {
       age: formData.age ? parseInt(formData.age, 10) : "",
     };
 
-    // Dispatch the thunk action to submit the form via API
     dispatch(submitEnquiryForm(payload));
   };
 
   const quickHelpItems = data?.content?.contact_us_page?.quick_help || [];
   const ctaBanner = data?.content?.contact_us_page;
-  console.log("Quick Help Items:", quickHelpItems);
-  console.log("CTA Banner:", ctaBanner);
   return (
     <div className="min-h-screen ">
       <div className="container mx-auto">
         <div className="__gapTop px-4 md:px-0">
           <h2 className="text-gray-900 section__heading mb-5">Quick Help</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {quickHelpItems.map((item, index) => (
               <div
                 key={index}
-                className="bg-[#FFFFFF] rounded-[22px] p-8 __cardShadow cursor-pointer"
+                className="bg-[#FFFFFF] rounded-[22px] p-4 md:p-8 __cardShadow cursor-pointer"
               >
                 <div className="flex flex-col items-start space-y-3">
                   <div>
@@ -154,7 +148,7 @@ export default function EnquiryForm({ data }) {
       </div>
 
       {/* Main Content */}
-      <div className="__gapTop overflow-hidden">
+      <div className="__gapTop2 overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:gap-5">
           {/* Image Section */}
           <div className="h-full">
@@ -173,7 +167,7 @@ export default function EnquiryForm({ data }) {
               Submit Your Enquiry
             </h2>
 
-            <form className="space-y-6" onSubmit={handleSubmit}>
+            <form className="space-y-6 md:ml-14" onSubmit={handleSubmit}>
               {/* Full Name */}
               <div className="md:flex flex-col md:flex-row items-start md:items-center w-full">
                 <p className="md:min-w-[100px] pb-2 md:pb-0">Full Name</p>
@@ -301,21 +295,21 @@ export default function EnquiryForm({ data }) {
               {/* Submit Button */}
               <div className="md:flex items-center w-full mt-10">
                 <p className="md:min-w-[100px]"> </p>
-                <button
+                <Button
                   type="submit"
                   disabled={enquiryState.status === "loading"}
-                  className="__secondary-bg text-white font-semibold px-8 py-3 rounded-xl cursor-pointer shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="__secondary-bg text-white cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {enquiryState.status === "loading" ? "Submitting..." : "Submit"}
-                </button>
+                </Button>
               </div>
             </form>
           </div>
         </div>
 
         {/* Bottom Section */}
-        <div className="container mx-auto __gapTop px-4 md:px-0">
-          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative __gapTop">
+        <div className="container mx-auto __gapTop2 px-4 md:px-0">
+          <div className="__primary-bg rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-10 md:px-26 md:pr-20 relative">
             <div className="grid grid-cols-1 gap-4 sm:gap-6 items-center relative z-10">
               <div className="text-left">
                 <h3 className="section__heading text-white mb-2 sm:mb-3">
@@ -330,7 +324,7 @@ export default function EnquiryForm({ data }) {
                 <div className="flex justify-start mt-4 md:mt-0 relative">
                   <Button
                     variant="outline"
-                    className="__secondary-bg hover:bg-pink-600 text-white !py-3 !text-[16px] !font-[600] text-sm sm:text-base"
+                    className="__secondary-bg text-white"
                   >
                     {ctaBanner?.button_name}
                   </Button>
@@ -338,7 +332,7 @@ export default function EnquiryForm({ data }) {
               </Link>
             </div>
           </div>
-          <div className="absolute bottom-2 right-0 z-50 hidden md:block">
+          <div className="absolute -bottom-[1200px] right-0 -z-10 hidden md:block">
             <Image src={texture} alt=" " className="h-[400px] w-[400px]" />
           </div>
           <div className="px-4 md:px-10">

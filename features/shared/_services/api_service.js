@@ -23,6 +23,23 @@ async function homepage(payload) {
   return axios.get(rootUrl + "api/web/pages/details", { params: payload });
 }
 
+// export const service = {
+//   homepage: async (payload) => {
+//     return axios.get(rootUrl + "api/web/pages/details", { params: payload });
+//   }
+// };
+
+async function paymentDetails(payload) {
+  return axios.post(rootUrl + "api/web/bookings/payment-details", payload);
+}
+
+export async function getPageData(slug) {
+  return axios.get(
+    `${process.env.NEXT_PUBLIC_API_URL}/api/web/pages/details`,
+    { params: { slug } }
+  ).then(res => res.data.data);
+}
+
 async function serviceList(payload) {
   return axios.get(rootUrl + "api/web/services/list", { params: payload });
 }
@@ -33,12 +50,11 @@ async function serviceDetails(payload) {
   });
 }
 
-
-  async function enquiryForm(payload) {
-    return axios.post(rootUrl + "/api/web/enquiry/submit", payload, {
-      headers: await authHeader(),
-    });
-  }
+async function enquiryForm(payload) {
+  return axios.post(rootUrl + "/api/web/enquiry/submit", payload, {
+    headers: await authHeader(),
+  });
+}
 
 async function bookingForm(payload) {
   return axios.post(rootUrl + "/api/web/bookings/create", payload, {
@@ -52,6 +68,20 @@ async function addressDetails() {
   });
 }
 
+// Bookings API method
+async function bookings({ page = 1, limit = 10, booking_type = "past" }) {
+  const params = {
+    page: page.toString(),
+    limit: limit.toString(),
+    booking_type
+  };
+  
+  return axios.get(rootUrl + "api/web/bookings", {
+    params,
+    headers: await authHeader(),
+  });
+}
+
 export const service = {
   signin,
   verifyOTP,
@@ -61,5 +91,7 @@ export const service = {
   serviceDetails,
   enquiryForm,
   bookingForm,
-  addressDetails
+  addressDetails,
+  bookings,
+  paymentDetails
 };

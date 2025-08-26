@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import Button from "../ui/Button";
 
 
 function AboutBanner({ data }) {
@@ -13,7 +14,7 @@ function AboutBanner({ data }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center justify-start">
           {/* Image Section */}
           <div className="flex justify-center items-center">
-            <div className="relative w-full h-[200px] md:h-[300px] md:rounded-r-[30px] overflow-hidden shadow-lg">
+            <div className="relative w-full h-[200px] md:h-[370px] md:rounded-r-[30px] overflow-hidden shadow-lg">
               {about.image ? (
                 <Image
                   src={about.image}
@@ -34,11 +35,11 @@ function AboutBanner({ data }) {
               {about.description || "All your medical records, test results, and health insights—neatly organized in one secure dashboard."}
             </p>
             {about.button_name && (
-              <button className="mt-4 cursor-pointer __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
+              <Button className="mt-4 cursor-pointer __secondary-bg">
                 <Link href="/sign-up" className="text-white">
                   {about.button_name}
                 </Link>
-              </button>
+              </Button>
             )}
           </div>
         </div>

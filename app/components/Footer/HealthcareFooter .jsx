@@ -9,7 +9,7 @@ import mobileOval2 from "../../../public/footer-texture/Oval.png";
 
 const HealthcareFooter = () => {
   const companyLinks = [
-    { label: "Home", href: "/" },
+    { label: "Home", href: "/home" },
     { label: "About", href: "/about" },
     { label: "Tests", href: "/our-services" },
     { label: "Clinics", href: "/clinics" },
@@ -22,10 +22,10 @@ const HealthcareFooter = () => {
   ];
 
   const resourceLinks = [
-    { label: "Privacy Policy", href: "/privacy-policy" },
+    { label: "Privacy Policy", href: "/privacy-policies" },
     { label: "Terms & Conditions", href: "/terms-condition" },
     { label: "FAQ", href: "/faq" },
-    { label: "Enquiry and Support", href: "/enquiry-form" },
+    { label: "Enquiry and Support", href: "/contact-us" },
   ];
 
   return (
@@ -68,12 +68,12 @@ const HealthcareFooter = () => {
         />
       </div>
 
-      <div className="container mx-auto __gapTop px-4 md:px-0 md:pb-6 pb-4">
-        <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[60px] items-start">
+      <div className="container mx-auto __gapTop px-4 md:px-0 md:pb-6 pb-4 ">
+        <div className="grid grid-cols-1 gap-y-4 lg:gap-y-0 lg:grid-cols-[290px_auto] gap-x-[30px] items-start justify-between">
           <div className="space-y-6">
             <div className="flex items-center space-x-2 justify-start">
-              <Link href="/">
-                <span className="block w-30 md:w-38">
+              <Link href="/home">
+                <span className="block w-30 md:w-32">
                   <Image
                     src="/sukaii-logo.png"
                     alt="Sukai Logo"
@@ -85,7 +85,7 @@ const HealthcareFooter = () => {
               </Link>
             </div>
 
-            <p className="text-gray-500 font-[400] text-[16px] leading-[145%] max-w-sm">
+            <p className="text-gray-500 font-[400] text-[16px] leading-[145%] mt-10">
               With Medicare services you will receive the best medical treatment
               in your area. Made by doctors and professionals and aids ensure
               that you get the care you need and deserve.
@@ -93,15 +93,15 @@ const HealthcareFooter = () => {
             <p className="text-gray-500 text-sm py-5">© Sukali Health 2025</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-6 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 lg:gap-18 mt-4">
             {/* Logo and Description */}
 
             {/* Company Links */}
-            <div className="space-y-4 mt-2.5">
+            <div className="space-y-4 mt-3">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 COMPANY
               </h3>
-              <ul className="space-y-1.5 cursor-pointe md:mt-9">
+              <ul className="space-y-1.5 cursor-pointe md:mt-10">
                 {companyLinks.map((link, index) => (
                   <li key={index} className="cursor-pointer">
                     <Link
@@ -116,11 +116,11 @@ const HealthcareFooter = () => {
             </div>
 
             {/* Services Links */}
-            <div className="space-y-4 mt-2.5">
+            <div className="space-y-4 mt-3">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 SERVICES
               </h3>
-              <ul className="space-y-1.5 md:mt-9">
+              <ul className="space-y-1.5 md:mt-10">
                 {serviceLinks.map((link, index) => (
                   <li key={index}>
                     <Link
@@ -135,11 +135,11 @@ const HealthcareFooter = () => {
             </div>
 
             {/* Resources */}
-            <div className="space-y-4 mt-2.5 col-span-2 lg:col-span-1">
+            <div className="space-y-4 mt-3 col-span-2 lg:col-span-1">
               <h3 className="font-[500] text-[18px] leading-[100%] __primary-text">
                 RESOURCES
               </h3>
-              <ul className="space-y-1.5 md:mt-9">
+              <ul className="space-y-1.5 md:mt-10">
                 {resourceLinks.map((link, index) => (
                   <li key={index}>
                     <Link
@@ -156,7 +156,7 @@ const HealthcareFooter = () => {
             {/* Contact Section */}
             <div className="space-y-4 sm:col-span-2 lg:col-span-1 mt-2">
               <div className="text-gray-500 space-y-4">
-                <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text">
+                <p className="font-[900] text-[16px] sm:text-[18px] leading-[120%] __primary-text pb-2">
                   Drop Link message and take charge of your health now!
                 </p>
                 <div className="flex items-center space-x-2">

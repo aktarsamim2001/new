@@ -12,13 +12,8 @@ import SmartHealthBanner from "../components/Home/SmartHealthBanner";
 import TestimonialSlider from "../components/Home/TestimonialSlider";
 import WhatYouCanDo from "../components/Home/WhatYouCanDo";
 
-function HomeClient() {
- const dispatch = useDispatch();
-  const homeData = useSelector((state) => state?.home?.data);
-  useEffect(() => {
-    dispatch(fetchHomeData({ slug: "home" }));
-  }, [dispatch]);
-
+function HomeClient({ content }) {
+  const homeData = content;
   return (
     <>
       <SmartHealthBanner dataItem={homeData} />

@@ -5,11 +5,12 @@ import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import OtpInput from "../components/SignUp/OtpInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getOTP, verifyOTP } from "@/features/store/authSlice";
 import toast from "react-hot-toast";
+import Button from "../components/ui/Button";
 
 const slide = {
   reviewAvatars: [
@@ -24,35 +25,12 @@ const slide = {
   reviews: "(1.2k reviews)",
 };
 
-function SuccessModal({ open, onClose, message }) {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40">
-      <div className="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full flex flex-col items-center">
-        <Image
-          src="/sukaii-logo.png"
-          alt="Sukaii Logo"
-          width={80}
-          height={30}
-        />
-        <h3 className="text-xl font-bold mt-4 mb-2 text-center">Success!</h3>
-        <p className="text-gray-600 mb-6 text-center banner__description">
-          {message}
-        </p>
-        <button
-          onClick={onClose}
-          className="px-6 py-2 bg-pink-500 text-white rounded-lg font-semibold shadow hover:bg-pink-600 transition"
-        >
-          Close
-        </button>
-      </div>
-    </div>
-  );
-}
-
-export default function LoginComponent() {
+export default function SignInPage({ content }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = searchParams.get("callbackUrl") || "/user-dashboard";
+  console.log("Callback URL:", content);
   const {
     loadingStatus,
     isAuthenticated,
@@ -67,15 +45,16 @@ export default function LoginComponent() {
   });
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [termsChecked, setTermsChecked] = useState(false); // Add state for terms checkbox
 
   useEffect(() => {
     if (isAuthenticated) {
       setModalOpen(true);
       setTimeout(() => {
-        router.push("/user-dashboard");
+        router.push(callbackUrl);
       }, 2000);
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, router, callbackUrl]);
 
   useEffect(() => {
     if (authError) {
@@ -89,7 +68,6 @@ export default function LoginComponent() {
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-      // Clear the other field when one is being filled
       ...(name === "phoneNumber" && value.length > 0 ? { email: "" } : {}),
       ...(name === "email" && value.length > 0 ? { phoneNumber: "" } : {}),
     }));
@@ -99,25 +77,24 @@ export default function LoginComponent() {
   const handleOtpChange = (e) => {
     const value = e.target.value;
     const numericValue = value.replace(/\D/g, "").slice(0, 4);
-    setFormData((prev) => ({
-      ...prev,
-      otp: numericValue,
-    }));
+    setFormData((prev) => ({ ...prev, otp: numericValue }));
     if (error) setError("");
   };
 
   const handleNext = async (e) => {
     e.preventDefault();
+    if (!termsChecked) {
+      setError("You must agree to Terms & Conditions to continue.");
+      return;
+    }
     if (!formData.phoneNumber && !formData.email) {
       setError("Please enter either phone number or email");
       return;
     }
-
     if (formData.phoneNumber && !/^\d{10}$/.test(formData.phoneNumber)) {
       setError("Please enter a valid 10-digit phone number");
       return;
     }
-
     if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
       setError("Please enter a valid email address");
       return;
@@ -132,11 +109,9 @@ export default function LoginComponent() {
     };
 
     dispatch(
-      getOTP(payload, (success, message) => {
-        if (success) {
-          setOtpField(true);
-        }
-      }),
+      getOTP(payload, (success) => {
+        if (success) setOtpField(true);
+      })
     );
   };
 
@@ -155,12 +130,14 @@ export default function LoginComponent() {
     };
 
     dispatch(
-      verifyOTP(payload, (success, message) => {
+      verifyOTP(payload, (success) => {
         if (success) {
           setModalOpen(true);
-          setTimeout(() => setModalOpen(false), 2000);
+          setTimeout(() => {
+            router.push(callbackUrl);
+          }, 2000);
         }
-      }),
+      })
     );
   };
 
@@ -264,7 +241,6 @@ export default function LoginComponent() {
             </div>
           </div>
         </div>
-        <SuccessModal open={modalOpen} onClose={() => setModalOpen(false)} />
       </div>
     );
   }
@@ -293,13 +269,11 @@ export default function LoginComponent() {
           {/* Title */}
           <div className="mb-5 md:mb-8">
             <h1 className="text-3xl md:text-[56px] md:leading-[56px] font-[500] text-gray-900 mt-3 mb-2">
-              <span className="block">Welcome to</span>
+              <span className="block">{content?.title || "Welcome to"}</span>
               Better Health
             </h1>
             <p className="text-gray-600 banner__description">
-              Create your Sukaii Health account to book tests, view your
-              reports, manage prescriptions, and access your smart health
-              dashboard — all in one place.
+              {content?.description || "Create your Sukaii Health account to book tests, view your reports, manage prescriptions, and access your smart health dashboard — all in one place."}
             </p>
           </div>
 
@@ -323,7 +297,7 @@ export default function LoginComponent() {
                 />
               </div>
 
-              <div className="flex items-center pt-1.5">
+              <div className="flex items-center py-5">
                 <div className="flex-1 border-t border-gray-300"></div>
                 <span className="px-4 text-sm text-gray-500">OR</span>
                 <div className="flex-1 border-t border-gray-300"></div>
@@ -345,22 +319,24 @@ export default function LoginComponent() {
                 />
               </div>
 
-              <button
+              <Button
                 type="submit"
+                variant="outline"
                 disabled={loadingStatus}
-                className="w-[180px] cursor-pointer __secondary-bg text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl mb-4 mt-2"
+                className="w-[180px] cursor-pointer __secondary-bg text-white mt-4"
               >
-                {loadingStatus ? "Sending OTP..." : "Next"}
-              </button>
+                {loadingStatus ? "Sending OTP..." : "Continue"}
+              </Button>
             </form>
 
-            {/* Terms and Conditions Checkbox */}
             <div className="flex items-center mb-2">
               <input
                 id="terms"
                 type="checkbox"
                 className="form-checkbox h-4 w-4 text-pink-600 rounded focus:ring-pink-500 border-gray-300"
                 required
+                checked={termsChecked}
+                onChange={(e) => setTermsChecked(e.target.checked)}
               />
               <label htmlFor="terms" className="ml-2 text-xs text-gray-600">
                 By signing up, you agree to our{" "}
@@ -376,7 +352,7 @@ export default function LoginComponent() {
             </div>
 
             {/* Divider */}
-            <div className="flex items-center">
+            <div className="flex items-center py-3">
               <div className="flex-1 border-t border-gray-300"></div>
               <span className="px-4 text-sm text-gray-500">OR</span>
               <div className="flex-1 border-t border-gray-300"></div>
@@ -408,7 +384,7 @@ export default function LoginComponent() {
       <div className="hidden lg:flex flex-1 items-center justify-center relative min-h-[400px] lg:min-h-screen py-8 lg:py-0">
         <div className="w-full max-w-3xl flex flex-col items-center justify-center relative">
           <Image
-            src="/login-banner/login-banner.jpg"
+            src={content?.image ? `/login-banner/${content.image}` : "/login-banner/login-banner.jpg"}
             alt="Sukaii Health"
             width={800}
             height={1200}
@@ -441,14 +417,16 @@ export default function LoginComponent() {
             </div>
             <div className="flex flex-col items-start">
               <div className="font-[600] text-gray-900 text-[18px] md:text-[20px]">
-                {slide.patients}
+                {content?.users_count ? `${content.users_count} Users` : slide.patients}
               </div>
               <div className="flex items-center gap-1">
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
                 <span className="text-sm font-medium text-gray-900">
-                  {slide.rating}
+                  {content?.rating || slide.rating}
                 </span>
-                <span className="text-xs text-gray-500">{slide.reviews}</span>
+                <span className="text-xs text-gray-500">
+                  {content?.total_reviews ? `(${content.total_reviews} reviews)` : slide.reviews}
+                </span>
               </div>
             </div>
           </div>

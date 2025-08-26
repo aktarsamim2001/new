@@ -7,22 +7,17 @@ import FaqBanner from "../components/Faq/FaqBanner";
 import ProtectedRoute from "@/features/Routes/ProtectedRoute";
 import { fetchFaqData } from "../../features/store/faqSlice";
 
-function Page() {
-  const dispatch = useDispatch();
-  const faqData = useSelector((state) => state?.faq?.data);
-  useEffect(() => {
-    dispatch(fetchFaqData({ slug: "faq" }));
-  }, [dispatch]);
+function FAQPage({ content }) {
 
   return (
     // <ProtectedRoute>
     <div>
-      <FaqBanner data={faqData} />
-      <FAQTabs data={faqData} />
-      <HealthSection data={faqData} />
+      <FaqBanner data={content} />
+      <FAQTabs data={content} />
+      <HealthSection data={content} />
     </div>
     // </ProtectedRoute>
   );
 }
 
-export default Page;
+export default FAQPage;

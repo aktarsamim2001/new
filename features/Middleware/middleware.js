@@ -1,3 +1,4 @@
+// middleware.js
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
@@ -6,20 +7,26 @@ export function middleware(request) {
   const protectedRoutes = ["/profile", "/book-test", "/buy", "/faq"];
   const path = request.nextUrl.pathname;
 
-  const isProtected = protectedRoutes.some(
-    (route) => path === route || path.startsWith(`${route}/`),
+  // Check protected
+  const isProtected = protectedRoutes.some((route) =>
+    path.startsWith(route)
   );
 
   if (!token && isProtected) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    const signInUrl = new URL("/sign-in", request.url);
+    signInUrl.searchParams.set("callbackUrl", path);
+    return NextResponse.redirect(signInUrl);
   }
 
   return NextResponse.next();
 }
 
+// only these routes will trigger middleware
 export const config = {
   matcher: [
-    "/(profile|cart|faq|buy|book-test)(.*)?", // covers both base and nested routes, now includes book-test
-    "/products/:path*",
+    "/profile/:path*",
+    "/book-test/:path*",
+    "/buy/:path*",
+    "/faq/:path*",
   ],
 };

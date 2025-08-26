@@ -18,6 +18,11 @@ import userProfileReducer from "./userProfileSlice";
 
 import bookingReducer from "./bookingSlice";
 import addressListReducer from "./addressListSlice";
+import privacyPolicyReducer from "./privacyPolicySlice";
+import termsConditionReducer from "./termsConditionSlice";
+import bookingsReducer from "./BookingList"
+import cmsReducer from "./dynamicSlice";
+import paymentReducer from "./reviewSlice";
 
 const store = configureStore({
   reducer: {
@@ -38,6 +43,11 @@ const store = configureStore({
   userProfile: userProfileReducer,
   booking: bookingReducer,
   addressList: addressListReducer,
+  privacyPolicy: privacyPolicyReducer,
+  termsCondition: termsConditionReducer,
+  bookings: bookingsReducer,
+  cms: cmsReducer,
+  payment: paymentReducer
   },
 });
 

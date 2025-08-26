@@ -132,18 +132,18 @@ h6 {
 }
 
 .__gapTop2 {
-  margin-top: 15px;
+  margin-top: 55px;
 
   @media (min-width: 768px) {
-    margin-top: 20px;
+    margin-top: 45px;
   }
 
   @media (min-width: 1024px) {
-    margin-top: 25px;
+    margin-top: 90px;
   }
 
   @media (min-width: 1280px) {
-    margin-top: 25px;
+    margin-top: 100px;
   }
 }
 
@@ -227,8 +227,8 @@ h1 {
 @media (min-width: 1024px) {
   .section__heading {
     font-size: 42px;
-    font-weight: 600;
-    line-height: 100%;
+    font-weight: 500;
+    line-height: 52px;
     letter-spacing: -2%;
   }
 }
