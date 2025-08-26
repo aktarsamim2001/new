@@ -9,8 +9,8 @@ import servicesListReducer from "./servicesListSlice";
 import serviceDetailsReducer from "./serviceDetailsSlice";
 import serviceDetailsPageReducer from "./serviceDetailsPageSlice";
 import aboutReducer from "./aboutSlice";
-import faqReducer from "./faqSlice"
-import enquiryReducer from "./enquirySlice"
+import faqReducer from "./faqSlice";
+import enquiryReducer from "./enquirySlice";
 import dynamicPageReducer from "./dynamicSlice";
 
 import enquiryFormReducer from "./enquiryFormSlice";
@@ -18,6 +18,8 @@ import userProfileReducer from "./userProfileSlice";
 
 import bookingReducer from "./bookingSlice";
 import addressListReducer from "./addressListSlice";
+
+import reportReducer from "./reportSlice";
 
 const store = configureStore({
   reducer: {
@@ -34,10 +36,11 @@ const store = configureStore({
     faq: faqReducer,
     enquiry: enquiryReducer,
     dynamicPage: dynamicPageReducer,
-  enquiryForm: enquiryFormReducer,
-  userProfile: userProfileReducer,
-  booking: bookingReducer,
-  addressList: addressListReducer,
+    enquiryForm: enquiryFormReducer,
+    userProfile: userProfileReducer,
+    booking: bookingReducer,
+    addressList: addressListReducer,
+    report: reportReducer,
   },
 });
 

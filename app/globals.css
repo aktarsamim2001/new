@@ -147,7 +147,6 @@ h6 {
   }
 }
 
-
 .__cardShadow {
   box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
 }
@@ -156,6 +155,10 @@ h6 {
   display: inline-block;
   white-space: nowrap;
   animation: slide 15s linear infinite;
+}
+
+.bg-transparent-blur {
+  backdrop-filter: blur(5px);
 }
 
 @keyframes slide {
