@@ -13,7 +13,7 @@ const initialState = {
 		payment_method: "",
 		terms_condition: false,
 		coupon_code: "",
-		// Add more fields if needed
+		remarks: ""  // optional
 	},
 	error: null,
 };

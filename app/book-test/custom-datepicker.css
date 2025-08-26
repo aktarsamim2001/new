@@ -184,3 +184,21 @@
 .react-datepicker-popper[data-placement^="top"] {
   margin-bottom: 8px;
 }
+
+/* Custom style for pin code-like input fields (date, time, etc.) */
+ .custom-outline-input {
+  box-shadow: none !important;
+  border: none !important;
+  outline: none !important;
+  background: #F2F2F2 !important; /* Subtle gray background */
+  padding: 12px 16px !important;
+  font-size: 16px !important;
+  border-radius: 8px !important;
+  transition: box-shadow 0.2s, outline-color 0.2s !important;
+}
+.custom-outline-input:focus {
+  outline: 2px solid #ec4899 !important;
+  outline-color: #be185d !important;
+  background: #fff !important;
+  box-shadow: 0 0 0 2px #ec4899 !important;
+}

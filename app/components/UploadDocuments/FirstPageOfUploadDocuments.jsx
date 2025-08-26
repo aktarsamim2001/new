@@ -28,10 +28,13 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
   const handleNext = (data) => {
     console.log(data);
     if (data === "upload") {
-      router.push("/document-scan");
+      localStorage.removeItem('uploadedDocument');
+      router.push("/document-scan?upload_documents=true");
     } else if (data === "manual-entry") {
       router.push("/manual-entry");
     }
+    // Close the modal after navigation
+    onClose();
   };
 
   return (
@@ -83,9 +86,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {/* Scan or Upload Report Option */}
               <div
-                className={`relative p-3 rounded-2xl border-2 border-gray-300 cursor-pointer transition-all duration-200 hover:border-pink-500 hover:bg-pink-50 "
-                    
-                }`}
+                className={`relative p-3 rounded-2xl border-2 border-gray-300 cursor-pointer transition-all duration-200 hover:border-pink-500 hover:bg-pink-50`}
                 onClick={() => {
                   handleNext("upload");
                 }}
@@ -103,7 +104,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
 
               {/* Manual Entry Option */}
               <div
-                className={`relative p-3 rounded-2xl border-2 border-gray-300 cursor-pointer transition-all duration-200 hover:border-pink-500 hover:bg-pink-50 `}
+                className={`relative p-3 rounded-2xl border-2 border-gray-300 cursor-pointer transition-all duration-200 hover:border-pink-500 hover:bg-pink-50`}
                 onClick={() => {
                   handleNext("manual-entry");
                 }}
@@ -131,7 +132,7 @@ const FirstPageOfUploadDocuments = ({ isOpen, onClose }) => {
                   className="md:rounded-[50px] md:shadow-lg object-cover h-full w-full"
                 />
               </div>
-              <div className=" absolute bottom-20 -left-12 ml-3 px-8 hidden md:flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+              <div className="absolute bottom-20 -left-12 ml-3 px-8 hidden md:flex flex-col items-center justify-center gap-3 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
                 <div className="flex -space-x-3">
                   {slide.reviewAvatars.map((avatar, i) => (
                     <div
@@ -184,7 +185,7 @@ const Demo = () => {
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   return (
-    <div className=" p-4">
+    <div className="p-4">
       <div className="container mx-auto py-20">
         <div className="text-center text-white mb-8">
           <h1 className="text-3xl font-bold mb-4">Add External Report</h1>

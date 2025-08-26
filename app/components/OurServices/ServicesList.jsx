@@ -74,9 +74,9 @@ export default function ServicesList({serviceData}) {
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.name)}
-                  className={`grid grid-cols-1 w-[200px] text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
+                  className={`grid grid-cols-1 w-[220px] text-left px-4 py-3 font-light cursor-pointer rounded-lg text-[16px] leading-[1.2] __cardShadow transition-all duration-200 ${
                     activeCategory === cat.name
-                      ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
+                      ? "border-2 border-[#EC098D] text-gray-600 bg-white"
                       : "border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
                   }`}
                 >
@@ -96,15 +96,15 @@ export default function ServicesList({serviceData}) {
                 onClick={() =>
                   setIsCategoriesDropdownOpen(!isCategoriesDropdownOpen)
                 }
-                className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-[#EC098D] font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
+                className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-gray-600 font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
               >
                 <span className="text-sm">
                   {activeCategory || "Select Category"}
                 </span>
                 {isCategoriesDropdownOpen ? (
-                  <ChevronUp className="h-5 w-5 text-[#EC098D]" />
+                  <ChevronUp className="h-5 w-5 text-gray-600" />
                 ) : (
-                  <ChevronDown className="h-5 w-5 text-[#EC098D]" />
+                  <ChevronDown className="h-5 w-5 text-gray-600" />
                 )}
               </button>
 
@@ -130,73 +130,6 @@ export default function ServicesList({serviceData}) {
               )}
             </div>
           </div>
-
-          {/* ===== DESKTOP AVAILABILITY ===== */}
-          {/* <div className="hidden lg:block">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4 pb-2">
-              Availability
-            </h3>
-            <div className="space-y-3">
-              {availability.map((av) => (
-                <button
-                  key={av}
-                  onClick={() => setActiveAvailability(av)}
-                  className={`grid grid-cols-1 w-[200px] text-left px-4 py-3 font-light cursor-pointer rounded-lg text-sm __cardShadow transition-all duration-200 ${
-                    activeAvailability === av
-                      ? "border-2 border-[#EC098D] bg-white text-[#EC098D] font-semibold"
-                      : "border-2 border-gray-200 text-gray-600 hover:bg-gray-50 hover:border-gray-300"
-                  }`}
-                >
-                  {av}
-                </button>
-              ))}
-            </div>
-          </div> */}
-
-          {/* ===== MOBILE AVAILABILITY ===== */}
-          {/* <div className="lg:hidden">
-            <h3 className="text-lg font-semibold text-gray-800 mb-4">
-              Availability
-            </h3>
-            <div className="relative">
-              <button
-                onClick={() =>
-                  setIsAvailabilityDropdownOpen(!isAvailabilityDropdownOpen)
-                }
-                className="w-full flex items-center justify-between px-4 py-3 bg-white border-2 border-[#EC098D] rounded-lg text-[#EC098D] font-semibold __cardShadow hover:bg-gray-50 transition-colors duration-200"
-              >
-                <span className="text-sm">
-                  {activeAvailability || "Select Availability"}
-                </span>
-                {isAvailabilityDropdownOpen ? (
-                  <ChevronUp className="h-5 w-5 text-[#EC098D]" />
-                ) : (
-                  <ChevronDown className="h-5 w-5 text-[#EC098D]" />
-                )}
-              </button>
-
-              {isAvailabilityDropdownOpen && (
-                <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-64 overflow-y-auto">
-                  {availability.map((av) => (
-                    <button
-                      key={av}
-                      onClick={() => {
-                        setActiveAvailability(av);
-                        setIsAvailabilityDropdownOpen(false);
-                      }}
-                      className={`w-full text-left px-4 py-3 text-sm transition-colors duration-200 ${
-                        activeAvailability === av
-                          ? "bg-[#EC098D] text-white font-semibold"
-                          : "text-gray-600 hover:bg-gray-50"
-                      }`}
-                    >
-                      {av}
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div> */}
         </div>
       </div>
 

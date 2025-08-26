@@ -14,26 +14,24 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-// import { SwiperSlide } from "swiper/react";
 
 function TestDetails({ dataItem, serviceDetails }) {
-  const whyYouShouldTakeIt = dataItem?.why_you_should_take_it || [];
+  const whyYouShouldTakeIt = serviceDetails?.why_you_should_take_it || [];
+  console.log("serviceDetails:", whyYouShouldTakeIt);
 
   return (
     <>
       <div className="container mx-auto">
-        <div className="mt-[65px] md:mt-[50px] mx-auto">
-          <div className="">
-            <div className="text-left">
-              <h2 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
-                What This Test Measures
-              </h2>
-            </div>
+        <div className="__gapTop mx-auto">
+          <div className="text-left">
+            <h2 className="section__heading text-left mb-5 ">
+              What This Test Measures
+            </h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {serviceDetails?.test_measures?.map((measure) => (
                 <div
                   key={measure?.title}
-                  className="bg-white p-6 rounded-xl cardShadow2"
+                  className="bg-white p-6 rounded-[22px] cardShadow2"
                 >
                   <div className="w-14 h-14 flex items-center justify-center mb-2">
                     <Image
@@ -44,15 +42,15 @@ function TestDetails({ dataItem, serviceDetails }) {
                     />
                   </div>
                   <p className="text-gray-600 text-sm">
-                    {measure?.description || "No description available"}
+                    {measure?.title || "No description available"}
                   </p>
                 </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="mt-[65px] md:mt-[50px] mx-auto">
-          <h1 className="text-2xl md:text-4xl leading-[1.1] lg:leading-[150%] -tracking-[1%] lg:-tracking-[2%] font-[600] text-left mb-5 ">
+        <div className="__gapTop mx-auto">
+          <h1 className="section__heading text-left mb-5 ">
             Why You Should Take It
           </h1>
           <div className="hidden md:block">
@@ -80,6 +78,8 @@ function TestDetails({ dataItem, serviceDetails }) {
                       <Image
                         src={item.image || "/placeholder.svg"}
                         alt={item.button_text}
+                        width={780}
+                        height={188}
                         className="object-cover w-full h-[188px] rounded-[13px] group-hover:scale-105 transition-transform duration-300"
                       />
                       <div className="absolute w-[187px] top-[150px] left-7">
@@ -103,6 +103,8 @@ function TestDetails({ dataItem, serviceDetails }) {
                   <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.button_text}
+                    width={780}
+                    height={188}
                     className="object-cover w-full h-[188px] rounded-[13px] group-hover:scale-105 transition-transform duration-300"
                   />
                   <div className="absolute w-[187px] top-[150px] left-7">
@@ -121,7 +123,7 @@ function TestDetails({ dataItem, serviceDetails }) {
         {/* </div> */}
       </div>
       <div className="container mx-auto">
-        <div className="__primary-bg md:rounded-[42px] p-8 md:px-16 relative overflow-hidden mt-[80px]">
+        <div className="__primary-bg md:rounded-[42px] p-8 md:px-16 relative overflow-hidden __gapTop2">
           <div className=" absolute -right-5 bottom-5 md:-right-98 md:-top-40">
             <Image
               src={shapeImage}
@@ -135,7 +137,7 @@ function TestDetails({ dataItem, serviceDetails }) {
             />
           </div>
           <div className="flex flex-col md:flex-row md:justify-between relative">
-            <div className="md:w-8/12 md:pl-10">
+            <div className="md:max-w-3xl md:pl-10">
               <h3 className="text-2xl md:text-[44px] font-bold text-white mb-3">
                 {dataItem?.title || ""}
               </h3>
@@ -145,10 +147,10 @@ function TestDetails({ dataItem, serviceDetails }) {
             </div>
             <div className="md:flex md:items-end">
               <Link href="/our-services">
-                <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative">
+                <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative mb-4">
                   <Button
                     variant="outline"
-                    className="__secondary-bg hover:bg-pink-600 text-white !py-3 p md:!text-[16px] !text-[14px] !font-[600] text-sm sm:text-base"
+                    className="__secondary-bg text-white"
                   >
                     {dataItem?.button_name}
                   </Button>

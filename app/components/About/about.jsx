@@ -5,20 +5,19 @@ import React from "react";
 import shape from "../../assets/woman/shape.png";
 import { Check } from "lucide-react";
 import Link from "next/link";
+import Button from "../ui/Button";
 
 export const About = ({ data }) => {
   const about = data?.content?.about_page || {};
   return (
-    <div className="">
+    <>
       {/* Hero Section */}
       <div className=" mt-[46px] md:mt-[125px] relative container mx-auto">
         <div className="flex flex-col-reverse md:grid md:grid-cols-[55%_auto] items-center md:gap-5 justify-center px-4 md:px-0">
           <div className="text-left flex flex-col align-middle justify-center h-[100%] mt-7">
-            <h2 className="section__heading mt-4 md:mt-0 mb-5 text-gray-900 ">
-              {about.title_two || 'A Central Hub for Your'}
-              <span className="block"> {about.title_two ? '' : 'Wellbeing'}</span>
+            <h2 dangerouslySetInnerHTML={{ __html: about.title_two }} className="section__heading mt-4 md:mt-0 mb-5 text-gray-900 ">
             </h2>
-            <p className="text-sm md:text-lg font-[400] text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="text-sm md:text-lg font-[400] text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
               {about.description_two || 'Safely store and protected data as in one place and get the most detailed insights into your health through detailed metrics and professional medical analysis.'}
             </p>
           </div>
@@ -47,7 +46,7 @@ export const About = ({ data }) => {
       </div>
 
       {/* Reports Section */}
-      <section className="__gapTop">
+      <div className="__gapTop">
         <div className="container mx-auto px-4 md:px-0">
           <div className="text-left">
             <h2 className="section__heading text-gray-900 mb-4 lg:mb-10 md:mb-8">
@@ -58,7 +57,7 @@ export const About = ({ data }) => {
             {(about.featured_items || []).map((item, index) => (
               <div
                 key={index}
-                className="bg-white p-4 sm:p-6 rounded-xl cardShadow2"
+                className="bg-white p-5 rounded-[22px] cardShadow2"
               >
                 <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center mb-1.5">
                   {item.image && (
@@ -71,7 +70,7 @@ export const About = ({ data }) => {
                     />
                   )}
                 </div>
-                <h3 className="text-[20px] font-[500] md:font-[800] sm:text-lg mb-2 text-gray-900 line-hight-[135%]">
+                <h3 className="text-[20px] font-[400] md:font-[500] mb-2 text-gray-900 line-hight-[155%]">
                   {item.title}
                 </h3>
                 <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
@@ -81,10 +80,10 @@ export const About = ({ data }) => {
             ))}
           </div>
         </div>
-      </section>
+      </div>
 
       {/* Import Reports Section */}
-      <div className="__gapTop">
+      <div className="__gapTop2">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-[55%_auto] items-center justify-start gap-8 lg:gap-12 px-4 md:px-0">
             <div className="flex items-start justify-start order-2 lg:order-1">
@@ -112,14 +111,14 @@ export const About = ({ data }) => {
                 {about.description_three || 'Import and analyze reports from any laboratory. Our AI technology reads and interprets your existing reports, giving you comprehensive health insights.'}
               </p>
               {about.button_name_three && (
-                <button className="__secondary-bg text-white md:px-6 py-3 rounded-lg font-semibold text-sm sm:text-base w-1/3">
+                <Button className="__secondary-bg text-white">
                   <Link
                     href="/upload-documents"
                     className="flex items-center justify-center gap-2"
                   >
                     {about.button_name_three}
                   </Link>
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -128,7 +127,7 @@ export const About = ({ data }) => {
 
       {/* Built Around Your Needs Section */}
       <div className="__gapTop relative pb:0 md:pb-10">
-        <div className="absolute top-14 md:top-5 right-0 z-50">
+        <div className="absolute top-14 md:top-5 right-0 -z-10">
           <Image src={shape} alt=" " className="h-[150px] w-[150px] md:h-[400px] md:w-[400px]" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-[60%_auto] gap-8 lg:gap-16 items-center container mx-auto">
@@ -142,7 +141,7 @@ export const About = ({ data }) => {
                   {about.title_four || 'Built Around Your Needs'}
                 </h3>
               </div>
-              <ul className="list-disc mt-2 space-y-2 text-base sm:text-lg text-black text-left ml-[52px] sm:ml-[60px]">
+              <ul className="list-disc mt-2 space-y-2 text-base sm:text-lg text-black text-left ml-[52px] sm:ml-[90px]">
                 {(about.descriptions || []).map((desc, idx) => (
                   <li key={idx}>{desc.description}</li>
                 ))}
@@ -170,6 +169,6 @@ export const About = ({ data }) => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

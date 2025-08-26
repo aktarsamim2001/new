@@ -2,13 +2,13 @@ import Image from 'next/image'
 import React from 'react'
 
 function ServicesBanner({ bannerData }) {
-  const data = bannerData?.our_services;
+  const data = bannerData?.our_services || bannerData?.content?.our_services;
   return (
     <div className='container mx-auto __gapTop'>
       <div className='grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start'>
         {/* Image Section */}
         <div className="flex justify-center items-center">
-          <div className="relative w-full h-[200px] md:h-[287px] md:rounded-[30px] overflow-hidden shadow-lg">
+          <div className="relative w-full h-[200px] md:h-[370px] md:rounded-[30px] overflow-hidden shadow-lg">
             {data?.Image && data.Image !== "" && (
               <Image
                 src={data.Image}

@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
@@ -26,18 +26,23 @@ const TestimonialSlider = () => {
     dispatch(fetchTestimonialData({ slug: "testimonials" }));
   }, [dispatch]);
 
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+
   return (
     <div className="__primary-bg mt-[60px] p-6 pb-24 lg:py-[110px]">
       <div className="max-w-6xl mx-auto relative">
         {/* Navigation buttons - hidden on mobile, visible on desktop */}
         <div className="flex justify-center items-center ">
           <button
+            ref={prevRef}
             variant="outline"
             className="live_event_prev absolute border-[2px] p-2 rounded-full bottom-[-90px] lg:top-1/2 lg:bottom-auto -translate-y-1/2 cursor-pointer left-0 lg:left-4 xl:left-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
             <FaArrowLeftLong size={28} />
           </button>
           <button
+            ref={nextRef}
             variant="outline"
             className="live_event_next border-[2px] p-2 rounded-full absolute bottom-[-90px] lg:top-1/2 lg:bottom-auto -translate-y-1/2 cursor-pointer left-[60px] lg:right-4 lg:left-auto xl:right-0 z-10 text-white hover:text-teal-200 transition-colors"
           >
@@ -52,9 +57,11 @@ const TestimonialSlider = () => {
           loop
           speed={1000}
           effect="ease"
-          navigation={{
-            prevEl: ".live_event_prev",
-            nextEl: ".live_event_next",
+          onInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
           }}
           className="max-w-4xl mx-auto"
         >
@@ -66,9 +73,9 @@ const TestimonialSlider = () => {
                   <Image
                     src={testimonial.image}
                     alt={testimonial.reviewer_name}
-                    className="object-cover rounded-2xl w-full lg:w-[362px] h-64 sm:h-[345px] lg:h-[345px] "
-                    width={362}
-                    height={345}
+                    className="object-cover rounded-2xl w-full lg:w-[400px] h-64 sm:h-[382px] lg:h-[382px] "
+                    width={400}
+                    height={382}
                   />
                 </div>
 

@@ -4,13 +4,12 @@ import Image from "next/image";
 import React, { useState } from "react";
 import shapeImage from "../../assets/home/Shape.png";
 import image from "../../../public/texture-bg.png";
-import { IoMdArrowUp } from "react-icons/io";
+import { IoMdArrowDown } from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
 
 const HowProcessWorks = ({dataItem}) => {
-  const [expandedStep, setExpandedStep] = useState(1);
+  const [expandedStep, setExpandedStep] = useState(0);
   const steps = dataItem?.how_it_works_content_items || [];
-  console.log("Steps Data:", steps);
 
   const toggleStep = (stepId) => {
     setExpandedStep(expandedStep === stepId ? null : stepId);
@@ -82,7 +81,7 @@ const HowProcessWorks = ({dataItem}) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.4 }}
                 viewport={{ once: true }}
-                className="text-[#222222] text-lg leading-[25px] font-[400]"
+                className="text-gray-500 text-lg leading-[25px] font-[400]"
               >
                 Explore our diverse services designed to nurture your mental
                 health. From online counseling to self-care tools, we offer a
@@ -117,7 +116,7 @@ const HowProcessWorks = ({dataItem}) => {
                     <div
                       className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
                     >
-                      <IoMdArrowUp
+                      <IoMdArrowDown
                         className={`transition-transform duration-300 ${
                           expandedStep === index ? "rotate-180" : ""
                         }`}

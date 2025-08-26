@@ -9,15 +9,22 @@ import servicesListReducer from "./servicesListSlice";
 import serviceDetailsReducer from "./serviceDetailsSlice";
 import serviceDetailsPageReducer from "./serviceDetailsPageSlice";
 import aboutReducer from "./aboutSlice";
-import faqReducer from "./faqSlice"
-import enquiryReducer from "./enquirySlice"
+import faqReducer from "./faqSlice";
+import enquiryReducer from "./enquirySlice";
 import dynamicPageReducer from "./dynamicSlice";
 
-import enquiryFormReducer from "./enquiryFormSlice.jsx";
+import enquiryFormReducer from "./enquiryFormSlice";
 import userProfileReducer from "./userProfileSlice";
 
 import bookingReducer from "./bookingSlice";
 import addressListReducer from "./addressListSlice";
+import privacyPolicyReducer from "./privacyPolicySlice";
+import termsConditionReducer from "./termsConditionSlice";
+import bookingsReducer from "./BookingList"
+import cmsReducer from "./dynamicSlice";
+import paymentReducer from "./reviewSlice";
+
+import reportReducer from "./reportSlice";
 
 const store = configureStore({
   reducer: {
@@ -38,6 +45,12 @@ const store = configureStore({
   userProfile: userProfileReducer,
   booking: bookingReducer,
   addressList: addressListReducer,
+  privacyPolicy: privacyPolicyReducer,
+  termsCondition: termsConditionReducer,
+  bookings: bookingsReducer,
+  cms: cmsReducer,
+  payment: paymentReducer,
+  report: reportReducer,
   },
 });
 

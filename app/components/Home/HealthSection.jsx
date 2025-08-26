@@ -10,24 +10,23 @@ import { usePathname } from "next/navigation";
 
 const HealthSection = ({dataItem}) => {
   const path = usePathname();
-  console.log("HealthSection Data:", dataItem?.content);
 
   return (
-    <div className="container mx-auto __gapTop">
-      <div className="grid grid-cols-1 lg:grid-cols-[55%_44%] gap-8 items-center mt-[60px] md:mt-0">
+    <div className="container mx-auto md:mt-[40px]">
+      <div className="grid grid-cols-1 lg:grid-cols-[40%_44%] gap-10 md:gap-18 items-center justify-between mt-[60px] md:mt-0">
         {/* Content Section */}
-        <div className="order-2 lg:order-1 px-4 md:px-0">
-          <h2 className="section__heading bg-gradient-to-br from-[#1a1a1a] to-[#4a4a4a] text-transparent bg-clip-text">
+        <div className="order-2 lg:order-1 px-4 md:px-0 md:mt-12">
+          <h2 className="section__heading">
             {dataItem?.content?.home_page?.title_four}
           </h2>
-          <p className="text-gray-500 banner__description max-w-2xl mt-5">
+          <p className="text-gray-500 banner__description max-w-2xl mt-4">
             {dataItem?.content?.home_page?.description_four}
           </p>
           <div>
             <Link href={dataItem?.content?.home_page?.button_url_four || "/book-test"} passHref>
               <Button
                 variant="outline"
-                className="text-white rounded-[5px] text-base sm:text-[16px] mt-3 font-semibold shadow-xl cursor-pointer __secondary-bg hover:shadow-2xl transition-all duration-300 w-full max-w-[150px]"
+                className="text-white mt-4 cursor-pointer __secondary-bg md:w-full max-w-[180px]"
               >
                 {dataItem?.content?.home_page?.button_name_four}
               </Button>
@@ -36,7 +35,7 @@ const HealthSection = ({dataItem}) => {
         </div>
         {/* Image Section */}
         <div className="w-full flex items-center justify-center order-1 lg:order-2">
-          <div className={`relative w-full md:mt-[60px] ${path !== "/our-services" ? "z-[-1] mt-[-100px]" : ""}`}> 
+          <div className={`relative w-full md:mt-[60px] ${path !== "/our-services" ? "z-[-1] mt-[-130px]" : ""}`}> 
             {dataItem?.content?.home_page?.image_four ? (
               <Image
                 src={dataItem.content.home_page.image_four}

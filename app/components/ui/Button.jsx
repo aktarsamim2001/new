@@ -4,7 +4,7 @@ const Button = ({ children, className, onClick, variant, type = "button", ...pro
         <button
             onClick={onClick}
             type={type}
-            className={`px-6 py-3 rounded-xl cursor-pointer font-semibold text-sm transition-all duration-300 ${
+            className={`px-8 py-3 rounded-[6px] cursor-pointer font-semibold text-[18px] transition-all duration-300 ${
                 variant === 'outline' 
                     ? 'border-2 border-pink-500 text-pink-500 bg-transparent hover:bg-pink-500 hover:text-white' 
                     : variant === 'fill' 

@@ -3,17 +3,18 @@ import React from "react";
 import image from "../../assets/how-it-work/how-it-work-banner.jpg";
 
 function Banner({data}) {
-  console.log("kjsdsajhjk",data);
+  // Support multiple possible data shapes
+  const bannerData = data?.how_it_works || data?.content?.how_it_works || data;
+  console.log("Banner data:", bannerData);
   return (
     <div>
-      {" "}
-      <div className=" mx-auto __gapTop">
+      <div className="mx-auto __gapTop">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center justify-start">
           {/* Image Section */}
           <div className="flex justify-center items-center">
-            <div className="relative w-full h-[200px] md:h-[300px] md:rounded-r-[30px] overflow-hidden shadow-lg">
+            <div className="relative w-full h-[200px] md:h-[370px] md:rounded-r-[30px] overflow-hidden shadow-lg">
               <Image
-                src={image}
+                src={bannerData?.image || image}
                 alt="Services Banner"
                 fill
                 className="object-cover"
@@ -24,10 +25,12 @@ function Banner({data}) {
 
           {/* Text Section */}
           <div className="p-4 text-left max-w-lg">
-            <h1 dangerouslySetInnerHTML={{ __html: data?.title }} className="text-[28px] md:text-[43px] leading-[1.1] md:leading-[1.3] font-bold __secondary-text">
-            </h1>
+            <h1
+              dangerouslySetInnerHTML={{ __html: bannerData?.title || "" }}
+              className="text-[28px] md:text-[43px] leading-[1.1] md:leading-[1.3] font-bold __secondary-text"
+            />
             <p className="mt-4 banner__description text-gray-600">
-              {data?.description}
+              {bannerData?.description || ""}
             </p>
           </div>
         </div>

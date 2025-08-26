@@ -17,9 +17,9 @@ const LetsTalk = () => {
         <p className="text-gray-600 mb-4 text-sm sm:text-base leading-relaxed">
           Our team is just a message away. Whether you’re stuck with a booking, confused about a report, or need help navigating your dashboard—support is standing by.
         </p>
-        <button className="__secondary-bg text-white font-semibold px-6 sm:px-8 py-2.5 sm:py-3 rounded-[10px] text-sm sm:text-base shadow transition">
+        <Button className="__secondary-bg text-white">
           Contact Support
-        </button>
+        </Button> 
       </div>
       <div className="w-full md:w-1/2 flex-shrink-0">
         <Image

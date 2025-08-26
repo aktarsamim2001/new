@@ -3,24 +3,21 @@ import ServicesBanner from '@/app/components/OurServices/ServicesBanner'
 import ServicesList from '@/app/components/OurServices/ServicesList'
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchServiceData } from '../../features/store/serviceSlice'
 import { fetchServicesList } from '../../features/store/servicesListSlice'
 import BottomBanner from '@/app/components/OurServices/BottomBanner'
 
-function OurServices() {
+function OurServices({ content }) {
   const dispatch = useDispatch();
-  const serviceData = useSelector((state) => state?.service?.data);
   const servicesListData = useSelector((state) => state?.servicesList?.data);
-  console.log("service list:ksjadhkas",servicesListData)
+  console.log("service list:ksjadhkas",content?.our_services)
   useEffect(() => {
-    dispatch(fetchServiceData({ slug: 'services' }));
     dispatch(fetchServicesList({ page: 1, perPage: 10 }));
   }, [dispatch]);
   return (
     <div>
-      <ServicesBanner bannerData={serviceData?.content} />
+      <ServicesBanner bannerData={content} />
       <ServicesList serviceData={servicesListData} />
-      <BottomBanner bannerData={serviceData?.content}/>
+      <BottomBanner bannerData={content} />
     </div>
   );
 }
