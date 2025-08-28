@@ -5,7 +5,7 @@ import React from "react";
 import AboutBanner from "../../app/components/About/AboutBanner";
 import TestimonialSlider from "../../app/components/Home/TestimonialSlider";
 import HealthSection from "../../app/components/About/HealthSection";
-import About from "../../app/components/About/About";
+import AboutPage from "../../app/components/About/AboutPage";
 
 function AboutClient({ content }) {
   console.log("AboutClient received data:", content);
@@ -16,7 +16,7 @@ function AboutClient({ content }) {
   return (
     <div>
       <AboutBanner data={aboutData} />
-      <About data={aboutData} />
+      <AboutPage data={aboutData} />
       <TestimonialSlider />
       <HealthSection dataItem={aboutData} />
     </div>
