@@ -7,7 +7,7 @@ import { Check } from "lucide-react";
 import Link from "next/link";
 import Button from "../ui/Button";
 
-const About = ({ data }) => {
+const AboutPage = ({ data }) => {
   const about = data?.content?.about_page || {};
   return (
     <>
@@ -173,4 +173,4 @@ const About = ({ data }) => {
   );
 };
 
-export default About;
+export default AboutPage;

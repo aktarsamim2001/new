@@ -2,10 +2,10 @@
 "use client";
 
 import React from "react";
-import AboutBanner from "../components/About/AboutBanner";
-import TestimonialSlider from "../components/Home/TestimonialSlider";
-import HealthSection from "../components/About/HealthSection";
-import About from "../components/About/About";
+import AboutBanner from "../../app/components/About/AboutBanner";
+import TestimonialSlider from "../../app/components/Home/TestimonialSlider";
+import HealthSection from "../../app/components/About/HealthSection";
+import AboutPage from "../../app/components/About/AboutPage";
 
 function AboutClient({ content }) {
   console.log("AboutClient received data:", content);
@@ -16,7 +16,7 @@ function AboutClient({ content }) {
   return (
     <div>
       <AboutBanner data={aboutData} />
-      <About data={aboutData} />
+      <AboutPage data={aboutData} />
       <TestimonialSlider />
       <HealthSection dataItem={aboutData} />
     </div>
