@@ -4,7 +4,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'sukaii-admin.notebrains.com',
+        hostname: 'sukaii-bucket.s3.ap-southeast-1.amazonaws.com',
       },
     ],
   },

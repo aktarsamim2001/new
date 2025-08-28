@@ -5,19 +5,22 @@ import HowProcessWorks from "@/app/components/ServiceDetails/HowProcessWorks";
 import DetailsBanner from "@/app/components/ServiceDetails/DetailsBanner";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchServiceDetailsPageData } from '../../features/store/serviceDetailsPageSlice';
-import BrandLogo from "../components/BrandLogo/BrandLogo";
-import TestDetails from "../components/ServiceDetails/TestDetails";
+import { fetchServiceDetailsPageData } from '../../../features/store/serviceDetailsPageSlice';
+import BrandLogo from "../../components/BrandLogo/BrandLogo";
+import TestDetails from "../../components/ServiceDetails/TestDetails";
 import { useParams } from 'next/navigation';
 
-function ServiceDetails({content}) {
-  console.log("ServiceDetails content:", content);
+function ServiceDetails() {
   const dispatch = useDispatch();
+  const params = useParams();
+  const { data: content } = useSelector((state) => state.cms) || {};
   const serviceDetailsPageData = useSelector((state) => state?.serviceDetailsPage?.data);
   
   useEffect(() => {
-      dispatch(fetchServiceDetailsPageData({ package_id: "3" }));
-  }, [dispatch],);
+    if (params.slug) {
+      dispatch(fetchServiceDetailsPageData({ package_id: params.slug }));
+    }
+  }, [dispatch, params.slug]);
   return (
     <div>
       <DetailsBanner bannerDetailsPage={serviceDetailsPageData} />

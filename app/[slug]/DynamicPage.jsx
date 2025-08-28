@@ -10,14 +10,14 @@ import 'react-loading-skeleton/dist/skeleton.css'
 import { fetchPageDataThunk, clearPageData } from '../../features/store/dynamicSlice'
 import HomeClient from "../home/HomeClient";
 import AboutClient from '../about/AboutClient'
-import OurServices from "../our-services/OurServices";
+import OurServices from "../our-services/OurServices.jsx";
 import HowItWorkPage from "../how-it-works/HowItWorkPage";
 import FAQPage from "../faq/FAQPage"
 import EnquiryFormPage from "../enquiry-form/EnquiryForm";
 import PrivacyPolicyPage from "../privacy-policy/PrivacyPolicyPage";
 import TermsConditionPage from "../terms-condition/TermsConditionPage";
 import SignInPage from "../sign-in/SignInPage"; 
-import ServiceDetails from "../service-details/ServiceDetails";
+import ServiceDetails from "../our-services/[slug]/page";
 
 const SkeletonLayout = () => {
   return (

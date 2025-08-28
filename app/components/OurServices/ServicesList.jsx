@@ -139,8 +139,7 @@ export default function ServicesList({serviceData}) {
           <div className="grid grid-cols-2 gap-4 mb-6">
             {filteredPackages.map((pkg) => (
               <Link
-                href="/service-details"
-                target="_blank"
+                href={`/our-services/${pkg.id}`}
                 key={pkg.id}
                 className="cursor-pointer relative"
               >
@@ -176,8 +175,7 @@ export default function ServicesList({serviceData}) {
         <div className="hidden md:grid grid-cols-3 gap-12 p-12">
           {filteredPackages.map((pkg) => (
             <Link
-              href="/service-details"
-              target="_blank"
+              href={`/our-services/${pkg.id}`}
               key={pkg.id}
               className="relative flex items-center justify-start gap-4 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-br from-white from-12% via-[#00b8c1]/90 to-[#00b8c1] p-6"
             >
