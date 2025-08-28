@@ -5,7 +5,7 @@ import React from "react";
 import AboutBanner from "../components/About/AboutBanner";
 import TestimonialSlider from "../components/Home/TestimonialSlider";
 import HealthSection from "../components/About/HealthSection";
-import {About} from "../components/About/About";
+import About from "../components/About/About";
 
 function AboutClient({ content }) {
   console.log("AboutClient received data:", content);
