@@ -34,7 +34,7 @@ function FaqBanner({ data }) {
             </p>
             {banner.button_name && (
               <Button className="mt-4 cursor-pointer __secondary-bg">
-                <Link href="/sign-up" className="text-white">
+                <Link href={banner?.button_url || ""} className="text-white">
                   {banner.button_name}
                 </Link>
               </Button>

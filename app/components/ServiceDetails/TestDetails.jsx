@@ -146,7 +146,7 @@ function TestDetails({ dataItem, serviceDetails }) {
               </p>
             </div>
             <div className="md:flex md:items-end">
-              <Link href="/our-services">
+              <Link href={dataItem?.button_url || ""}>
                 <div className="flex justify-start md:justify-end mt-4 md:mt-0 relative mb-4">
                   <Button
                     variant="outline"

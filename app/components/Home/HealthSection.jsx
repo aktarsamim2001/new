@@ -23,7 +23,7 @@ const HealthSection = ({dataItem}) => {
             {dataItem?.content?.home_page?.description_four}
           </p>
           <div>
-            <Link href={dataItem?.content?.home_page?.button_url_four || "/book-test"} passHref>
+            <Link href={dataItem?.content?.home_page?.button_url_four || ""} passHref>
               <Button
                 variant="outline"
                 className="text-white mt-4 cursor-pointer __secondary-bg md:w-full max-w-[180px]"

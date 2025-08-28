@@ -24,7 +24,7 @@ const BottomBanner = ({bannerData}) => {
             {dataItem?.description_two}
           </p>
           <div>
-            <Link href={dataItem?.button_url || "/book-test"} passHref>
+            <Link href={dataItem?.button_url || ""} passHref>
               <Button
                 variant="outline"
                 className="text-white mt-4 cursor-pointer __secondary-bg md:w-full max-w-[180px]"
