@@ -182,7 +182,6 @@ const Step3 = ({
       schedule_time = /^\d{2}:\d{2}$/.test(start) ? `${start}:00` : start;
     }
 
-    // Always provide a valid package id: use selected or fallback to first available
     let selectedPackageId = null;
     if (Array.isArray(servicesListData?.packages)) {
       const selected = servicesListData.packages.find(
@@ -213,7 +212,6 @@ const Step3 = ({
       if (booking.status === 1) {
         toast.success(booking.message || "Booking completed successfully!");
       }
-      // Always pass the exact value shown in Step 3's Total Cost field
       handleContinue({
         ...data,
         totalCost: paymentState?.data?.summary?.final_amount || "",
@@ -267,31 +265,6 @@ const Step3 = ({
                           )
                         </span>
                       </div>
-                      {/* Tax breakdown under package price */}
-                      {paymentState?.data?.pricing?.tax_breakdown &&
-                        Array.isArray(
-                          paymentState.data.pricing.tax_breakdown
-                        ) &&
-                        paymentState.data.pricing.tax_breakdown.length > 0 && (
-                          <div className="mt-2 text-xs text-gray-600">
-                            <span className="font-medium">Tax Breakdown:</span>
-                            <ul className="ml-2 mt-1">
-                              {paymentState.data.pricing.tax_breakdown.map(
-                                (tax, idx) => (
-                                  <li
-                                    key={idx}
-                                    className="flex justify-between"
-                                  >
-                                    <span>{tax.title}:</span>
-                                    <span className="ml-2">
-                                      {formatPrice(tax.amount)}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        )}
                       {selectedTestObj.description && (
                         <div className="mt-2 text-sm text-gray-600">
                           {stripBr(selectedTestObj.description)}
@@ -323,31 +296,8 @@ const Step3 = ({
                           )
                         </span>
                       </div>
-                      {/* Tax breakdown under package price */}
-                      {paymentState?.data?.pricing?.tax_breakdown &&
-                        Array.isArray(
-                          paymentState.data.pricing.tax_breakdown
-                        ) &&
-                        paymentState.data.pricing.tax_breakdown.length > 0 && (
-                          <div className="mt-2 text-xs text-gray-600">
-                            <span className="font-medium">Tax Breakdown:</span>
-                            <ul className="ml-2 mt-1">
-                              {paymentState.data.pricing.tax_breakdown.map(
-                                (tax, idx) => (
-                                  <li
-                                    key={idx}
-                                    className="flex justify-between"
-                                  >
-                                    <span>{tax.title}:</span>
-                                    <span className="ml-2">
-                                      {formatPrice(tax.amount)}
-                                    </span>
-                                  </li>
-                                )
-                              )}
-                            </ul>
-                          </div>
-                        )}
+
+                      {/* ❌ Tax breakdown removed here too */}
                     </div>
                   )}
 
@@ -548,27 +498,30 @@ const Step3 = ({
           <div className="flex items-center justify-end mt-10">
             <div className="lg:w-[81%] flex justify-start">
               <div className="lg:w-[20%] flex justify-between">
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (
+                      typeof window !== "undefined" &&
+                      window.history.length > 1
+                    ) {
+                      window.history.back();
+                    }
+                  }}
+                  className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
+                >
+                  Back
+                </button>
+              </div>
               <button
                 type="button"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.history.length > 1) {
-                    window.history.back();
-                  }
-                }}
-                className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
+                onClick={handleSubmit(onSubmit)}
+                disabled={paymentState.loading}
+                className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
               >
-                Back
+                {paymentState.loading ? "Processing..." : "Confirm & Pay"}
               </button>
             </div>
-            <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
-              disabled={paymentState.loading}
-              className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {paymentState.loading ? "Processing..." : "Confirm & Pay"}
-            </button>
-          </div>
           </div>
         </div>
       </div>

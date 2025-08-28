@@ -29,12 +29,10 @@ export default function Navbar() {
   const { isAuthenticated, profileData } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
-  // Set isMounted to true after component mounts
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -118,25 +116,25 @@ export default function Navbar() {
         >
           <Link
             href="/home"
-            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname === "/home" ? " text-[#00B8C1] font-[500]" : ""}`}
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname === "/home" ? " !text-[#00b8c1] font-[500]" : ""}`}
           >
             Home
           </Link>
           <Link
             href="/services"
-            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/services") ? " text-[#00B8C1] font-[500]" : ""}`}
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/services") ? " !text-[#00b8c1] font-[500]" : ""}`}
           >
             Our Services
           </Link>
           <Link
             href="/how-its-work"
-            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/how-its-work") ? " text-[#00B8C1] font-[500]" : ""}`}
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/how-its-work") ? " !text-[#00b8c1] font-[500]" : ""}`}
           >
             How It Works
           </Link>
           <Link
             href="/about"
-            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/about") ? " text-[#00B8C1] font-[500]" : ""}`}
+            className={`text-[#BBBBBB] hover:text-gray-400${isMounted && pathname.startsWith("/about") ? " !text-[#00b8c1] font-[500]" : ""}`}
           >
             About
           </Link>
@@ -146,9 +144,7 @@ export default function Navbar() {
         <div
           className={`hidden md:flex items-center space-x-2 gap-2 ${poppins.className}`}
         >
-          {/* Only render auth-dependent content after component mounts */}
           {isMounted && isAuthenticated ? (
-            // Show user info when authenticated with dropdown
             <div
               className="flex items-center gap-3 relative"
               ref={profileRef}
@@ -159,9 +155,9 @@ export default function Navbar() {
                 <span className="text-sm font-medium text-gray-800">
                   {profileData.name || "User"}
                 </span>
-                <span className="text-xs text-gray-500">
+                {/* <span className="text-xs text-gray-500">
                   {profileData.email}
-                </span>
+                </span> */}
               </div>
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-[#00B8C1] cursor-pointer">
                 {profileData.profile_photo_path ? (
@@ -187,27 +183,26 @@ export default function Navbar() {
 
               {/* Profile Dropdown */}
               {profileDropdown && (
-                <div className="absolute top-full right-0 mt-1 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
+                <div className="absolute top-full right-0 mt-0.5 w-48 bg-white rounded-md shadow-lg py-0 z-50 border border-gray-200">
                   <Link
                     href="/user-dashboard"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setProfileDropdown(false)}
                   >
                     <User className="h-4 w-4 mr-2" />
-                    Dashboard
+                    My Profile
                   </Link>
                   <Link
-                    href="/reports"
-                    className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    href="/user-dashboard"
+                    className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setProfileDropdown(false)}
                   >
                     <BarChart3 className="h-4 w-4 mr-2" />
-                    Reports
+                    My Test
                   </Link>
-                  <div className="border-t border-gray-100 my-1"></div>
                   <button
                     onClick={handleLogout}
-                    className="flex items-center w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    className="flex items-center w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
@@ -216,7 +211,6 @@ export default function Navbar() {
               )}
             </div>
           ) : isMounted ? (
-            // Show login/signup when not authenticated (only after mount)
             <>
               <Link
                 href="/sign-in"
@@ -229,9 +223,9 @@ export default function Navbar() {
                 Log In
               </Link>
 
-              <span className="text-gray-400">|</span>
+              {/* <span className="text-gray-400">|</span> */}
 
-              <Link
+              {/* <Link
                 href="/sign-up"
                 className={`__nav-link cursor-pointer ${
                   pathname?.startsWith("/sign-up")
@@ -240,17 +234,15 @@ export default function Navbar() {
                 }`}
               >
                 Sign Up
-              </Link>
+              </Link> */}
             </>
           ) : (
-            // Show a placeholder while mounting to avoid hydration mismatch
             <div className="flex items-center gap-2">
               <div className="w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
               <div className="w-20 h-4 bg-gray-200 rounded animate-pulse"></div>
             </div>
           )}
 
-          {/* Desktop Search Icon/Button */}
           <div
             className={`ml-2 relative flex items-center cursor-pointer ${poppins.className}`}
           >
@@ -292,7 +284,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Search Button (Mobile Only) */}
         <div className="md:hidden flex items-end">
           <button
             onClick={toggleSearch}
@@ -339,7 +330,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenu(false)}
                 className={
                   pathname === "/home"
-                    ? "text-[#00B8C1] font-bold block py-2"
+                    ? "!text-[#00b8c1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
               >
@@ -350,7 +341,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenu(false)}
                 className={
                   pathname.startsWith("/services")
-                    ? "text-[#00B8C1] font-bold block py-2"
+                    ? "!text-[#00b8c1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
               >
@@ -361,7 +352,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenu(false)}
                 className={
                   pathname.startsWith("/how-its-work")
-                    ? "text-[#00B8C1] font-bold block py-2"
+                    ? "!text-[#00b8c1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
               >
@@ -372,7 +363,7 @@ export default function Navbar() {
                 onClick={() => setMobileMenu(false)}
                 className={
                   pathname.startsWith("/about")
-                    ? "text-[#00B8C1] font-bold block py-2"
+                    ? "!text-[#00b8c1] font-bold block py-2"
                     : "text-gray-700 block py-2"
                 }
               >
@@ -448,13 +439,13 @@ export default function Navbar() {
                     >
                       Log In
                     </Link>
-                    <Link
+                    {/* <Link
                       href="/sign-up"
                       onClick={() => setMobileMenu(false)}
                       className="block py-2 text-gray-700"
                     >
                       Sign Up
-                    </Link>
+                    </Link> */}
                   </>
                 )}
               </div>

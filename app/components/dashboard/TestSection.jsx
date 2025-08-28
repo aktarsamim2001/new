@@ -28,6 +28,7 @@ import {
   fetchPastBookings,
   loadMoreBookings,
 } from "../../../features/store/BookingList.js";
+import Link from "next/link";
 
 const TestsSection = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,6 @@ const TestsSection = () => {
   console.log("Bookings State:", { upcomingBookings,pagination: data.pagination });
 
   useEffect(() => {
-    // Fetch both upcoming and past bookings on component mount
     dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
     dispatch(fetchPastBookings({ page: 1, limit: 10 }));
   }, [dispatch]);
@@ -152,10 +152,10 @@ const TestsSection = () => {
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
                       <div className="flex flex-col gap-1">
-                        <button className="text-gray-900 text-left flex items-center gap-1">
+                        <Link href="book-test" className="text-gray-900 text-left flex items-center gap-1">
                           <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
                           Add a New Test
-                        </button>
+                        </Link>
                         <button className="text-gray-900 text-left">
                           <CircleX className="inline w-3.5 h-3.5 mr-1" />
                           Cancel Booking
@@ -228,7 +228,7 @@ const TestsSection = () => {
                       </td>
                       <td className="px-4 md:px-6 py-3 whitespace-nowrap">
                         <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                          {booking.status || "Completed"}
+                          {booking.status || ""}
                         </span>
                       </td>
                       <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
@@ -236,7 +236,7 @@ const TestsSection = () => {
                           <span className="flex items-center justify-center w-4 h-4">
                             <FolderOpen className="w-4 h-4" />
                           </span>
-                          {booking.report || "Ready"}
+                          {booking.report || ""}
                         </span>
                       </td>
                       <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">

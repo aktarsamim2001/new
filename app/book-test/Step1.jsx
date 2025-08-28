@@ -1,6 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
-import { ChevronDown } from "lucide-react";
-import { useEffect } from "react";
+import { ChevronDown, Edit3 } from "lucide-react";
+import { useEffect, useState } from "react";
 import Select from "react-select";
 
 const Step1 = ({
@@ -11,6 +11,8 @@ const Step1 = ({
   handleContinue,
   userProfile,
 }) => {
+  const [isNameEditable, setIsNameEditable] = useState(false);
+  
   const {
     register,
     handleSubmit,
@@ -107,6 +109,10 @@ const Step1 = ({
     handleContinue(data);
   };
 
+  const toggleNameEdit = () => {
+    setIsNameEditable(!isNameEditable);
+  };
+
   return (
     <div onSubmit={handleSubmit(onSubmit)}>
       <div className="rounded-lg px-4 flex items-center justify-between relative">
@@ -116,27 +122,41 @@ const Step1 = ({
           </h2>
 
           <div className="space-y-6">
-            {/* Full Name */}
+            {/* Full Name - Editable with pencil icon */}
             <div className="lg:flex lg:flex-row lg:justify-between lg:items-center">
               <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
                 Full Name
               </label>
-              <div className="lg:w-[70%]">
+              <div className="lg:w-[70%] relative">
                 <input
                   {...register("fullName", {
                     required: "Full Name is required",
                   })}
                   type="text"
-                  disabled={isDisabled}
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all
+                  disabled={isDisabled || !isNameEditable}
+                  className={`w-full px-4 py-4 pr-12 bg-[#F2F2F2] border-0 rounded-xl transition-all
                     ${
-                      isDisabled
-                        ? "opacity-50 cursor-not-allowed"
+                      isDisabled || !isNameEditable
+                        ? "opacity-70 cursor-default"
                         : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
                     }`}
                   placeholder="Enter your full name"
                   style={{ color: "#6B7280" }}
                 />
+                {/* Pencil icon */}
+                <button
+                  type="button"
+                  onClick={toggleNameEdit}
+                  disabled={isDisabled}
+                  className={`absolute right-3 top-1/2 transform -translate-y-1/2 p-1 rounded-full transition-all
+                    ${isDisabled 
+                      ? "opacity-30 cursor-not-allowed" 
+                      : "hover:bg-gray-200 text-gray-500 hover:text-gray-700 cursor-pointer"
+                    }`}
+                  title={isNameEditable ? "Save name" : "Edit name"}
+                >
+                  <Edit3 size={16} />
+                </button>
                 {errors.fullName && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.fullName.message}
@@ -145,7 +165,7 @@ const Step1 = ({
               </div>
             </div>
 
-            {/* Gender and Age Row */}
+            {/* Gender and Age Row - Read only */}
             <div className="lg:flex lg:flex-row lg:justify-between lg:items-center gap-8">
               <div className="lg:text-right">
                 <label className="block text-[20px] font-medium text-gray-700 mb-2 lg:mb-0">
@@ -161,20 +181,15 @@ const Step1 = ({
                         validate: (value) =>
                           value !== "Select" || "Gender is required",
                       })}
-                      disabled={isDisabled}
-                      className={`w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500
-                        ${
-                          isDisabled
-                            ? "opacity-50 cursor-not-allowed"
-                            : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
-                        }`}
+                      disabled={true} // Always disabled (read-only)
+                      className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
                     >
                       <option value="Select">Select Gender</option>
                       <option value="male">Male</option>
                       <option value="female">Female</option>
                       <option value="other">Other</option>
                     </select>
-                    <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-70">
                       <ChevronDown />
                     </div>
                   </div>
@@ -204,13 +219,8 @@ const Step1 = ({
                           },
                         })}
                         type="number"
-                        disabled={isDisabled}
-                        className={`w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500
-                          ${
-                            isDisabled
-                              ? "opacity-50 cursor-not-allowed"
-                              : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
-                          }`}
+                        disabled={true} // Always disabled (read-only)
+                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
                         placeholder="Enter your age"
                       />
                     </div>
@@ -222,7 +232,25 @@ const Step1 = ({
               </div>
             </div>
 
-            {/* Selected Test - Multi Select */}
+            {/* Contact field - Read only (if it exists) */}
+            {userProfile?.mobile && (
+              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center">
+                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
+                  Contact
+                </label>
+                <div className="lg:w-[70%]">
+                  <input
+                    {...register("contact")}
+                    type="text"
+                    disabled={true} // Always disabled (read-only)
+                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
+                    placeholder="Contact number"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Selected Test - Multi Select (unchanged) */}
             <div className="lg:flex lg:justify-between lg:flex-row lg:items-center gap-8">
               <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
                 Selected Test

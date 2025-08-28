@@ -19,7 +19,7 @@ import {
 import Image from "next/image";
 import icon from "../../public/user-dashboard/icon2 (3).png";
 import { useState } from "react";
-import HealthDashboard from "../user-dashboard/page";
+import HealthDashboard from "../components/dashboard/HealthDashboard";
 
 function page() {
       const [activeTab, setActiveTab] = useState("health");
@@ -126,4 +126,6 @@ function page() {
   )
 }
 
-export default page
+import { withClientSideRendering } from "../utils/withClientSideRendering";
+
+export default withClientSideRendering(page);

@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import OtpInput from "../components/SignUp/OtpInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getOTP, verifyOTP } from "@/features/store/authSlice";
@@ -28,9 +28,6 @@ const slide = {
 export default function SignInPage({ content }) {
   const dispatch = useDispatch();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/user-dashboard";
-  console.log("Callback URL:", content);
   const {
     loadingStatus,
     isAuthenticated,
@@ -45,16 +42,26 @@ export default function SignInPage({ content }) {
   });
   const [error, setError] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
-  const [termsChecked, setTermsChecked] = useState(false); // Add state for terms checkbox
+  const [termsChecked, setTermsChecked] = useState(false);
+  const [verifiedContactInfo, setVerifiedContactInfo] = useState(null); // Store verified info
 
   useEffect(() => {
     if (isAuthenticated) {
       setModalOpen(true);
       setTimeout(() => {
-        router.push(callbackUrl);
+        // Pass verified contact info to complete profile
+        const queryParams = new URLSearchParams();
+        if (verifiedContactInfo) {
+          if (verifiedContactInfo.type === 'mobile') {
+            queryParams.set('verifiedMobile', verifiedContactInfo.value);
+          } else if (verifiedContactInfo.type === 'email') {
+            queryParams.set('verifiedEmail', verifiedContactInfo.value);
+          }
+        }
+        router.push(`/complete-profile?${queryParams.toString()}`);
       }, 2000);
     }
-  }, [isAuthenticated, router, callbackUrl]);
+  }, [isAuthenticated, router, verifiedContactInfo]);
 
   useEffect(() => {
     if (authError) {
@@ -132,9 +139,21 @@ export default function SignInPage({ content }) {
     dispatch(
       verifyOTP(payload, (success) => {
         if (success) {
+          // Store verified contact info
+          setVerifiedContactInfo({
+            type: formData.phoneNumber ? 'mobile' : 'email',
+            value: formData.phoneNumber || formData.email
+          });
           setModalOpen(true);
           setTimeout(() => {
-            router.push(callbackUrl);
+            // Redirect with verified info
+            const queryParams = new URLSearchParams();
+            if (formData.phoneNumber) {
+              queryParams.set('verifiedMobile', formData.phoneNumber);
+            } else if (formData.email) {
+              queryParams.set('verifiedEmail', formData.email);
+            }
+            router.push(`/complete-profile?${queryParams.toString()}`);
           }, 2000);
         }
       })
@@ -273,7 +292,8 @@ export default function SignInPage({ content }) {
               Better Health
             </h1>
             <p className="text-gray-600 banner__description">
-              {content?.description || "Create your Sukaii Health account to book tests, view your reports, manage prescriptions, and access your smart health dashboard — all in one place."}
+              {content?.description ||
+                "Create your Sukaii Health account to book tests, view your reports, manage prescriptions, and access your smart health dashboard — all in one place."}
             </p>
           </div>
 
@@ -384,7 +404,11 @@ export default function SignInPage({ content }) {
       <div className="hidden lg:flex flex-1 items-center justify-center relative min-h-[400px] lg:min-h-screen py-8 lg:py-0">
         <div className="w-full max-w-3xl flex flex-col items-center justify-center relative">
           <Image
-            src={content?.image ? `/login-banner/${content.image}` : "/login-banner/login-banner.jpg"}
+            src={
+              content?.image
+                ? `/login-banner/${content.image}`
+                : "/login-banner/login-banner.jpg"
+            }
             alt="Sukaii Health"
             width={800}
             height={1200}
@@ -417,7 +441,9 @@ export default function SignInPage({ content }) {
             </div>
             <div className="flex flex-col items-start">
               <div className="font-[600] text-gray-900 text-[18px] md:text-[20px]">
-                {content?.users_count ? `${content.users_count} Users` : slide.patients}
+                {content?.users_count
+                  ? `${content.users_count} Users`
+                  : slide.patients}
               </div>
               <div className="flex items-center gap-1">
                 <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
@@ -425,7 +451,9 @@ export default function SignInPage({ content }) {
                   {content?.rating || slide.rating}
                 </span>
                 <span className="text-xs text-gray-500">
-                  {content?.total_reviews ? `(${content.total_reviews} reviews)` : slide.reviews}
+                  {content?.total_reviews
+                    ? `(${content.total_reviews} reviews)`
+                    : slide.reviews}
                 </span>
               </div>
             </div>

@@ -1,4 +1,7 @@
-import { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { X } from "lucide-react";
 import Image from "next/image";
 const image = "/user-dashboard/health-care-icon/banner.jpg";
@@ -15,6 +18,15 @@ import texture from "../../assets/woman/shape.png";
 
 const HealthDashboard = () => {
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // or a loading spinner
+  }
 
   const healthMarkers = [
     {
