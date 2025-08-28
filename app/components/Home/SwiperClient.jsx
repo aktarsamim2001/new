@@ -53,7 +53,7 @@ const SwiperClient = ({ dataItem }) => {
                           src={line}
                           alt="Effect"
                           fill
-                          className="w-full h-[25px] block border absolute left-0 top-0 z-10"
+                          className="w-full h-[25px] block absolute left-0 top-0 z-10"
                         />
                       </div>
                       <div className="lg:hidden absolute top-10 right-[-40px] w-[180px] h-[35px]">
@@ -149,7 +149,7 @@ const SwiperClient = ({ dataItem }) => {
                       >
                         <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center flex-shrink-0">
                           <Image
-                            src={item?.image || image}
+                            src={item?.icon || image}
                             alt="medal"
                             width={40}
                             height={40}

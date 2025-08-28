@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   FileText,
   Activity,
@@ -25,16 +26,20 @@ import TestsSection from "../components/dashboard/TestSection";
 import ReportsSection from "../components/dashboard/ReportsSection"
 
 
-import { Poppins } from "next/font/google";
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
+// Move font configuration to a separate file or layout.jsx to avoid client-side loading issues
 
 const UserDashboard = () => {
   const [activeTab, setActiveTab] = useState("profile");
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // or return a loading spinner
+  }
 
   // const profileData = {
   //   name: "Alex Herman",
@@ -547,4 +552,6 @@ const UserDashboard = () => {
   );
 };
 
-export default UserDashboard;
+import { withClientSideRendering } from "../utils/withClientSideRendering";
+
+export default withClientSideRendering(UserDashboard);;
