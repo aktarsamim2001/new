@@ -25,7 +25,7 @@ const HealthSection = ({ data }) => {
           <div>
             <Link
               href={
-                bottomBanner?.button_url_four || "/book-test"
+                bottomBanner?.button_url_two || ""
               }
               passHref
             >

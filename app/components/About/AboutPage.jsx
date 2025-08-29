@@ -113,7 +113,7 @@ const AboutPage = ({ data }) => {
               {about.button_name_three && (
                 <Button className="__secondary-bg text-white">
                   <Link
-                    href="/upload-documents"
+                    href={about?.button_url_three || ""}
                     className="flex items-center justify-center gap-2"
                   >
                     {about.button_name_three}

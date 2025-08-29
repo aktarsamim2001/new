@@ -38,7 +38,7 @@ export const DetailsForm = () => {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
+                className="mt-1 border-0"
                 placeholder="Enter your full name"
               />
             </div>
@@ -50,7 +50,7 @@ export const DetailsForm = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
+                className="mt-1 border-0"
                 placeholder="Enter your email"
               />
             </div>
@@ -62,7 +62,7 @@ export const DetailsForm = () => {
                 type="tel"
                 value={mobile}
                 onChange={(e) => setMobile(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
+                className="mt-1 border-0"
                 placeholder="Enter your mobile number"
               />
             </div>
@@ -74,7 +74,7 @@ export const DetailsForm = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
+                className="mt-1 border-0"
                 placeholder="Create a password"
               />
             </div>
@@ -86,7 +86,7 @@ export const DetailsForm = () => {
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 bg-gray-100 border-0"
+                className="mt-1 border-0"
                 placeholder="Confirm your password"
               />
             </div>

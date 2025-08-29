@@ -22,7 +22,7 @@ const HealthSection = ({ dataItem }) => {
             {dataItem?.slide_description}
           </p>
           <div>
-            <Link href={dataItem?.button_url || "/book-test"} passHref>
+            <Link href={dataItem?.button_url_three || ""} passHref>
               <Button
                 variant="outline"
                 className="text-white mt-4 cursor-pointer __secondary-bg md:w-full max-w-[180px]"

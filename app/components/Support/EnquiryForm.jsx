@@ -131,7 +131,7 @@ export default function EnquiryForm({ data }) {
                 <div className="flex flex-col items-start space-y-3">
                   <div>
                     <Image
-                      src={"/support-icon/icon.png"}
+                      src={item?.image}
                       alt={item.title}
                       width={24}
                       height={30}
@@ -320,7 +320,7 @@ export default function EnquiryForm({ data }) {
                 </p>
               </div>
 
-              <Link href="/our-services" passHref>
+              <Link href={ctaBanner?.button_url || ""} passHref>
                 <div className="flex justify-start mt-4 md:mt-0 relative">
                   <Button
                     variant="outline"

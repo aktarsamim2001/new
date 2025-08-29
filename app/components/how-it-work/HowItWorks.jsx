@@ -74,7 +74,7 @@ export const HowItWorks = ({ data }) => {
                 {index === steps.length - 1 && (
                   <div className="pt-4">
                     <Button className="cursor-pointer __secondary-bg text-white px-8 py-3 rounded-lg font-semibold hover:bg-pink-600 transition-colors">
-                      <Link href="/sign-up" className="text-white">
+                      <Link href="/sign-in" className="text-white">
                         {data?.content?.how_it_works?.button_name || "Find Out More"}
                       </Link>
                     </Button>

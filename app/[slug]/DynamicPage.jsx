@@ -75,7 +75,6 @@ const DynamicPageClient = () => {
     }
   }, [dispatch, slug]);
 
-  // 🔹 Loading skeleton (API pending অবস্থায় দেখাবে)
   if (isLoading) {
     return <SkeletonLayout />;
   }
@@ -100,10 +99,7 @@ const DynamicPageClient = () => {
         return <TermsConditionPage content={data} />;
       case 'sign_in_page':
         return <SignInPage content={data} />;
-      case 'service_details':
-        return <ServiceDetails content={data} />;
       default:
-        // Invalid template হলে fallback skeleton
         return <SkeletonLayout />;
     }
   };

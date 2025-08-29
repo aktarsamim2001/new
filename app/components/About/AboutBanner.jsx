@@ -36,7 +36,7 @@ function AboutBanner({ data }) {
             </p>
             {about.button_name && (
               <Button className="mt-4 cursor-pointer __secondary-bg">
-                <Link href="/sign-up" className="text-white">
+                <Link href={about?.button_url || ""} className="text-white">
                   {about.button_name}
                 </Link>
               </Button>

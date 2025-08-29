@@ -2,6 +2,8 @@ import { useForm, Controller } from "react-hook-form";
 import { ChevronDown, Edit3 } from "lucide-react";
 import { useEffect, useState } from "react";
 import Select from "react-select";
+import { Input } from "@/components/ui/input";
+import { Select as SharedSelect, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Step1 = ({
   allFormData,
@@ -34,23 +36,20 @@ const Step1 = ({
     ? servicesListData.packages
     : [];
 
-  // Helper function to strip HTML tags
   const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
 
-  // Create options for Select component
   const options = testPackages.map((test) => ({
     value: test.id,
     label: stripBr(test.name),
   }));
 
-  // Load user data when userProfile is available
   useEffect(() => {
+    console.log("User Profile Data:", userProfile);  
     if (userProfile && userProfile.name) {
       const age = userProfile.dob
         ? new Date().getFullYear() - new Date(userProfile.dob).getFullYear()
         : "";
 
-      // Normalize gender to match select options
       let normalizedGender = "Select";
       if (userProfile.gender) {
         const g = userProfile.gender.toLowerCase();
@@ -59,13 +58,11 @@ const Step1 = ({
         }
       }
 
-      // Update form values
       setValue("fullName", userProfile.name || "");
       setValue("gender", normalizedGender);
       setValue("age", age || "");
       setValue("contact", userProfile.mobile || "");
 
-      // Update parent state
       setAllFormData((prev) => ({
         ...prev,
         fullName: userProfile.name || "",
@@ -76,7 +73,6 @@ const Step1 = ({
     }
   }, [userProfile, setValue, setAllFormData]);
 
-  // Auto-update form fields when allFormData changes
   useEffect(() => {
     console.log("Step1 allFormData:", allFormData);
     reset(allFormData);
@@ -128,20 +124,14 @@ const Step1 = ({
                 Full Name
               </label>
               <div className="lg:w-[70%] relative">
-                <input
+                <Input
                   {...register("fullName", {
                     required: "Full Name is required",
                   })}
                   type="text"
                   disabled={isDisabled || !isNameEditable}
-                  className={`w-full px-4 py-4 pr-12 bg-[#F2F2F2] border-0 rounded-xl transition-all
-                    ${
-                      isDisabled || !isNameEditable
-                        ? "opacity-70 cursor-default"
-                        : "focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white"
-                    }`}
+                  className={isDisabled || !isNameEditable ? "opacity-70 cursor-default" : ""}
                   placeholder="Enter your full name"
-                  style={{ color: "#6B7280" }}
                 />
                 {/* Pencil icon */}
                 <button
@@ -174,24 +164,34 @@ const Step1 = ({
               </div>
               <div className="lg:w-[70%] flex flex-row items-center gap-6">
                 <div className="flex flex-col gap-1">
-                  <div className="relative w-[140px]">
-                    <select
-                      {...register("gender", {
+                  <div className="relative w-full">
+                    <Controller
+                      name="gender"
+                      control={control}
+                      rules={{
                         required: "Gender is required",
-                        validate: (value) =>
-                          value !== "Select" || "Gender is required",
-                      })}
-                      disabled={true} // Always disabled (read-only)
-                      className="w-full text-sm appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
-                    >
-                      <option value="Select">Select Gender</option>
-                      <option value="male">Male</option>
-                      <option value="female">Female</option>
-                      <option value="other">Other</option>
-                    </select>
-                    <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 opacity-70">
-                      <ChevronDown />
-                    </div>
+                        validate: (value) => value !== "Select" || "Gender is required",
+                      }}
+                      render={({ field }) => (
+                        <SharedSelect
+                          onValueChange={field.onChange}
+                          value={field.value}
+                          disabled={true}
+                          className="w-full"
+                        >
+                          <SelectTrigger className="opacity-70 cursor-default">
+                            <SelectValue placeholder="Select Gender" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectGroup>
+                              <SelectItem value="male">Male</SelectItem>
+                              <SelectItem value="female">Female</SelectItem>
+                              <SelectItem value="other">Other</SelectItem>
+                            </SelectGroup>
+                          </SelectContent>
+                        </SharedSelect>
+                      )}
+                    />
                   </div>
                   {errors.gender && (
                     <p className="text-red-500 text-sm">
@@ -206,7 +206,7 @@ const Step1 = ({
                       Age
                     </label>
                     <div className="w-full">
-                      <input
+                      <Input
                         {...register("age", {
                           required: "Age is required",
                           min: {
@@ -219,8 +219,8 @@ const Step1 = ({
                           },
                         })}
                         type="number"
-                        disabled={true} // Always disabled (read-only)
-                        className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
+                        disabled={true}
+                        className="opacity-70 cursor-default"
                         placeholder="Enter your age"
                       />
                     </div>
@@ -239,11 +239,11 @@ const Step1 = ({
                   Contact
                 </label>
                 <div className="lg:w-[70%]">
-                  <input
+                  <Input
                     {...register("contact")}
                     type="text"
-                    disabled={true} // Always disabled (read-only)
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl transition-all text-gray-500 opacity-70 cursor-default"
+                    disabled={true}
+                    className="opacity-70 cursor-default"
                     placeholder="Contact number"
                   />
                 </div>

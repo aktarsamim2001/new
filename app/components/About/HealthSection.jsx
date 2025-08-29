@@ -15,7 +15,7 @@ const HealthSection = ({ dataItem }) => {
   // Fallbacks
   const title = aboutPage?.title_five || "";
   const description = aboutPage?.description_five || "";
-  const buttonUrl = aboutPage?.button_url_four || "/book-test";
+  const buttonUrl = aboutPage?.button_url_five || "";
   const buttonName = aboutPage?.button_name_five || "Get Started";
   const imageSrc = aboutPage?.image_five || null;
   const imageAlt = aboutPage?.title_five || "Health Section";

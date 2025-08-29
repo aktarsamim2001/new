@@ -109,12 +109,12 @@ const HowProcessWorks = ({dataItem}) => {
                     expandedStep === index ? "" : ""
                   }`}
                 >
-                  <div className="flex items-center justify-between space-x-4 border-b w-full pb-5">
+                  <div className="flex items-center justify-between space-x-4 border-b border-gray-800 w-full pb-5">
                     <span className="text-[18px] lg:text-2xl font-extrabold text-gray-800">
                       {index + 1}. {step.title}
                     </span>
                     <div
-                      className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border`}
+                      className={`flex-shrink-0 w-8 h-8 flex items-center justify-center rounded-full transition-all duration-300 border border-gray-800`}
                     >
                       <IoMdArrowDown
                         className={`transition-transform duration-300 ${
