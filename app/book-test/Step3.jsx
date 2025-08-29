@@ -1,7 +1,9 @@
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useDispatch, useSelector } from "react-redux";
 import { createBooking } from "../../features/store/bookingSlice";
 import { fetchPaymentDetails } from "../../features/store/reviewSlice";
@@ -19,6 +21,7 @@ const Step3 = ({
     register,
     setValue,
     handleSubmit,
+    control,
     formState: { errors },
     watch,
   } = useForm({
@@ -340,7 +343,7 @@ const Step3 = ({
                   </label>
                 </div>
                 <div className="w-full">
-                  <input
+                  <Input
                     {...register("totalCost", {
                       required: "Total cost is required",
                       min: {
@@ -349,7 +352,6 @@ const Step3 = ({
                       },
                     })}
                     type="text"
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                     placeholder="Enter cost"
                     value={
                       paymentState?.data?.summary?.final_amount
@@ -375,10 +377,9 @@ const Step3 = ({
                   </label>
                 </div>
                 <div className="w-full">
-                  <input
+                  <Input
                     {...register("applyCode")}
                     type="text"
-                    className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                     placeholder="Discount code"
                   />
                   {paymentState.loading && (
@@ -412,22 +413,29 @@ const Step3 = ({
                 </label>
               </div>
               <div className="relative w-full md:w-1/2">
-                <select
-                  {...register("paymentMode", {
-                    required: "Payment mode is required",
-                  })}
-                  className="w-full appearance-none px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                >
-                  <option value="">Select Payment Method</option>
-                  <option value="credit_card">Credit Card</option>
-                  <option value="debit_card">Debit Card</option>
-                  <option value="online_banking">Online Banking</option>
-                  <option value="cash_on_delivery">Cash on Delivery</option>
-                </select>
-
-                <div className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">
-                  <ChevronDown />
-                </div>
+                <Controller
+                  name="paymentMode"
+                  control={control}
+                  rules={{ required: "Payment mode is required" }}
+                  render={({ field }) => (
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                    >
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select Payment Method" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="credit_card">Credit Card</SelectItem>
+                          <SelectItem value="debit_card">Debit Card</SelectItem>
+                          <SelectItem value="online_banking">Online Banking</SelectItem>
+                          <SelectItem value="cash_on_delivery">Cash on Delivery</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                  )}
+                />
                 {errors.paymentMode && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.paymentMode.message}

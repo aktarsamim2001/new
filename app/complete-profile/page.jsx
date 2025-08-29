@@ -5,11 +5,15 @@ import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Star, CheckCircle, Calendar, ChevronLeft, ChevronRight } from "lucide-react";
 import image from "../../app/assets/woman/shape.png";
-import { useDispatch } from "react-redux";
-import { getOTP, verifyOTP } from "@/features/store/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { verifyOTP } from "@/features/store/authSlice";
+import { verifyOrResendOtp } from "@/features/store/otpVerificationSlice";
+import { updateProfile } from "@/features/store/profileSlice";
 import toast from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import Button from "../components/ui/Button";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 
 const slide = {
@@ -225,6 +229,7 @@ function CompleteProfileContent() {
   const router = useRouter();
   const dispatch = useDispatch();
   const searchParams = useSearchParams();
+  const profile = useSelector(state => state.profile);
   const datePickerRef = useRef(null);
   
   const [formData, setFormData] = useState({
@@ -256,17 +261,33 @@ function CompleteProfileContent() {
     mobileVerified: false,
     emailVerified: false,
     showEmailOtpField: false,
+    showMobileOtpField: false,
     emailOtp: "",
+    mobileOtp: "",
     loadingEmailOtp: false,
+    loadingMobileOtp: false,
     verifyingEmailOtp: false,
+    verifyingMobileOtp: false,
+    loginType: "" // 'email' or 'mobile'
   });
 
   const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Watch for profile state changes
+  useEffect(() => {
+    if (profile.profileData && !profile.error) {
+      router.push("/user-dashboard");
+    } else if (profile.error) {
+      setError(profile.error);
+    }
+  }, [profile, router]);
 
   useEffect(() => {
     const name = searchParams.get("name") || "";
     const verifiedMobile = searchParams.get("verifiedMobile") || "";
     const verifiedEmail = searchParams.get("verifiedEmail") || "";
+    const loginType = searchParams.get("loginType") || "";
 
     setFormData((prev) => ({
       ...prev,
@@ -275,11 +296,15 @@ function CompleteProfileContent() {
       email: verifiedEmail,
     }));
 
-    // Set verification states
+    // Set verification states based on login type
     setVerificationState(prev => ({
       ...prev,
       mobileVerified: !!verifiedMobile,
       emailVerified: !!verifiedEmail,
+      loginType: loginType,
+      // If logged in with email, mobile needs verification and vice versa
+      showMobileOtpField: loginType === "email" && !verifiedMobile,
+      showEmailOtpField: loginType === "mobile" && !verifiedEmail
     }));
   }, [searchParams]);
 
@@ -322,11 +347,74 @@ function CompleteProfileContent() {
     if (error) setError("");
   };
 
-  const handleEmailOtpChange = (e) => {
+  const handleOtpChange = (type, e) => {
     const value = e.target.value.replace(/\D/g, "").slice(0, 4);
-    setVerificationState(prev => ({ ...prev, emailOtp: value }));
+    setVerificationState(prev => ({ 
+      ...prev, 
+      [type === 'email' ? 'emailOtp' : 'mobileOtp']: value 
+    }));
     if (error) setError("");
   };
+
+  const handleSendMobileOtp = async () => {
+    if (!formData.phoneNumber) {
+      setError("Please enter your phone number");
+      return;
+    }
+
+    if (!/^[0-9]{10}$/.test(formData.phoneNumber)) {
+      setError("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    setVerificationState(prev => ({ ...prev, loadingMobileOtp: true }));
+    
+    try {
+      await dispatch(verifyOrResendOtp(formData.phoneNumber, "mobile"));
+      setVerificationState(prev => ({ 
+        ...prev, 
+        loadingMobileOtp: false,
+        showMobileOtpField: true
+      }));
+    } catch (error) {
+      setVerificationState(prev => ({ 
+        ...prev, 
+        loadingMobileOtp: false
+      }));
+      setError(error?.response?.data?.message || "Failed to send OTP");
+    }
+  };
+
+  const handleVerifyMobileOtp = async () => {
+    if (verificationState.mobileOtp.length !== 4) {
+      setError("Please enter a 4-digit OTP");
+      return;
+    }
+
+    setVerificationState(prev => ({ ...prev, verifyingMobileOtp: true }));
+
+    try {
+      const result = await dispatch(verifyOrResendOtp(formData.phoneNumber, "mobile", verificationState.mobileOtp));
+      
+      if (result.status === 1) {
+        setVerificationState(prev => ({ 
+          ...prev, 
+          verifyingMobileOtp: false,
+          mobileVerified: true,
+          showMobileOtpField: false,
+          mobileOtp: "",
+        }));
+      }
+    } catch (error) {
+      setVerificationState(prev => ({ 
+        ...prev, 
+        verifyingMobileOtp: false
+      }));
+      setError(error?.response?.data?.message || "Failed to verify OTP");
+    }
+  };
+
+  const handleEmailOtpChange = (e) => handleOtpChange('email', e);
 
   const handleSendEmailOtp = async () => {
     if (!formData.email) {
@@ -341,25 +429,20 @@ function CompleteProfileContent() {
 
     setVerificationState(prev => ({ ...prev, loadingEmailOtp: true }));
     
-    const payload = {
-      login_type: "email",
-      email: formData.email,
-      name: "",
-      social_login_id: "",
-    };
-
-    dispatch(
-      getOTP(payload, (success) => {
-        setVerificationState(prev => ({ 
-          ...prev, 
-          loadingEmailOtp: false,
-          showEmailOtpField: success 
-        }));
-        if (success) {
-          toast.success("OTP sent to your email");
-        }
-      })
-    );
+    try {
+      await dispatch(verifyOrResendOtp(formData.email, "email"));
+      setVerificationState(prev => ({ 
+        ...prev, 
+        loadingEmailOtp: false,
+        showEmailOtpField: true
+      }));
+    } catch (error) {
+      setVerificationState(prev => ({ 
+        ...prev, 
+        loadingEmailOtp: false
+      }));
+      setError(error?.response?.data?.message || "Failed to send OTP");
+    }
   };
 
   const handleVerifyEmailOtp = async () => {
@@ -370,29 +453,28 @@ function CompleteProfileContent() {
 
     setVerificationState(prev => ({ ...prev, verifyingEmailOtp: true }));
 
-    const payload = {
-      login_type: "email",
-      email: formData.email,
-      otp: verificationState.emailOtp,
-    };
-
-    dispatch(
-      verifyOTP(payload, (success) => {
+    try {
+      const result = await dispatch(verifyOrResendOtp(formData.email, "email", verificationState.emailOtp));
+      
+      if (result.status === 1) {
         setVerificationState(prev => ({ 
           ...prev, 
           verifyingEmailOtp: false,
-          emailVerified: success,
+          emailVerified: true,
           showEmailOtpField: false,
           emailOtp: "",
         }));
-        if (success) {
-          toast.success("Email verified successfully!");
-        }
-      })
-    );
+      }
+    } catch (error) {
+      setVerificationState(prev => ({ 
+        ...prev, 
+        verifyingEmailOtp: false
+      }));
+      setError(error?.response?.data?.message || "Failed to verify OTP");
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Validation
@@ -414,12 +496,46 @@ function CompleteProfileContent() {
       return;
     }
 
-    // Submit profile data
-    console.log("Profile completed:", formData);
-    toast.success("Profile completed successfully!");
-    
-    // Redirect to dashboard or next step
-    router.push("/user-dashboard");
+    setIsSubmitting(true);
+    try {
+      // Validate gender
+      if (!['Male', 'Female', 'Other'].includes(formData.gender)) {
+        setError("Gender must be Male, Female, or Other");
+        setIsSubmitting(false);
+        return;
+      }
+
+      // Prepare the payload according to the API structure
+      const profilePayload = {
+        type: "complete_profile",
+        name: formData.fullName,
+        dob: formData.dateOfBirth,
+        gender: formData.gender,
+        email: formData.email,
+        mobile: formData.phoneNumber,
+        address_type: "Home",
+        street: formData.addressLine,
+        city: formData.city,
+        state: formData.area,
+        country: formData.country,
+        zip: formData.zipCode,
+        is_default: true
+      };
+      
+      await dispatch(updateProfile(profilePayload));
+      
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      if (profile.profileData && !profile.error) {
+        router.push("/user-dashboard");
+      } else if (profile.error) {
+        setError(profile.error || "Failed to update profile");
+      }
+    } catch (error) {
+      setError(error?.response?.data?.message || "Failed to update profile");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -447,27 +563,20 @@ function CompleteProfileContent() {
             <span className="block">Complete Your</span> Profile
           </h2>
 
-          {error && (
-            <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-              {error}
-            </div>
-          )}
-
           <form onSubmit={handleSubmit} className="space-y-4">
             {/* Full Name */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">Full Name</label>
-              <input
+              <Input
                 type="text"
                 name="fullName"
                 value={formData.fullName}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                 required
               />
             </div>
 
-            {/* Phone Number - Auto populated and disabled if verified */}
+            {/* Phone Number with verification */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">
                 Phone Number
@@ -478,20 +587,55 @@ function CompleteProfileContent() {
                   </span>
                 )}
               </label>
-              <input
-                type="text"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={handleChange}
-                className={`w-full px-4 py-3 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all ${
-                  verificationState.mobileVerified 
-                    ? 'bg-green-50 text-green-800 cursor-not-allowed' 
-                    : 'bg-gray-100 focus:bg-white'
-                }`}
-                disabled={verificationState.mobileVerified}
-                required
-              />
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
+                  onChange={handleChange}
+                  className={verificationState.mobileVerified ? 'bg-green-50 text-green-800 cursor-not-allowed' : ''}
+                  disabled={verificationState.mobileVerified || verificationState.loginType === "mobile"}
+                  required
+                />
+                {!verificationState.mobileVerified && verificationState.loginType === "email" && (
+                  <button
+                    type="button"
+                    onClick={handleSendMobileOtp}
+                    disabled={verificationState.loadingMobileOtp || !formData.phoneNumber}
+                    className="px-4 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
+                  >
+                    {verificationState.loadingMobileOtp ? "Sending..." : "Verify"}
+                  </button>
+                )}
+              </div>
             </div>
+
+            {/* Mobile OTP Field */}
+            {verificationState.showMobileOtpField && (
+              <div>
+                <label className="block text-[16px] font-[400] text-gray-700 mb-3">
+                  Enter Mobile OTP
+                </label>
+                <div className="flex gap-2">
+                  <Input
+                    type="text"
+                    value={verificationState.mobileOtp}
+                    onChange={(e) => handleOtpChange('mobile', e)}
+                    className="text-left text-lg tracking-widest"
+                    placeholder="0000"
+                    maxLength={4}
+                  />
+                  <button
+                    type="button"
+                    onClick={handleVerifyMobileOtp}
+                    disabled={verificationState.verifyingMobileOtp || verificationState.mobileOtp.length !== 4}
+                    className="px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
+                  >
+                    {verificationState.verifyingMobileOtp ? "Verifying..." : "Confirm"}
+                  </button>
+                </div>
+              </div>
+            )}
 
             {/* Email with verification */}
             <div>
@@ -505,25 +649,21 @@ function CompleteProfileContent() {
                 )}
               </label>
               <div className="flex gap-2">
-                <input
+                <Input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className={`flex-1 px-4 py-3 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 transition-all ${
-                    verificationState.emailVerified 
-                      ? 'bg-green-50 text-green-800' 
-                      : 'bg-gray-100 focus:bg-white'
-                  }`}
-                  disabled={verificationState.emailVerified}
+                  className={verificationState.emailVerified ? 'bg-green-50 text-green-800' : ''}
+                  disabled={verificationState.emailVerified || verificationState.loginType === "email"}
                   required
                 />
-                {!verificationState.emailVerified && (
+                {!verificationState.emailVerified && verificationState.loginType === "mobile" && (
                   <button
                     type="button"
                     onClick={handleSendEmailOtp}
                     disabled={verificationState.loadingEmailOtp || !formData.email}
-                    className="px-4 py-3 bg-pink-500 text-white rounded-xl hover:bg-pink-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
+                    className="px-4 py-3 bg-pink-600 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
                   >
                     {verificationState.loadingEmailOtp ? "Sending..." : "Verify"}
                   </button>
@@ -550,7 +690,7 @@ function CompleteProfileContent() {
                     type="button"
                     onClick={handleVerifyEmailOtp}
                     disabled={verificationState.verifyingEmailOtp || verificationState.emailOtp.length !== 4}
-                    className="px-4 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
+                    className="px-4 py-3 bg-gray-500 text-white rounded-lg disabled:bg-gray-300 disabled:cursor-not-allowed text-sm font-medium"
                   >
                     {verificationState.verifyingEmailOtp ? "Verifying..." : "Confirm"}
                   </button>
@@ -561,18 +701,18 @@ function CompleteProfileContent() {
             {/* Gender */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">Gender</label>
-              <select
-                name="gender"
-                value={formData.gender}
-                onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
-                required
-              >
-                <option value="">Select Gender</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-                <option value="other">Other</option>
-              </select>
+              <Select name="gender" value={formData.gender} onValueChange={(value) => handleChange({ target: { name: 'gender', value }})}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Gender" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectItem value="Male">Male</SelectItem>
+                    <SelectItem value="Female">Female</SelectItem>
+                    <SelectItem value="Other">Other</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
 
             {/* Date of Birth with Professional Date Picker */}
@@ -589,12 +729,11 @@ function CompleteProfileContent() {
             {/* Address Line */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">Address Line</label>
-              <input
+              <Input
                 type="text"
                 name="addressLine"
                 value={formData.addressLine}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                 placeholder="Street address, apartment, suite, etc."
                 required
               />
@@ -603,12 +742,11 @@ function CompleteProfileContent() {
             {/* Area/Location */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">Area/Location</label>
-              <input
+              <Input
                 type="text"
                 name="area"
                 value={formData.area}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                 placeholder="Neighborhood, locality, area"
                 required
               />
@@ -618,24 +756,22 @@ function CompleteProfileContent() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-[16px] font-[400] text-gray-700 mb-3">City</label>
-                <input
+                <Input
                   type="text"
                   name="city"
                   value={formData.city}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   placeholder="City"
                   required
                 />
               </div>
               <div>
                 <label className="block text-[16px] font-[400] text-gray-700 mb-3">Country</label>
-                <input
+                <Input
                   type="text"
                   name="country"
                   value={formData.country}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                   placeholder="Country"
                   required
                 />
@@ -645,12 +781,11 @@ function CompleteProfileContent() {
             {/* Zip Code */}
             <div>
               <label className="block text-[16px] font-[400] text-gray-700 mb-3">Zip Code</label>
-              <input
+              <Input
                 type="text"
                 name="zipCode"
                 value={formData.zipCode}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all"
                 placeholder="Postal/Zip code"
                 required
               />
@@ -660,9 +795,9 @@ function CompleteProfileContent() {
             <Button
               type="submit"
               className="w-full cursor-pointer bg-pink-500 text-white font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl hover:bg-pink-600 mt-6 disabled:cursor-not-allowed transition-all"
-              disabled={!verificationState.mobileVerified || !verificationState.emailVerified}
+              disabled={!verificationState.mobileVerified || !verificationState.emailVerified || isSubmitting}
             >
-              Complete Profile
+              {isSubmitting ? "Completing Profile..." : "Complete Profile"}
             </Button>
           </form>
         </div>

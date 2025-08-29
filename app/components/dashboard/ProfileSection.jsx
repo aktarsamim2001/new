@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   BadgePlus,
   MapPin,
@@ -27,47 +27,54 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import toast from "react-hot-toast";
-
-const initialProfileData = {
-  name: "Alex Herman",
-  phoneNumber: "943252463",
-  dob: "01/06/1999",
-  gender: "Male",
-  profileImage: null, // optional: preview data url
-  addresses: [
-    {
-      id: "1",
-      label: "home",
-      addressLine1: "11 Green Lane",
-      addressLine2: "",
-      area: "Downtown",
-      city: "Boston",
-      zipCode: "05274",
-      country: "Malaysia",
-      isDefault: true,
-    },
-    {
-      id: "2",
-      label: "work",
-      addressLine1: "22 Crown Road",
-      addressLine2: "Suite 100",
-      area: "Business District",
-      city: "Boston",
-      zipCode: "02732",
-      country: "Malaysia",
-      isDefault: false,
-    },
-  ],
-};
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileDetails } from "@/features/store/profileSlice";
 
 const ProfileSection = () => {
-  const [profileData, setProfileData] = useState(initialProfileData);
-  const [profileImage, setProfileImage] = useState(initialProfileData.profileImage);
+  const dispatch = useDispatch();
+  const { profileData: reduxProfileData, loadingStatus, error } = useSelector((state) => state.profile);
+  const [localProfileData, setLocalProfileData] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const fileInputRef = useRef(null);
 
   const [isEditMode, setIsEditMode] = useState(false);
-  const [editFormData, setEditFormData] = useState(profileData);
+  const [editFormData, setEditFormData] = useState(null);
   const [activeAddressTab, setActiveAddressTab] = useState("home");
+
+  useEffect(() => {
+    dispatch(fetchProfileDetails());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (reduxProfileData) {
+      console.log('Redux Profile Data:', reduxProfileData);
+      console.log('Address Data:', reduxProfileData.address);
+      const formattedData = {
+        name: reduxProfileData.name || "",
+        phoneNumber: reduxProfileData.mobile || "",
+        dob: reduxProfileData.dob || "",
+        gender: reduxProfileData.gender || "",
+        profileImage: reduxProfileData.profile_photo_path || null,
+        addresses: reduxProfileData.address ? [
+          {
+            id: reduxProfileData.address.id,
+            label: reduxProfileData.address.address_type.toLowerCase(),
+            addressLine1: reduxProfileData.address.street || "",
+            addressLine2: reduxProfileData.address.other_address_title || "",
+            area: "",
+            city: reduxProfileData.address.city || "",
+            zipCode: reduxProfileData.address.zip || "",
+            country: reduxProfileData.address.country || "",
+            isDefault: true  // Since there's only one address, make it default
+          }
+        ] : []
+      };
+      console.log('Formatted Local Data:', formattedData);
+      setLocalProfileData(formattedData);
+      setEditFormData(formattedData);
+      setProfileImage(formattedData.profileImage);
+    }
+  }, [reduxProfileData]);
 
   // state for the "Add New" form
   const [newAddress, setNewAddress] = useState({
@@ -82,9 +89,21 @@ const ProfileSection = () => {
     isDefault: false,
   });
 
+  if (loadingStatus) {
+    return (
+      <div className="flex items-center justify-center p-8">
+        <div className="text-center">Loading profile information...</div>
+      </div>
+    );
+  }
+
+  if (!localProfileData) {
+    return null;
+  }
+
   const handleEditSave = () => {
     // include profileImage in saved profile
-    setProfileData({ ...editFormData, profileImage });
+    setLocalProfileData({ ...editFormData, profileImage });
     setIsEditMode(false);
     toast.success("Your personal information has been successfully updated.");
   };
@@ -108,7 +127,6 @@ const ProfileSection = () => {
     }));
   };
 
-  // When user clicks the Add New tab, show blank form (activate tab)
   const openAddNewTab = () => {
     setNewAddress({
       id: "",
@@ -155,16 +173,18 @@ const ProfileSection = () => {
     if (!file) return;
     const url = URL.createObjectURL(file);
     setProfileImage(url);
-    // Note: if you want to upload/save the file, handle the file object here
     toast.success("Profile picture selected");
   };
 
-  const defaultAddress = profileData.addresses.find((addr) => addr.isDefault);
+  const defaultAddress = localProfileData.addresses.find((addr) => addr.isDefault);
+  console.log('Local Profile Addresses:', localProfileData.addresses);
+  console.log('Default Address:', defaultAddress);
   const defaultAddressDisplay = defaultAddress
     ? `${defaultAddress.addressLine1}${
         defaultAddress.addressLine2 ? ", " + defaultAddress.addressLine2 : ""
-      }, ${defaultAddress.area}, ${defaultAddress.city}`
-    : "";
+      }${defaultAddress.area ? ", " + defaultAddress.area : ""}, ${defaultAddress.city}`
+    : "No address available";
+  console.log('Default Address Display:', defaultAddressDisplay);
 
   const getAddressByLabel = (label) => {
     return editFormData.addresses.find((addr) => addr.label === label);
@@ -499,9 +519,8 @@ const ProfileSection = () => {
           <div className="hidden md:flex items-center justify-center mr-6">
             <div className="relative">
               <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center border-2 border-amber-400 overflow-hidden">
-                {profileData.profileImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={profileData.profileImage} alt="profile" className="w-full h-full object-cover" />
+                {localProfileData.profileImage ? (
+                  <img src={localProfileData.profileImage} alt="profile" className="w-full h-full object-cover" />
                 ) : (
                   <Users className="w-8 h-8 text-white" />
                 )}
@@ -523,22 +542,22 @@ const ProfileSection = () => {
               {/* Name */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">Name</Label>
-                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{profileData.name}</p>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.name}</p>
               </div>
               {/* Phone Number */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">Phone Number</Label>
-                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{profileData.phoneNumber}</p>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.phoneNumber}</p>
               </div>
               {/* DOB */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">DOB</Label>
-                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{profileData.dob}</p>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.dob}</p>
               </div>
               {/* Gender */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">Gender</Label>
-                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{profileData.gender}</p>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.gender}</p>
               </div>
               {/* Default Address */}
               <div className="flex items-center justify-between pb-2">
@@ -552,7 +571,7 @@ const ProfileSection = () => {
                 <BsWhatsapp className="w-5 h-5" />
                 <span className="text-sm">Turn on WhatsApp Notifications</span>
               </Button>
-              <Button variant="outline" className="flex items-center gap-2 !py-6 bg-slate-200 border-0 text-slate-900" onClick={() => { setEditFormData(profileData); setProfileImage(profileData.profileImage); setIsEditMode(true); }}>
+              <Button variant="outline" className="flex items-center gap-2 !py-6 bg-slate-200 border-0 text-slate-900" onClick={() => { setEditFormData(localProfileData); setProfileImage(localProfileData.profileImage); setIsEditMode(true); }}>
                 <BadgePlus className="w-5 h-5" />
                 <span className="text-sm">Edit Personal Information</span>
               </Button>

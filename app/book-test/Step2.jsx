@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import ProfessionalDateTimePicker from "./ProfessionalDateTimePicker";
+import { Input } from "@/components/ui/input";
 
 const Step2 = ({
   allFormData,
@@ -226,7 +227,7 @@ const Step2 = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Contact Number *
               </label>
-              <input
+              <Input
                 {...registerModal("contact", {
                   required: "Contact number is required",
                   pattern: {
@@ -236,7 +237,6 @@ const Step2 = ({
                 })}
                 type="tel"
                 placeholder="Enter phone number"
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
               />
               {(modalFormErrors.contact || modalErrors.contact) && (
                 <p className="text-red-500 text-sm mt-1">
@@ -249,7 +249,7 @@ const Step2 = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Street Address *
               </label>
-              <textarea
+              <Input
                 {...registerModal("streetName", {
                   required: "Street address is required",
                   minLength: {
@@ -257,9 +257,8 @@ const Step2 = ({
                     message: "Street address must be at least 5 characters",
                   },
                 })}
-                rows={3}
                 placeholder="Enter complete street address"
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 resize-none"
+                className="min-h-[100px]"
               />
               {(modalFormErrors.streetName || modalErrors.streetName) && (
                 <p className="text-red-500 text-sm mt-1">
@@ -272,7 +271,7 @@ const Step2 = ({
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Pin Code *
               </label>
-              <input
+              <Input
                 {...registerModal("pincode", {
                   required: "Pin code is required",
                   pattern: {
@@ -282,7 +281,6 @@ const Step2 = ({
                 })}
                 type="text"
                 placeholder="Enter pincode"
-                className="w-full px-4 py-3 bg-gray-100 border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
               />
               {(modalFormErrors.pincode || modalErrors.pincode) && (
                 <p className="text-red-500 text-sm mt-1">
@@ -625,11 +623,11 @@ const Step2 = ({
               Remarks
             </label>
             <div className="lg:w-[115%] w-full relative lg:left-12">
-              <textarea
+              <Input
                 {...register("remarks")}
                 rows={3}
-                className="w-full px-4 py-4 bg-[#F2F2F2] border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all resize-none"
                 placeholder="Any special instructions or remarks"
+                className="min-h-[100px]"
               />
             </div>
           </div>

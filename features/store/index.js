@@ -25,6 +25,8 @@ import cmsReducer from "./dynamicSlice";
 import paymentReducer from "./reviewSlice";
 
 import reportReducer from "./reportSlice";
+import otpVerificationReducer from "./otpVerificationSlice";
+import profileReducer from "./profileSlice"
 
 const store = configureStore({
   reducer: {
@@ -51,6 +53,8 @@ const store = configureStore({
   cms: cmsReducer,
   payment: paymentReducer,
   report: reportReducer,
+  otpVerification: otpVerificationReducer,
+  profile: profileReducer,
   },
 });
 

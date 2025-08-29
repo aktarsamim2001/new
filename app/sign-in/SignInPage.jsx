@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getOTP, verifyOTP } from "@/features/store/authSlice";
 import toast from "react-hot-toast";
 import Button from "../components/ui/Button";
+import { Input } from "@/components/ui/input";
 
 const slide = {
   reviewAvatars: [
@@ -49,7 +50,6 @@ export default function SignInPage({ content }) {
     if (isAuthenticated) {
       setModalOpen(true);
       setTimeout(() => {
-        // Pass verified contact info to complete profile
         const queryParams = new URLSearchParams();
         if (verifiedContactInfo) {
           if (verifiedContactInfo.type === 'mobile') {
@@ -57,6 +57,7 @@ export default function SignInPage({ content }) {
           } else if (verifiedContactInfo.type === 'email') {
             queryParams.set('verifiedEmail', verifiedContactInfo.value);
           }
+          queryParams.set('loginType', verifiedContactInfo.type); // Add login type to the URL
         }
         router.push(`/complete-profile?${queryParams.toString()}`);
       }, 2000);
@@ -139,20 +140,20 @@ export default function SignInPage({ content }) {
     dispatch(
       verifyOTP(payload, (success) => {
         if (success) {
-          // Store verified contact info
+          const loginType = formData.phoneNumber ? 'mobile' : 'email';
           setVerifiedContactInfo({
-            type: formData.phoneNumber ? 'mobile' : 'email',
+            type: loginType,
             value: formData.phoneNumber || formData.email
           });
           setModalOpen(true);
           setTimeout(() => {
-            // Redirect with verified info
             const queryParams = new URLSearchParams();
             if (formData.phoneNumber) {
               queryParams.set('verifiedMobile', formData.phoneNumber);
             } else if (formData.email) {
               queryParams.set('verifiedEmail', formData.email);
             }
+            queryParams.set('loginType', loginType); // Add login type to the URL
             router.push(`/complete-profile?${queryParams.toString()}`);
           }, 2000);
         }
@@ -267,7 +268,7 @@ export default function SignInPage({ content }) {
   return (
     <div className="bg-gray-50 flex flex-col md:flex-row items-center justify-center min-h-screen relative overflow-hidden">
       {/* Left Side - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 py-16 md:py-20">
         <div className="w-full max-w-md">
           {/* Logo */}
           <div className="mb-8">
@@ -305,12 +306,11 @@ export default function SignInPage({ content }) {
                 <label className="block text-[16px] font-[400] text-gray-700 mb-3">
                   Phone Number
                 </label>
-                <input
+                <Input
                   type="tel"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
                   placeholder="Enter your 10-digit phone number"
                   maxLength={10}
                   disabled={!!formData.email}
@@ -328,12 +328,11 @@ export default function SignInPage({ content }) {
                 <label className="block text-[16px] font-[400] text-gray-700 mb-3">
                   Email
                 </label>
-                <input
+                <Input
                   type="email"
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-5 py-4 bg-[#F2F2F2] border-0 rounded-2xl text-base focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all placeholder-gray-400"
                   placeholder="Enter your email address"
                   disabled={!!formData.phoneNumber}
                 />
@@ -415,7 +414,7 @@ export default function SignInPage({ content }) {
             className="rounded-[40px] object-cover w-full h-[400px] lg:h-screen p-5"
             priority
           />
-          <div className="absolute left-1/2 -translate-x-1/2 lg:-left-16 lg:translate-x-0 bottom-6 md:bottom-10 ml-3 px-6 flex flex-col items-center justify-center gap-2 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
+          <div className="absolute left-[4%] -translate-x-1/2 lg:-left-16 lg:translate-x-0 bottom-6 md:bottom-14 ml-3 px-6 flex flex-col items-center justify-center gap-2 p-3 border-2 border-sky-500 rounded-lg bg-blue-50 shadow-2xl">
             <div className="flex -space-x-3">
               {slide.reviewAvatars.map((avatar, i) => (
                 <div

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserProfile } from "../../features/store/userProfileSlice";
+import { updateProfile } from "../../features/store/profileSlice";
 import { createBooking } from "../../features/store/bookingSlice";
 import toast from "react-hot-toast";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
@@ -90,7 +90,7 @@ const TestBookingSystem = () => {
   useEffect(() => {
     if (isClient) {
       dispatch(fetchServicesList());
-      dispatch(fetchUserProfile({ userId: 1 }));
+      dispatch(updateProfile({ userId: 1 }));
       dispatch(fetchServiceDetailsPageData({ package_id: "3" }));
       dispatch(fetchAddressList());
     }

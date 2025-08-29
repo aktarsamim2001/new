@@ -19,6 +19,12 @@ async function userProfile() {
   });
 }
 
+async function updateProfile(payload) {
+  return axios.put(rootUrl + "api/web/user/update-profile", payload, {
+    headers: await authHeader(),
+  });
+}
+
 async function homepage(payload) {
   return axios.get(rootUrl + "api/web/pages/details", { params: payload });
 }
@@ -82,10 +88,18 @@ async function bookings({ page = 1, limit = 10, booking_type = "past" }) {
   });
 }
 
+// Verify or resend OTP
+async function verifyOrResendOtp(payload) {
+  return axios.post(rootUrl + "api/web/user/verify-or-resend-otp", payload, {
+    headers: await authHeader(),
+  });
+}
+
 export const service = {
   signin,
   verifyOTP,
   userProfile,
+  updateProfile,
   homepage,
   serviceList,
   serviceDetails,
@@ -93,5 +107,6 @@ export const service = {
   bookingForm,
   addressDetails,
   bookings,
-  paymentDetails
+  paymentDetails,
+  verifyOrResendOtp
 };
