@@ -29,7 +29,7 @@ function ServiceDetailsPage() {
       dispatch(clearPageData());
       dispatch(fetchPageDataThunk({ slug: "service-details" }));
 
-      dispatch(fetchServiceDetailsPageData({ package_id: params.slug }));
+      dispatch(fetchServiceDetailsPageData({ slug: params.slug }));
     }
   }, [dispatch, params.slug]);
 

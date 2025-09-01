@@ -153,7 +153,7 @@ export default function SignInPage({ content }) {
             } else if (formData.email) {
               queryParams.set('verifiedEmail', formData.email);
             }
-            queryParams.set('loginType', loginType); // Add login type to the URL
+            queryParams.set('loginType', loginType);
             router.push(`/complete-profile?${queryParams.toString()}`);
           }, 2000);
         }

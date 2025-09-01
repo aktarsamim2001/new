@@ -139,14 +139,14 @@ export default function ServicesList({serviceData}) {
           <div className="grid grid-cols-2 gap-4 mb-6">
             {filteredPackages.map((pkg) => (
               <Link
-                href={`/our-services/${pkg.id}`}
+                href={`/our-services/${pkg.slug}`}
                 key={pkg.id}
                 className="cursor-pointer relative"
               >
                 <div className="rounded-lg bg-gray-100 h-[160px] flex flex-col justify-between shadow-md">
                   <div className="w-16 h-14 mx-auto mt-5">
                     <Image
-                      src={pkg.image}
+                      src={pkg.icon}
                       alt={pkg.name}
                       width={80}
                       height={80}
@@ -175,14 +175,14 @@ export default function ServicesList({serviceData}) {
         <div className="hidden md:grid grid-cols-3 gap-12 p-12">
           {filteredPackages.map((pkg) => (
             <Link
-              href={`/our-services/${pkg.id}`}
+              href={`/our-services/${pkg.slug}`}
               key={pkg.id}
               className="relative flex items-center justify-start gap-4 rounded-2xl overflow-hidden shadow-sm bg-gradient-to-br from-white from-12% via-[#00b8c1]/90 to-[#00b8c1] p-6"
             >
               {/* Icon Left */}
               <div className="flex-shrink-0 w-[100px] h-full">
                 <Image
-                  src={pkg.image}
+                  src={pkg.icon}
                   alt={pkg.name}
                   width={80}
                   height={80}

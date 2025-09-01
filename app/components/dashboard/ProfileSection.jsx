@@ -10,6 +10,7 @@ import {
   Plus,
   Save,
   X,
+  CheckCircle
 } from "lucide-react";
 import { BsWhatsapp } from "react-icons/bs";
 import { cn } from "@/lib/utils";
@@ -29,10 +30,12 @@ import {
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileDetails } from "@/features/store/profileSlice";
+import { fetchAddressList } from "@/features/store/addressListSlice";
 
 const ProfileSection = () => {
   const dispatch = useDispatch();
   const { profileData: reduxProfileData, loadingStatus, error } = useSelector((state) => state.profile);
+  const { data: addressListData } = useSelector((state) => state.addressList);
   const [localProfileData, setLocalProfileData] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
   const fileInputRef = useRef(null);
@@ -43,38 +46,39 @@ const ProfileSection = () => {
 
   useEffect(() => {
     dispatch(fetchProfileDetails());
+    dispatch(fetchAddressList());
   }, [dispatch]);
 
   useEffect(() => {
-    if (reduxProfileData) {
-      console.log('Redux Profile Data:', reduxProfileData);
-      console.log('Address Data:', reduxProfileData.address);
+    // Effect for addressListData changes
+  }, [addressListData]);
+
+  useEffect(() => {
+    if (reduxProfileData && addressListData) {
       const formattedData = {
         name: reduxProfileData.name || "",
         phoneNumber: reduxProfileData.mobile || "",
+        email: reduxProfileData.email || "",
         dob: reduxProfileData.dob || "",
         gender: reduxProfileData.gender || "",
         profileImage: reduxProfileData.profile_photo_path || null,
-        addresses: reduxProfileData.address ? [
-          {
-            id: reduxProfileData.address.id,
-            label: reduxProfileData.address.address_type.toLowerCase(),
-            addressLine1: reduxProfileData.address.street || "",
-            addressLine2: reduxProfileData.address.other_address_title || "",
-            area: "",
-            city: reduxProfileData.address.city || "",
-            zipCode: reduxProfileData.address.zip || "",
-            country: reduxProfileData.address.country || "",
-            isDefault: true  // Since there's only one address, make it default
-          }
-        ] : []
+        addresses: addressListData ? addressListData.map(addr => ({
+          id: addr.id,
+          label: addr.address_type.toLowerCase(),
+          addressLine1: addr.street || "",
+          addressLine2: addr.other_address_title || "",
+          area: addr.state || "",
+          city: addr.city || "",
+          zipCode: addr.zip || "",
+          country: addr.country || "",
+          isDefault: addr.is_default === "1"
+        })) : []
       };
-      console.log('Formatted Local Data:', formattedData);
       setLocalProfileData(formattedData);
       setEditFormData(formattedData);
       setProfileImage(formattedData.profileImage);
     }
-  }, [reduxProfileData]);
+  }, [reduxProfileData, addressListData]);
 
   // state for the "Add New" form
   const [newAddress, setNewAddress] = useState({
@@ -88,14 +92,6 @@ const ProfileSection = () => {
     country: "Malaysia",
     isDefault: false,
   });
-
-  if (loadingStatus) {
-    return (
-      <div className="flex items-center justify-center p-8">
-        <div className="text-center">Loading profile information...</div>
-      </div>
-    );
-  }
 
   if (!localProfileData) {
     return null;
@@ -177,15 +173,11 @@ const ProfileSection = () => {
   };
 
   const defaultAddress = localProfileData.addresses.find((addr) => addr.isDefault);
-  console.log('Local Profile Addresses:', localProfileData.addresses);
-  console.log('Default Address:', defaultAddress);
   const defaultAddressDisplay = defaultAddress
     ? `${defaultAddress.addressLine1}${
         defaultAddress.addressLine2 ? ", " + defaultAddress.addressLine2 : ""
       }${defaultAddress.area ? ", " + defaultAddress.area : ""}, ${defaultAddress.city}`
     : "No address available";
-  console.log('Default Address Display:', defaultAddressDisplay);
-
   const getAddressByLabel = (label) => {
     return editFormData.addresses.find((addr) => addr.label === label);
   };
@@ -369,7 +361,22 @@ const ProfileSection = () => {
                     Phone Number
                   </Label>
                   <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight ml-4 px-2 py-4.5 bg-muted rounded-md">
-                    {editFormData.phoneNumber} <span className="text-[#00b8c1]"> (Verified Number)</span>
+                    {editFormData.phoneNumber}  <span className="ml-2 inline-flex items-center text-sm text-green-600">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    Verified
+                  </span>
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between pb-2">
+                  <Label className="text-sm font-medium text-slate-600 w-40 text-left">
+                    Email
+                  </Label>
+                  <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight ml-4 px-2 py-4.5 bg-muted rounded-md">
+                    {editFormData.email}  <span className="ml-2 inline-flex items-center text-sm text-green-600">
+                    <CheckCircle className="w-4 h-4 mr-1" />
+                    Verified
+                  </span>
                   </p>
                 </div>
                 {/* DOB */}
@@ -380,7 +387,17 @@ const ProfileSection = () => {
                 {/* Gender */}
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">Gender</Label>
-                  <Input value={editFormData.gender} onChange={(e) => setEditFormData((prev) => ({ ...prev, gender: e.target.value }))} className="flex-1 ml-4" />
+                  <Input 
+                    value={editFormData.gender ? editFormData.gender.charAt(0).toUpperCase() + editFormData.gender.slice(1).toLowerCase() : ''} 
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setEditFormData((prev) => ({ 
+                        ...prev, 
+                        gender: value.charAt(0).toUpperCase() + value.slice(1).toLowerCase() 
+                      }))
+                    }} 
+                    className="flex-1 ml-4" 
+                  />
                 </div>
               </div>
 
@@ -549,6 +566,13 @@ const ProfileSection = () => {
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">Phone Number</Label>
                 <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.phoneNumber}</p>
               </div>
+
+               <div className="flex items-center justify-between pb-2">
+                <Label className="text-sm font-medium text-slate-600 w-40 text-left">Email</Label>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.email}</p>
+              </div>
+
+
               {/* DOB */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">DOB</Label>
@@ -557,7 +581,7 @@ const ProfileSection = () => {
               {/* Gender */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">Gender</Label>
-                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.gender}</p>
+                <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight">{localProfileData.gender ? localProfileData.gender.charAt(0).toUpperCase() + localProfileData.gender.slice(1).toLowerCase() : ''}</p>
               </div>
               {/* Default Address */}
               <div className="flex items-center justify-between pb-2">
