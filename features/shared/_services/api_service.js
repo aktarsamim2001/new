@@ -69,9 +69,10 @@ async function bookingForm(payload) {
 }
 
 async function addressDetails() {
-  return axios.get(rootUrl + "api/web/user/address/list", {
+  const response = await axios.get(rootUrl + "api/web/user/address/list", {
     headers: await authHeader(),
   });
+  return response.data;
 }
 
 // Bookings API method
