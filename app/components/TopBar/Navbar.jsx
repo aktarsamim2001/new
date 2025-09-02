@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, Menu, X, LogOut, User, BarChart3 } from "lucide-react";
+import { Search, Menu, X, LogOut, User, BarChart3, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
@@ -185,7 +185,7 @@ export default function Navbar() {
               {profileDropdown && (
                 <div className="absolute top-full right-0 mt-0.5 w-48 bg-white rounded-md shadow-lg py-0 z-50 border border-gray-200">
                   <Link
-                    href="/user-dashboard"
+                    href="/user-dashboard/profile"
                     className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setProfileDropdown(false)}
                   >
@@ -193,12 +193,12 @@ export default function Navbar() {
                     My Profile
                   </Link>
                   <Link
-                    href="/user-dashboard"
+                    href="/user-dashboard/tests"
                     className="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100"
                     onClick={() => setProfileDropdown(false)}
                   >
                     <BarChart3 className="h-4 w-4 mr-2" />
-                    My Test
+                    My Tests
                   </Link>
                   <button
                     onClick={handleLogout}

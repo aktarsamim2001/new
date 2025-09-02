@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 export function middleware(request) {
   const token = request.cookies.get("token")?.value;
 
-  const protectedRoutes = ["/profile", "/book-test", "/buy", "/faq"];
+  const protectedRoutes = ["/profile", "/book-test", "/buy", "/faq", "/user-dashboard"];
   const path = request.nextUrl.pathname;
 
   // Check protected
@@ -28,5 +28,6 @@ export const config = {
     "/book-test/:path*",
     "/buy/:path*",
     "/faq/:path*",
+    "/user-dashboard/:path*",
   ],
 };

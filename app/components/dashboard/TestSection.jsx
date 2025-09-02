@@ -1,24 +1,21 @@
-import React, { useState } from "react";
-import {
-  CircleX,
-  Wrench,
-  AlertCircle,
-  CheckCircle,
-  X,
-  Calendar,
-  Clock,
-  CirclePlus,
-  Eye,
-  Download,
-  FolderOpen,
-} from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux';
+import { Circle as CircleX, Wrench, AlertCircle, X, Calendar, Clock, PlusCircle as CirclePlus, Eye, Download, FolderOpen } from "lucide-react";
+import { 
+  fetchUpcomingBookings, 
+  fetchPastBookings, 
+  cancelBookingAction,
+  rescheduleBookingAction
+} from '../../../features/store/BookingList.js';
+import { MdOutlineBackspace } from "react-icons/md";
 
 const ConfirmationModal = ({ 
   isOpen, 
   onClose, 
   onConfirm, 
   type, // 'cancel' or 'reschedule'
-  bookingDetails 
+  bookingDetails,
+  loading 
 }) => {
   if (!isOpen) return null;
 
@@ -43,6 +40,7 @@ const ConfirmationModal = ({
           <button
             onClick={onClose}
             className="text-white hover:text-gray-200 transition-colors"
+            disabled={loading}
           >
             <X className="w-5 h-5" />
           </button>
@@ -97,19 +95,21 @@ const ConfirmationModal = ({
           <div className="flex gap-3">
             <button
               onClick={onClose}
-              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium"
+              disabled={loading}
+              className="flex-1 px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors font-medium disabled:opacity-50"
             >
               Keep Booking
             </button>
             <button
               onClick={onConfirm}
-              className={`flex-1 px-4 py-3 text-white rounded-lg font-medium transition-colors ${
+              disabled={loading}
+              className={`flex-1 px-4 py-3 text-white rounded-lg font-medium transition-colors disabled:opacity-50 ${
                 isCancel 
-                  ? 'bg-[#ec098d]' 
+                  ? 'bg-[#ec098d] hover:bg-[#d1077c]' 
                   : '__primary-bg hover:opacity-90'
               }`}
             >
-              {isCancel ? 'Yes, Cancel' : 'Yes, Reschedule'}
+              {loading ? 'Processing...' : isCancel ? 'Yes, Cancel' : 'Yes, Reschedule'}
             </button>
           </div>
         </div>
@@ -118,59 +118,57 @@ const ConfirmationModal = ({
   );
 };
 
-// Updated TestsSection with modal integration
 const TestsSection = () => {
+  const dispatch = useDispatch();
+  const { upcomingBookings, pastBookings, loading, error } = useSelector((state) => state.bookings);
+  
   const [modalState, setModalState] = useState({
     isOpen: false,
-    type: null, // 'cancel' or 'reschedule'
-    bookingDetails: null
+    type: null,
+    bookingDetails: null,
+    bookingId: null
   });
 
-  // Mock data for demonstration
-  const upcomingBookings = [
-    {
-      id: 1,
-      packages: [{ package_name: "Complete Blood Count Test" }],
-      schedule_date: "2025-09-15",
-      schedule_time: "10:30 AM",
-      address: { street: "123 Health St", city: "Kolkata" },
-      booking_status: "Confirmed"
-    },
-    {
-      id: 2,
-      packages: [{ package_name: "Lipid Profile Test<br/>Thyroid Function Test" }],
-      schedule_date: "2025-09-20",
-      schedule_time: "2:00 PM",
-      address: { street: "456 Medical Ave", city: "Kolkata" },
-      booking_status: "Pending"
-    }
-  ];
+  useEffect(() => {
+    // Fetch both upcoming and past bookings on component mount
+    dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
+    dispatch(fetchPastBookings({ page: 1, limit: 10 }));
+  }, [dispatch]);
 
-  const pastBookings = [
-    {
-      id: 3,
-      testName: "Diabetes Panel",
-      dateCompleted: "2025-08-15",
-      status: "Completed",
-      report: "Available"
-    },
-    {
-      id: 4,
-      testName: "Vitamin D Test",
-      dateCompleted: "2025-07-20",
-      status: "Completed",
-      report: "Available"
-    }
-  ];
+  const formatPackageNames = (packages) => {
+    if (!packages || packages.length === 0) return "N/A";
+    return packages.map(pkg => pkg.package_name).join(", ");
+  };
+
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      year: 'numeric', 
+      month: 'short', 
+      day: 'numeric' 
+    });
+  };
+
+  const formatTime = (timeString) => {
+    if (!timeString) return "N/A";
+    const time = new Date(`2000-01-01T${timeString}`);
+    return time.toLocaleTimeString('en-US', { 
+      hour: 'numeric', 
+      minute: '2-digit',
+      hour12: true 
+    });
+  };
 
   const openModal = (type, booking) => {
     setModalState({
       isOpen: true,
       type: type,
+      bookingId: booking.id,
       bookingDetails: booking ? {
-        testName: booking.packages?.[0]?.package_name?.replace(/<br\s*\/?>(\s*)?/gi, " ") || "N/A",
-        date: booking.schedule_date,
-        time: booking.schedule_time
+        testName: formatPackageNames(booking.packages),
+        date: formatDate(booking.schedule_date),
+        time: formatTime(booking.schedule_time)
       } : null
     });
   };
@@ -179,29 +177,58 @@ const TestsSection = () => {
     setModalState({
       isOpen: false,
       type: null,
-      bookingDetails: null
+      bookingDetails: null,
+      bookingId: null
     });
   };
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (modalState.type === 'cancel') {
-      // Handle cancellation logic here
-      console.log('Booking cancelled');
+      const result = await dispatch(cancelBookingAction(modalState.bookingId));
+      if (result.success) {
+        alert('Booking cancelled successfully!');
+      } else {
+        alert(`Failed to cancel booking: ${result.error}`);
+      }
     } else if (modalState.type === 'reschedule') {
-      // Handle reschedule logic here - redirect to booking page
-      console.log('Redirecting to reschedule');
+      // For reschedule, you might want to redirect to a booking page
+      // or open another modal for date/time selection
+      alert('Redirecting to reschedule page...');
+      // Example: window.location.href = `/reschedule/${modalState.bookingId}`;
     }
     closeModal();
   };
 
+  const handleRefresh = (type) => {
+    if (type === 'upcoming') {
+      dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
+    } else {
+      dispatch(fetchPastBookings({ page: 1, limit: 10 }));
+    }
+  };
+
+  if (error) {
+    return (
+      <div className="px-4 md:px-22 space-y-6 __poppins-font">
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+          Error loading bookings: {error}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="px-4 md:px-22 space-y-6 __poppins-font">
       {/* Upcoming Bookings */}
-      <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
+      <div className="rounded-[20px] overflow-x-auto __cardShadow">
         <div className="__primary-bg text-white px-4 md:px-6 py-3 flex justify-between items-center">
           <h3 className="font-semibold">Upcoming Bookings</h3>
-          <button className="text-white hover:text-gray-200">
-            Refresh
+          <button 
+            className="text-white hover:text-gray-200"
+            onClick={() => handleRefresh('upcoming')}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Refresh'}
           </button>
         </div>
         <div className="overflow-x-auto w-full">
@@ -230,12 +257,10 @@ const TestsSection = () => {
                 {upcomingBookings.map((booking) => (
                   <tr key={booking.id}>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.packages && booking.packages.length > 0
-                        ? booking.packages[0].package_name.replace(/<br\s*\/?>(\s*)?/gi, " ")
-                        : "N/A"}
+                      {formatPackageNames(booking.packages)}
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.schedule_date} ({booking.schedule_time})
+                      {formatDate(booking.schedule_date)} ({formatTime(booking.schedule_time)})
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
                       {booking.address
@@ -245,9 +270,9 @@ const TestsSection = () => {
                     <td className="px-4 md:px-6 py-3 whitespace-nowrap">
                       <span
                         className={`px-2 py-1 text-xs rounded-full ${
-                          booking.booking_status === "Confirmed" || booking.booking_status === "confirmed"
+                          booking.booking_status === "confirmed"
                             ? "bg-green-100 text-green-800"
-                            : booking.booking_status === "Pending" || booking.booking_status === "pending"
+                            : booking.booking_status === "pending"
                             ? "bg-yellow-100 text-yellow-800"
                             : "bg-gray-100 text-gray-800"
                         }`}
@@ -265,7 +290,7 @@ const TestsSection = () => {
                           onClick={() => openModal('cancel', booking)}
                           className="text-gray-900 text-left hover:text-red-600 transition-colors"
                         >
-                          <CircleX className="inline w-3.5 h-3.5 mr-1" />
+                          <MdOutlineBackspace className="inline w-3.5 h-3.5 mr-1" />
                           Cancel Booking
                         </button>
                         <button 
@@ -283,7 +308,7 @@ const TestsSection = () => {
             </table>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              No upcoming bookings found
+              {loading ? 'Loading bookings...' : 'No upcoming bookings found'}
             </div>
           )}
         </div>
@@ -293,8 +318,12 @@ const TestsSection = () => {
       <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
         <div className="__primary-bg text-white px-4 md:px-6 py-3 flex justify-between items-center">
           <h3 className="font-semibold">Past Bookings</h3>
-          <button className="text-white hover:text-gray-200">
-            Refresh
+          <button 
+            className="text-white hover:text-gray-200"
+            onClick={() => handleRefresh('past')}
+            disabled={loading}
+          >
+            {loading ? 'Loading...' : 'Refresh'}
           </button>
         </div>
         <div className="overflow-x-auto">
@@ -323,14 +352,14 @@ const TestsSection = () => {
                 {pastBookings.map((booking) => (
                   <tr key={booking.id}>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.testName}
+                      {formatPackageNames(booking.packages)}
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.dateCompleted}
+                      {formatDate(booking.schedule_date)}
                     </td>
                     <td className="px-4 md:px-6 py-3 whitespace-nowrap">
                       <span className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">
-                        {booking.status}
+                        {booking.booking_status}
                       </span>
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
@@ -338,16 +367,22 @@ const TestsSection = () => {
                         <span className="flex items-center justify-center w-4 h-4">
                           <FolderOpen className="w-4 h-4" />
                         </span>
-                        {booking.report}
+                        {booking.report_pdf ? 'Available' : 'Pending'}
                       </span>
                     </td>
                     <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
                       <div className="flex flex-col gap-1">
-                        <button className="text-gray-900 text-left flex items-center gap-1">
+                        <button 
+                          className="text-gray-900 text-left flex items-center gap-1"
+                          disabled={!booking.report_pdf}
+                        >
                           <Eye className="w-3 h-3" />
                           View Report
                         </button>
-                        <button className="text-gray-900 text-left flex items-center gap-1">
+                        <button 
+                          className="text-gray-900 text-left flex items-center gap-1"
+                          disabled={!booking.report_pdf}
+                        >
                           <Download className="w-3 h-3" />
                           Download
                         </button>
@@ -362,7 +397,7 @@ const TestsSection = () => {
             </table>
           ) : (
             <div className="p-8 text-center text-gray-500">
-              No past bookings found
+              {loading ? 'Loading bookings...' : 'No past bookings found'}
             </div>
           )}
         </div>
@@ -375,181 +410,10 @@ const TestsSection = () => {
         onConfirm={handleConfirm}
         type={modalState.type}
         bookingDetails={modalState.bookingDetails}
+        loading={loading}
       />
     </div>
   );
 };
 
-// Demo Component with modal functionality
-const TestsSectionDemo = () => {
-  const [modalState, setModalState] = useState({
-    isOpen: false,
-    type: null,
-    bookingDetails: null
-  });
-
-  const upcomingBookings = [
-    {
-      id: 1,
-      packages: [{ package_name: "Complete Blood Count Test" }],
-      schedule_date: "2025-09-15",
-      schedule_time: "10:30 AM",
-      address: { street: "123 Health St", city: "Kolkata" },
-      booking_status: "Confirmed"
-    },
-    {
-      id: 2,
-      packages: [{ package_name: "Lipid Profile Test<br/>Thyroid Function Test" }],
-      schedule_date: "2025-09-20",
-      schedule_time: "2:00 PM",
-      address: { street: "456 Medical Ave", city: "Kolkata" },
-      booking_status: "Pending"
-    }
-  ];
-
-  const openModal = (type, booking) => {
-    setModalState({
-      isOpen: true,
-      type: type,
-      bookingDetails: booking ? {
-        testName: booking.packages?.[0]?.package_name?.replace(/<br\s*\/?>(\s*)?/gi, " ") || "N/A",
-        date: booking.schedule_date,
-        time: booking.schedule_time
-      } : null
-    });
-  };
-
-  const closeModal = () => {
-    setModalState({
-      isOpen: false,
-      type: null,
-      bookingDetails: null
-    });
-  };
-
-  const handleConfirm = () => {
-    if (modalState.type === 'cancel') {
-      alert('Booking cancelled successfully!');
-    } else if (modalState.type === 'reschedule') {
-      alert('Redirecting to reschedule page...');
-    }
-    closeModal();
-  };
-
-  return (
-    <>
-      <style>{`
-        .__primary-bg {
-          background: #00b8c1;
-        }
-        .__cardShadow {
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        }
-        .__poppins-font {
-          font-family: 'Poppins', sans-serif;
-        }
-      `}</style>
-      
-      <div className="px-4 md:px-22 space-y-6 __poppins-font bg-gray-50 min-h-screen py-8">
-
-        {/* Upcoming Bookings */}
-        <div className="bg-white rounded-[20px] overflow-x-auto __cardShadow">
-          <div className="__primary-bg text-white px-4 md:px-6 py-3 flex justify-between items-center">
-            <h3 className="font-semibold">Upcoming Bookings</h3>
-            <button className="text-white hover:text-gray-200">
-              Refresh
-            </button>
-          </div>
-          <div className="overflow-x-auto w-full">
-            <table className="w-full text-xs md:text-sm">
-              <thead className="bg-gray-50 border-b border-gray-200">
-                <tr>
-                  <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                    Test Name
-                  </th>
-                  <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                    Date & Time
-                  </th>
-                  <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                    Location
-                  </th>
-                  <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                    Status
-                  </th>
-                  <th className="px-4 md:px-6 py-3 text-left font-medium text-gray-900 uppercase whitespace-nowrap">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {upcomingBookings.map((booking) => (
-                  <tr key={booking.id}>
-                    <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.packages && booking.packages.length > 0
-                        ? booking.packages[0].package_name.replace(/<br\s*\/?>(\s*)?/gi, " ")
-                        : "N/A"}
-                    </td>
-                    <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.schedule_date} ({booking.schedule_time})
-                    </td>
-                    <td className="px-4 md:px-6 py-3 text-sm text-gray-900 whitespace-nowrap">
-                      {booking.address
-                        ? `${booking.address.street || ''}, ${booking.address.city || ''}`
-                        : "N/A"}
-                    </td>
-                    <td className="px-4 md:px-6 py-3 whitespace-nowrap">
-                      <span
-                        className={`px-2 py-1 text-xs rounded-full ${
-                          booking.booking_status === "Confirmed" || booking.booking_status === "confirmed"
-                            ? "bg-green-100 text-green-800"
-                            : booking.booking_status === "Pending" || booking.booking_status === "pending"
-                            ? "bg-yellow-100 text-yellow-800"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {booking.booking_status}
-                      </span>
-                    </td>
-                    <td className="px-4 md:px-6 py-3 text-sm whitespace-nowrap">
-                      <div className="flex flex-col gap-1">
-                        <a href="#" className="text-gray-900 text-left flex items-center gap-1">
-                          <CirclePlus className="inline w-3.5 h-3.5 mr-1" />
-                          Add a New Test
-                        </a>
-                        <button 
-                          onClick={() => openModal('cancel', booking)}
-                          className="text-gray-900 text-left hover:text-red-600 transition-colors"
-                        >
-                          <CircleX className="inline w-3.5 h-3.5 mr-1" />
-                          Cancel Booking
-                        </button>
-                        <button 
-                          onClick={() => openModal('reschedule', booking)}
-                          className="text-gray-900 text-left hover:text-blue-600 transition-colors"
-                        >
-                          <Wrench className="inline w-3.5 h-3.5 mr-1" />
-                          Reschedule
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      {/* Confirmation Modal */}
-      <ConfirmationModal
-        isOpen={modalState.isOpen}
-        onClose={closeModal}
-        onConfirm={handleConfirm}
-        type={modalState.type}
-        bookingDetails={modalState.bookingDetails}
-      />
-    </>
-  );
-};
-
-export default TestsSectionDemo;
+export default TestsSection;

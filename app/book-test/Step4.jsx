@@ -1,3 +1,56 @@
+import Image from "next/image";
+import Link from "next/link";
+import image1 from "../assets/book-test/heart.png";
+import image2 from "../assets/book-test/lab.png";
+import image3 from "../assets/book-test/medical-team.png";
+import { useSelector } from "react-redux";
+import Button from "../components/ui/Button";
+
+const Step4 = ({ allFormData, servicesListData, booking }) => {
+  // Get payment details from redux (reviewSlice)
+  const paymentState = useSelector((state) => state.payment);
+  
+  const testPackages = Array.isArray(servicesListData?.packages)
+    ? servicesListData.packages
+    : [];
+
+  // Updated function to find ALL selected packages (like Step3)
+  const findSelectedPackages = () => {
+    if (!allFormData.selectedTest || !Array.isArray(allFormData.selectedTest)) {
+      return [];
+    }
+    
+    console.log("Step4 Debug - allFormData.selectedTest:", allFormData.selectedTest);
+    console.log("Step4 Debug - testPackages:", testPackages);
+    
+    return allFormData.selectedTest
+      .map(selected => {
+        // First try to use packageData if available
+        if (selected.packageData) {
+          console.log("Step4 Debug - Found package from packageData:", selected.packageData);
+          return selected.packageData;
+        }
+        
+        // Otherwise find in testPackages by slug or id
+        const packageId = selected.id || selected.value;
+        const found = testPackages.find(pkg => 
+          String(pkg.id) === String(packageId) || pkg.slug === packageId
+        );
+        
+        if (found) {
+          console.log("Step4 Debug - Found package from testPackages:", found);
+        } else {
+          console.log("Step4 Debug - Package not found for:", packageId);
+        }
+        
+        return found;
+      })
+      .filter(Boolean); // Remove any undefined values
+  };
+
+  const selectedPackages = findSelectedPackages();
+  console.log("Step4 Debug - Final selectedPackages:", selectedPackages);
+
   const formatDate = (dateStr) => {
     if (!dateStr) return "[Select Date]";
     const date = new Date(dateStr);
@@ -19,44 +72,9 @@
       h = h % 12 || 12;
       return `${h}:${m} ${ampm}`;
     };
-    return `${to12hr(start)} to ${to12hr(end)}`;
+    return `${to12hr(start)}`;
   };
-import Image from "next/image";
-import Link from "next/link";
-import image1 from "../assets/book-test/heart.png";
-import image2 from "../assets/book-test/lab.png";
-import image3 from "../assets/book-test/medical-team.png";
-import { useSelector } from "react-redux";
-import Button from "../components/ui/Button";
 
-const Step4 = ({ allFormData, servicesListData, booking }) => {
-  // Get payment details from redux (reviewSlice)
-  const paymentState = useSelector((state) => state.payment);
-  const testPackages = Array.isArray(servicesListData?.packages)
-    ? servicesListData.packages
-    : [];
-  // More robust package finding (like Step3)
-  const findSelectedPackage = () => {
-    if (!Array.isArray(testPackages) || testPackages.length === 0) {
-      return null;
-    }
-    const selectedId = allFormData.selectedTest;
-    let found = testPackages.find(t => String(t.id) === String(selectedId));
-    if (found) return found;
-    found = testPackages.find(t => Number(t.id) === Number(selectedId));
-    if (found) return found;
-    return testPackages[0];
-  };
-  const selectedTestObj = findSelectedPackage();
-
-  // Helper to get package price from paymentState or fallback
-  const getPackagePrice = () => {
-    if (paymentState?.data?.packages && paymentState.data.packages[0]?.price) {
-      return paymentState.data.packages[0].price;
-    }
-    if (selectedTestObj?.price) return selectedTestObj.price;
-    return null;
-  };
   // Helper to get total paid from paymentState or fallback
   const getTotalPaid = () => {
     if (paymentState?.data?.summary?.final_amount) {
@@ -66,6 +84,7 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
     if (booking?.data?.totalCost) return booking.data.totalCost;
     return 0;
   };
+
   const formatPrice = (price) => `RM ${parseFloat(price || 0).toFixed(2)}`;
 
   const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
@@ -147,16 +166,23 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
                 </span>
               </div>
             )}
+            
+            {/* Updated Selected Test section to show multiple packages */}
             <div className="flex gap-4">
               <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
-                Selected Test
+                Selected Tests
               </span>
-              <span className="font-[600] text-[20px]">
-                {selectedTestObj
-                  ? `${stripBr(selectedTestObj.name)}`
-                  : "No Package Selected"}
-              </span>
+              <div className="font-[600] text-[20px]">
+                {selectedPackages.length > 0 ? (
+                  selectedPackages
+                    .map(pkg => stripBr(pkg.name || pkg.title))
+                    .join(", ")
+                ) : (
+                  "No Packages Selected"
+                )}
+              </div>
             </div>
+            
             <div className="flex gap-4">
               <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
                 Date

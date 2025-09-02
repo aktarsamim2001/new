@@ -48,16 +48,21 @@ export default function SignInPage({ content }) {
 
   useEffect(() => {
     if (isAuthenticated) {
+      // Get the callback URL from the query parameters
+      const params = new URLSearchParams(window.location.search);
+      const callbackUrl = params.get('callbackUrl');
+      // Redirect to callback URL if exists, otherwise go to home
+      router.push(callbackUrl ? decodeURIComponent(callbackUrl) : '/home');
       setModalOpen(true);
       setTimeout(() => {
         const queryParams = new URLSearchParams();
         if (verifiedContactInfo) {
-          if (verifiedContactInfo.type === 'mobile') {
-            queryParams.set('verifiedMobile', verifiedContactInfo.value);
-          } else if (verifiedContactInfo.type === 'email') {
-            queryParams.set('verifiedEmail', verifiedContactInfo.value);
+          if (verifiedContactInfo.type === "mobile") {
+            queryParams.set("verifiedMobile", verifiedContactInfo.value);
+          } else if (verifiedContactInfo.type === "email") {
+            queryParams.set("verifiedEmail", verifiedContactInfo.value);
           }
-          queryParams.set('loginType', verifiedContactInfo.type); // Add login type to the URL
+          queryParams.set("loginType", verifiedContactInfo.type); // Add login type to the URL
         }
         router.push(`/complete-profile?${queryParams.toString()}`);
       }, 2000);
@@ -138,23 +143,30 @@ export default function SignInPage({ content }) {
     };
 
     dispatch(
-      verifyOTP(payload, (success) => {
+      verifyOTP(payload, (success, result) => {
         if (success) {
-          const loginType = formData.phoneNumber ? 'mobile' : 'email';
+          const loginType = formData.phoneNumber ? "mobile" : "email";
           setVerifiedContactInfo({
             type: loginType,
-            value: formData.phoneNumber || formData.email
+            value: formData.phoneNumber || formData.email,
           });
           setModalOpen(true);
+
           setTimeout(() => {
-            const queryParams = new URLSearchParams();
-            if (formData.phoneNumber) {
-              queryParams.set('verifiedMobile', formData.phoneNumber);
-            } else if (formData.email) {
-              queryParams.set('verifiedEmail', formData.email);
+            if (result.is_completed === 0) {
+              // Profile incomplete → redirect to complete-profile
+              const queryParams = new URLSearchParams();
+              if (formData.phoneNumber) {
+                queryParams.set("verifiedMobile", formData.phoneNumber);
+              } else if (formData.email) {
+                queryParams.set("verifiedEmail", formData.email);
+              }
+              queryParams.set("loginType", loginType);
+              router.push(`/complete-profile?${queryParams.toString()}`);
+            } else {
+              // Profile already completed → redirect to dashboard/home
+              router.push("/dashboard"); // 🔥 change route as needed
             }
-            queryParams.set('loginType', loginType);
-            router.push(`/complete-profile?${queryParams.toString()}`);
           }, 2000);
         }
       })

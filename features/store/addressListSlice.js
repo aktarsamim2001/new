@@ -34,7 +34,6 @@ const addressListSlice = createSlice({
 export const { setAddressListData, setAddressListLoading, setAddressListError, resetAddressListState } = addressListSlice.actions;
 export default addressListSlice.reducer;
 
-// Thunk for fetching address list
 export const fetchAddressList = () => {
 	return async (dispatch) => {
 		dispatch(setAddressListLoading(null));

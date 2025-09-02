@@ -30,12 +30,18 @@ import ReportsSection from "../components/dashboard/ReportsSection"
 
 // Move font configuration to a separate file or layout.jsx to avoid client-side loading issues
 
-const UserDashboard = () => {
-  const [activeTab, setActiveTab] = useState("profile");
+const UserDashboard = ({ initialTab = "profile" }) => {
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [localProfileData, setLocalProfileData] = useState(null);
-  const router = useRouter();
+  const [activeTab, setActiveTab] = useState(initialTab);
   const dispatch = useDispatch();
+
+  // Handle direct navigation and tab changes
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    router.push(`/user-dashboard/${tabId}`);
+  };
   
   // Get profile data from Redux
   const { profileData: reduxProfileData, loadingStatus, error } = useSelector((state) => state.profile);
@@ -129,7 +135,7 @@ const UserDashboard = () => {
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`p-3.5 rounded-[22px] text-left transition-all duration-200 cursor-pointer ${
                     activeTab === tab.id
                       ? "__primary-bg text-white shadow-lg transform scale-105"
@@ -174,5 +180,14 @@ const UserDashboard = () => {
 };
 
 import { withClientSideRendering } from "../utils/withClientSideRendering";
+import ProtectedRoute from "@/features/Routes/ProtectedRoute";
 
-export default withClientSideRendering(UserDashboard);;
+const ProtectedUserDashboard = () => {
+  return (
+    <ProtectedRoute>
+      <UserDashboard />
+    </ProtectedRoute>
+  );
+};
+
+export default withClientSideRendering(ProtectedUserDashboard);

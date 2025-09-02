@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
-import { updateProfile } from "../../features/store/profileSlice";
+import { fetchProfileDetails } from "../../features/store/profileSlice";
 import { createBooking } from "../../features/store/bookingSlice";
 import toast from "react-hot-toast";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
@@ -30,7 +30,7 @@ const TestBookingSystem = () => {
   const searchParams = useSearchParams();
 
   const dispatch = useDispatch();
-  const { data: userProfile } = useSelector((state) => state.userProfile || {});
+  const userProfile = useSelector((state) => state.profile.profileData);
   const serviceDetailsPageData = useSelector(
     (state) => state?.serviceDetailsPage?.data
   );
@@ -90,11 +90,21 @@ const TestBookingSystem = () => {
   useEffect(() => {
     if (isClient) {
       dispatch(fetchServicesList());
-      dispatch(updateProfile({ userId: 1 }));
-      dispatch(fetchServiceDetailsPageData({ package_id: "3" }));
+      dispatch(fetchProfileDetails());
+      
+      // Get the slug from URL params or selected package
+      const urlSlug = searchParams?.get("package_ids") || searchParams?.get("service");
+      const selectedPackageSlug = allFormData?.selectedTest?.[0]?.value;
+      const slug = urlSlug || selectedPackageSlug;
+      
+      if (slug) {
+        console.log("Fetching service details for slug:", slug);
+        dispatch(fetchServiceDetailsPageData({ slug }));
+      }
+      
       dispatch(fetchAddressList());
     }
-  }, [dispatch, isClient]);
+  }, [dispatch, isClient, searchParams, allFormData?.selectedTest]);
 
   useEffect(() => {
     if (userProfile && userProfile.name && isClient) {

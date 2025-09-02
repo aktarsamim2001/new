@@ -69,10 +69,9 @@ async function bookingForm(payload) {
 }
 
 async function addressDetails() {
-  const response = await axios.get(rootUrl + "api/web/user/address/list", {
+  return axios.get(rootUrl + "api/web/user/address/list", {
     headers: await authHeader(),
   });
-  return response.data;
 }
 
 // Bookings API method
@@ -96,6 +95,25 @@ async function verifyOrResendOtp(payload) {
   });
 }
 
+async function createAddress(payload) {
+  return axios.post(rootUrl + "api/web/user/address/create", payload, {
+    headers: await authHeader(),
+  }).then(response => response.data);
+}
+
+async function updateAddress(payload) {
+  return axios.post(rootUrl + "api/web/user/address/create", payload, {
+    headers: await authHeader(),
+  }).then(response => response.data);
+}
+
+async function deleteAddress(payload) {
+  return axios.delete(rootUrl + "api/web/user/address/delete", {
+    headers: await authHeader(),
+    data: payload
+  }).then(response => response.data);
+}
+
 export const service = {
   signin,
   verifyOTP,
@@ -109,5 +127,8 @@ export const service = {
   addressDetails,
   bookings,
   paymentDetails,
-  verifyOrResendOtp
+  verifyOrResendOtp,
+  createAddress,
+  updateAddress,
+  deleteAddress
 };

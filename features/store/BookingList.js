@@ -86,6 +86,14 @@ const bookingsSlice = createSlice({
         totalCount: 0,
       };
     },
+    removeBookingFromState(state, action) {
+      const { bookingId, bookingType } = action.payload;
+      if (bookingType === "upcoming") {
+        state.upcomingBookings = state.upcomingBookings.filter(booking => booking.id !== bookingId);
+      } else if (bookingType === "past") {
+        state.pastBookings = state.pastBookings.filter(booking => booking.id !== bookingId);
+      }
+    }
   },
 });
 
@@ -95,6 +103,7 @@ export const {
   setBookingsError,
   appendBookingsData,
   clearBookingsData,
+  removeBookingFromState,
 } = bookingsSlice.actions;
 
 export default bookingsSlice.reducer;
@@ -138,6 +147,37 @@ export const loadMoreBookings = ({ page, limit = 10, booking_type = "past" }) =>
       }
     } catch (error) {
       dispatch(setBookingsError(error.message || "Something went wrong"));
+    }
+  };
+};
+
+export const cancelBookingAction = (bookingId) => {
+  return async (dispatch) => {
+    dispatch(setBookingsLoading(true));
+    try {
+      await service.cancelBooking(bookingId);
+      dispatch(removeBookingFromState({ bookingId, bookingType: "upcoming" }));
+      dispatch(setBookingsLoading(false));
+      return { success: true };
+    } catch (error) {
+      dispatch(setBookingsError(error.message || "Failed to cancel booking"));
+      return { success: false, error: error.message };
+    }
+  };
+};
+
+export const rescheduleBookingAction = (bookingId, newDate, newTime) => {
+  return async (dispatch) => {
+    dispatch(setBookingsLoading(true));
+    try {
+      await service.rescheduleBooking(bookingId, newDate, newTime);
+      dispatch(setBookingsLoading(false));
+      // Refresh bookings after reschedule
+      dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
+      return { success: true };
+    } catch (error) {
+      dispatch(setBookingsError(error.message || "Failed to reschedule booking"));
+      return { success: false, error: error.message };
     }
   };
 };

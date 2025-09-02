@@ -43,48 +43,31 @@ const Step3 = ({
   const testPackages = Array.isArray(servicesListData?.packages)
     ? servicesListData.packages
     : [];
-  console.log("servicesListData.packages:", servicesListData?.packages);
-  console.log("allFormData.selectedTest:", allFormData.selectedTest);
 
-  // More robust package finding
-  const findSelectedPackage = () => {
-    if (!Array.isArray(testPackages) || testPackages.length === 0) {
-      return null;
+  // Updated function to handle multiple selected packages
+  const findSelectedPackages = () => {
+    if (!allFormData.selectedTest || !Array.isArray(allFormData.selectedTest)) {
+      return [];
     }
-
-    const selectedId = allFormData.selectedTest;
-    console.log(
-      "Looking for package with ID:",
-      selectedId,
-      "Type:",
-      typeof selectedId
-    );
-
-    // Try multiple matching strategies
-    let found = testPackages.find((t) => String(t.id) === String(selectedId));
-    if (found) {
-      console.log("Found package by string match:", found);
-      return found;
-    }
-
-    found = testPackages.find((t) => Number(t.id) === Number(selectedId));
-    if (found) {
-      console.log("Found package by number match:", found);
-      return found;
-    }
-
-    // Log all available packages for debugging
-    console.log(
-      "Available packages:",
-      testPackages.map((p) => ({ id: p.id, name: p.name, type: typeof p.id }))
-    );
-
-    // Return first package as fallback
-    console.log("Using first package as fallback:", testPackages[0]);
-    return testPackages[0];
+    
+    return allFormData.selectedTest
+      .map(selected => {
+        // First try to use packageData if available
+        if (selected.packageData) {
+          return selected.packageData;
+        }
+        
+        // Otherwise find in testPackages by slug or id
+        const packageId = selected.id || selected.value;
+        return testPackages.find(pkg => 
+          String(pkg.id) === String(packageId) || pkg.slug === packageId
+        );
+      })
+      .filter(Boolean); // Remove any undefined values
   };
 
-  const selectedTestObj = findSelectedPackage();
+  const selectedPackages = findSelectedPackages();
+  console.log("Selected Packages:", selectedPackages);
 
   const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
 
@@ -111,16 +94,21 @@ const Step3 = ({
       h = h % 12 || 12;
       return `${h}:${m} ${ampm}`;
     };
-    return `${to12hr(start)} to ${to12hr(end)}`;
+    return `${to12hr(start)}`;
   };
 
   const getBookingSummary = () => {
-    const packageName = selectedTestObj
-      ? stripBr(selectedTestObj.name)
-      : "the selected package";
+    if (selectedPackages.length === 0) {
+      return "No packages selected.";
+    }
+    
+    const packageNames = selectedPackages
+      .map(pkg => stripBr(pkg.name))
+      .join(", ");
+    
     const scheduledDate = formatDate(allFormData.date);
     const scheduledTime = formatTimeSlot(allFormData.timeSlot);
-    return `Your booking for ${packageName} is scheduled on ${scheduledDate} at ${scheduledTime}.`;
+    return `Your booking for ${packageNames} is scheduled on ${scheduledDate} at ${scheduledTime}.`;
   };
 
   const formatPrice = (price) => {
@@ -145,26 +133,39 @@ const Step3 = ({
   }, [paymentState?.data?.summary?.final_amount, setValue]);
 
   useEffect(() => {
-    let selectedPackageId = null;
-    if (Array.isArray(servicesListData?.packages)) {
-      const selected = servicesListData.packages.find(
-        (t) => String(t.id) === String(allFormData.selectedTest)
-      );
-      if (selected) {
-        selectedPackageId = parseInt(selected.id, 10);
-      } else if (servicesListData.packages.length > 0) {
-        selectedPackageId = parseInt(servicesListData.packages[0].id, 10);
-      }
+    // Collect all selected package IDs
+    const selectedPackageIds = [];
+    
+    if (Array.isArray(allFormData.selectedTest)) {
+      allFormData.selectedTest.forEach(selected => {
+        // First try to get ID from packageData
+        if (selected.packageData && selected.packageData.id) {
+          selectedPackageIds.push(parseInt(selected.packageData.id, 10));
+        } else {
+          // Otherwise find the package in servicesListData
+          const packageId = selected.id || selected.value;
+          const found = servicesListData?.packages?.find(
+            pkg => pkg.slug === packageId || String(pkg.id) === String(packageId)
+          );
+          if (found) {
+            selectedPackageIds.push(parseInt(found.id, 10));
+          }
+        }
+      });
     }
+
     const payload = {
-      package_ids: Number.isInteger(selectedPackageId)
-        ? [selectedPackageId]
-        : [],
+      package_ids: selectedPackageIds.filter(id => Number.isInteger(id)),
     };
+    
     if (watchedCouponCode) {
       payload.coupon_code = watchedCouponCode;
     }
-    dispatch(fetchPaymentDetails(payload));
+    
+    console.log('Fetching payment details with payload:', payload);
+    if (payload.package_ids.length > 0) {
+      dispatch(fetchPaymentDetails(payload));
+    }
   }, [watchedCouponCode, allFormData.selectedTest, dispatch, servicesListData]);
 
   const onSubmit = (data) => {
@@ -185,28 +186,35 @@ const Step3 = ({
       schedule_time = /^\d{2}:\d{2}$/.test(start) ? `${start}:00` : start;
     }
 
-    let selectedPackageId = null;
-    if (Array.isArray(servicesListData?.packages)) {
-      const selected = servicesListData.packages.find(
-        (t) => String(t.id) === String(data.selectedTest)
-      );
-      if (selected) {
-        selectedPackageId = parseInt(selected.id, 10);
-      } else if (servicesListData.packages.length > 0) {
-        selectedPackageId = parseInt(servicesListData.packages[0].id, 10);
-      }
+    // Collect all selected package IDs for booking
+    const selectedPackageIds = [];
+    
+    if (Array.isArray(allFormData.selectedTest)) {
+      allFormData.selectedTest.forEach(selected => {
+        if (selected.packageData && selected.packageData.id) {
+          selectedPackageIds.push(parseInt(selected.packageData.id, 10));
+        } else {
+          const packageId = selected.id || selected.value;
+          const found = servicesListData?.packages?.find(
+            pkg => pkg.slug === packageId || String(pkg.id) === String(packageId)
+          );
+          if (found) {
+            selectedPackageIds.push(parseInt(found.id, 10));
+          }
+        }
+      });
     }
+
     const payload = {
       address_id,
-      package_ids: Number.isInteger(selectedPackageId)
-        ? [selectedPackageId]
-        : [],
+      package_ids: selectedPackageIds.filter(id => Number.isInteger(id)),
       schedule_date: data.date,
       schedule_time,
       payment_method: data.paymentMode,
       terms_condition: data.agreeTerms,
       remarks: data.remarks || "",
     };
+    
     if (data.applyCode) {
       payload.coupon_code = data.applyCode;
     }
@@ -243,64 +251,43 @@ const Step3 = ({
                 </label>
               </div>
               <div className="w-full">
-                {/* Package Details Display */}
                 <div className="mb-4 p-4 bg-white border border-gray-200 rounded-xl shadow-sm">
-                  {selectedTestObj ? (
-                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                      <div className="flex justify-between items-center">
-                        <span className="text-gray-900 font-semibold">
-                          {stripBr(
-                            selectedTestObj.name ||
-                              selectedTestObj.title ||
-                              "Package"
-                          )}
-                        </span>
-                        <span className="text-gray-900 font-semibold">
-                          (
-                          {formatPrice(
-                            (paymentState?.data?.packages &&
-                              paymentState.data.packages[0]?.price) ||
-                              selectedTestObj.price ||
-                              selectedTestObj.cost ||
-                              selectedTestObj.amount ||
-                              paymentState?.data?.summary?.original_amount
-                          )}
-                          )
-                        </span>
-                      </div>
-                      {selectedTestObj.description && (
-                        <div className="mt-2 text-sm text-gray-600">
-                          {stripBr(selectedTestObj.description)}
-                        </div>
-                      )}
+                  {selectedPackages.length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {selectedPackages.map((pkg, index) => {
+                        const packagePrice = paymentState?.data?.packages?.find(
+                          p => String(p.id) === String(pkg.id)
+                        )?.price || pkg.price || pkg.cost || pkg.amount;
+
+                        return (
+                          <div key={pkg.id || index} className="p-3 bg-gray-50 rounded-lg border border-gray-100 flex flex-col h-full">
+                            <div className="flex justify-between items-center">
+                              <span className="text-gray-900 font-semibold">
+                                {stripBr(pkg.name || pkg.title || "Package")}
+                              </span>
+                              <span className="text-gray-900 font-semibold">
+                                ({formatPrice(packagePrice)})
+                              </span>
+                            </div>
+                            {pkg.description && (
+                              <div className="mt-2 text-sm text-gray-600">
+                                {stripBr(pkg.description)}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      })}
                     </div>
                   ) : (
                     <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
                       <div className="flex justify-between items-center">
                         <span className="text-gray-700 font-medium">
-                          {testPackages.length > 0
-                            ? stripBr(
-                                testPackages[0]?.name ||
-                                  testPackages[0]?.title ||
-                                  "Available Package"
-                              )
-                            : "No package available"}
+                          No packages selected
                         </span>
                         <span className="text-gray-900 font-semibold">
-                          (
-                          {formatPrice(
-                            (paymentState?.data?.packages &&
-                              paymentState.data.packages[0]?.price) ||
-                              testPackages[0]?.price ||
-                              testPackages[0]?.cost ||
-                              paymentState?.data?.summary?.original_amount ||
-                              0
-                          )}
-                          )
+                          (RM 0.00)
                         </span>
                       </div>
-
-                      {/* ❌ Tax breakdown removed here too */}
                     </div>
                   )}
 
@@ -387,19 +374,22 @@ const Step3 = ({
                       Validating coupon...
                     </p>
                   )}
-                  {paymentState.error && (
-                    <p className="text-red-500 text-sm mt-1">
-                      {paymentState.error}
-                    </p>
-                  )}
-                  {paymentState.data?.coupon && (
-                    <p className="text-green-500 text-sm mt-1">
-                      Coupon applied: {paymentState.data.coupon.code}(
-                      {paymentState.data.coupon.discount_type === "percentage"
-                        ? `${paymentState.data.coupon.discount_value}%`
-                        : `₹${paymentState.data.coupon.discount_value}`}{" "}
-                      off)
-                    </p>
+                  {!paymentState.loading && watchedCouponCode && (
+                    <>
+                      {paymentState.data?.coupon ? (
+                        <p className="text-green-500 text-sm mt-1">
+                          Coupon applied: {paymentState.data.coupon.code} (
+                          {paymentState.data.coupon.discount_type === "percentage"
+                            ? `${paymentState.data.coupon.discount_value}%`
+                            : `₹${paymentState.data.coupon.discount_value}`}{" "}
+                          off)
+                        </p>
+                      ) : (
+                        <p className="text-red-500 text-sm mt-1">
+                          Invalid coupon
+                        </p>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
@@ -490,19 +480,6 @@ const Step3 = ({
               </div>
             )}
           </div>
-
-          {/* Confirm & Pay Button */}
-          {/* <div className="flex items-center justify-center md:justify-start mt-6 cursor-pointer">
-            <div className="md:w-[200px]"></div>
-            <button
-              type="button"
-              onClick={handleSubmit(onSubmit)}
-              disabled={paymentState.loading}
-              className="w-[200px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              {paymentState.loading ? "Processing..." : "Confirm & Pay"}
-            </button>
-          </div> */}
           <div className="flex items-center justify-end mt-10">
             <div className="lg:w-[81%] flex justify-start">
               <div className="lg:w-[20%] flex justify-between">
@@ -535,6 +512,5 @@ const Step3 = ({
       </div>
     </div>
   );
-};
-
+}
 export default Step3;

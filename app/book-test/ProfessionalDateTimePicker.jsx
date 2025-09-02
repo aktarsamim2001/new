@@ -1,41 +1,39 @@
 import { Calendar, Clock, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 const ProfessionalDateTimePicker = ({
-  dateTimeData,
-  setDateTimeData,
-  showDatePicker,
-  setShowDatePicker,
-  showTimePicker,
-  setShowTimePicker,
-  currentMonth,
-  setCurrentMonth,
-  datePickerRef,
-  timePickerRef,
-  isClient,
-  validationErrors,
-  setValidationErrors
+  dateTimeData = { date: "", timeSlot: "" },
+  setDateTimeData = () => {},
+  showDatePicker = false,
+  setShowDatePicker = () => {},
+  showTimePicker = false,
+  setShowTimePicker = () => {},
+  currentMonth = new Date(),
+  setCurrentMonth = () => {},
+  datePickerRef = null,
+  timePickerRef = null,
+  isClient = true,
+  validationErrors = {},
+  setValidationErrors = () => {}
 }) => {
+  const [selectedHour, setSelectedHour] = useState(12);
+  const [selectedMinute, setSelectedMinute] = useState(0);
+  const [isAM, setIsAM] = useState(true);
+
   if (!isClient) return null;
 
-  // Time slots data
-  const timeSlots = [
-    { value: "09:00-10:00", label: "09:00 - 10:00 AM", available: true },
-    { value: "10:00-11:00", label: "10:00 - 11:00 AM", available: true },
-    { value: "11:00-12:00", label: "11:00 - 12:00 PM", available: false },
-    { value: "12:00-13:00", label: "12:00 - 01:00 PM", available: true },
-    { value: "14:00-15:00", label: "02:00 - 03:00 PM", available: true },
-    { value: "15:00-16:00", label: "03:00 - 04:00 PM", available: true },
-    { value: "16:00-17:00", label: "04:00 - 05:00 PM", available: false },
-    { value: "17:00-18:00", label: "05:00 - 06:00 PM", available: true },
-  ];
-
   // Utility functions
-  // Format date as 'DD / MM / YYYY'
   const formatDate = (date) => {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
     return `${day} / ${month} / ${year}`;
+  };
+
+  const formatTime = (hour, minute, isAM) => {
+    const displayHour = hour === 0 ? 12 : hour;
+    const period = isAM ? 'AM' : 'PM';
+    return `${displayHour}:${String(minute).padStart(2, '0')} ${period}`;
   };
 
   const getDaysInMonth = (date) => {
@@ -48,16 +46,13 @@ const ProfessionalDateTimePicker = ({
 
     const days = [];
 
-    // Add empty cells for days before the first day of the month
     for (let i = 0; i < startingDayOfWeek; i++) {
       days.push(null);
     }
 
-    // Get today's date at midnight
     const todayMidnight = new Date();
     todayMidnight.setHours(0, 0, 0, 0);
 
-    // Add all days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const currentDate = new Date(year, month, day);
       const currentDateMidnight = new Date(currentDate);
@@ -90,12 +85,18 @@ const ProfessionalDateTimePicker = ({
     setValidationErrors(prev => ({ ...prev, date: "" }));
   };
 
-  const handleTimeSelect = (timeSlot) => {
-    if (timeSlot.available) {
-      setDateTimeData(prev => ({ ...prev, timeSlot: timeSlot.value }));
-      setShowTimePicker(false);
-      setValidationErrors(prev => ({ ...prev, timeSlot: "" }));
-    }
+  const handleTimeConfirm = () => {
+    const hour24 = isAM ? (selectedHour === 12 ? 0 : selectedHour) : (selectedHour === 12 ? 12 : selectedHour + 12);
+    const timeValue = `${String(hour24).padStart(2, '0')}:${String(selectedMinute).padStart(2, '0')}`;
+    const displayTime = formatTime(selectedHour, selectedMinute, isAM);
+    
+    setDateTimeData(prev => ({ 
+      ...prev, 
+      timeSlot: timeValue,
+      timeDisplay: displayTime 
+    }));
+    setShowTimePicker(false);
+    setValidationErrors(prev => ({ ...prev, timeSlot: "" }));
   };
 
   const navigateMonth = (direction) => {
@@ -106,19 +107,27 @@ const ProfessionalDateTimePicker = ({
     });
   };
 
+  // Generate clock positions for hours
+  const getClockPosition = (value, total, radius) => {
+    const angle = (value * 360 / total) - 90; // Start from top (12 o'clock)
+    const radian = (angle * Math.PI) / 180;
+    const x = Math.cos(radian) * radius;
+    const y = Math.sin(radian) * radius;
+    return { x, y };
+  };
+
   const days = getDaysInMonth(currentMonth);
   const monthYear = currentMonth.toLocaleDateString("en-US", {
     month: "long",
     year: "numeric",
   });
-  const selectedTimeSlot = timeSlots.find(slot => slot.value === dateTimeData.timeSlot);
 
   return (
     <div className="space-y-6">
       {/* Date Picker */}
       <div className="lg:flex flex-row items-center gap-3">
         <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
-          Date Schedule
+          Schedule Date
         </label>
         <div className="relative lg:w-[60%] w-full" ref={datePickerRef}>
           <div
@@ -156,7 +165,6 @@ const ProfessionalDateTimePicker = ({
 
           {showDatePicker && (
             <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-50 overflow-hidden">
-              {/* Calendar Header */}
               <div className="bg-gradient-to-r from-pink-500 to-pink-600 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <button
@@ -179,7 +187,6 @@ const ProfessionalDateTimePicker = ({
                 </div>
               </div>
 
-              {/* Calendar Grid */}
               <div className="p-4">
                 <div className="grid grid-cols-7 gap-1 mb-2">
                   {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map(
@@ -225,10 +232,10 @@ const ProfessionalDateTimePicker = ({
         </div>
       </div>
 
-      {/* Time Picker */}
+      {/* Clock-style Time Picker */}
       <div className="lg:flex flex-row items-center gap-3">
         <label className="mb-2 lg:mb-0 block text-[20px] font-medium text-gray-700 w-[160px]">
-          Select Time Slot
+          Select Time
         </label>
         <div className="relative lg:w-[60%] w-full" ref={timePickerRef}>
           <div
@@ -246,14 +253,13 @@ const ProfessionalDateTimePicker = ({
                 />
                 <span
                   className={`text-base ${
-                    dateTimeData.timeSlot
+                    dateTimeData.timeSlot || dateTimeData.timeDisplay
                       ? "text-gray-800"
                       : "text-gray-500"
                   }`}
                 >
-                  {selectedTimeSlot
-                    ? selectedTimeSlot.label
-                    : "Choose your preferred time"}
+                  {dateTimeData.timeDisplay || 
+                   (dateTimeData.timeSlot ? `${dateTimeData.timeSlot}` : "Choose your preferred time")}
                 </span>
               </div>
               <ChevronDown
@@ -265,36 +271,124 @@ const ProfessionalDateTimePicker = ({
           </div>
 
           {showTimePicker && (
-            <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-40 overflow-hidden max-h-80 overflow-y-auto">
-              <div className="py-2">
-                {timeSlots.map((slot) => (
+            <div className="absolute top-full left-0 right-0 mt-2 bg-white border-2 border-pink-200 rounded-2xl shadow-2xl z-40 overflow-hidden">
+              {/* Clock Header */}
+              <div className="bg-gradient-to-r from-pink-500 to-pink-600 px-6 py-4">
+                <div className="text-center">
+                  <h3 className="text-xl font-semibold text-white mb-2">Select Time</h3>
+                  <div className="text-2xl font-bold text-white">
+                    {formatTime(selectedHour, selectedMinute, isAM)}
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {/* Clock Face */}
+                <div className="flex flex-col items-center space-y-6">
+                  <div className="relative w-64 h-64">
+                    {/* Clock Circle */}
+                    <div className="absolute inset-0 rounded-full border-4 border-pink-100 bg-gradient-to-br from-pink-50 to-white"></div>
+                    
+                    {/* Center Dot */}
+                    <div className="absolute top-1/2 left-1/2 w-3 h-3 bg-pink-500 rounded-full transform -translate-x-1/2 -translate-y-1/2 z-20"></div>
+                    
+                    {/* Hour Numbers */}
+                    {[12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map((hour) => {
+                      const pos = getClockPosition(hour === 12 ? 0 : hour, 12, 100);
+                      return (
+                        <button
+                          key={hour}
+                          type="button"
+                          onClick={() => setSelectedHour(hour)}
+                          className={`absolute w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200 transform -translate-x-1/2 -translate-y-1/2 ${
+                            selectedHour === hour
+                              ? "bg-pink-500 text-white scale-110 shadow-lg"
+                              : "bg-white text-gray-700 hover:bg-pink-100 hover:scale-105 border-2 border-pink-200"
+                          }`}
+                          style={{
+                            left: `calc(50% + ${pos.x}px)`,
+                            top: `calc(50% + ${pos.y}px)`,
+                          }}
+                        >
+                          {hour}
+                        </button>
+                      );
+                    })}
+
+                    {/* Hour Hand */}
+                    <div
+                      className="absolute top-1/2 left-1/2 origin-bottom bg-pink-500 rounded-full z-10"
+                      style={{
+                        width: '3px',
+                        height: '60px',
+                        transform: `translate(-50%, -100%) rotate(${(selectedHour % 12) * 30}deg)`,
+                      }}
+                    ></div>
+
+                    {/* Minute Markers */}
+                    {[0, 15, 30, 45].map((minute) => {
+                      const pos = getClockPosition(minute / 5, 12, 80);
+                      return (
+                        <button
+                          key={minute}
+                          type="button"
+                          onClick={() => setSelectedMinute(minute)}
+                          className={`absolute w-6 h-6 rounded-full flex items-center justify-center text-xs font-medium transition-all duration-200 transform -translate-x-1/2 -translate-y-1/2 ${
+                            selectedMinute === minute
+                              ? "bg-blue-500 text-white scale-110"
+                              : "bg-blue-100 text-blue-700 hover:bg-blue-200 hover:scale-105"
+                          }`}
+                          style={{
+                            left: `calc(50% + ${pos.x}px)`,
+                            top: `calc(50% + ${pos.y}px)`,
+                          }}
+                        >
+                          {String(minute).padStart(2, '0')}
+                        </button>
+                      );
+                    })}
+
+                    {/* Minute Hand */}
+                    <div
+                      className="absolute top-1/2 left-1/2 origin-bottom bg-[#00b8c1] rounded-full z-15"
+                      style={{
+                        width: '2px',
+                        height: '80px',
+                        transform: `translate(-50%, -100%) rotate(${selectedMinute * 6}deg)`,
+                      }}
+                    ></div>
+                  </div>
+
+                  {/* Minute Selector */}
+                  <div className="w-full max-w-[400px]">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Fine-tune Minutes</label>
+                    <div className="grid grid-cols-12 gap-1">
+                      {Array.from({ length: 12 }, (_, i) => i * 5).map((minute) => (
+                        <button
+                          key={minute}
+                          type="button"
+                          onClick={() => setSelectedMinute(minute)}
+                          className={`w-full py-1.5 text-xs font-medium rounded-lg transition-all duration-200 ${
+                            selectedMinute === minute
+                              ? "bg-[#00b8c1] text-white"
+                              : "bg-gray-100 text-gray-700 hover:bg-blue-100"
+                          }`}
+                        >
+                          {String(minute).padStart(2, '0')}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Confirm Button */}
                   <button
-                    key={slot.value}
                     type="button"
-                    onClick={() => handleTimeSelect(slot)}
-                    disabled={!slot.available}
-                    className={`w-full px-6 py-4 text-left transition-all duration-200 flex items-center justify-between ${
-                      dateTimeData.timeSlot === slot.value
-                        ? "bg-gradient-to-r from-pink-500 to-pink-600 text-white"
-                        : slot.available
-                        ? "hover:bg-pink-50 text-gray-700"
-                        : "text-gray-400 cursor-not-allowed bg-gray-50"
-                    }`}
+                    onClick={handleTimeConfirm}
+                    className="w-full bg-gradient-to-r from-pink-500 to-pink-600 text-white py-3 px-6 rounded-xl font-medium hover:from-pink-600 hover:to-pink-700 transition-all duration-200 shadow-lg hover:shadow-xl"
                   >
-                    <span className="font-medium">{slot.label}</span>
-                    <span
-                      className={`text-sm px-3 py-1 rounded-full ${
-                        slot.available
-                          ? dateTimeData.timeSlot === slot.value
-                            ? "bg-white bg-opacity-20 text-white"
-                            : "bg-green-100 text-green-600"
-                          : "bg-red-100 text-red-600"
-                      }`}
-                    >
-                      {slot.available ? "Available" : "Booked"}
-                    </span>
+                    Confirm Time
                   </button>
-                ))}
+                </div>
               </div>
             </div>
           )}
