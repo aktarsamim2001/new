@@ -176,12 +176,12 @@ export default function FAQTabs({ data }) {
                     onClick={() => toggleStep(index)}
                     className={`w-full flex items-center justify-between text-left transition-all duration-300`}
                   >
-                    <div className="flex items-center justify-between space-x-4 border-b w-full py-3 px-0 md:px-4">
+                    <div className="flex items-center justify-between space-x-4 border-b border-black w-full py-3 px-0 md:px-4">
                       <span className="text-[16px] font-normal text-gray-800">
                         {index + 1 < 10 ? `0${index + 1}` : index + 1}. {step.question}
                       </span>
                       <div
-                        className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 border`}
+                        className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full transition-all duration-300 border border-black`}
                       >
                         <IoMdArrowDown
                           className={`transition-transform duration-300 ${expandedStep === index ? "rotate-180" : ""}`}

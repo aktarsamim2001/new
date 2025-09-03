@@ -1,5 +1,5 @@
 import { useForm, Controller } from "react-hook-form";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Tag, X, Percent, Gift } from "lucide-react";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { useDispatch, useSelector } from "react-redux";
 import { createBooking } from "../../features/store/bookingSlice";
 import { fetchPaymentDetails } from "../../features/store/reviewSlice";
+import { fetchCoupons, setSelectedCoupon } from "../../features/store/couponSlice";
 import Link from "next/link";
 
 const Step3 = ({
@@ -15,6 +16,7 @@ const Step3 = ({
   servicesListData,
   booking,
   handleContinue,
+  handleBack,
   dispatch,
 }) => {
   const {
@@ -31,6 +33,16 @@ const Step3 = ({
   });
 
   const [dateError, setDateError] = useState("");
+  const [isCouponSidebarOpen, setIsCouponSidebarOpen] = useState(false);
+
+  const { data: couponData, loading: couponLoading } = useSelector((state) => state.coupons);
+  const availableCoupons = couponData?.coupons || [];
+
+  console.log("availableCoupons:", availableCoupons);
+
+  useEffect(() => {
+    dispatch(fetchCoupons());
+  }, [dispatch]);
 
   const paymentState = useSelector((state) => state.payment);
   console.log("paymentState:", paymentState);
@@ -114,6 +126,33 @@ const Step3 = ({
   const formatPrice = (price) => {
     if (!price) return "RM 0.00";
     return `RM ${parseFloat(price).toFixed(2)}`;
+  };
+
+  // Handle coupon application from sidebar
+  const handleCouponApply = (coupon) => {
+    const totalAmount = paymentState?.data?.summary?.subtotal || 0;
+    if (totalAmount < parseFloat(coupon.minimum_order_value)) {
+      toast.error(`Minimum order value should be RM ${coupon.minimum_order_value}`);
+      return;
+    }
+
+    setValue("applyCode", coupon.coupon_code);
+    dispatch(setSelectedCoupon(coupon));
+    setIsCouponSidebarOpen(false);
+    toast.success(`Coupon ${coupon.coupon_code} applied!`);
+  };
+
+  // Remove applied coupon
+  const handleRemoveCoupon = () => {
+    setValue("applyCode", "");
+    dispatch(setSelectedCoupon(null));
+    toast.success("Coupon removed!");
+  };
+
+  // Check if coupon is applicable based on order amount
+  const isCouponApplicable = (coupon) => {
+    const totalAmount = paymentState?.data?.summary?.subtotal || 0;
+    return totalAmount >= parseFloat(coupon.minimum_order_value);
   };
 
   useEffect(() => {
@@ -231,9 +270,108 @@ const Step3 = ({
   };
 
   return (
-    <div>
+    <div className="relative">
+      {/* Coupon Sidebar */}
+      <div className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl transform transition-transform duration-300 ease-in-out z-50 ${
+        isCouponSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 bg-[#ec098d]">
+          <div className="flex items-center gap-2 text-white">
+            <Tag className="w-5 h-5" />
+            <h3 className="text-lg font-semibold">Available Coupons</h3>
+          </div>
+          <button
+            onClick={() => setIsCouponSidebarOpen(false)}
+            className="text-white hover:bg-gray-[#00b8c1] hover:bg-opacity-20 p-2 rounded-full transition-colors"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        <div className="p-4 h-full overflow-y-auto pb-20">
+          {availableCoupons.map((coupon) => {
+            const isApplicable = isCouponApplicable(coupon);
+            const isApplied = watchedCouponCode === coupon.coupon_code;
+            
+            return (
+              <div
+                key={coupon.id}
+                className={`mb-4 p-4 rounded-lg border-2 transition-all duration-200 ${
+                  isApplied
+                    ? 'border-gray-200 shadow-sm'
+                    : isApplicable
+                    ? 'border-pink-200 bg-white hover:border-pink-400 hover:shadow-md cursor-pointer'
+                    : 'border-gray-200 bg-gray-50 opacity-60'
+                }`}
+                onClick={() => isApplicable && !isApplied && handleCouponApply(coupon)}
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    {coupon.discount_type === "1" ? (
+                      <Percent className="w-5 h-5 text-pink-500" />
+                    ) : (
+                      <Gift className="w-5 h-5 text-pink-500" />
+                    )}
+                    <div>
+                      <h4 className="font-semibold text-gray-800">
+                        {coupon.discount_type === "1" 
+                          ? `${coupon.discount_value}% OFF`
+                          : `RM ${coupon.discount_value} OFF`}
+                      </h4>
+                      <p className="text-sm text-pink-600 font-mono bg-pink-100 px-2 py-1 rounded inline-block">
+                        {coupon.coupon_code}
+                      </p>
+                    </div>
+                  </div>
+                  {isApplied && (
+                  <div className="bg-[#ec098d] text-sm font-medium text-white px-2 py-1 rounded">
+                      Applied
+                    </div>
+                  )}
+                </div>
+                
+                <p className="text-gray-600 text-sm mb-2">{coupon.description}</p>
+                
+                <div className="text-xs text-gray-500">
+                  <div className="mb-1">
+                    <p>Limit per user: {coupon.limit_per_user}</p>
+                    <p>{coupon.quantity - coupon.booked} coupons left</p>
+                  </div>
+                  {!isApplicable && (
+                    <p className="text-red-500 font-medium mt-1">
+                      Minimum order value: {formatPrice(coupon.minimum_order_value)}
+                    </p>
+                  )}
+                </div>
+                
+                {isApplicable && !isApplied && (
+                  <button className="mt-2 w-full bg-pink-500 text-white py-2 rounded-lg text-sm font-medium hover:bg-pink-600 transition-colors">
+                    Apply Coupon
+                  </button>
+                )}
+              </div>
+            );
+          })}
+          
+          {availableCoupons.length === 0 && (
+            <div className="text-center py-8 text-gray-500">
+              <Tag className="w-12 h-12 mx-auto mb-2 opacity-50" />
+              <p>No coupons available at the moment</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Overlay */}
+      {isCouponSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 bg-opacity-50 z-40"
+          onClick={() => setIsCouponSidebarOpen(false)}
+        />
+      )}
+
       <div className="rounded-lg px-4 lg:w-10/12 lg:mx-auto md:p-6 md:pt-0 flex items-center justify-between relative pt-[60px]">
-        <div className="space-y-6 lg:ml-16 w-full">
+        <div className="space-y-6 w-full">
           <h2 className="section__heading mb-8 hidden md:block">
             03. Review and Pay
           </h2>
@@ -358,34 +496,66 @@ const Step3 = ({
               </div>
 
               <div className="md:flex flex-row items-start gap-3">
-                <div className="w-[180px] md:ml-4 pt-4">
+                <div className="w-[180px] md:ml-4 pt-3">
                   <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2">
                     Apply Code
                   </label>
                 </div>
-                <div className="w-full">
-                  <Input
-                    {...register("applyCode")}
-                    type="text"
-                    placeholder="Discount code"
-                  />
+                <div className="w-full space-y-2">
+                  <div className="flex gap-2">
+                    {!watchedCouponCode ? (
+                      <Input
+                        {...register("applyCode")}
+                        type="text"
+                        placeholder="Discount code"
+                        className="flex-1"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-3 flex-1">
+                        <div className="flex items-center gap-2">
+                          <span className="text-green-700 font-medium">
+                            {watchedCouponCode}
+                          </span>
+                        </div>
+                        <button
+                          type="button"
+                          onClick={handleRemoveCoupon}
+                          className="text-green-600 hover:text-green-800 p-1"
+                          title="Remove coupon"
+                        >
+                          <X className="w-4 h-4" />
+                        </button>
+                      </div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => setIsCouponSidebarOpen(true)}
+                      className="px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors flex items-center gap-2 whitespace-nowrap"
+                    >
+                      <Tag className="w-4 h-4" />
+                      Browse Coupons
+                    </button>
+                  </div>
+
+                  {/* Applied Coupon Display */}
+
                   {paymentState.loading && (
-                    <p className="text-blue-500 text-sm mt-1">
+                    <p className="text-blue-500 text-sm">
                       Validating coupon...
                     </p>
                   )}
                   {!paymentState.loading && watchedCouponCode && (
                     <>
                       {paymentState.data?.coupon ? (
-                        <p className="text-green-500 text-sm mt-1">
-                          Coupon applied: {paymentState.data.coupon.code} (
-                          {paymentState.data.coupon.discount_type === "percentage"
+                        <p className="text-green-500 text-sm">
+                          Coupon applied: {paymentState.data.coupon.coupon_code} (
+                          {paymentState.data.coupon.discount_type === "1"
                             ? `${paymentState.data.coupon.discount_value}%`
-                            : `₹${paymentState.data.coupon.discount_value}`}{" "}
+                            : `RM ${paymentState.data.coupon.discount_value}`}{" "}
                           off)
                         </p>
                       ) : (
-                        <p className="text-red-500 text-sm mt-1">
+                        <p className="text-red-500 text-sm">
                           Invalid coupon
                         </p>
                       )}
@@ -419,7 +589,6 @@ const Step3 = ({
                         <SelectGroup>
                           <SelectItem value="credit_card">Credit Card</SelectItem>
                           <SelectItem value="debit_card">Debit Card</SelectItem>
-                          <SelectItem value="online_banking">Online Banking</SelectItem>
                           <SelectItem value="cash_on_delivery">Cash on Delivery</SelectItem>
                         </SelectGroup>
                       </SelectContent>
@@ -482,17 +651,10 @@ const Step3 = ({
           </div>
           <div className="flex items-center justify-end mt-10">
             <div className="lg:w-[81%] flex justify-start">
-              <div className="lg:w-[20%] flex justify-between">
+              <div className="lg:w-[25%] flex justify-between">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (
-                      typeof window !== "undefined" &&
-                      window.history.length > 1
-                    ) {
-                      window.history.back();
-                    }
-                  }}
+                  onClick={handleBack}
                   className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-opacity hover:opacity-90 border border-gray-300"
                 >
                   Back
@@ -513,4 +675,5 @@ const Step3 = ({
     </div>
   );
 }
+
 export default Step3;

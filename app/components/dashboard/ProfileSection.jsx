@@ -5,13 +5,12 @@ import {
   BadgePlus,
   MapPin,
   Home,
-  Building2,
   Users,
   Plus,
   Save,
   X,
-  CheckCircle,
 } from "lucide-react";
+import DateOfBirthPicker from "./DateOfBirthPicker";
 import AddressTab from "./AddressTab";
 import { BsWhatsapp } from "react-icons/bs";
 import { cn } from "@/lib/utils";
@@ -28,14 +27,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileDetails } from "@/features/store/profileSlice";
@@ -49,44 +41,9 @@ const ProfileSection = () => {
     loadingStatus,
     error,
   } = useSelector((state) => state.profile);
-  const addressListData = useSelector((state) => {
-    console.log("Full addressList state:", state.addressList);
-    return state.addressList;
-  });
+  const addressListData = useSelector((state) => state.addressList);
   const [localProfileData, setLocalProfileData] = useState(null);
 
-  const handleConfirmDelete = async () => {
-    if (!addressToDelete || !addressToDelete.id) {
-      toast.error("Invalid address selected");
-      return;
-    }
-
-    try {
-      setDeleteProcessing(true);
-      const response = await service.deleteAddress({ addressId: addressToDelete.id });
-
-      if (response.status === 1) {
-        toast.success("Address deleted successfully");
-        // Refresh the address list
-        await dispatch(fetchAddressList());
-        // Reset states
-        setDeleteDialogOpen(false);
-        setAddressToDelete(null);
-      } else {
-        toast.error(response.message || "Failed to delete address");
-      }
-    } catch (error) {
-      console.error("Delete address error:", error);
-      toast.error(error.message || "Failed to delete address");
-    } finally {
-      setDeleteProcessing(false);
-    }
-  };
-
-  const handleCancelDelete = () => {
-    setDeleteDialogOpen(false);
-    setAddressToDelete(null);
-  };
   const [profileImage, setProfileImage] = useState(null);
   const fileInputRef = useRef(null);
 
@@ -96,6 +53,7 @@ const ProfileSection = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [addressToDelete, setAddressToDelete] = useState(null);
   const [deleteProcessing, setDeleteProcessing] = useState(false);
+
   const [newAddress, setNewAddress] = useState({
     id: "",
     label: "home",
@@ -107,6 +65,12 @@ const ProfileSection = () => {
     country: "Malaysia",
     isDefault: false,
   });
+
+  const [dateData, setDateData] = useState({ date: "", displayDate: "" });
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [validationErrors, setValidationErrors] = useState({});
+  const datePickerRef = useRef(null);
 
   const handleProfileImageClick = () => {
     fileInputRef.current?.click();
@@ -124,6 +88,49 @@ const ProfileSection = () => {
     setLocalProfileData({ ...editFormData, profileImage });
     setIsEditMode(false);
     toast.success("Your personal information has been successfully updated.");
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!addressToDelete || !addressToDelete.id) {
+      toast.error("Invalid address selected");
+      return;
+    }
+
+    // Prevent deletion of default address or last address
+    if (addressToDelete.isDefault) {
+      toast.error("Cannot delete the default address");
+      setDeleteDialogOpen(false);
+      setAddressToDelete(null);
+      return;
+    }
+
+    if (editFormData.addresses.length <= 1) {
+      toast.error("Cannot delete the last address");
+      setDeleteDialogOpen(false);
+      setAddressToDelete(null);
+      return;
+    }
+
+    try {
+      console.log("Attempting to delete address with ID:", addressToDelete.id);
+      setDeleteProcessing(true);
+      const response = await service.deleteAddress({ id: addressToDelete.id });
+
+      if (response.status === 1) {
+        toast.success("Address deleted successfully");
+        await dispatch(fetchAddressList());
+        setDeleteDialogOpen(false);
+        setAddressToDelete(null);
+      } else {
+        console.error("Delete failed with response:", response);
+        toast.error(response.message || "Failed to delete address");
+      }
+    } catch (error) {
+      console.error("Delete address error:", error);
+      toast.error(error.response?.data?.message || "Failed to delete address");
+    } finally {
+      setDeleteProcessing(false);
+    }
   };
 
   const handleAddressUpdate = (addressId, field, value) => {
@@ -160,30 +167,59 @@ const ProfileSection = () => {
     setActiveAddressTab("add-new");
   };
 
-  const saveNewAddress = () => {
-    const id = Date.now().toString();
-    const addr = { ...newAddress, id };
-    setEditFormData((prev) => ({
-      ...prev,
-      addresses: [...prev.addresses, addr],
-    }));
-    setNewAddress({
-      id: "",
-      label: "home",
-      addressLine1: "",
-      addressLine2: "",
-      area: "",
-      city: "",
-      zipCode: "",
-      country: "Malaysia",
-      isDefault: false,
-    });
-    setActiveAddressTab("all");
-    toast.success("New address added");
+  const saveNewAddress = async () => {
+    try {
+      // Assuming service.addAddress exists and returns the new address with a server-generated ID
+      const response = await service.addAddress({
+        address_type: newAddress.label.toUpperCase(),
+        street: newAddress.addressLine1,
+        other_address_title: newAddress.addressLine2,
+        city: newAddress.city,
+        zip: newAddress.zipCode,
+        country: newAddress.country,
+        is_default: newAddress.isDefault ? "1" : "0",
+      });
+
+      if (response.status === 1 && response.data) {
+        const addr = {
+          id: response.data.id,
+          label: newAddress.label,
+          addressLine1: newAddress.addressLine1,
+          addressLine2: newAddress.addressLine2,
+          area: newAddress.area,
+          city: newAddress.city,
+          zipCode: newAddress.zipCode,
+          country: newAddress.country,
+          isDefault: newAddress.isDefault,
+        };
+        setEditFormData((prev) => ({
+          ...prev,
+          addresses: [...prev.addresses, addr],
+        }));
+        setNewAddress({
+          id: "",
+          label: "home",
+          addressLine1: "",
+          addressLine2: "",
+          area: "",
+          city: "",
+          zipCode: "",
+          country: "Malaysia",
+          isDefault: false,
+        });
+        setActiveAddressTab("all");
+        toast.success("New address added");
+        await dispatch(fetchAddressList());
+      } else {
+        toast.error(response.message || "Failed to add address");
+      }
+    } catch (error) {
+      console.error("Add address error:", error);
+      toast.error(error.response?.data?.message || "Failed to add address");
+    }
   };
 
   useEffect(() => {
-    console.log("Fetching profile and address list data...");
     dispatch(fetchProfileDetails());
     dispatch(fetchAddressList());
   }, [dispatch]);
@@ -204,27 +240,20 @@ const ProfileSection = () => {
           }
         : null;
 
-      // Format addresses from address list API
       const additionalAddresses = addressListData?.data
-        ? addressListData.data.map((addr) => {
-            console.log("Processing address:", addr);
-            return {
-              id: addr.id,
-              label: addr.address_type.toLowerCase(),
-              addressLine1: addr.street || "",
-              addressLine2: addr.other_address_title || "",
-              area: "",
-              city: addr.city || "",
-              zipCode: addr.zip || "",
-              country: addr.country || "",
-              isDefault: addr.is_default === "1",
-            };
-          })
+        ? addressListData.data.map((addr) => ({
+            id: addr.id,
+            label: addr.address_type.toLowerCase(),
+            addressLine1: addr.street || "",
+            addressLine2: addr.other_address_title || "",
+            area: "",
+            city: addr.city || "",
+            zipCode: addr.zip || "",
+            country: addr.country || "",
+            isDefault: addr.is_default === "1",
+          }))
         : [];
 
-      console.log("Formatted Additional Addresses:", additionalAddresses);
-
-      // Combine addresses, avoiding duplicates
       const allAddresses = defaultAddress
         ? [
             defaultAddress,
@@ -244,7 +273,6 @@ const ProfileSection = () => {
         addresses: allAddresses,
       };
 
-      console.log("Formatted Addresses:", allAddresses);
       setLocalProfileData(formattedData);
       setEditFormData(formattedData);
       setProfileImage(formattedData.profileImage);
@@ -258,11 +286,6 @@ const ProfileSection = () => {
   const defaultAddress = localProfileData.addresses.find(
     (addr) => addr.isDefault
   );
-  const allAddresses = localProfileData.addresses;
-  console.log("Default Address:", defaultAddress);
-  console.log("All addresses:", allAddresses);
-  console.log("Address List from Redux:", addressListData);
-
   const defaultAddressDisplay = defaultAddress
     ? `${defaultAddress.addressLine1}${
         defaultAddress.addressLine2 ? ", " + defaultAddress.addressLine2 : ""
@@ -270,9 +293,7 @@ const ProfileSection = () => {
         defaultAddress.city
       }`
     : "No address available";
-  console.log("Default Address Display:", defaultAddressDisplay);
 
-  // ---------- helper to render the address form ----------
   const renderAddressForm = (address) => {
     if (!address) return null;
 
@@ -410,14 +431,54 @@ const ProfileSection = () => {
     );
   };
 
-  // ----------------------- JSX -----------------------
   if (isEditMode) {
     return (
       <div className="p-4 md:p-6 max-w-[82.5rem] mx-auto">
-        <Card className="rounded-[20px] p-6 shadow-lg ">
+        <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Address</DialogTitle>
+              <DialogDescription>
+                <span>
+                  Are you sure you want to delete this address?
+                </span>
+              </DialogDescription>
+            </DialogHeader>
+            {addressToDelete && (
+              <div className="mt-2 p-3 bg-slate-50 rounded-lg">
+                <span className="text-sm text-slate-600">
+                  {addressToDelete.addressLine1}
+                  {addressToDelete.addressLine2 &&
+                    `, ${addressToDelete.addressLine2}`}
+                  {addressToDelete.area && `, ${addressToDelete.area}`}
+                  {`, ${addressToDelete.city}`}
+                  {addressToDelete.zipCode && ` - ${addressToDelete.zipCode}`}
+                  {`, ${addressToDelete.country}`}
+                </span>
+              </div>
+            )}
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => setDeleteDialogOpen(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="default"
+                className="bg-[#ec098d]"
+                onClick={handleConfirmDelete}
+                disabled={deleteProcessing}
+              >
+                {deleteProcessing ? "Deleting..." : "Delete"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <Card className="rounded-[20px] p-6 shadow-lg">
           <div className="flex items-start">
             <div className="hidden md:flex items-center justify-center mr-6">
-              {/* Profile image with pencil overlay */}
               <div className="relative">
                 <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center border-2 border-amber-400 overflow-hidden">
                   {profileImage ? (
@@ -437,7 +498,6 @@ const ProfileSection = () => {
                   className="absolute -bottom-0 -right-0 bg-white p-1 rounded-full shadow-md hover:bg-gray-100"
                   aria-label="Change profile picture"
                 >
-                  {/* pencil icon */}
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="w-4 h-4 text-gray-700"
@@ -466,7 +526,6 @@ const ProfileSection = () => {
 
             <div className="flex-1">
               <div className="space-y-5">
-                {/* Name */}
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                     Name
@@ -482,49 +541,58 @@ const ProfileSection = () => {
                     className="flex-1 ml-4"
                   />
                 </div>
-                {/* Phone Number - Read only */}
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                     Phone Number
                   </Label>
                   <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight ml-4 px-2 py-4.5 bg-muted rounded-md">
-                    {editFormData.phoneNumber}{" "}
-                    <span className="ml-2 inline-flex items-center text-sm text-green-600">
-                      <CheckCircle className="w-4 h-4 mr-1" />
-                      Verified
-                    </span>
+                    {editFormData.phoneNumber}
                   </p>
                 </div>
-
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                     Email
                   </Label>
                   <p className="text-slate-800 text-left flex-1 font-medium text-sm leading-tight ml-4 px-2 py-4.5 bg-muted rounded-md">
-                    {editFormData.email}{" "}
-                    <span className="ml-2 inline-flex items-center text-sm text-green-600">
-                      <CheckCircle className="w-4 h-4 mr-1" />
-                      Verified
-                    </span>
+                    {editFormData.email}
                   </p>
                 </div>
-                {/* DOB */}
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                     DOB
                   </Label>
-                  <Input
-                    value={editFormData.dob}
-                    onChange={(e) =>
-                      setEditFormData((prev) => ({
-                        ...prev,
-                        dob: e.target.value,
-                      }))
-                    }
-                    className="flex-1 ml-4"
-                  />
+                  <div className="flex-1 ml-4">
+                    <DateOfBirthPicker
+                      dateData={{
+                        date: editFormData.dob,
+                        displayDate: editFormData.dob
+                          ? new Date(editFormData.dob).toLocaleDateString(
+                              "en-US",
+                              {
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                              }
+                            )
+                          : "",
+                      }}
+                      setDateData={(newData) =>
+                        setEditFormData((prev) => ({
+                          ...prev,
+                          dob: newData.date,
+                        }))
+                      }
+                      showDatePicker={showDatePicker}
+                      setShowDatePicker={setShowDatePicker}
+                      currentMonth={currentMonth}
+                      setCurrentMonth={setCurrentMonth}
+                      datePickerRef={datePickerRef}
+                      isClient={true}
+                      validationErrors={validationErrors}
+                      setValidationErrors={setValidationErrors}
+                    />
+                  </div>
                 </div>
-                {/* Gender */}
                 <div className="flex items-center justify-between pb-2">
                   <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                     Gender
@@ -550,7 +618,6 @@ const ProfileSection = () => {
                 </div>
               </div>
 
-              {/* Addresses Section */}
               <div className="mt-8">
                 <Label className="text-sm font-medium text-slate-600 mb-4 flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
@@ -584,10 +651,8 @@ const ProfileSection = () => {
                     </TabsTrigger>
                   </TabsList>
 
-                  {/* All Addresses List */}
                   <TabsContent value="all" className="mt-6">
                     <div className="space-y-4">
-                      {/* First show default address */}
                       {editFormData.addresses
                         .filter((address) => address.isDefault)
                         .map((address) => (
@@ -611,16 +676,6 @@ const ProfileSection = () => {
                                 {`, ${address.city}`}
                                 {`, ${address.zipCode}`}
                               </p>
-                              {/* <div className="mt-2 space-x-2">
-                                <Button
-                                  variant="destructive"
-                                  size="sm"
-                                  onClick={() => handleConfirmDelete(address)}
-                                  disabled={deleteProcessing}
-                                >
-                                  {deleteProcessing ? "Deleting..." : "Delete"}
-                                </Button>
-                              </div> */}
                             </div>
                             <div className="flex items-center gap-2">
                               <Button
@@ -647,22 +702,10 @@ const ProfileSection = () => {
                                 </svg>
                                 Edit
                               </Button>
-                              <Button
-                                variant="default"
-                                size="sm"
-                                onClick={() => {
-                                  setAddressToDelete(address);
-                                  setDeleteDialogOpen(true);
-                                }}
-                                className="flex items-center gap-1 bg-[#ec098d]"
-                              >
-                                Delete
-                              </Button>
                             </div>
                           </div>
                         ))}
 
-                      {/* Then show other addresses */}
                       {editFormData.addresses
                         .filter((address) => !address.isDefault)
                         .map((address) => (
@@ -713,11 +756,15 @@ const ProfileSection = () => {
                               </Button>
                               <Button
                                 variant="default"
-                                className="bg-[#ec098d]"
-                                onClick={handleConfirmDelete} // ✅ Correct function
+                                size="sm"
+                                onClick={() => {
+                                  setAddressToDelete(address);
+                                  setDeleteDialogOpen(true);
+                                }}
+                                className="flex items-center gap-1 bg-[#ec098d]"
                                 disabled={deleteProcessing}
                               >
-                                {deleteProcessing ? "Deleting..." : "Delete"}
+                                Delete
                               </Button>
                             </div>
                           </div>
@@ -725,7 +772,6 @@ const ProfileSection = () => {
                     </div>
                   </TabsContent>
 
-                  {/* Edit Address Forms */}
                   {editFormData.addresses.map((address) => (
                     <TabsContent
                       key={`edit-${address.id}`}
@@ -736,7 +782,6 @@ const ProfileSection = () => {
                     </TabsContent>
                   ))}
 
-                  {/* Add New Address Form */}
                   <TabsContent value="add-new" className="space-y-4 mt-6">
                     <AddressTab />
                   </TabsContent>
@@ -767,34 +812,31 @@ const ProfileSection = () => {
     );
   }
 
-  // ---------------- view mode ----------------
   return (
     <div className="px-4 md:px-6 max-w-[82.5rem] mx-auto">
-      {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete Address</DialogTitle>
             <DialogDescription>
-              <div>
+              <span>
                 Are you sure you want to delete this address?
-                {addressToDelete && (
-                  <div className="mt-2 p-3 bg-slate-50 rounded-lg">
-                    <span className="text-sm text-slate-600">
-                      {addressToDelete.addressLine1}
-                      {addressToDelete.addressLine2 &&
-                        `, ${addressToDelete.addressLine2}`}
-                      {addressToDelete.area && `, ${addressToDelete.area}`}
-                      {`, ${addressToDelete.city}`}
-                      {addressToDelete.zipCode &&
-                        ` - ${addressToDelete.zipCode}`}
-                      {`, ${addressToDelete.country}`}
-                    </span>
-                  </div>
-                )}
-              </div>
+              </span>
             </DialogDescription>
           </DialogHeader>
+          {addressToDelete && (
+            <div className="mt-2 p-3 bg-slate-50 rounded-lg">
+              <span className="text-sm text-slate-600">
+                {addressToDelete.addressLine1}
+                {addressToDelete.addressLine2 &&
+                  `, ${addressToDelete.addressLine2}`}
+                {addressToDelete.area && `, ${addressToDelete.area}`}
+                {`, ${addressToDelete.city}`}
+                {addressToDelete.zipCode && ` - ${addressToDelete.zipCode}`}
+                {`, ${addressToDelete.country}`}
+              </span>
+            </div>
+          )}
           <DialogFooter>
             <Button
               variant="outline"
@@ -805,7 +847,7 @@ const ProfileSection = () => {
             <Button
               variant="default"
               className="bg-[#ec098d]"
-              onClick={handleConfirmDelete} // ✅ Correct function
+              onClick={handleConfirmDelete}
               disabled={deleteProcessing}
             >
               {deleteProcessing ? "Deleting..." : "Delete"}
@@ -830,7 +872,6 @@ const ProfileSection = () => {
                 )}
               </div>
 
-              {/* small pencil (non-editable view) — can still open file selector if you want */}
               <button
                 type="button"
                 onClick={handleProfileImageClick}
@@ -865,7 +906,6 @@ const ProfileSection = () => {
 
           <div className="flex-1">
             <div className="space-y-5">
-              {/* Name */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   Name
@@ -874,7 +914,6 @@ const ProfileSection = () => {
                   {localProfileData.name}
                 </p>
               </div>
-              {/* Phone Number */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   Phone Number
@@ -883,7 +922,6 @@ const ProfileSection = () => {
                   {localProfileData.phoneNumber}
                 </p>
               </div>
-
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   Email
@@ -892,8 +930,6 @@ const ProfileSection = () => {
                   {localProfileData.email}
                 </p>
               </div>
-
-              {/* DOB */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   DOB
@@ -902,7 +938,6 @@ const ProfileSection = () => {
                   {localProfileData.dob}
                 </p>
               </div>
-              {/* Gender */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   Gender
@@ -914,7 +949,6 @@ const ProfileSection = () => {
                     : ""}
                 </p>
               </div>
-              {/* Default Address */}
               <div className="flex items-center justify-between pb-2">
                 <Label className="text-sm font-medium text-slate-600 w-40 text-left">
                   Default Address
@@ -949,36 +983,6 @@ const ProfileSection = () => {
           </div>
         </div>
       </Card>
-
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete Address</DialogTitle>
-            <DialogDescription>
-              Are you sure you want to delete this address? This action cannot
-              be undone.
-            </DialogDescription>
-          </DialogHeader>
-          <DialogFooter>
-            <Button
-              variant="outline"
-              onClick={handleCancelDelete}
-              disabled={deleteProcessing}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="default"
-              className="bg-[#ec098d]"
-              onClick={handleConfirmDelete}
-              disabled={deleteProcessing || !addressToDelete}
-            >
-              {deleteProcessing ? "Deleting..." : "Delete"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };

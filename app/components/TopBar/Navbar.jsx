@@ -29,6 +29,8 @@ export default function Navbar() {
   const { isAuthenticated, profileData } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
 
+  console.log("profileData212331212:", profileData);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);

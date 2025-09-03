@@ -97,7 +97,7 @@ const Step1 = ({
         setAllFormData((prev) => ({
           ...prev,
           selectedTest: [defaultOption],
-          selectedPackageDetails: defaultPackage // Store complete package data
+          selectedPackageDetails: defaultPackage
         }));
       }
     }

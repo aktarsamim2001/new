@@ -2,14 +2,12 @@
 
 import { Rubik, Lato } from "next/font/google";
 import "./globals.css";
-import Header from "./components/TopBar/Header";
-import Navbar from "./components/TopBar/Navbar";
-import HealthcareFooter from "./components/Footer/HealthcareFooter ";
 import { usePathname } from "next/navigation";
 import { hideHeaderFooterRoutes } from "./utils/hideHeaderFooterRoutes";
 import { Provider } from "react-redux";
 import store from "@/features/store";
 import { Toaster } from "react-hot-toast";
+import LayoutContent from "./components/Layout/LayoutContent";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -27,6 +25,7 @@ const lato = Lato({
 export default function RootLayout({ children }) {
   const pathname = usePathname();
   const hideHeaderFooter = hideHeaderFooterRoutes.includes(pathname);
+
   return (
     <html lang="en" className={`${rubik.variable} ${lato.variable}`}>
       <body className="antialiased">
@@ -42,10 +41,9 @@ export default function RootLayout({ children }) {
               },
             }}
           />
-          {!hideHeaderFooter && <Header />}
-          {!hideHeaderFooter && <Navbar />}
-          {children}
-          {!hideHeaderFooter && <HealthcareFooter />}
+          <LayoutContent hideHeaderFooter={hideHeaderFooter}>
+            {children}
+          </LayoutContent>
         </Provider>
       </body>
     </html>

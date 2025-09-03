@@ -95,6 +95,34 @@ async function verifyOrResendOtp(payload) {
   });
 }
 
+// Cancel booking
+async function cancelBooking(id, reason) {
+  return axios.put(rootUrl + `api/web/bookings/${id}/cancel`, 
+    { cancellation_reason: reason },
+    { headers: await authHeader() }
+  );
+}
+
+// Reschedule booking
+async function rescheduleBooking(id, schedule_date, schedule_time, assigned_technician_id) {
+  // Ensure we have a valid integer using unary plus operator
+  const payload = {
+    schedule_date: schedule_date,
+    schedule_time: schedule_time,
+    assigned_technician_id: +assigned_technician_id || 1
+  };
+
+  console.log('Reschedule Payload:', {
+    ...payload,
+    assigned_technician_id_type: typeof payload.assigned_technician_id
+  });
+    
+  return axios.put(rootUrl + `api/web/bookings/${id}/reschedule`,
+    payload,
+    { headers: await authHeader() }
+  );
+}
+
 async function createAddress(payload) {
   return axios.post(rootUrl + "api/web/user/address/create", payload, {
     headers: await authHeader(),
@@ -110,7 +138,7 @@ async function updateAddress(payload) {
 async function deleteAddress(payload) {
   return axios.delete(rootUrl + "api/web/user/address/delete", {
     headers: await authHeader(),
-    data: payload
+    data: { id: payload.id }
   }).then(response => response.data);
 }
 
@@ -130,5 +158,7 @@ export const service = {
   verifyOrResendOtp,
   createAddress,
   updateAddress,
-  deleteAddress
+  deleteAddress,
+  cancelBooking,
+  rescheduleBooking
 };

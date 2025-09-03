@@ -1,34 +1,22 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProfileDetails } from "../../features/store/profileSlice";
 import { createBooking } from "../../features/store/bookingSlice";
-import toast from "react-hot-toast";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
-import Image from "next/image";
-import image from "../assets/woman/shape.png";
-import image1 from "../assets/book-test/heart.png";
-import image2 from "../assets/book-test/lab.png";
-import image3 from "../assets/book-test/medical-team.png";
-import Link from "next/link";
-import { useForm } from "react-hook-form";
 import { fetchServiceDetailsPageData } from "../../features/store/serviceDetailsPageSlice";
 import { fetchServicesList } from "../../features/store/servicesListSlice";
 import { fetchAddressList } from "../../features/store/addressListSlice";
 import ProtectedRoute from "@/features/Routes/ProtectedRoute";
 import HeaderSection from "./HeaderSection";
-import ProfessionalDateTimePicker from "./ProfessionalDateTimePicker";
 import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 import Step4 from "./Step4";
+import Image from "next/image";
+import image from "../assets/woman/shape.png";
 
 const TestBookingSystem = () => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-
   const dispatch = useDispatch();
   const userProfile = useSelector((state) => state.profile.profileData);
   const serviceDetailsPageData = useSelector(
@@ -38,49 +26,81 @@ const TestBookingSystem = () => {
   const addressList = useSelector((state) => state.addressList.data);
   const booking = useSelector((state) => state.booking || {});
 
-  const getStepFromParamsOrStorage = () => {
+  // ✅ load state from URL and sessionStorage
+  const [currentStep, setCurrentStep] = useState(() => {
     if (typeof window !== "undefined") {
-      const urlStep = searchParams?.get("step");
-      if (urlStep && !isNaN(urlStep)) return parseInt(urlStep, 10);
-      const savedStep = sessionStorage.getItem("bookingCurrentStep");
-      return savedStep ? parseInt(savedStep, 10) : 1;
+      const urlParams = new URLSearchParams(window.location.search);
+      const stepFromUrl = Number(urlParams.get("step"));
+      if (stepFromUrl && stepFromUrl >= 1 && stepFromUrl <= 4) {
+        return stepFromUrl;
+      }
+      return Number(sessionStorage.getItem("currentStep")) || 1;
     }
     return 1;
-  };
-  const [currentStep, setCurrentStep] = useState(getStepFromParamsOrStorage);
-
-  const [allFormData, setAllFormData] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedFormData = sessionStorage.getItem("bookingFormData");
-      return savedFormData ? JSON.parse(savedFormData) : {};
-    }
-    return {};
   });
 
-  const [dateTimeData, setDateTimeData] = useState(() => {
-    if (typeof window !== "undefined") {
-      const savedDateTime = sessionStorage.getItem("bookingDateTimeData");
-      return savedDateTime
-        ? JSON.parse(savedDateTime)
-        : {
-            date: "",
-            timeSlot: "",
-          };
-    }
-    return {
-      date: "",
-      timeSlot: "",
+  // Handle browser back button
+  useEffect(() => {
+    const handleBrowserBack = (e) => {
+      // If we're on the thank you page (step 4) and user hits browser back
+      if (currentStep === 4) {
+        e.preventDefault();
+        // Clear all stored data
+        sessionStorage.clear();
+        // Reset form data
+        setAllFormData({});
+        setDateTimeData({ date: "", timeSlot: "" });
+        // Redirect to step 1
+        window.location.href = "/book-test";
+      }
     };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("popstate", handleBrowserBack);
+      return () => window.removeEventListener("popstate", handleBrowserBack);
+    }
+  }, [currentStep]);
+  const [allFormData, setAllFormData] = useState(() => {
+    const saved = sessionStorage.getItem("allFormData");
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [dateTimeData, setDateTimeData] = useState(() => {
+    const saved = sessionStorage.getItem("dateTimeData");
+    return saved ? JSON.parse(saved) : { date: "", timeSlot: "" };
   });
 
   const [isClient, setIsClient] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
-  const [currentMonth, setCurrentMonth] = useState(null); 
+  const [currentMonth, setCurrentMonth] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
-
   const datePickerRef = useRef(null);
   const timePickerRef = useRef(null);
+
+  // ✅ persist step & form data and update URL
+  useEffect(() => {
+    sessionStorage.setItem("currentStep", currentStep);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location);
+      url.searchParams.set("step", currentStep);
+      window.history.pushState({}, "", url);
+    }
+  }, [currentStep]);
+
+  useEffect(() => {
+    sessionStorage.setItem("allFormData", JSON.stringify(allFormData));
+  }, [allFormData]);
+
+  useEffect(() => {
+    sessionStorage.setItem("dateTimeData", JSON.stringify(dateTimeData));
+  }, [dateTimeData]);
+
+  // ✅ reset after Step4 (Thank You page)
+  useEffect(() => {
+    if (currentStep === 4) {
+      sessionStorage.clear();
+    }
+  }, [currentStep]);
 
   useEffect(() => {
     setIsClient(true);
@@ -91,20 +111,13 @@ const TestBookingSystem = () => {
     if (isClient) {
       dispatch(fetchServicesList());
       dispatch(fetchProfileDetails());
-      
-      // Get the slug from URL params or selected package
-      const urlSlug = searchParams?.get("package_ids") || searchParams?.get("service");
-      const selectedPackageSlug = allFormData?.selectedTest?.[0]?.value;
-      const slug = urlSlug || selectedPackageSlug;
-      
-      if (slug) {
-        console.log("Fetching service details for slug:", slug);
-        dispatch(fetchServiceDetailsPageData({ slug }));
+      const urlSlug = allFormData?.selectedTest?.[0]?.value;
+      if (urlSlug) {
+        dispatch(fetchServiceDetailsPageData({ slug: urlSlug }));
       }
-      
       dispatch(fetchAddressList());
     }
-  }, [dispatch, isClient, searchParams, allFormData?.selectedTest]);
+  }, [dispatch, isClient, allFormData?.selectedTest]);
 
   useEffect(() => {
     if (userProfile && userProfile.name && isClient) {
@@ -129,40 +142,6 @@ const TestBookingSystem = () => {
   }, [userProfile, isClient]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("bookingCurrentStep", currentStep.toString());
-      const params = new URLSearchParams(window.location.search);
-      params.set("step", currentStep);
-      router.push(`?${params.toString()}`, { shallow: true });
-    }
-  }, [currentStep, router]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem("bookingFormData", JSON.stringify(allFormData));
-    }
-  }, [allFormData]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      sessionStorage.setItem(
-        "bookingDateTimeData",
-        JSON.stringify(dateTimeData)
-      );
-    }
-  }, [dateTimeData]);
-
-  useEffect(() => {
-    return () => {
-      if (currentStep === 4 && typeof window !== "undefined") {
-        sessionStorage.removeItem("bookingCurrentStep");
-        sessionStorage.removeItem("bookingFormData");
-        sessionStorage.removeItem("bookingDateTimeData");
-      }
-    };
-  }, [currentStep]);
-
-  useEffect(() => {
     const handleClickOutside = (event) => {
       if (
         datePickerRef.current &&
@@ -177,28 +156,41 @@ const TestBookingSystem = () => {
         setShowTimePicker(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleStepContinue = (stepData) => {
+  const handleStepContinue = async (stepData) => {
     const updatedFormData = { ...allFormData, ...stepData };
     setAllFormData(updatedFormData);
-    if (currentStep < 4) {
-      setCurrentStep(currentStep + 1);
+    
+    const nextStep = currentStep === 3 ? 4 : currentStep + 1;
+    
+    if (currentStep === 3) {
+      await dispatch(createBooking(updatedFormData));
     }
+    
+    // Update URL and state
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location);
+      url.searchParams.set("step", nextStep);
+      window.history.pushState({}, "", url);
+    }
+    setCurrentStep(nextStep);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const urlStep = searchParams?.get("step");
-      if (urlStep && !isNaN(urlStep)) {
-        const stepNum = parseInt(urlStep, 10);
-        if (stepNum !== currentStep) setCurrentStep(stepNum);
+  const handleStepBack = () => {
+    const prevStep = currentStep - 1;
+    if (prevStep >= 1) {
+      // Update URL and state
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location);
+        url.searchParams.set("step", prevStep);
+        window.history.pushState({}, "", url);
       }
+      setCurrentStep(prevStep);
     }
-  }, [searchParams]);
+  };
 
   if (!isClient || !currentMonth) {
     return null;
@@ -216,7 +208,8 @@ const TestBookingSystem = () => {
               servicesListData={servicesListData}
               serviceDetailsPageData={serviceDetailsPageData}
               handleContinue={handleStepContinue}
-              userProfile={userProfile} // Add this line
+              handleBack={handleStepBack}
+              userProfile={userProfile}
             />
           )}
           {currentStep === 2 && (
@@ -228,6 +221,7 @@ const TestBookingSystem = () => {
               validationErrors={validationErrors}
               setValidationErrors={setValidationErrors}
               handleContinue={handleStepContinue}
+              handleBack={handleStepBack}
               showDatePicker={showDatePicker}
               setShowDatePicker={setShowDatePicker}
               showTimePicker={showTimePicker}
@@ -246,6 +240,7 @@ const TestBookingSystem = () => {
               servicesListData={servicesListData}
               booking={booking}
               handleContinue={handleStepContinue}
+              handleBack={handleStepBack}
               dispatch={dispatch}
             />
           )}
@@ -254,6 +249,7 @@ const TestBookingSystem = () => {
               allFormData={allFormData}
               servicesListData={servicesListData}
               booking={booking}
+              handleBack={handleStepBack}
             />
           )}
         </div>

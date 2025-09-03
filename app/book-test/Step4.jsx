@@ -1,37 +1,40 @@
 import Image from "next/image";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import image1 from "../assets/book-test/heart.png";
 import image2 from "../assets/book-test/lab.png";
 import image3 from "../assets/book-test/medical-team.png";
 import { useSelector } from "react-redux";
 import Button from "../components/ui/Button";
 
-const Step4 = ({ allFormData, servicesListData, booking }) => {
-  // Get payment details from redux (reviewSlice)
+const Step4 = ({ allFormData, servicesListData, booking, handleBack }) => {
+  const [showInvoice, setShowInvoice] = useState(false);
+  
   const paymentState = useSelector((state) => state.payment);
+
+  useEffect(() => {
+    // Add a new entry to browser history when reaching thank you page
+    if (typeof window !== "undefined") {
+      window.history.pushState({ step: 4 }, "", window.location.href);
+    }
+  }, []);
   
   const testPackages = Array.isArray(servicesListData?.packages)
     ? servicesListData.packages
     : [];
 
-  // Updated function to find ALL selected packages (like Step3)
   const findSelectedPackages = () => {
     if (!allFormData.selectedTest || !Array.isArray(allFormData.selectedTest)) {
       return [];
     }
     
-    console.log("Step4 Debug - allFormData.selectedTest:", allFormData.selectedTest);
-    console.log("Step4 Debug - testPackages:", testPackages);
-    
     return allFormData.selectedTest
       .map(selected => {
-        // First try to use packageData if available
         if (selected.packageData) {
           console.log("Step4 Debug - Found package from packageData:", selected.packageData);
           return selected.packageData;
         }
         
-        // Otherwise find in testPackages by slug or id
         const packageId = selected.id || selected.value;
         const found = testPackages.find(pkg => 
           String(pkg.id) === String(packageId) || pkg.slug === packageId
@@ -63,7 +66,10 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
 
   const formatTimeSlot = (slot) => {
     if (!slot) return "[Select Time]";
-    const [start, end] = slot.split("-");
+    if (typeof slot === 'object' && slot.label) {
+      return slot.label;
+    }
+    const [start, end] = String(slot).split("-");
     const to12hr = (t) => {
       if (!t) return "";
       let [h, m] = t.split(":");
@@ -75,7 +81,6 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
     return `${to12hr(start)}`;
   };
 
-  // Helper to get total paid from paymentState or fallback
   const getTotalPaid = () => {
     if (paymentState?.data?.summary?.final_amount) {
       return paymentState.data.summary.final_amount;
@@ -89,6 +94,14 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
 
   const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
 
+  console.log("Step4 Debug - Full allFormData:", allFormData);
+  console.log("Step4 Debug - Date:", allFormData.selectedDate);
+  console.log("Step4 Debug - Time:", allFormData.selectedTimeSlot);
+
+  const getSelectedTests = () => {
+    const tests = selectedPackages.map(pkg => pkg.name).join(", ");
+    return tests || "No Packages Selected";
+  };
   return (
     <div className="">
       <div className="md:flex items-center justify-center gap-28">
@@ -167,13 +180,16 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
               </div>
             )}
             
-            {/* Updated Selected Test section to show multiple packages */}
             <div className="flex gap-4">
               <span className="text-gray-600 font-[400] text-[20px] min-w-[140px]">
                 Selected Tests
               </span>
               <div className="font-[600] text-[20px]">
-                {selectedPackages.length > 0 ? (
+                {allFormData.selectedTest && allFormData.selectedTest.length > 0 ? (
+                  allFormData.selectedTest
+                    .map(test => stripBr(test.label || test.name || test.title))
+                    .join(", ")
+                ) : selectedPackages.length > 0 ? (
                   selectedPackages
                     .map(pkg => stripBr(pkg.name || pkg.title))
                     .join(", ")
@@ -188,7 +204,7 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
                 Date
               </span>
               <span className="font-[600] text-[20px]">
-                {formatDate(allFormData.date) || "14 / 05 / 2025"}
+                {formatDate(allFormData.selectedDate || allFormData.date)}
               </span>
             </div>
             <div className="flex gap-4">
@@ -214,7 +230,7 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6 mt-6">
-            <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
+            <div className="flex ____shadow-card items-center space-x-3 bg-white px-7 py-5 rounded-2xl">
               <Image
                 src={image2}
                 alt="thank you bg-image"
@@ -226,7 +242,7 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
                 Book a <br className="d-none md:block" /> New Test
               </span>
             </div>
-            <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
+            <div className="flex ____shadow-card items-center space-x-3 bg-white px-7 py-5 rounded-2xl">
               <Image
                 src={image1}
                 alt="thank you bg-image"
@@ -238,7 +254,7 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
                 Upload Past <br className="d-none md:block" /> Reports
               </span>
             </div>
-            <div className="flex ____shadow-card items-center space-x-2 bg-white px-5 py-3 rounded-2xl">
+            <div className="flex ____shadow-card items-center space-x-3 bg-white px-7 py-5 rounded-2xl">
               <Image
                 src={image3}
                 alt="thank you bg-image"
@@ -252,11 +268,21 @@ const Step4 = ({ allFormData, servicesListData, booking }) => {
             </div>
           </div>
 
-          <Link href="/user-dashboard">
-            <Button className="mt-6 __secondary-bg text-white">
-              Dashboard
+          <div className="flex gap-4 mt-6">
+            <Link href="/user-dashboard">
+              <Button className="__secondary-bg text-white">
+                Dashboard
+              </Button>
+            </Link>
+            <Button 
+              className="bg-green-600 text-white hover:bg-green-700 flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+              </svg>
+              Download Invoice
             </Button>
-          </Link>
+          </div>
         </div>
       </div>
     </div>

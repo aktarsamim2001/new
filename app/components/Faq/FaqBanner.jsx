@@ -3,9 +3,13 @@ import React from "react";
 import image from "../../assets/about/aboutBanner.jpg";
 import Link from "next/link";
 import Button from "../ui/Button";
+import { useSelector } from "react-redux";
+import { usePathname } from 'next/navigation';
 
 function FaqBanner({ data }) {
   const banner = data?.content?.faq_page;
+  const { isAuthenticated } = useSelector((state) => state.auth);
+  const pathname = usePathname();
   return (
     <div>
       <div className="mx-auto __gapTop">
@@ -32,9 +36,12 @@ function FaqBanner({ data }) {
             <p className="mt-3 mb-3 banner__description text-gray-600 line-clamp-3 md:line-clamp-3">
               {banner.description || "All your medical records, test results, and health insights—neatly organized in one secure dashboard."}
             </p>
-            {banner.button_name && (
+            {banner.button_name && !isAuthenticated && (
               <Button className="mt-4 cursor-pointer __secondary-bg">
-                <Link href={banner?.button_url || ""} className="text-white">
+                <Link 
+                  href={`/sign-in?callbackUrl=${encodeURIComponent(pathname)}`} 
+                  className="text-white"
+                >
                   {banner.button_name}
                 </Link>
               </Button>

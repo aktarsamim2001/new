@@ -17,6 +17,7 @@ const Step2 = ({
   validationErrors,
   setValidationErrors,
   handleContinue,
+  handleBack,
   showDatePicker,
   setShowDatePicker,
   showTimePicker,
@@ -364,11 +365,9 @@ const Step2 = ({
                     }
                   })}
                   type="tel"
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-700 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 cursor-not-allowed focus:outline-none"
                   placeholder="Enter phone number"
-                  disabled={selectedAddress && !isEditingAddress}
+                  readOnly
                 />
                 {errors.contact && (
                   <p className="text-red-500 text-sm mt-1">
@@ -384,7 +383,7 @@ const Step2 = ({
                 Street Name
               </label>
               <div className="lg:w-[60%] w-full">
-                <textarea
+                <input
                   {...register("streetName", {
                     required: "Street address is required",
                     minLength: {
@@ -395,12 +394,9 @@ const Step2 = ({
                       notEmpty: (value) => value.trim().length > 0 || "Street address cannot be empty"
                     }
                   })}
-                  rows={1}
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-700 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all resize-none ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 focus:outline-none"
                   placeholder="Enter complete street address"
-                  disabled={selectedAddress && !isEditingAddress}
+                  readOnly
                 />
                 {errors.streetName && (
                   <p className="text-red-500 text-sm mt-1">
@@ -433,11 +429,9 @@ const Step2 = ({
                     }
                   })}
                   type="text"
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-700 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 cursor-not-allowed focus:outline-none"
                   placeholder="Enter 6-digit pincode"
-                  disabled={selectedAddress && !isEditingAddress}
+                  readOnly
                   maxLength={6}
                 />
                 {errors.pincode && (
@@ -499,7 +493,6 @@ const Step2 = ({
             </div>
           </div>
 
-          {/* Navigation Buttons */}
 
           {/* Navigation Buttons */}
           <div className="flex items-center justify-end mt-10">
@@ -507,11 +500,7 @@ const Step2 = ({
               <div className="lg:w-[60%] flex justify-between">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && window.history.length > 1) {
-                      window.history.back();
-                    }
-                  }}
+                  onClick={handleBack}
                   className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-all hover:bg-gray-300 border border-gray-300"
                 >
                   Back
@@ -520,10 +509,7 @@ const Step2 = ({
               <button
                 type="button"
                 onClick={handleSubmit(onSubmit)}
-                disabled={isDisabled}
-                className={`w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold transition-all ${
-                  isDisabled ? 'opacity-50 cursor-not-allowed bg-gray-400' : 'hover:opacity-90'
-                }`}
+                className={`w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold transition-all`}
                 title={isDisabled ? 'Please fill all required fields and select date/time' : ''}
               >
                 Continue
