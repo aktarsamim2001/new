@@ -1,7 +1,13 @@
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProfileDetails } from "@/features/store/profileSlice";
 import ProfessionalDateTimePicker from "./ProfessionalDateTimePicker";
 import { Input } from "@/components/ui/input";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const Step2 = ({
   allFormData,
@@ -11,6 +17,7 @@ const Step2 = ({
   validationErrors,
   setValidationErrors,
   handleContinue,
+  handleBack,
   showDatePicker,
   setShowDatePicker,
   showTimePicker,
@@ -32,6 +39,8 @@ const Step2 = ({
   const [showAddressSelector, setShowAddressSelector] = useState(false);
   const [selectedAddress, setSelectedAddress] = useState(defaultAddress);
   const [isEditingAddress, setIsEditingAddress] = useState(false);
+  const dispatch = useDispatch();
+  const { profileData } = useSelector((state) => state.profile);
 
   const {
     register,
@@ -39,12 +48,13 @@ const Step2 = ({
     setValue,
     watch,
     formState: { errors, isValid },
+    trigger,
   } = useForm({
     defaultValues: {
       ...allFormData,
-      contact: selectedAddress?.contact || allFormData.contact || "",
-      streetName: selectedAddress?.streetName || allFormData.streetName || "",
-      pincode: selectedAddress?.pincode || allFormData.pincode || "",
+      contact: selectedAddress?.contact || profileData?.mobile || allFormData.contact || "",
+      streetName: selectedAddress?.street || profileData?.address?.street || allFormData.streetName || "",
+      pincode: selectedAddress?.zip || profileData?.address?.zip || allFormData.pincode || "",
     },
     mode: "onChange",
   });
@@ -52,17 +62,47 @@ const Step2 = ({
   // Watch form values for address changes
   const watchedValues = watch(["contact", "streetName", "pincode"]);
 
-  // Auto-populate address fields when component mounts or selectedAddress changes
+  // Get current form values to check if they're filled
+  const currentContact = watch("contact");
+  const currentStreetName = watch("streetName");
+  const currentPincode = watch("pincode");
+  
+  // Enhanced validation state checking
+  const hasFormErrors = Object.keys(errors).length > 0;
+  const hasValidationErrors = Object.keys(validationErrors).length > 0;
+  const hasDate = !!dateTimeData.date;
+  const hasTimeSlot = !!dateTimeData.timeSlot;
+  const hasRequiredFields = !!(currentContact && currentStreetName && currentPincode);
+  const isDisabled = hasFormErrors || hasValidationErrors || !hasDate || !hasTimeSlot || !hasRequiredFields;
+
+  // Auto-populate address fields when component mounts or selectedAddress/profileData changes
   useEffect(() => {
     if (selectedAddress) {
       setValue("contact", selectedAddress.contact);
-      setValue("streetName", selectedAddress.streetName);
-      setValue("pincode", selectedAddress.pincode);
+      setValue("streetName", selectedAddress.street);
+      setValue("pincode", selectedAddress.zip);
+      // Trigger validation after setting values
+      setTimeout(() => {
+        trigger(["contact", "streetName", "pincode"]);
+      }, 100);
+    } else if (profileData?.address) {
+      setValue("contact", profileData.mobile);
+      setValue("streetName", profileData.address.street);
+      setValue("pincode", profileData.address.zip);
+      // Trigger validation after setting values
+      setTimeout(() => {
+        trigger(["contact", "streetName", "pincode"]);
+      }, 100);
     } else if (defaultAddress) {
       // If no selected address but there's a default, use it
       setSelectedAddress(defaultAddress);
     }
-  }, [selectedAddress, defaultAddress, setValue]);
+  }, [selectedAddress, defaultAddress, profileData, setValue, trigger]);
+
+  // Fetch profile data when component mounts
+  useEffect(() => {
+    dispatch(fetchProfileDetails());
+  }, [dispatch]);
 
   // Show modal for first-time users or when no addresses exist
   useEffect(() => {
@@ -71,15 +111,10 @@ const Step2 = ({
     }
   }, [isFirstTimeUser, userAddresses.length]);
 
-  const isDisabled =
-    !isValid ||
-    !dateTimeData.date ||
-    !dateTimeData.timeSlot ||
-    Object.keys(validationErrors).length > 0;
-
   const onSubmit = (data) => {
     const newErrors = {};
 
+    // Validate date
     if (!dateTimeData.date) {
       newErrors.date = "Date is required";
     } else {
@@ -91,6 +126,7 @@ const Step2 = ({
       }
     }
 
+    // Validate time slot
     if (!dateTimeData.timeSlot) {
       newErrors.timeSlot = "Time slot is required";
     }
@@ -104,11 +140,14 @@ const Step2 = ({
         timeSlot: dateTimeData.timeSlot,
         selectedAddressId: selectedAddress?.id, // Include selected address ID
       };
+      
+      // Update parent form data
+      setAllFormData(finalData);
+      
       handleContinue(finalData);
     }
   };
 
-  // Handle address selection from dropdown
   const handleAddressSelect = (address) => {
     setSelectedAddress(address);
     setShowAddressSelector(false);
@@ -117,12 +156,18 @@ const Step2 = ({
     }
   };
 
-  // Handle new address submission
   const handleAddNewAddressSubmit = (addressData) => {
     const newAddress = {
       ...addressData,
       id: Date.now(), // Simple ID generation - use proper UUID in production
       isDefault: userAddresses.length === 0, // First address becomes default
+      address_type: addressData.address_type || "Home",
+      other_address_title: addressData.address_type === "Other" ? addressData.other_address_title : "",
+      street: addressData.street,
+      city: addressData.city,
+      state: addressData.state,
+      country: addressData.country,
+      zip: addressData.zip
     };
     
     if (onAddNewAddress) {
@@ -133,7 +178,6 @@ const Step2 = ({
     setSelectedAddress(newAddress);
   };
 
-  // Handle address editing
   const handleEditAddress = () => {
     setIsEditingAddress(true);
   };
@@ -142,8 +186,8 @@ const Step2 = ({
     const updatedAddress = {
       ...selectedAddress,
       contact: watchedValues[0],
-      streetName: watchedValues[1],
-      pincode: watchedValues[2],
+      street: watchedValues[1], 
+      zip: watchedValues[2], // Fixed: should be 'zip' not 'pincode'
     };
     
     if (onUpdateAddress) {
@@ -159,204 +203,11 @@ const Step2 = ({
     // Reset form values to selected address
     if (selectedAddress) {
       setValue("contact", selectedAddress.contact);
-      setValue("streetName", selectedAddress.streetName);
-      setValue("pincode", selectedAddress.pincode);
+      setValue("streetName", selectedAddress.street); // Fixed mapping
+      setValue("pincode", selectedAddress.zip); // Fixed mapping
     }
   };
 
-  // Address Modal Component
-  const AddressModal = () => {
-    const [modalErrors, setModalErrors] = useState({});
-    const {
-      register: registerModal,
-      handleSubmit: handleSubmitModal,
-      formState: { errors: modalFormErrors },
-      reset: resetModal
-    } = useForm({
-      mode: "onChange",
-    });
-
-    const onModalSubmit = (data) => {
-      const newErrors = {};
-      
-      if (!data.contact || !data.contact.match(/^[+]?[\d\s-()]+$/)) {
-        newErrors.contact = "Please enter a valid phone number";
-      }
-      
-      if (!data.streetName || data.streetName.trim().length < 5) {
-        newErrors.streetName = "Street address must be at least 5 characters";
-      }
-      
-      if (!data.pincode || !data.pincode.match(/^\d{5,6}$/)) {
-        newErrors.pincode = "Please enter a valid 5-6 digit pincode";
-      }
-
-      setModalErrors(newErrors);
-
-      if (Object.keys(newErrors).length === 0) {
-        handleAddNewAddressSubmit(data);
-        resetModal();
-        setModalErrors({});
-      }
-    };
-
-    const handleModalClose = () => {
-      setShowAddressModal(false);
-      resetModal();
-      setModalErrors({});
-    };
-
-    return (
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold">
-              {isFirstTimeUser ? "Add Your Address" : "Add New Address"}
-            </h3>
-            <button
-              type="button"
-              onClick={handleModalClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl font-bold"
-            >
-              ×
-            </button>
-          </div>
-          
-          <form onSubmit={handleSubmitModal(onModalSubmit)} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Contact Number *
-              </label>
-              <Input
-                {...registerModal("contact", {
-                  required: "Contact number is required",
-                  pattern: {
-                    value: /^[+]?[\d\s-()]+$/,
-                    message: "Please enter a valid phone number",
-                  },
-                })}
-                type="tel"
-                placeholder="Enter phone number"
-              />
-              {(modalFormErrors.contact || modalErrors.contact) && (
-                <p className="text-red-500 text-sm mt-1">
-                  {modalFormErrors.contact?.message || modalErrors.contact}
-                </p>
-              )}
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Street Address *
-              </label>
-              <Input
-                {...registerModal("streetName", {
-                  required: "Street address is required",
-                  minLength: {
-                    value: 5,
-                    message: "Street address must be at least 5 characters",
-                  },
-                })}
-                placeholder="Enter complete street address"
-                className="min-h-[100px]"
-              />
-              {(modalFormErrors.streetName || modalErrors.streetName) && (
-                <p className="text-red-500 text-sm mt-1">
-                  {modalFormErrors.streetName?.message || modalErrors.streetName}
-                </p>
-              )}
-            </div>
-            
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Pin Code *
-              </label>
-              <Input
-                {...registerModal("pincode", {
-                  required: "Pin code is required",
-                  pattern: {
-                    value: /^\d{5,6}$/,
-                    message: "Please enter a valid 5-6 digit pincode",
-                  },
-                })}
-                type="text"
-                placeholder="Enter pincode"
-              />
-              {(modalFormErrors.pincode || modalErrors.pincode) && (
-                <p className="text-red-500 text-sm mt-1">
-                  {modalFormErrors.pincode?.message || modalErrors.pincode}
-                </p>
-              )}
-            </div>
-
-            <div className="flex gap-3 mt-6">
-              <button
-                type="button"
-                onClick={handleModalClose}
-                className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors"
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                className="flex-1 px-4 py-2 bg-pink-500 text-white rounded-lg font-medium hover:bg-pink-600 transition-colors"
-              >
-                Save Address
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    );
-  };
-
-  // Address Selector Dropdown
-  const AddressSelector = () => (
-    <div className="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-20 max-h-64 overflow-y-auto">
-      <div className="p-2">
-        <div className="text-sm font-medium text-gray-700 px-2 py-1 border-b border-gray-200 mb-2">
-          Saved Addresses ({userAddresses.length})
-        </div>
-        {userAddresses.length === 0 ? (
-          <div className="px-3 py-2 text-sm text-gray-500 text-center">
-            No saved addresses found
-          </div>
-        ) : (
-          userAddresses.map((address, index) => (
-            <button
-              key={address.id || index}
-              onClick={() => handleAddressSelect(address)}
-              className={`w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-sm transition-colors ${
-                selectedAddress?.id === address.id ? 'bg-pink-50 border border-pink-200' : ''
-              }`}
-            >
-              <div className="font-medium truncate">{address.streetName}</div>
-              <div className="text-gray-500 text-xs mt-1">
-                {address.contact} • {address.pincode}
-                {address.isDefault && <span className="ml-2 text-pink-600">• Default</span>}
-              </div>
-            </button>
-          ))
-        )}
-        <div className="border-t border-gray-200 mt-2 pt-2">
-          <button
-            onClick={() => {
-              setShowAddressSelector(false);
-              setShowAddressModal(true);
-            }}
-            className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded text-sm text-pink-600 font-medium transition-colors"
-          >
-            <svg className="w-4 h-4 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Add New Address
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-
-  // Close address selector when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showAddressSelector && !event.target.closest('.address-selector-container')) {
@@ -369,6 +220,57 @@ const Step2 = ({
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showAddressSelector]);
+
+  // Address Selector Component
+  const AddressSelector = () => (
+    <div className="absolute top-full right-0 mt-2 w-80 bg-white border border-gray-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+      <div className="p-3 border-b border-gray-100">
+        <h3 className="font-medium text-gray-900">Select Address</h3>
+      </div>
+      <div className="p-2">
+        {userAddresses.map((address) => (
+          <button
+            key={address.id}
+            type="button"
+            onClick={() => handleAddressSelect(address)}
+            className={`w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors ${
+              selectedAddress?.id === address.id ? 'bg-pink-50 border border-pink-200' : ''
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-gray-900 truncate">
+                  {address.address_type === "Other" ? address.other_address_title : address.address_type}
+                </p>
+                <p className="text-sm text-gray-600 truncate">{address.street}</p>
+                <p className="text-xs text-gray-500">{address.contact} • {address.zip}</p>
+              </div>
+              {address.isDefault && (
+                <span className="ml-2 px-2 py-1 bg-pink-100 text-pink-700 text-xs rounded-full font-medium">
+                  Default
+                </span>
+              )}
+            </div>
+          </button>
+        ))}
+        <button
+          type="button"
+          onClick={() => {
+            setShowAddressModal(true);
+            setShowAddressSelector(false);
+          }}
+          className="w-full text-left p-3 rounded-lg hover:bg-gray-50 transition-colors border-t border-gray-100 mt-2"
+        >
+          <div className="flex items-center gap-2 text-pink-600">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+            </svg>
+            <span className="font-medium">Add New Address</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  );
 
   return (
     <div>
@@ -393,7 +295,7 @@ const Step2 = ({
                       )}
                     </div>
                     <p className="text-sm text-gray-700 mb-1 leading-relaxed">
-                      {selectedAddress.streetName}
+                      {selectedAddress.street}
                     </p>
                     <div className="flex items-center gap-4 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
@@ -407,7 +309,7 @@ const Step2 = ({
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        {selectedAddress.pincode}
+                        {selectedAddress.zip}
                       </span>
                     </div>
                   </div>
@@ -439,58 +341,8 @@ const Step2 = ({
                       </button>
                       {showAddressSelector && <AddressSelector />}
                     </div>
-                    {/* Add New Address Button */}
-                    <button
-                      type="button"
-                      onClick={() => setShowAddressModal(true)}
-                      className="p-2 text-gray-500 hover:text-green-500 hover:bg-green-50 rounded-lg transition-colors"
-                      title="Add new address"
-                      disabled={isEditingAddress}
-                    >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                      </svg>
-                    </button>
                   </div>
                 </div>
-                {/* Edit Mode Controls */}
-                {isEditingAddress && (
-                  <div className="mt-3 pt-3 border-t border-pink-200">
-                    <div className="flex items-center gap-2">
-                      <button
-                        type="button"
-                        onClick={handleSaveEditedAddress}
-                        className="text-sm bg-pink-500 text-white px-3 py-1.5 rounded hover:bg-pink-600 transition-colors font-medium"
-                      >
-                        Save Changes
-                      </button>
-                      <button
-                        type="button"
-                        onClick={handleCancelEdit}
-                        className="text-sm bg-gray-300 text-gray-700 px-3 py-1.5 rounded hover:bg-gray-400 transition-colors font-medium"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {/* Add New Address Button - Always visible */}
-            {!isFirstTimeUser && (
-              <div className="mb-4">
-                <button
-                  type="button"
-                  onClick={() => setShowAddressModal(true)}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border-2 border-dashed border-pink-300 text-pink-600 rounded-lg hover:border-pink-400 hover:bg-pink-50 transition-all font-medium"
-                  disabled={isEditingAddress}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                  </svg>
-                  Add New Address
-                </button>
               </div>
             )}
 
@@ -504,16 +356,18 @@ const Step2 = ({
                   {...register("contact", {
                     required: "Contact number is required",
                     pattern: {
-                      value: /^[+]?[\d\s-()]+$/,
-                      message: "Please enter a valid phone number",
+                      value: /^[+]?[0-9\s-()]{10,15}$/,
+                      message: "Please enter a valid phone number (10-15 digits)",
                     },
+                    minLength: {
+                      value: 10,
+                      message: "Contact number must be at least 10 digits"
+                    }
                   })}
                   type="tel"
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-500 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 cursor-not-allowed focus:outline-none"
                   placeholder="Enter phone number"
-                  disabled={selectedAddress && !isEditingAddress}
+                  readOnly
                 />
                 {errors.contact && (
                   <p className="text-red-500 text-sm mt-1">
@@ -529,20 +383,20 @@ const Step2 = ({
                 Street Name
               </label>
               <div className="lg:w-[60%] w-full">
-                <textarea
+                <input
                   {...register("streetName", {
                     required: "Street address is required",
                     minLength: {
-                      value: 5,
-                      message: "Street address must be at least 5 characters",
+                      value: 2,
+                      message: "Street address must be at least 2 characters",
                     },
+                    validate: {
+                      notEmpty: (value) => value.trim().length > 0 || "Street address cannot be empty"
+                    }
                   })}
-                  rows={3}
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-500 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all resize-none ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 focus:outline-none"
                   placeholder="Enter complete street address"
-                  disabled={selectedAddress && !isEditingAddress}
+                  readOnly
                 />
                 {errors.streetName && (
                   <p className="text-red-500 text-sm mt-1">
@@ -562,16 +416,23 @@ const Step2 = ({
                   {...register("pincode", {
                     required: "Pin code is required",
                     pattern: {
-                      value: /^\d{5,6}$/,
-                      message: "Please enter a valid 5-6 digit pin code",
+                      value: /^[0-9]{6}$/,
+                      message: "Please enter a valid 6 digit pin code",
                     },
+                    minLength: {
+                      value: 6,
+                      message: "Pin code must be 6 digits"
+                    },
+                    maxLength: {
+                      value: 6,
+                      message: "Pin code must be 6 digits"
+                    }
                   })}
                   type="text"
-                  className={`w-full px-4 py-4 bg-[#F2F2F2] text-gray-500 border-0 rounded-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:bg-white transition-all ${
-                    selectedAddress && !isEditingAddress ? 'bg-gray-100 cursor-not-allowed opacity-75' : ''
-                  }`}
-                  placeholder="Enter pincode"
-                  disabled={selectedAddress && !isEditingAddress}
+                  className="w-full px-4 py-4 bg-gray-100 text-gray-700 border-0 rounded-xl opacity-75 cursor-not-allowed focus:outline-none"
+                  placeholder="Enter 6-digit pincode"
+                  readOnly
+                  maxLength={6}
                 />
                 {errors.pincode && (
                   <p className="text-red-500 text-sm mt-1">
@@ -627,10 +488,11 @@ const Step2 = ({
                 {...register("remarks")}
                 rows={3}
                 placeholder="Any special instructions or remarks"
-                className="min-h-[100px]"
+                className="min-h-[100px] flex items-start"
               />
             </div>
           </div>
+
 
           {/* Navigation Buttons */}
           <div className="flex items-center justify-end mt-10">
@@ -638,11 +500,7 @@ const Step2 = ({
               <div className="lg:w-[60%] flex justify-between">
                 <button
                   type="button"
-                  onClick={() => {
-                    if (typeof window !== 'undefined' && window.history.length > 1) {
-                      window.history.back();
-                    }
-                  }}
+                  onClick={handleBack}
                   className="w-[166px] bg-gray-200 text-gray-700 text-[20px] py-3 px-6 rounded-lg font-bold transition-all hover:bg-gray-300 border border-gray-300"
                 >
                   Back
@@ -651,10 +509,8 @@ const Step2 = ({
               <button
                 type="button"
                 onClick={handleSubmit(onSubmit)}
-                disabled={isDisabled}
-                className={`w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold transition-all ${
-                  isDisabled ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'
-                }`}
+                className={`w-[166px] __secondary-bg text-white text-[20px] py-3 px-6 rounded-lg font-bold transition-all`}
+                title={isDisabled ? 'Please fill all required fields and select date/time' : ''}
               >
                 Continue
               </button>
@@ -662,9 +518,6 @@ const Step2 = ({
           </div>
         </div>
       </div>
-
-      {/* Address Modal */}
-      {showAddressModal && <AddressModal />}
     </div>
   );
 };

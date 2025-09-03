@@ -33,7 +33,7 @@ const RecommendedPackages = ({ dataItem }) => {
       <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-6 mb-8 sm:mb-[4rem] px-4 md:px-0">
         {packages.map((pkg) => (
           <Link
-            href={`/our-services/${pkg.id}`}
+            href={`/our-services/${pkg.slug}`}
             key={pkg.id}
             className=" cursor-pointer"
           >

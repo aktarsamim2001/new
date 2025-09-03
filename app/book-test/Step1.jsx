@@ -27,11 +27,6 @@ const Step1 = ({
     defaultValues: allFormData,
   });
 
-  // Add this useEffect to debug userProfile
-  useEffect(() => {
-    console.log("User profile data:", userProfile);
-  }, [userProfile]);
-
   const testPackages = Array.isArray(servicesListData?.packages)
     ? servicesListData.packages
     : [];
@@ -39,8 +34,10 @@ const Step1 = ({
   const stripBr = (str) => str?.replace(/<br\s*\/?>(\s*)?/gi, " ").trim();
 
   const options = testPackages.map((test) => ({
-    value: test.id,
+    value: test.slug || test.id, 
     label: stripBr(test.name),
+    packageData: test,
+    id: test.id // Explicitly store the package ID
   }));
 
   useEffect(() => {
@@ -74,29 +71,37 @@ const Step1 = ({
   }, [userProfile, setValue, setAllFormData]);
 
   useEffect(() => {
-    console.log("Step1 allFormData:", allFormData);
     reset(allFormData);
   }, [allFormData, reset]);
 
   useEffect(() => {
-    console.log("Step1 testPackages:", testPackages);
   }, [testPackages]);
 
   useEffect(() => {
-    const defaultTestId =
-      serviceDetailsPageData?.id || (testPackages[0] && testPackages[0].id);
+    const defaultIdentifier =
+      serviceDetailsPageData?.slug || serviceDetailsPageData?.id || (testPackages[0] && (testPackages[0].slug || testPackages[0].id));
     
-    if (testPackages.length > 0 && !watch("selectedTest") && defaultTestId) {
-      const defaultOption = options.find(option => option.value === defaultTestId);
-      if (defaultOption) {
+    if (testPackages.length > 0 && !watch("selectedTest") && defaultIdentifier) {
+      const defaultPackage = testPackages.find(pkg => 
+        pkg.slug === defaultIdentifier || String(pkg.id) === String(defaultIdentifier)
+      );
+      
+      if (defaultPackage) {
+        const defaultOption = {
+          value: defaultPackage.slug || defaultPackage.id,
+          label: stripBr(defaultPackage.name),
+          packageData: defaultPackage
+        };
+        
         setValue("selectedTest", [defaultOption]);
         setAllFormData((prev) => ({
           ...prev,
           selectedTest: [defaultOption],
+          selectedPackageDetails: defaultPackage
         }));
       }
     }
-  }, [testPackages, serviceDetailsPageData, setValue, watch, setAllFormData, options]);
+  }, [testPackages, serviceDetailsPageData, setValue, watch, setAllFormData]);
 
   const selectedTest = watch("selectedTest");
   const isDisabled = !selectedTest || (Array.isArray(selectedTest) && selectedTest.length === 0);
@@ -231,24 +236,6 @@ const Step1 = ({
                 </div>
               </div>
             </div>
-
-            {/* Contact field - Read only (if it exists) */}
-            {userProfile?.mobile && (
-              <div className="lg:flex lg:flex-row lg:justify-between lg:items-center">
-                <label className="block text-[20px] font-medium text-gray-700 lg:mb-0 mb-2 lg:text-right">
-                  Contact
-                </label>
-                <div className="lg:w-[70%]">
-                  <Input
-                    {...register("contact")}
-                    type="text"
-                    disabled={true}
-                    className="opacity-70 cursor-default"
-                    placeholder="Contact number"
-                  />
-                </div>
-              </div>
-            )}
 
             {/* Selected Test - Multi Select (unchanged) */}
             <div className="lg:flex lg:justify-between lg:flex-row lg:items-center gap-8">

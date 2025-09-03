@@ -3,9 +3,6 @@ import React from "react";
 export default function OtpInput({ value, onChange, error }) {
   return (
     <div>
-      <label className="block text-[16px] font-[400] text-gray-700 mb-3">
-        Enter OTP
-      </label>
       <input
         type="text"
         name="otp"

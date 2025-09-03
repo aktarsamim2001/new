@@ -5,7 +5,7 @@ import { Star } from "lucide-react";
 import { BsFacebook } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import OtpInput from "../components/SignUp/OtpInput";
 import { useDispatch, useSelector } from "react-redux";
 import { getOTP, verifyOTP } from "@/features/store/authSlice";
@@ -29,6 +29,7 @@ const slide = {
 export default function SignInPage({ content }) {
   const dispatch = useDispatch();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const {
     loadingStatus,
     isAuthenticated,
@@ -42,27 +43,7 @@ export default function SignInPage({ content }) {
     otp: "",
   });
   const [error, setError] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
   const [termsChecked, setTermsChecked] = useState(false);
-  const [verifiedContactInfo, setVerifiedContactInfo] = useState(null); // Store verified info
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      setModalOpen(true);
-      setTimeout(() => {
-        const queryParams = new URLSearchParams();
-        if (verifiedContactInfo) {
-          if (verifiedContactInfo.type === 'mobile') {
-            queryParams.set('verifiedMobile', verifiedContactInfo.value);
-          } else if (verifiedContactInfo.type === 'email') {
-            queryParams.set('verifiedEmail', verifiedContactInfo.value);
-          }
-          queryParams.set('loginType', verifiedContactInfo.type); // Add login type to the URL
-        }
-        router.push(`/complete-profile?${queryParams.toString()}`);
-      }, 2000);
-    }
-  }, [isAuthenticated, router, verifiedContactInfo]);
 
   useEffect(() => {
     if (authError) {
@@ -138,24 +119,26 @@ export default function SignInPage({ content }) {
     };
 
     dispatch(
-      verifyOTP(payload, (success) => {
-        if (success) {
-          const loginType = formData.phoneNumber ? 'mobile' : 'email';
-          setVerifiedContactInfo({
-            type: loginType,
-            value: formData.phoneNumber || formData.email
-          });
-          setModalOpen(true);
-          setTimeout(() => {
-            const queryParams = new URLSearchParams();
-            if (formData.phoneNumber) {
-              queryParams.set('verifiedMobile', formData.phoneNumber);
-            } else if (formData.email) {
-              queryParams.set('verifiedEmail', formData.email);
-            }
-            queryParams.set('loginType', loginType);
-            router.push(`/complete-profile?${queryParams.toString()}`);
-          }, 2000);
+      verifyOTP(payload, (success, result) => {
+        console.log("OTP Verification Result:", result?.data?.is_completed);
+
+        if (result) {
+          // Get callback URL from Next.js searchParams
+          const callbackUrl = searchParams.get('callbackUrl');
+          console.log("Callback URL:", callbackUrl); // Debug log
+
+          if (result?.data?.is_completed === 0) {
+            // Forward the callback URL when redirecting to complete-profile
+            const completeProfileUrl = callbackUrl 
+              ? `/complete-profile?callbackUrl=${encodeURIComponent(callbackUrl)}`
+              : "/complete-profile";
+            console.log("Redirecting to:", completeProfileUrl); // Debug log
+            router.push(completeProfileUrl);
+          } else {
+            const redirectUrl = callbackUrl || "/user-dashboard";
+            console.log("Redirecting to:", redirectUrl); // Debug log
+            router.push(redirectUrl);
+          }
         }
       })
     );
@@ -168,33 +151,26 @@ export default function SignInPage({ content }) {
   if (otpField) {
     return (
       <div className="flex items-center justify-center min-h-screen relative overflow-hidden">
-        {/* Left Side - Form */}
         <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
           <div className="w-full max-w-md">
-            {/* Logo */}
             <div className="mb-8">
-              <div className="flex items-center space-x-2">
-                <Image
-                  src="/sukaii-logo.png"
-                  alt="Sukaii Health Logo"
-                  width={150}
-                  height={50}
-                />
-              </div>
+              <Image
+                src="/sukaii-logo.png"
+                alt="Sukaii Health Logo"
+                width={150}
+                height={50}
+              />
             </div>
-
-            {/* Title */}
             <div className="mb-8">
               <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
                 <span className="block">Verify Your</span>
                 Identity
               </h1>
-              <p className="block banner__description text-gray-700 mb-3">
+              <p className="text-gray-700 mb-3">
                 Enter OTP sent to {formData.phoneNumber || formData.email}
               </p>
             </div>
 
-            {/* OTP Input */}
             <form onSubmit={handleVerifyOtp} className="mb-8 space-y-4">
               <OtpInput
                 value={formData.otp}
@@ -211,7 +187,6 @@ export default function SignInPage({ content }) {
           </div>
         </div>
 
-        {/* Right Side - Image */}
         <div className="hidden lg:flex flex-1 items-center justify-center relative min-h-[400px] lg:min-h-screen py-8 lg:py-0">
           <div className="w-full max-w-3xl flex flex-col items-center justify-center relative">
             <Image
@@ -232,7 +207,7 @@ export default function SignInPage({ content }) {
                     {avatar.image ? (
                       <Image
                         src={avatar.image}
-                        alt={`Avatar`}
+                        alt="Avatar"
                         width={32}
                         height={32}
                         className="w-full h-full object-cover rounded-full"

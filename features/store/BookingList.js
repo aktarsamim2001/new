@@ -86,6 +86,14 @@ const bookingsSlice = createSlice({
         totalCount: 0,
       };
     },
+    removeBookingFromState(state, action) {
+      const { bookingId, bookingType } = action.payload;
+      if (bookingType === "upcoming") {
+        state.upcomingBookings = state.upcomingBookings.filter(booking => booking.id !== bookingId);
+      } else if (bookingType === "past") {
+        state.pastBookings = state.pastBookings.filter(booking => booking.id !== bookingId);
+      }
+    }
   },
 });
 
@@ -95,6 +103,7 @@ export const {
   setBookingsError,
   appendBookingsData,
   clearBookingsData,
+  removeBookingFromState,
 } = bookingsSlice.actions;
 
 export default bookingsSlice.reducer;
@@ -138,6 +147,42 @@ export const loadMoreBookings = ({ page, limit = 10, booking_type = "past" }) =>
       }
     } catch (error) {
       dispatch(setBookingsError(error.message || "Something went wrong"));
+    }
+  };
+};
+
+export const cancelBookingAction = (bookingId, reason = "Emergency came up, need to reschedule later") => {
+  return async (dispatch) => {
+    dispatch(setBookingsLoading(true));
+    try {
+      await service.cancelBooking(bookingId, reason);
+      // Remove from upcoming and add to past bookings
+      dispatch(removeBookingFromState({ bookingId, bookingType: "upcoming" }));
+      // Refresh both lists to ensure proper state
+      dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
+      dispatch(fetchPastBookings({ page: 1, limit: 10 }));
+      dispatch(setBookingsLoading(false));
+      return { success: true };
+    } catch (error) {
+      dispatch(setBookingsError(error?.response?.data?.message || error.message || "Failed to cancel booking"));
+      return { success: false, error: error?.response?.data?.message || error.message };
+    }
+  };
+};
+
+export const rescheduleBookingAction = (bookingId, schedule_date, schedule_time, assigned_technician_id = 0) => {
+  return async (dispatch) => {
+    dispatch(setBookingsLoading(true));
+    try {
+      await service.rescheduleBooking(bookingId, schedule_date, schedule_time, Number(assigned_technician_id));
+      dispatch(setBookingsLoading(false));
+      // Refresh bookings after reschedule to get updated lists
+      dispatch(fetchUpcomingBookings({ page: 1, limit: 10 }));
+      dispatch(fetchPastBookings({ page: 1, limit: 10 }));
+      return { success: true };
+    } catch (error) {
+      dispatch(setBookingsError(error?.response?.data?.message || error.message || "Failed to reschedule booking"));
+      return { success: false, error: error?.response?.data?.message || error.message };
     }
   };
 };

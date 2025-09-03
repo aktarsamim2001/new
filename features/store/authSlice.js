@@ -20,7 +20,6 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-
     setLoadingStatus: (state, action) => {
       state.loadingStatus = action.payload;
     },
@@ -34,7 +33,7 @@ export const authSlice = createSlice({
       localStorage.setItem("accessToken", token);
       localStorage.setItem("profileData", JSON.stringify(profileData));
     },
-    
+
     setError: (state, action) => {
       state.error = action.payload;
     },
@@ -92,10 +91,10 @@ export function verifyOTP(payload, callback) {
           setUser({
             token: response.data.token,
             profileData: response.data.data,
-          }),
+          })
         );
 
-        callback(true, response.data.message);
+        callback(true, response.data);
 
         toast.success("OTP verified successfully!");
       }
