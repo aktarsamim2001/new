@@ -29,6 +29,7 @@ import otpVerificationReducer from "./otpVerificationSlice";
 import profileReducer from "./profileSlice"
 import userAddressReducer from "./userAddressSlice"
 import couponReducer from "./couponSlice"
+import settingsReducer from "./settingsSlice"
 
 const store = configureStore({
   reducer: {
@@ -55,6 +56,7 @@ const store = configureStore({
   bookings: bookingsReducer,
   cms: cmsReducer,
   payment: paymentReducer,
+  settings: settingsReducer,
   report: reportReducer,
   otpVerification: otpVerificationReducer,
   profile: profileReducer,

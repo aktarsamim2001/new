@@ -77,7 +77,6 @@ const TestBookingSystem = () => {
   const datePickerRef = useRef(null);
   const timePickerRef = useRef(null);
 
-  // ✅ persist step & form data and update URL
   useEffect(() => {
     sessionStorage.setItem("currentStep", currentStep);
     if (typeof window !== "undefined") {

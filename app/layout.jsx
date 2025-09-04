@@ -8,6 +8,9 @@ import { Provider } from "react-redux";
 import store from "@/features/store";
 import { Toaster } from "react-hot-toast";
 import LayoutContent from "./components/Layout/LayoutContent";
+import ScriptManager from "./components/script-tag/ScriptManager";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -41,6 +44,7 @@ export default function RootLayout({ children }) {
               },
             }}
           />
+          <ScriptManager />
           <LayoutContent hideHeaderFooter={hideHeaderFooter}>
             {children}
           </LayoutContent>

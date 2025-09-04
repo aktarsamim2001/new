@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
+import Head from "next/head";
 
 // Redux actions
 import { fetchPageDataThunk, clearPageData } from "@/features/store/dynamicSlice";
@@ -23,6 +24,8 @@ function ServiceDetailsPage() {
   const serviceDetailsPageData = useSelector(
     (state) => state.serviceDetailsPage.data
   );
+  
+  const service = serviceDetailsPageData?.service || {};
 
   useEffect(() => {
     if (params.slug) {

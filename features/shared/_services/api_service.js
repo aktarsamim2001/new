@@ -142,12 +142,17 @@ async function deleteAddress(payload) {
   }).then(response => response.data);
 }
 
+async function fetchSettings() {
+  return axios.get(rootUrl + "api/web/settings");
+}
+
 export const service = {
   signin,
   verifyOTP,
   userProfile,
   updateProfile,
   homepage,
+  fetchSettings,
   serviceList,
   serviceDetails,
   enquiryForm,
