@@ -10,13 +10,16 @@ const DynamicDashboardPage = () => {
   const validTabs = ['profile', 'tests', 'reports', 'health'];
 
   useEffect(() => {
-    // Redirect to main dashboard if tab is invalid
-    if (!validTabs.includes(params.tab)) {
-      router.push('/user-dashboard');
+    if (typeof window !== 'undefined' && !validTabs.includes(params.tab)) {
+      router.replace('/user-dashboard/profile');
     }
-  }, [params.tab, router]);
+  }, [params.tab]);
 
-  return <UserDashboard initialTab={params.tab} />;
+  if (!validTabs.includes(params.tab)) {
+    return <UserDashboard />;
+  }
+
+  return <UserDashboard />;
 };
 
 import ProtectedRoute from "@/features/Routes/ProtectedRoute";

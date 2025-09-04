@@ -28,34 +28,38 @@ import TestsSection from "../components/dashboard/TestSection";
 import ReportsSection from "../components/dashboard/ReportsSection"
 
 
-// Move font configuration to a separate file or layout.jsx to avoid client-side loading issues
 
-const UserDashboard = ({ initialTab = "profile" }) => {
+const UserDashboard = () => {
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const [localProfileData, setLocalProfileData] = useState(null);
-  const [activeTab, setActiveTab] = useState(initialTab);
+  const pathname = typeof window !== 'undefined' ? window.location.pathname : '';
+  const currentPath = pathname.split('/').pop();
+  const [activeTab, setActiveTab] = useState('profile');
   const dispatch = useDispatch();
 
-  // Handle direct navigation and tab changes
+  useEffect(() => {
+    const validTabs = ['profile', 'tests', 'reports', 'health'];
+    if (currentPath && validTabs.includes(currentPath)) {
+      setActiveTab(currentPath);
+    }
+  }, [currentPath]);
+
   const handleTabChange = (tabId) => {
     setActiveTab(tabId);
-    router.push(`/user-dashboard/${tabId}`);
+    router.push(`/user-dashboard/${tabId}`, { scroll: false });
   };
   
-  // Get profile data from Redux
   const { profileData: reduxProfileData, loadingStatus, error } = useSelector((state) => state.profile);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  // Fetch profile data when component mounts
   useEffect(() => {
     dispatch(fetchProfileDetails());
   }, [dispatch]);
 
-  // Update localProfileData when Redux data changes
   useEffect(() => {
     console.log("Redux Profile Data:", reduxProfileData);
     if (reduxProfileData) {
