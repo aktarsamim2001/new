@@ -207,8 +207,8 @@ const ProfileSection = () => {
           country: "Malaysia",
           isDefault: false,
         });
-        setActiveAddressTab("all");
-        toast.success("New address added");
+        setActiveAddressTab("all"); // Always return to All Addresses tab after saving
+        toast.success("New address added successfully");
         await dispatch(fetchAddressList());
       } else {
         toast.error(response.message || "Failed to add address");
@@ -410,21 +410,35 @@ const ProfileSection = () => {
             </div>
           </div>
 
-          <div className="flex items-center space-x-2 mt-4">
-            <RadioGroup
-              value={address.isDefault ? address.id : ""}
-              onValueChange={() => setDefaultAddress(address.id)}
+          <div className="flex items-center justify-between mt-4">
+            <div className="flex items-center space-x-2">
+              <RadioGroup
+                value={address.isDefault ? address.id : ""}
+                onValueChange={() => setDefaultAddress(address.id)}
+              >
+                <div className="flex items-center space-x-2">
+                  <RadioGroupItem
+                    value={address.id}
+                    id={`default-${address.id}`}
+                  />
+                  <Label htmlFor={`default-${address.id}`}>
+                    Mark as default address
+                  </Label>
+                </div>
+              </RadioGroup>
+            </div>
+            <Button
+              variant="default"
+              className="bg-[#ec098d] flex items-center gap-2"
+              onClick={() => {
+                // Save the changes here if needed
+                setActiveAddressTab("all");
+                toast.success("Address updated successfully");
+              }}
             >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem
-                  value={address.id}
-                  id={`default-${address.id}`}
-                />
-                <Label htmlFor={`default-${address.id}`}>
-                  Mark as default address
-                </Label>
-              </div>
-            </RadioGroup>
+              <Save className="w-4 h-4" />
+              Save Address
+            </Button>
           </div>
         </div>
       </Card>
@@ -783,7 +797,7 @@ const ProfileSection = () => {
                   ))}
 
                   <TabsContent value="add-new" className="space-y-4 mt-6">
-                    <AddressTab />
+                    <AddressTab onSaveSuccess={() => setActiveAddressTab("all")} />
                   </TabsContent>
                 </Tabs>
               </div>

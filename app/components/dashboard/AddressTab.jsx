@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createUserAddress } from "@/features/store/userAddressSlice";
 import { fetchAddressList } from "@/features/store/addressListSlice";
 
-const AddressTab = () => {
+const AddressTab = ({ onSaveSuccess }) => {
   const dispatch = useDispatch();
   const { loadingStatus } = useSelector((state) => state.userAddress);
 
@@ -67,8 +67,11 @@ const AddressTab = () => {
         zip: ""
       });
       
-      // Refresh address list
-      dispatch(fetchAddressList());
+      // Refresh address list and notify parent component
+      await dispatch(fetchAddressList());
+      if (onSaveSuccess) {
+        onSaveSuccess(); // This will trigger the tab change to "all"
+      }
     }
   };
 

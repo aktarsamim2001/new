@@ -66,17 +66,17 @@ const RecommendedPackages = ({ dataItem }) => {
 
       {/* Explore Button */}
       <div className="text-center">
-        <Button
-          variant="outline"
-          className="cursor-pointer __secondary-bg __text !px-18 text-white"
+        <Link
+          href={dataItem?.content?.home_page?.package_button_url}
+          className="flex items-center justify-center gap-2"
         >
-          <Link
-            href={dataItem?.content?.home_page?.package_button_url}
-            className="flex items-center justify-center gap-2"
+          <Button
+            variant="outline"
+            className="cursor-pointer __secondary-bg __text !px-18 text-white"
           >
             {dataItem?.content?.home_page?.package_button_name}
-          </Link>
-        </Button>
+          </Button>
+        </Link>
       </div>
 
       {/* Smart Health Dashboard Section */}
@@ -138,10 +138,7 @@ const RecommendedPackages = ({ dataItem }) => {
             </div>
 
             <Link href={dataItem?.content?.home_page?.button_url || ""}>
-              <Button
-                variant="outline"
-                className="__secondary-bg text-white"
-              >
+              <Button variant="outline" className="__secondary-bg text-white">
                 {dataItem?.content?.home_page?.button_name}
               </Button>
             </Link>

@@ -47,6 +47,46 @@ export const HowItWorks = ({ data }) => {
                   </div>
                 </div>
               )}
+               {index === 2 && (
+                <div className="absolute -top-18 -left-28 md:left-[-140px] w-full max-w-[381px] opacity-50 z-0 flex flex-col pointer-events-none">
+                  <Image
+                    src={textureImage}
+                    alt="Decorative texture"
+                    width={600}
+                    height={800}
+                    className="filter h-[177px] w-[400px] brightness-0 invert"
+                  />
+                  <div className="-mt-22">
+                    <Image
+                      src={textureImage}
+                      alt="Decorative texture"
+                      width={600}
+                      height={800}
+                      className="filter h-[177px] w-[400px] brightness-0 invert"
+                    />
+                  </div>
+                </div>
+              )}
+               {index === 4 && (
+                <div className="absolute -top-18 -left-28 md:left-[-140px] w-full max-w-[381px] opacity-50 z-0 flex flex-col pointer-events-none">
+                  <Image
+                    src={textureImage}
+                    alt="Decorative texture"
+                    width={600}
+                    height={800}
+                    className="filter h-[177px] w-[400px] brightness-0 invert"
+                  />
+                  <div className="-mt-22">
+                    <Image
+                      src={textureImage}
+                      alt="Decorative texture"
+                      width={600}
+                      height={800}
+                      className="filter h-[177px] w-[400px] brightness-0 invert"
+                    />
+                  </div>
+                </div>
+              )}
 
               <div className="z-10 px-8 mb-6">
                 <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-gray-900">

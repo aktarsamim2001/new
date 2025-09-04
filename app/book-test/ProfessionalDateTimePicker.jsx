@@ -326,7 +326,7 @@ const ProfessionalDateTimePicker = ({
                     ></div>
 
                     {/* Minute Markers */}
-                    {[0, 15, 30, 45].map((minute) => {
+                    {/* {[0, 15, 30, 45].map((minute) => {
                       const pos = getClockPosition(minute / 5, 12, 80);
                       return (
                         <button
@@ -346,7 +346,7 @@ const ProfessionalDateTimePicker = ({
                           {String(minute).padStart(2, '0')}
                         </button>
                       );
-                    })}
+                    })} */}
 
                     {/* Minute Hand */}
                     <div
