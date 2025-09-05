@@ -13,7 +13,7 @@ function EnquiryFormPage({content}) {
     <div className="__poppins-font">
       <SupportBanner data={content} />
       <EnquiryForm data={content}/>
-      <LetsTalk />
+      <LetsTalk data={content}/>
     </div>
   );
 }

@@ -29,7 +29,14 @@ export const authSlice = createSlice({
       state.token = token;
       state.isAuthenticated = true;
       state.profileData = profileData;
+
       Cookies.set("token", token, { expires: 7 });
+      Cookies.set(
+        "is_completed",
+        profileData?.is_completed ? "true" : "false",
+        { expires: 7 }
+      );
+
       localStorage.setItem("accessToken", token);
       localStorage.setItem("profileData", JSON.stringify(profileData));
     },

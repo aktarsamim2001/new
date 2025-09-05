@@ -1,30 +1,30 @@
-// middleware.js
 import { NextResponse } from "next/server";
 
 export function middleware(request) {
   const token = request.cookies.get("token")?.value;
-
-  const protectedRoutes = ["/profile", "/book-test", "/buy", "/faq", "/user-dashboard"];
+  const isCompleted = request.cookies.get("is_completed")?.value === "true";
   const path = request.nextUrl.pathname;
 
-  // Check protected
-  const isProtected = protectedRoutes.some((route) =>
-    path.startsWith(route)
-  );
+  const protectedRoutes = ["/complete-profile", "/book-test", "/buy", "/faq", "/user-dashboard"];
 
-  if (!token && isProtected) {
+  if (!token) {
+    // Login নাই → sign-in এ redirect
     const signInUrl = new URL("/sign-in", request.url);
     signInUrl.searchParams.set("callbackUrl", path);
     return NextResponse.redirect(signInUrl);
   }
 
+  // token আছে → কিন্তু profile complete না
+  if (!isCompleted && path !== "/complete-profile") {
+    return NextResponse.redirect(new URL("/complete-profile", request.url));
+  }
+
   return NextResponse.next();
 }
 
-// only these routes will trigger middleware
 export const config = {
   matcher: [
-    "/profile/:path*",
+    "/complete-profile/:path*",
     "/book-test/:path*",
     "/buy/:path*",
     "/faq/:path*",
